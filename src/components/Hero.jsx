@@ -57,7 +57,7 @@ export default function Hero() {
                 Tecnologías que dominamos
               </span>
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-surface-200/30">
-                {['React', 'Next.js', 'Node.js', '.NET', 'Python', 'AWS', 'PostgreSQL', 'TypeScript'].map((tech) => (
+                {['React', 'Next.js', 'Node.js', '.NET', 'Java', 'Python', 'SQL', 'AWS', 'PostgreSQL', 'TypeScript'].map((tech) => (
                   <span
                     key={tech}
                     className="text-sm font-mono font-medium transition-colors hover:text-primary-400 cursor-default"
