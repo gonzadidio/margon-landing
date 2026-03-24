@@ -28,7 +28,9 @@ export default function CTA() {
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="mailto:hola@margon.dev"
+              href="https://wa.me/541131930330"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-primary-600 to-accent-600 px-8 py-4 text-base font-semibold text-white shadow-xl shadow-primary-500/25 transition-all hover:shadow-primary-500/40 hover:brightness-110"
             >
               <Mail size={18} />
@@ -36,7 +38,7 @@ export default function CTA() {
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </a>
             <a
-              href="https://wa.me/"
+              href="https://wa.me/541131930330"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl border border-surface-200/10 bg-white/5 px-8 py-4 text-base font-semibold text-surface-200 backdrop-blur-sm transition-all hover:bg-white/10 hover:border-surface-200/20"

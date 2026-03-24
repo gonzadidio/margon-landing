@@ -5,7 +5,7 @@ import AnimatedSection from './AnimatedSection'
 const faqs = [
   {
     q: '¿Cuánto tiempo tarda un proyecto típico?',
-    a: 'Depende de la complejidad. Un MVP puede estar listo en 4-8 semanas. Proyectos más robustos van de 3 a 6 meses. Siempre trabajamos con entregas incrementales para que veas avances semanales.',
+    a: 'Depende de la complejidad. Un MVP puede estar listo entre 5 a 15 días. Siempre trabajamos con entregas incrementales para que veas avances constantes.',
   },
   {
     q: '¿Qué tecnologías utilizan?',
