@@ -7,6 +7,7 @@ const navLinks = [
   { label: 'Proceso', href: '#proceso' },
   { label: 'Soluciones', href: '#soluciones' },
   { label: 'FAQ', href: '#faq' },
+  { label: 'Presupuesto', href: '#presupuesto', highlight: true },
 ]
 
 export default function Navbar() {
@@ -44,7 +45,11 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-surface-200/80 transition-colors hover:text-white"
+                className={`text-sm font-medium transition-colors ${
+                  link.highlight
+                    ? 'gradient-text hover:brightness-125'
+                    : 'text-surface-200/80 hover:text-white'
+                }`}
               >
                 {link.label}
               </a>

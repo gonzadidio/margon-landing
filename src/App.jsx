@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useDynamicFavicon } from './hooks/useDynamicFavicon'
 import Background from './components/Background'
 import Navbar from './components/Navbar'
@@ -9,9 +10,22 @@ import Solutions from './components/Solutions'
 import FAQ from './components/FAQ'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
+import BudgetBuilder from './components/BudgetBuilder'
 
 export default function App() {
   useDynamicFavicon('/logo2.png')
+
+  const [page, setPage] = useState(window.location.hash)
+
+  useEffect(() => {
+    const onHash = () => setPage(window.location.hash)
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  if (page === '#presupuesto') {
+    return <BudgetBuilder />
+  }
 
   return (
     <div className="relative min-h-screen bg-[#0a0f0d] text-surface-200 font-sans">
