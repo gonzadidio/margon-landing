@@ -6,6 +6,7 @@ import Hero from './components/Hero'
 import Services from './components/Services'
 import Benefits from './components/Benefits'
 import Process from './components/Process'
+import Projects from './components/Projects'
 import Solutions from './components/Solutions'
 import FAQ from './components/FAQ'
 import CTA from './components/CTA'
@@ -35,6 +36,7 @@ export default function App() {
       <main>
         <Hero />
         <Services />
+        <Projects />
         <Benefits />
         <Process />
         <Solutions />
