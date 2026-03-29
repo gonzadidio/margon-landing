@@ -8,7 +8,7 @@ const navLinks = [
   { label: 'Proceso', href: '#proceso' },
   { label: 'Soluciones', href: '#soluciones' },
   { label: 'FAQ', href: '#faq' },
-  { label: 'Presupuesto', href: '#presupuesto', highlight: true },
+  // { label: 'Presupuesto', href: '#presupuesto', highlight: true },
 ]
 
 export default function Navbar() {

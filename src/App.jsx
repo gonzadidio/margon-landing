@@ -24,9 +24,9 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
-  if (page === '#presupuesto') {
-    return <BudgetBuilder />
-  }
+  // if (page === '#presupuesto') {
+  //   return <BudgetBuilder />
+  // }
 
   return (
     <div className="relative min-h-screen bg-[#0a0f0d] text-surface-200 font-sans">
