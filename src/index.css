@@ -133,3 +133,27 @@
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+
+/* Impresión del comprobante de pago: solo se imprime el comprobante */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #comprobante-print,
+  #comprobante-print * {
+    visibility: visible !important;
+  }
+  #comprobante-print {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  @page {
+    margin: 1.5cm;
+  }
+}

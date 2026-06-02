@@ -66,7 +66,8 @@ api.get('/cobros', async (req, res, next) => {
     let where = ''
     if (periodo) { params.push(periodo); where = 'WHERE c.periodo = $1' }
     const { rows } = await pool.query(
-      `SELECT c.*, cl.nombre AS cliente_nombre
+      `SELECT c.*, cl.nombre AS cliente_nombre,
+              cl.email AS cliente_email, cl.proyecto AS cliente_proyecto
          FROM cobros c JOIN clientes cl ON cl.id = c.cliente_id
          ${where}
          ORDER BY cl.nombre`,

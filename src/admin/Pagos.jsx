@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Loader2, CheckCircle2, Clock, AlertTriangle } from 'lucide-react'
+import { Loader2, CheckCircle2, Clock, AlertTriangle, Printer } from 'lucide-react'
 import { apiFetch } from './api'
+import Comprobante from './Comprobante'
 
 const fmtMoney = (n) =>
   new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(Number(n) || 0)
@@ -17,6 +18,7 @@ export default function Pagos() {
   const [resumen, setResumen] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [comprobante, setComprobante] = useState(null)
 
   async function load() {
     setLoading(true)
@@ -83,6 +85,7 @@ export default function Pagos() {
                 <th className="text-right font-medium px-4 py-3">Monto</th>
                 <th className="text-left font-medium px-4 py-3">Pago</th>
                 <th className="text-center font-medium px-4 py-3">Estado</th>
+                <th className="text-center font-medium px-4 py-3">Comprobante</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-primary-500/5">
@@ -110,12 +113,29 @@ export default function Pagos() {
                         ))}
                       </div>
                     </td>
+                    <td className="px-4 py-3 text-center">
+                      <button
+                        onClick={() => setComprobante(c)}
+                        title="Generar comprobante de pago"
+                        className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg border border-primary-500/20 text-primary-300 hover:bg-primary-500/10 transition"
+                      >
+                        <Printer className="w-3.5 h-3.5" /> Imprimir
+                      </button>
+                    </td>
                   </tr>
                 )
               })}
             </tbody>
           </table>
         </div>
+      )}
+
+      {comprobante && (
+        <Comprobante
+          cobro={comprobante}
+          hoy={new Date().toISOString()}
+          onClose={() => setComprobante(null)}
+        />
       )}
     </div>
   )

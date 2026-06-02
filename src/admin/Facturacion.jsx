@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Zap, Trash2, Loader2, Check } from 'lucide-react'
+import { Zap, Trash2, Loader2, Check, Printer } from 'lucide-react'
 import { apiFetch } from './api'
+import Comprobante from './Comprobante'
 
 const fmtMoney = (n) =>
   new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(Number(n) || 0)
@@ -12,6 +13,7 @@ export default function Facturacion() {
   const [error, setError] = useState('')
   const [msg, setMsg] = useState('')
   const [generando, setGenerando] = useState(false)
+  const [comprobante, setComprobante] = useState(null)
 
   async function load() {
     setLoading(true)
@@ -119,10 +121,15 @@ export default function Facturacion() {
                       className="w-32 text-right tabular-nums rounded-lg bg-surface-900/60 border border-primary-500/15 px-2 py-1.5 text-white outline-none focus:border-primary-400/50"
                     />
                   </td>
-                  <td className="px-4 py-3 text-right">
-                    <button onClick={() => remove(c)} className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-red-400 transition">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-1">
+                      <button onClick={() => setComprobante(c)} title="Comprobante de pago" className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-primary-300 transition">
+                        <Printer className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => remove(c)} title="Quitar cobro" className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-red-400 transition">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -136,6 +143,14 @@ export default function Facturacion() {
             </tfoot>
           </table>
         </div>
+      )}
+
+      {comprobante && (
+        <Comprobante
+          cobro={comprobante}
+          hoy={new Date().toISOString()}
+          onClose={() => setComprobante(null)}
+        />
       )}
     </div>
   )
