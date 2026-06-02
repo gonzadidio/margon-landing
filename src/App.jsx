@@ -12,8 +12,18 @@ import FAQ from './components/FAQ'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
 import BudgetBuilder from './components/BudgetBuilder'
+import AdminApp from './admin/AdminApp'
+
+// Zona interna oculta: /admin (no se enlaza desde la web pública)
+const isAdmin = window.location.pathname.startsWith('/admin')
 
 export default function App() {
+  if (isAdmin) return <AdminApp />
+
+  return <LandingApp />
+}
+
+function LandingApp() {
   useDynamicFavicon('/logo2.png')
 
   const [page, setPage] = useState(window.location.hash)

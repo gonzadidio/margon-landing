@@ -5,16 +5,20 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:server": "node server/index.js",
     "build": "vite build",
-    "start": "serve dist -s -l tcp://0.0.0.0:$PORT",
+    "start": "node server/index.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.577.0",
+    "pg": "^8.13.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "serve": "^14.2.6"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
