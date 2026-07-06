@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Loader2, Zap, Plus, Printer, Trash2, Check, Pencil } from 'lucide-react'
 import { apiFetch } from './api'
-import { fmtMoney, periodoActual, tipoCobroMeta, estadoPago, saldoCobro } from './format'
+import { fmtMoney, fmtFecha, periodoActual, tipoCobroMeta, estadoPago, saldoCobro } from './format'
 import { useNav } from './nav'
 import GestionPagos from './GestionPagos'
 import CobroForm, { nuevoCobro, editarCobro } from './CobroForm'
@@ -111,7 +111,7 @@ export default function Cobros() {
         <div className="ad-card overflow-x-auto">
           <table className="w-full">
             <thead><tr>
-              <th className="ad-th">Cliente</th><th className="ad-th">Tipo</th>
+              <th className="ad-th">Cliente</th><th className="ad-th">Tipo</th><th className="ad-th">Fecha</th>
               <th className="ad-th text-right">Monto</th><th className="ad-th">Pagado / Saldo</th>
               <th className="ad-th text-center">Estado</th><th className="ad-th"></th>
             </tr></thead>
@@ -125,6 +125,10 @@ export default function Cobros() {
                       {c.concepto && <p className="text-xs ad-faint">{c.concepto}</p>}
                     </td>
                     <td className="ad-td"><span className={`ad-pill ${['setup', 'unico'].includes(c.tipo) ? (c.tipo === 'setup' ? 'ad-pill-violet' : 'ad-pill-blue') : 'ad-pill-gray'}`}>{tipoCobroMeta(c.tipo).label}</span></td>
+                    <td className="ad-td ad-muted whitespace-nowrap">
+                      {fmtFecha(c.fecha_emision) || c.periodo}
+                      {c.fecha_pago && <span className="block text-[11px] ad-faint">pagó {fmtFecha(c.fecha_pago)}</span>}
+                    </td>
                     <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto, c.moneda)}</td>
                     <td className="ad-td text-xs tabular-nums">
                       {est === 'pagado' ? <span className="text-primary-300">{fmtMoney(pagado, c.moneda)}</span>
