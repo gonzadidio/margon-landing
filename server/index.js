@@ -269,6 +269,78 @@ api.delete('/archivos/:id', async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
+// ---------- Oportunidades / pipeline ----------
+api.get('/oportunidades', async (req, res, next) => {
+  try {
+    const { tipo } = req.query
+    const params = []
+    let where = ''
+    if (tipo) { params.push(tipo); where = 'WHERE tipo = $1' }
+    const { rows } = await pool.query(
+      `SELECT * FROM oportunidades ${where} ORDER BY created_at DESC`, params
+    )
+    res.json(rows)
+  } catch (e) { next(e) }
+})
+
+api.post('/oportunidades', async (req, res, next) => {
+  try {
+    const { nombre, tipo, contacto, canal, etapa, valor, moneda, notas, proxima_accion, proxima_fecha } = req.body
+    const { rows } = await pool.query(
+      `INSERT INTO oportunidades
+         (nombre, tipo, contacto, canal, etapa, valor, moneda, notas, proxima_accion, proxima_fecha)
+       VALUES ($1,COALESCE($2,'lead'),$3,$4,COALESCE($5,'nuevo'),$6,COALESCE($7,'ARS'),$8,$9,$10)
+       RETURNING *`,
+      [nombre, tipo, contacto, canal, etapa, valor || 0, moneda, notas, proxima_accion, proxima_fecha || null]
+    )
+    res.status(201).json(rows[0])
+  } catch (e) { next(e) }
+})
+
+api.put('/oportunidades/:id', async (req, res, next) => {
+  try {
+    const { nombre, tipo, contacto, canal, etapa, valor, moneda, notas, proxima_accion, proxima_fecha } = req.body
+    const { rows } = await pool.query(
+      `UPDATE oportunidades SET nombre=$1, tipo=COALESCE($2,tipo), contacto=$3, canal=$4,
+         etapa=COALESCE($5,etapa), valor=$6, moneda=COALESCE($7,'ARS'), notas=$8,
+         proxima_accion=$9, proxima_fecha=$10 WHERE id=$11 RETURNING *`,
+      [nombre, tipo, contacto, canal, etapa, valor || 0, moneda, notas, proxima_accion, proxima_fecha || null, req.params.id]
+    )
+    if (!rows[0]) return res.status(404).json({ error: 'Oportunidad no encontrada' })
+    res.json(rows[0])
+  } catch (e) { next(e) }
+})
+
+api.delete('/oportunidades/:id', async (req, res, next) => {
+  try {
+    await pool.query('DELETE FROM oportunidades WHERE id=$1', [req.params.id])
+    res.status(204).end()
+  } catch (e) { next(e) }
+})
+
+// Convertir una oportunidad ganada en cliente real
+api.post('/oportunidades/:id/convertir', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM oportunidades WHERE id=$1', [req.params.id])
+    const o = rows[0]
+    if (!o) return res.status(404).json({ error: 'Oportunidad no encontrada' })
+    if (o.cliente_id) return res.status(409).json({ error: 'Esta oportunidad ya fue convertida en cliente.' })
+
+    const contacto = (o.contacto || '').trim()
+    const email = contacto.includes('@') ? contacto : null
+    const telefono = !email && contacto ? contacto : null
+
+    const cli = await pool.query(
+      `INSERT INTO clientes (nombre, email, telefono, canal, moneda, notas, estado)
+       VALUES ($1,$2,$3,$4,$5,$6,'activo') RETURNING *`,
+      [o.nombre, email, telefono, o.canal, o.moneda, o.notas]
+    )
+    await pool.query('UPDATE oportunidades SET etapa=$1, cliente_id=$2 WHERE id=$3',
+      ['ganado', cli.rows[0].id, o.id])
+    res.status(201).json(cli.rows[0])
+  } catch (e) { next(e) }
+})
+
 // ---------- Cobros / Facturación ----------
 api.get('/cobros', async (req, res, next) => {
   try {

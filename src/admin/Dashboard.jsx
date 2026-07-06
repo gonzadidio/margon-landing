@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { LayoutDashboard, BellRing, Users, FolderKanban, MessageSquare, FileText, Wallet, LogOut } from 'lucide-react'
+import { LayoutDashboard, BellRing, Users, Target, FolderKanban, MessageSquare, FileText, Wallet, LogOut } from 'lucide-react'
 import { NavContext } from './nav'
 import Home from './Home'
 import Pendientes from './Pendientes'
 import Clientes from './Clientes'
+import Oportunidades from './Oportunidades'
 import Proyectos from './Proyectos'
 import Seguimientos from './Seguimientos'
 import Facturacion from './Facturacion'
@@ -13,6 +14,7 @@ import ClienteDetalle from './ClienteDetalle'
 const TABS = [
   { id: 'inicio', label: 'Inicio', icon: LayoutDashboard, Comp: Home },
   { id: 'pendientes', label: 'Pendientes', icon: BellRing, Comp: Pendientes },
+  { id: 'oportunidades', label: 'Oportunidades', icon: Target, Comp: Oportunidades },
   { id: 'clientes', label: 'Clientes', icon: Users, Comp: Clientes },
   { id: 'proyectos', label: 'Proyectos', icon: FolderKanban, Comp: Proyectos },
   { id: 'seguimientos', label: 'Seguimientos', icon: MessageSquare, Comp: Seguimientos },

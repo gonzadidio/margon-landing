@@ -106,6 +106,26 @@ export async function initDb() {
     );
   `)
 
+  // ---------- Oportunidades / pipeline ----------
+  // Posibles clientes (leads) y proyectos propios que queremos perseguir.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS oportunidades (
+      id             SERIAL PRIMARY KEY,
+      nombre         TEXT NOT NULL,
+      tipo           TEXT NOT NULL DEFAULT 'lead',   -- 'lead' (posible cliente) | 'propio'
+      contacto       TEXT,
+      canal          TEXT,
+      etapa          TEXT NOT NULL DEFAULT 'nuevo',
+      valor          NUMERIC(12,2) DEFAULT 0,
+      moneda         TEXT NOT NULL DEFAULT 'ARS',
+      notas          TEXT,
+      proxima_accion TEXT,
+      proxima_fecha  DATE,
+      cliente_id     INTEGER REFERENCES clientes(id) ON DELETE SET NULL,
+      created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
   // ---------- Pagos parciales (abonos) ----------
   // Un cobro puede pagarse en varias veces (seña + saldo, cuotas, etc.).
   // El estado del cobro se recalcula según la suma de estos pagos.
