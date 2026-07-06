@@ -146,30 +146,62 @@ function Form({ initial, onSave, onClose }) {
   const [error, setError] = useState('')
   const s = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.value }))
   const esLead = f.tipo === 'lead'
-  async function submit(e) { e.preventDefault(); setSaving(true); setError(''); try { await onSave(f) } catch (err) { setError(err.message); setSaving(false) } }
+  const estadoOpts = ESTADOS[f.tipo] || ESTADOS.lead
+  const titulo = TIPOS[f.tipo] ? TIPOS[f.tipo].label : 'Oportunidad'
+
+  async function submit(e) {
+    e.preventDefault(); setSaving(true); setError('')
+    try { await onSave(f) } catch (err) { setError(err.message); setSaving(false) }
+  }
+
   return (
     <div className="ad-overlay" onClick={onClose}>
       <form onClick={(e) => e.stopPropagation()} onSubmit={submit} className="ad-card w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between"><h3 className="text-base font-semibold ad-ink">{f.id ? 'Editar' : 'Nuevo'} · {TIPOS[f.tipo].label.slice(0, -1)}</h3><button type="button" onClick={onClose} className="ad-muted"><X className="w-5 h-5" /></button></div>
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-semibold ad-ink">{f.id ? 'Editar' : 'Nuevo'} · {titulo}</h3>
+          <button type="button" onClick={onClose} className="ad-muted"><X className="w-5 h-5" /></button>
+        </div>
         <div className="grid grid-cols-2 gap-3">
-          <L label={esLead ? 'Nombre / empresa *' : 'Nombre del proyecto *'} full><input required value={f.nombre} onChange={s('nombre')} placeholder={esLead ? 'Ej: Cafetería Norte' : 'Ej: App de turnos propia'} className="ad-input" /></L>
-          <L label="Estado"><select value={f.etapa} onChange={s('etapa')} className="ad-input">{ESTADOS[f.tipo].map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}</select></L>
+          <L label={esLead ? 'Nombre / empresa *' : 'Nombre del proyecto *'} full>
+            <input required value={f.nombre} onChange={s('nombre')} placeholder={esLead ? 'Ej: Cafetería Norte' : 'Ej: App de turnos propia'} className="ad-input" />
+          </L>
+          <L label="Estado">
+            <select value={f.etapa} onChange={s('etapa')} className="ad-input">
+              {estadoOpts.map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}
+            </select>
+          </L>
           {esLead && <L label="Contacto"><input value={f.contacto || ''} onChange={s('contacto')} placeholder="Email o teléfono" className="ad-input" /></L>}
           {esLead && <L label="Canal / origen"><input value={f.canal || ''} onChange={s('canal')} placeholder="Instagram, referido…" className="ad-input" /></L>}
-          {esLead && <L label="Valor estimado"><input type="number" min="0" step="0.01" value={f.valor ?? ''} onChange={s('valor')} className="ad-input" /></L>}
-          {esLead && <L label="Moneda"><select value={f.moneda} onChange={s('moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}</select></L>
-          <div className="col-span-2 border-t ad-line pt-3"><p className="text-xs font-semibold uppercase tracking-wide text-primary-300">Próxima acción (seguimiento)</p></div>
+          {esLead && <L label="Valor estimado"><input type="number" min="0" step="0.01" value={f.valor || ''} onChange={s('valor')} className="ad-input" /></L>}
+          {esLead && (
+            <L label="Moneda">
+              <select value={f.moneda} onChange={s('moneda')} className="ad-input">
+                {MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </L>
+          )}
+          <div className="col-span-2 border-t ad-line pt-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary-300">Próxima acción (seguimiento)</p>
+          </div>
           <L label="Qué hacer"><input value={f.proxima_accion || ''} onChange={s('proxima_accion')} placeholder={esLead ? 'Ej: mandar propuesta' : 'Ej: definir MVP'} className="ad-input" /></L>
           <L label="Cuándo"><input type="date" value={f.proxima_fecha || ''} onChange={s('proxima_fecha')} className="ad-input" /></L>
           <L label="Notas" full><textarea rows={2} value={f.notas || ''} onChange={s('notas')} className="ad-input" /></L>
         </div>
         {error && <p className="text-sm text-red-400">{error}</p>}
-        <div className="flex justify-end gap-2"><button type="button" onClick={onClose} className="ad-btn ad-btn-ghost">Cancelar</button><button type="submit" disabled={saving} className="ad-btn ad-btn-primary">{saving && <Loader2 className="w-4 h-4 animate-spin" />} Guardar</button></div>
+        <div className="flex justify-end gap-2">
+          <button type="button" onClick={onClose} className="ad-btn ad-btn-ghost">Cancelar</button>
+          <button type="submit" disabled={saving} className="ad-btn ad-btn-primary">{saving && <Loader2 className="w-4 h-4 animate-spin" />} Guardar</button>
+        </div>
       </form>
     </div>
   )
 }
 
 function L({ label, children, full }) {
-  return <label className={`flex flex-col gap-1.5 ${full ? 'col-span-2' : ''}`}><span className="text-xs font-medium uppercase tracking-wide ad-muted">{label}</span>{children}</label>
+  return (
+    <label className={`flex flex-col gap-1.5 ${full ? 'col-span-2' : ''}`}>
+      <span className="text-xs font-medium uppercase tracking-wide ad-muted">{label}</span>
+      {children}
+    </label>
+  )
 }
