@@ -426,22 +426,26 @@ api.post('/cobros', async (req, res, next) => {
   }
 })
 
+// Editar un cobro (monto, concepto, tipo, período, moneda). El estado se
+// recalcula solo según los pagos registrados.
 api.put('/cobros/:id', async (req, res, next) => {
   try {
-    const { monto, estado, fecha_pago, notas, metodo_pago, tipo, concepto } = req.body
-    // Si pasa a pagado y no mandan fecha, usamos hoy; si vuelve a pendiente, la limpiamos.
-    const fp = estado === 'pagado' ? (fecha_pago || new Date().toISOString().slice(0, 10))
-             : estado === 'pendiente' || estado === 'vencido' ? null
-             : fecha_pago
+    const { monto, moneda, tipo, concepto, periodo, notas, metodo_pago } = req.body
     const { rows } = await pool.query(
-      `UPDATE cobros SET monto=COALESCE($1,monto), estado=COALESCE($2,estado),
-         fecha_pago=$3, notas=$4, metodo_pago=COALESCE($5,metodo_pago),
-         tipo=COALESCE($6,tipo), concepto=COALESCE($7,concepto) WHERE id=$8 RETURNING *`,
-      [monto, estado, fp, notas, metodo_pago, tipo, concepto, req.params.id]
+      `UPDATE cobros SET
+         monto=COALESCE($1,monto), moneda=COALESCE($2,moneda), tipo=COALESCE($3,tipo),
+         concepto=COALESCE($4,concepto), periodo=COALESCE($5,periodo),
+         notas=COALESCE($6,notas), metodo_pago=COALESCE($7,metodo_pago)
+       WHERE id=$8 RETURNING id`,
+      [monto, moneda, tipo, concepto, periodo, notas, metodo_pago, req.params.id]
     )
     if (!rows[0]) return res.status(404).json({ error: 'Cobro no encontrado' })
-    res.json(rows[0])
-  } catch (e) { next(e) }
+    await recomputeCobro(req.params.id)
+    res.json(await cobroConPagado(req.params.id))
+  } catch (e) {
+    if (e.code === '23505') return res.status(409).json({ error: 'Ya existe un cobro mensual para ese cliente y período.' })
+    next(e)
+  }
 })
 
 api.delete('/cobros/:id', async (req, res, next) => {

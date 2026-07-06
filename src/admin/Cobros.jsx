@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Loader2, Zap, Plus, Printer, Trash2, Check } from 'lucide-react'
+import { Loader2, Zap, Plus, Printer, Trash2, Check, Pencil } from 'lucide-react'
 import { apiFetch } from './api'
 import { fmtMoney, periodoActual, tipoCobroMeta, estadoPago, saldoCobro } from './format'
 import { useNav } from './nav'
 import GestionPagos from './GestionPagos'
-import CobroForm, { nuevoCobro } from './CobroForm'
+import CobroForm, { nuevoCobro, editarCobro } from './CobroForm'
 import Comprobante from './Comprobante'
 
 const EST_PILL = { vencido: 'ad-pill-red', parcial: 'ad-pill-blue', pendiente: 'ad-pill-amber', pagado: 'ad-pill-green' }
@@ -58,9 +58,10 @@ export default function Cobros() {
   }
 
   async function guardarManual(data) {
-    await apiFetch('/cobros', { method: 'POST', body: JSON.stringify(data) })
+    if (data.id) await apiFetch(`/cobros/${data.id}`, { method: 'PUT', body: JSON.stringify(data) })
+    else await apiFetch('/cobros', { method: 'POST', body: JSON.stringify(data) })
     setManual(null)
-    if (data.periodo && data.periodo !== periodo) setPeriodo(data.periodo); else load()
+    if (!data.id && data.periodo && data.periodo !== periodo) setPeriodo(data.periodo); else load()
   }
 
   async function remove(c) {
@@ -134,6 +135,7 @@ export default function Cobros() {
                     <td className="ad-td">
                       <div className="flex items-center justify-end gap-1">
                         {saldo > 0 && <button onClick={() => setGestion(c)} className="ad-btn ad-btn-soft ad-btn-sm">Registrar pago</button>}
+                        <button onClick={() => setManual(editarCobro(c))} title="Editar cobro" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Pencil className="w-4 h-4" /></button>
                         <button onClick={() => setComprobante(c)} title="Comprobante" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Printer className="w-4 h-4" /></button>
                         <button onClick={() => remove(c)} title="Quitar" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
                       </div>

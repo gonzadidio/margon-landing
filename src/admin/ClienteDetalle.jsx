@@ -5,7 +5,7 @@ import {
 } from 'lucide-react'
 import { apiFetch } from './api'
 import { fmtMoney, fmtFecha, tipoCobroMeta, estadoPago, saldoCobro, MONEDAS } from './format'
-import CobroForm, { nuevoCobro } from './CobroForm'
+import CobroForm, { nuevoCobro, editarCobro } from './CobroForm'
 import GestionPagos from './GestionPagos'
 import ClienteArchivos from './ClienteArchivos'
 import Comprobante from './Comprobante'
@@ -43,7 +43,12 @@ export default function ClienteDetalle({ id, onClose }) {
   for (const c of data.cobros) { const m = c.moneda || 'ARS'; pagado[m] = (pagado[m] || 0) + Number(c.pagado || 0); const s = saldoCobro(c); if (s > 0) deuda[m] = (deuda[m] || 0) + s }
   const money = (map) => { const e = Object.entries(map).filter(([, v]) => v); return e.length ? e.map(([m, v]) => fmtMoney(v, m)).join(' · ') : '—' }
 
-  async function saveCobro(payload) { await apiFetch('/cobros', { method: 'POST', body: JSON.stringify(payload) }); setManual(null); load() }
+  async function saveCobro(payload) {
+    if (payload.id) await apiFetch(`/cobros/${payload.id}`, { method: 'PUT', body: JSON.stringify(payload) })
+    else await apiFetch('/cobros', { method: 'POST', body: JSON.stringify(payload) })
+    setManual(null); load()
+  }
+  async function delCobro(c) { if (confirm(`¿Eliminar este cobro (${c.concepto || c.periodo})?`)) { await apiFetch(`/cobros/${c.id}`, { method: 'DELETE' }); load() } }
   async function saveProy(d) {
     const body = JSON.stringify({ ...d, cliente_id: id, monto: Number(d.monto) || 0 })
     if (d.id) await apiFetch(`/proyectos/${d.id}`, { method: 'PUT', body }); else await apiFetch('/proyectos', { method: 'POST', body })
@@ -124,7 +129,12 @@ export default function ClienteDetalle({ id, onClose }) {
                         <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto, c.moneda)}</td>
                         <td className="ad-td text-xs tabular-nums">{est === 'pagado' ? <span className="text-primary-300">{fmtMoney(c.pagado, c.moneda)}</span> : Number(c.pagado) > 0 ? <span className="text-sky-300">{fmtMoney(c.pagado, c.moneda)} <span className="ad-faint">· falta {fmtMoney(saldo, c.moneda)}</span></span> : <span className="ad-faint">—</span>}</td>
                         <td className="ad-td text-center"><span className={`ad-pill ${EST_PILL[est]}`}>{EST_LBL[est]}</span></td>
-                        <td className="ad-td"><div className="flex items-center justify-end gap-1">{saldo > 0 && <button onClick={() => setGestion(c)} className="ad-btn ad-btn-soft ad-btn-sm">Pago</button>}<button onClick={() => setComprobante(c)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Printer className="w-4 h-4" /></button></div></td>
+                        <td className="ad-td"><div className="flex items-center justify-end gap-1">
+                          {saldo > 0 && <button onClick={() => setGestion(c)} className="ad-btn ad-btn-soft ad-btn-sm">Pago</button>}
+                          <button onClick={() => setManual(editarCobro(c))} title="Editar" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Pencil className="w-4 h-4" /></button>
+                          <button onClick={() => setComprobante(c)} title="Comprobante" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Printer className="w-4 h-4" /></button>
+                          <button onClick={() => delCobro(c)} title="Eliminar" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
+                        </div></td>
                       </tr>
                     )
                   })}
