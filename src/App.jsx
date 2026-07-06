@@ -7,6 +7,7 @@ import Services from './components/Services'
 import Benefits from './components/Benefits'
 import Process from './components/Process'
 import Projects from './components/Projects'
+import Testimonials from './components/Testimonials'
 import Solutions from './components/Solutions'
 import FAQ from './components/FAQ'
 import CTA from './components/CTA'
@@ -47,6 +48,7 @@ function LandingApp() {
         <Hero />
         <Services />
         <Projects />
+        <Testimonials />
         <Benefits />
         <Process />
         <Solutions />
