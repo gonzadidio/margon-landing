@@ -42,6 +42,9 @@ export default function ClienteDetalle({ id, onClose }) {
   const pagado = {}, deuda = {}
   for (const c of data.cobros) { const m = c.moneda || 'ARS'; pagado[m] = (pagado[m] || 0) + Number(c.pagado || 0); const s = saldoCobro(c); if (s > 0) deuda[m] = (deuda[m] || 0) + s }
   const money = (map) => { const e = Object.entries(map).filter(([, v]) => v); return e.length ? e.map(([m, v]) => fmtMoney(v, m)).join(' · ') : '—' }
+  // Setup inicial: suma de los cobros tipo 'setup'
+  const setupMap = {}
+  for (const c of data.cobros) if (c.tipo === 'setup') { const m = c.moneda || 'ARS'; setupMap[m] = (setupMap[m] || 0) + Number(c.monto || 0) }
 
   async function saveCobro(payload) {
     if (payload.id) await apiFetch(`/cobros/${payload.id}`, { method: 'PUT', body: JSON.stringify(payload) })
@@ -99,6 +102,14 @@ export default function ClienteDetalle({ id, onClose }) {
       {/* ===== Resumen ===== */}
       {tab === 'Resumen' && (
         <div className="ad-card p-5 space-y-3">
+          <div className="flex justify-between gap-3 items-center text-sm border-b ad-line pb-2">
+            <span className="ad-muted">Setup inicial (pago único)</span>
+            <div className="flex items-center gap-3">
+              <span className="ad-ink font-medium tabular-nums">{money(setupMap)}</span>
+              <button onClick={() => setManual(nuevoCobro(data.id, data.moneda))} className="ad-btn ad-btn-soft ad-btn-sm"><Plus className="w-3.5 h-3.5" /> Agregar</button>
+            </div>
+          </div>
+          <Row label="Abono mensual" value={Number(data.monto_mensual) > 0 ? fmtMoney(data.monto_mensual, data.moneda) : '—'} />
           <Row label="Proyecto / referencia" value={data.proyecto || '—'} />
           <Row label="Canal de captación" value={data.canal || '—'} />
           <Row label="Día de cobro" value={data.dia_cobro || '—'} />
