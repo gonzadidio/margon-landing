@@ -1,240 +1,124 @@
 import { useEffect, useState } from 'react'
-import {
-  Loader2, TrendingUp, Wallet, AlertTriangle, Users, FolderKanban,
-  CalendarClock, ArrowRight, CheckCircle2, Coins,
-} from 'lucide-react'
+import { Loader2, Wallet, TrendingUp, Users, Target, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { apiFetch } from './api'
-import { fmtMoney, fmtFecha, diasHasta } from './format'
+import { fmtMoney, fmtFecha, diasHasta, estadoPago, saldoCobro } from './format'
 import { useNav } from './nav'
 
-const ESTADO_PROY = {
-  propuesta:     { label: 'Propuesta',    cls: 'text-sky-300' },
-  desarrollo:    { label: 'Desarrollo',   cls: 'text-primary-300' },
-  produccion:    { label: 'Producción',   cls: 'text-emerald-300' },
-  mantenimiento: { label: 'Mantenimiento',cls: 'text-violet-300' },
-  pausado:       { label: 'Pausado',      cls: 'text-amber-300' },
-  finalizado:    { label: 'Finalizado',   cls: 'text-surface-200/50' },
-}
+const EST_PILL = { vencido: 'ad-pill-red', parcial: 'ad-pill-blue', pendiente: 'ad-pill-amber', pagado: 'ad-pill-green' }
+const EST_LBL = { vencido: 'Vencido', parcial: 'Parcial', pendiente: 'Pendiente', pagado: 'Pagado' }
 
-// Suma montos de un arreglo [{moneda, campo}] agrupando por moneda -> {ARS: n, USD: n}
 function porMoneda(rows, campo) {
   const acc = {}
   for (const r of rows || []) acc[r.moneda] = (acc[r.moneda] || 0) + Number(r[campo] || 0)
   return acc
 }
-
-// "ARS 120.000 · US$ 500" (omite monedas en cero)
-function MoneyMulti({ map, className = '' }) {
-  const entries = Object.entries(map).filter(([, v]) => v)
-  if (!entries.length) return <span className={className}>—</span>
-  return (
-    <span className={className}>
-      {entries.map(([m, v], i) => (
-        <span key={m}>
-          {i > 0 && <span className="text-surface-200/30 mx-1.5">·</span>}
-          {fmtMoney(v, m)}
-        </span>
-      ))}
-    </span>
-  )
+function MoneyMulti({ map }) {
+  const e = Object.entries(map).filter(([, v]) => v)
+  if (!e.length) return <>—</>
+  return <>{e.map(([m, v], i) => <span key={m}>{i > 0 && <span className="ad-faint mx-1">·</span>}{fmtMoney(v, m)}</span>)}</>
 }
 
 export default function Home() {
-  const [data, setData] = useState(null)
+  const [d, setD] = useState(null)
+  const [pend, setPend] = useState([])
+  const [opps, setOpps] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const { verCliente, irA } = useNav()
 
   useEffect(() => {
-    apiFetch('/dashboard')
-      .then(setData)
+    Promise.all([apiFetch('/dashboard'), apiFetch('/pendientes'), apiFetch('/oportunidades')])
+      .then(([dd, pp, oo]) => { setD(dd); setPend(pp); setOpps(oo) })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return (
-    <div className="flex items-center gap-2 text-surface-200/50 text-sm py-20 justify-center">
-      <Loader2 className="w-4 h-4 animate-spin" /> Cargando panel…
-    </div>
-  )
-  if (error) return <p className="text-sm text-red-400">{error}</p>
+  if (loading) return <div className="flex items-center gap-2 ad-muted text-sm py-20 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
+  if (error) return <p className="text-sm text-red-600">{error}</p>
 
-  const mrr = porMoneda(data.mrr, 'mrr')
-  const cobrado = porMoneda(data.mes, 'cobrado')
-  const facturado = porMoneda(data.mes, 'facturado')
-  const deuda = porMoneda(data.deuda, 'total')
-  const deudaCant = (data.deuda || []).reduce((s, r) => s + Number(r.cantidad || 0), 0)
+  const porCobrar = porMoneda(pend.map((c) => ({ moneda: c.moneda, s: saldoCobro(c) })), 's')
+  const cobrado = porMoneda(d.mes, 'cobrado')
+  const oppsAbiertas = opps.filter((o) => !['ganado', 'perdido'].includes(o.etapa))
+  const pipeline = porMoneda(oppsAbiertas, 'valor')
 
-  // Ingresos no recurrentes (setup + únicos), cobrados, por moneda y por tipo.
-  const extras = data.extras || []
-  const extrasCobrado = porMoneda(extras, 'cobrado')
-  const setupCant = extras.filter((r) => r.tipo === 'setup').reduce((s, r) => s + Number(r.cantidad || 0), 0)
-  const unicoCant = extras.filter((r) => r.tipo === 'unico').reduce((s, r) => s + Number(r.cantidad || 0), 0)
-  const hayExtras = Object.values(extrasCobrado).some(Boolean) || setupCant + unicoCant > 0
+  // Tareas: seguimientos + próximos pasos de oportunidades
+  const tareas = [
+    ...(d.pendientes || []).map((s) => ({ id: `s${s.id}`, txt: s.proxima_accion || s.titulo, ref: s.cliente_nombre, fecha: s.proxima_fecha })),
+    ...oppsAbiertas.filter((o) => o.proxima_accion && o.proxima_fecha).map((o) => ({ id: `o${o.id}`, txt: o.proxima_accion, ref: `${o.nombre} · oportunidad`, fecha: o.proxima_fecha })),
+  ].sort((a, b) => String(a.fecha).localeCompare(String(b.fecha))).slice(0, 6)
 
   return (
     <div className="space-y-6">
-      <div className="flex items-end justify-between">
-        <div>
-          <h2 className="text-lg font-semibold text-white">Resumen del negocio</h2>
-          <p className="text-sm text-surface-200/50">Período {data.periodo}</p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold ad-ink tracking-tight">Inicio</h1>
+        <p className="ad-muted text-sm mt-0.5">Lo que necesitás atender · período {d.periodo}</p>
       </div>
 
-      {/* KPIs principales */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <Kpi icon={TrendingUp} label="MRR (ingreso recurrente)" accent="primary">
-          <MoneyMulti map={mrr} className="text-2xl font-bold text-primary-300 tabular-nums" />
-        </Kpi>
-        <Kpi icon={Wallet} label="Cobrado este mes">
-          <MoneyMulti map={cobrado} className="text-2xl font-bold text-white tabular-nums" />
-          <p className="text-xs text-surface-200/40 mt-0.5">
-            de <MoneyMulti map={facturado} /> facturado
-          </p>
-        </Kpi>
-        <Kpi icon={AlertTriangle} label="Deuda pendiente" accent="amber">
-          <MoneyMulti map={deuda} className="text-2xl font-bold text-amber-300 tabular-nums" />
-          <p className="text-xs text-surface-200/40 mt-0.5">{deudaCant} cobro(s) sin pagar</p>
-        </Kpi>
-        <Kpi icon={Users} label="Clientes activos">
-          <p className="text-2xl font-bold text-white tabular-nums">
-            {data.clientes.activos}
-            <span className="text-sm font-normal text-surface-200/40"> / {data.clientes.total}</span>
-          </p>
-        </Kpi>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <Kpi icon={Wallet} label="Por cobrar" tone="amber"><MoneyMulti map={porCobrar} /></Kpi>
+        <Kpi icon={TrendingUp} label="Cobrado este mes" tone="green"><MoneyMulti map={cobrado} /></Kpi>
+        <Kpi icon={Users} label="Clientes activos">{d.clientes.activos}<span className="text-base ad-faint font-normal"> / {d.clientes.total}</span></Kpi>
+        <Kpi icon={Target} label="Pipeline"><MoneyMulti map={pipeline} /></Kpi>
       </div>
 
-      {/* Ingresos no recurrentes: setup + cobros únicos (aparte del MRR) */}
-      {hayExtras && (
-        <div className="glass rounded-xl p-4 ring-1 ring-violet-500/20 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="grid place-items-center w-10 h-10 rounded-lg bg-violet-500/10 text-violet-300 shrink-0">
-              <Coins className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-wide text-surface-200/50">Setup y pagos únicos · cobrado</p>
-              <p className="text-xs text-surface-200/40 mt-0.5">
-                No recurrente · {setupCant} setup · {unicoCant} único(s)
-              </p>
-            </div>
+      <div className="grid lg:grid-cols-2 gap-4">
+        {/* Para cobrar */}
+        <div className="ad-card">
+          <div className="flex items-center justify-between px-4 py-3 border-b ad-line">
+            <b className="text-sm ad-ink">Para cobrar</b>
+            <button onClick={() => irA('cobros')} className="text-xs text-primary-700 font-semibold flex items-center gap-1 hover:gap-1.5 transition-all">Ver todo <ArrowRight className="w-3.5 h-3.5" /></button>
           </div>
-          <MoneyMulti map={extrasCobrado} className="text-2xl font-bold text-violet-300 tabular-nums" />
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {/* Próximos vencimientos */}
-        <Panel title="Próximos vencimientos" icon={CalendarClock} onVerMas={() => irA('pendientes')}>
-          {data.vencimientos.length === 0 ? (
-            <Vacio texto="Sin vencimientos próximos." />
-          ) : (
-            <ul className="divide-y divide-primary-500/5">
-              {data.vencimientos.map((v) => {
-                const d = diasHasta(v.vencimiento)
-                const vencido = d != null && d < 0
-                return (
-                  <li key={v.id}>
-                    <button
-                      onClick={() => verCliente(v.cliente_id)}
-                      className="w-full flex items-center justify-between gap-3 py-2.5 text-left hover:bg-surface-900/30 -mx-2 px-2 rounded-lg transition"
-                    >
-                      <div className="min-w-0">
-                        <p className="text-sm text-white truncate">{v.cliente_nombre}</p>
-                        <p className={`text-xs ${vencido ? 'text-red-400' : 'text-surface-200/40'}`}>
-                          {fmtFecha(v.vencimiento)}
-                          {d != null && (vencido ? ` · vencido hace ${-d}d` : d === 0 ? ' · hoy' : ` · en ${d}d`)}
-                        </p>
-                      </div>
-                      <span className="text-sm tabular-nums text-surface-200/80 shrink-0">
-                        {fmtMoney(v.monto, v.moneda)}
-                      </span>
-                    </button>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-        </Panel>
-
-        {/* Seguimientos pendientes */}
-        <Panel title="Tareas / seguimientos" icon={CheckCircle2} onVerMas={() => irA('seguimientos')}>
-          {data.pendientes.length === 0 ? (
-            <Vacio texto="No hay acciones pendientes." />
-          ) : (
-            <ul className="divide-y divide-primary-500/5">
-              {data.pendientes.map((s) => {
-                const d = diasHasta(s.proxima_fecha)
-                const atrasado = d != null && d < 0
-                return (
-                  <li key={s.id} className="flex items-center justify-between gap-3 py-2.5">
-                    <div className="min-w-0">
-                      <p className="text-sm text-white truncate">{s.proxima_accion || s.titulo}</p>
-                      <p className="text-xs text-surface-200/40 truncate">{s.cliente_nombre}</p>
-                    </div>
-                    <span className={`text-xs shrink-0 ${atrasado ? 'text-red-400' : 'text-surface-200/50'}`}>
-                      {fmtFecha(s.proxima_fecha)}
-                    </span>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-        </Panel>
-      </div>
-
-      {/* Proyectos por estado */}
-      <Panel title="Proyectos" icon={FolderKanban} onVerMas={() => irA('proyectos')}>
-        {data.proyectos.length === 0 ? (
-          <Vacio texto="Todavía no cargaste proyectos." />
-        ) : (
-          <div className="flex flex-wrap gap-2 pt-1">
-            {data.proyectos.map((p) => {
-              const meta = ESTADO_PROY[p.estado] || { label: p.estado, cls: 'text-surface-200/60' }
+          {pend.length === 0
+            ? <p className="text-sm ad-muted text-center py-8">🎉 No hay nada pendiente de cobro.</p>
+            : pend.slice(0, 5).map((c) => {
+              const est = estadoPago(c)
               return (
-                <span key={p.estado} className="inline-flex items-center gap-2 rounded-lg bg-surface-900/50 ring-1 ring-primary-500/10 px-3 py-1.5">
-                  <span className={`text-lg font-bold tabular-nums ${meta.cls}`}>{p.cantidad}</span>
-                  <span className="text-xs text-surface-200/60">{meta.label}</span>
-                </span>
+                <button key={c.id} onClick={() => verCliente(c.cliente_id)} className="w-full flex items-center gap-3 px-4 py-3 border-b ad-line last:border-0 ad-hover text-left transition">
+                  <div className="w-8 h-8 rounded-lg bg-primary-50 text-primary-700 grid place-items-center text-xs font-bold shrink-0">{c.cliente_nombre.slice(0, 2).toUpperCase()}</div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[13.5px] font-semibold ad-ink truncate">{c.cliente_nombre}</p>
+                    <p className="text-xs ad-muted truncate">{c.concepto || c.periodo}</p>
+                  </div>
+                  <span className={`ad-pill ${EST_PILL[est]}`}>{EST_LBL[est]}</span>
+                  <span className="text-[13.5px] font-bold ad-ink tabular-nums shrink-0">{fmtMoney(saldoCobro(c), c.moneda)}</span>
+                </button>
               )
             })}
+        </div>
+
+        {/* Tareas */}
+        <div className="ad-card">
+          <div className="flex items-center justify-between px-4 py-3 border-b ad-line">
+            <b className="text-sm ad-ink">Tareas y seguimiento</b>
+            <button onClick={() => irA('oportunidades')} className="text-xs text-primary-700 font-semibold flex items-center gap-1 hover:gap-1.5 transition-all">Oportunidades <ArrowRight className="w-3.5 h-3.5" /></button>
           </div>
-        )}
-      </Panel>
-    </div>
-  )
-}
-
-function Kpi({ icon: Icon, label, children, accent }) {
-  const ring = accent === 'primary' ? 'ring-primary-500/20' : accent === 'amber' ? 'ring-amber-500/20' : 'ring-primary-500/10'
-  return (
-    <div className={`glass rounded-xl p-4 ring-1 ${ring}`}>
-      <div className="flex items-center gap-2 text-surface-200/50">
-        <Icon className="w-4 h-4" />
-        <span className="text-xs uppercase tracking-wide">{label}</span>
+          {tareas.length === 0
+            ? <p className="text-sm ad-muted text-center py-8 flex items-center justify-center gap-2"><CheckCircle2 className="w-4 h-4 text-primary-600" /> Todo al día.</p>
+            : tareas.map((t) => {
+              const dd = diasHasta(t.fecha)
+              const atras = dd != null && dd < 0
+              return (
+                <div key={t.id} className="flex items-center gap-3 px-4 py-3 border-b ad-line last:border-0">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[13.5px] font-medium ad-ink truncate">{t.txt}</p>
+                    <p className="text-xs ad-muted truncate">{t.ref}</p>
+                  </div>
+                  <span className={`text-xs shrink-0 ${atras ? 'text-red-600 font-semibold' : 'ad-muted'}`}>{atras ? `hace ${-dd}d` : fmtFecha(t.fecha)}</span>
+                </div>
+              )
+            })}
+        </div>
       </div>
-      <div className="mt-2">{children}</div>
     </div>
   )
 }
 
-function Panel({ title, icon: Icon, children, onVerMas }) {
+function Kpi({ icon: Icon, label, tone, children }) {
+  const val = tone === 'amber' ? 'text-amber-700' : tone === 'green' ? 'text-primary-700' : 'ad-ink'
   return (
-    <div className="glass rounded-xl p-5">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
-          <Icon className="w-4 h-4 text-primary-300" /> {title}
-        </h3>
-        {onVerMas && (
-          <button onClick={onVerMas} className="flex items-center gap-1 text-xs text-surface-200/50 hover:text-primary-300 transition">
-            Ver más <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        )}
-      </div>
-      {children}
+    <div className="ad-card p-4">
+      <div className="flex items-center gap-1.5 ad-muted text-xs"><Icon className="w-4 h-4" /> {label}</div>
+      <p className={`text-[22px] font-extrabold mt-2 tabular-nums tracking-tight ${val}`}>{children}</p>
     </div>
   )
-}
-
-function Vacio({ texto }) {
-  return <p className="text-sm text-surface-200/40 py-4 text-center">{texto}</p>
 }
