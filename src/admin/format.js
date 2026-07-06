@@ -40,3 +40,15 @@ export function diasHasta(fecha) {
   const f = new Date(String(fecha).slice(0, 10))
   return Math.round((f - hoy) / 86400000)
 }
+
+// Estado de pago derivado de cuánto se abonó (soporta pagos parciales).
+export function estadoPago(c) {
+  const monto = Number(c.monto) || 0
+  const pagado = Number(c.pagado) || 0
+  if (monto > 0 && pagado >= monto) return 'pagado'
+  if (pagado > 0) return 'parcial'
+  if (c.vencimiento && diasHasta(c.vencimiento) < 0) return 'vencido'
+  return 'pendiente'
+}
+
+export const saldoCobro = (c) => Math.max((Number(c.monto) || 0) - (Number(c.pagado) || 0), 0)

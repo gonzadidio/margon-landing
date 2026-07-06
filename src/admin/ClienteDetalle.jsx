@@ -4,7 +4,7 @@ import {
   MessageSquare, Github, ExternalLink, CheckCircle2, Clock, Plus,
 } from 'lucide-react'
 import { apiFetch } from './api'
-import { fmtMoney, fmtFecha, tipoCobroMeta } from './format'
+import { fmtMoney, fmtFecha, tipoCobroMeta, estadoPago, saldoCobro } from './format'
 import CobroForm, { nuevoCobro } from './CobroForm'
 import ClienteArchivos from './ClienteArchivos'
 
@@ -35,13 +35,14 @@ export default function ClienteDetalle({ id, onClose }) {
     load()
   }
 
-  // Totales del historial de pagos (por moneda)
+  // Totales del historial de pagos (por moneda): cobrado real y saldo pendiente
   const pagado = {}
   const deuda = {}
   for (const c of data?.cobros || []) {
     const m = c.moneda || 'ARS'
-    if (c.estado === 'pagado') pagado[m] = (pagado[m] || 0) + Number(c.monto || 0)
-    else deuda[m] = (deuda[m] || 0) + Number(c.monto || 0)
+    pagado[m] = (pagado[m] || 0) + Number(c.pagado || 0)
+    const saldo = saldoCobro(c)
+    if (saldo > 0) deuda[m] = (deuda[m] || 0) + saldo
   }
 
   return (
@@ -138,17 +139,23 @@ export default function ClienteDetalle({ id, onClose }) {
                   <div className="space-y-1">
                     {data.cobros.map((c) => {
                       const tm = tipoCobroMeta(c.tipo)
+                      const est = estadoPago(c)
+                      const saldo = saldoCobro(c)
                       return (
                         <div key={c.id} className="flex items-center justify-between gap-2 py-1.5 border-b border-primary-500/5 last:border-0">
                           <div className="flex items-center gap-2 min-w-0">
-                            {c.estado === 'pagado'
+                            {est === 'pagado'
                               ? <CheckCircle2 className="w-4 h-4 text-primary-300 shrink-0" />
-                              : <Clock className="w-4 h-4 text-amber-300 shrink-0" />}
+                              : <Clock className={`w-4 h-4 shrink-0 ${est === 'parcial' ? 'text-sky-300' : 'text-amber-300'}`} />}
                             <span className="text-sm text-surface-200/80">{c.concepto || c.periodo}</span>
                             {c.tipo !== 'mensual' && (
                               <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${tm.cls}`}>{tm.label}</span>
                             )}
-                            {c.fecha_pago && <span className="text-xs text-surface-200/40 hidden sm:inline">· {fmtFecha(c.fecha_pago)}</span>}
+                            {est === 'parcial' && (
+                              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300">
+                                falta {fmtMoney(saldo, c.moneda)}
+                              </span>
+                            )}
                           </div>
                           <span className="text-sm tabular-nums text-surface-200/80 shrink-0">{fmtMoney(c.monto, c.moneda)}</span>
                         </div>

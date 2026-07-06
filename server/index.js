@@ -46,7 +46,8 @@ api.get('/clientes/:id', async (req, res, next) => {
     const [cli, proy, cob, seg, arch] = await Promise.all([
       pool.query('SELECT * FROM clientes WHERE id=$1', [id]),
       pool.query('SELECT * FROM proyectos WHERE cliente_id=$1 ORDER BY created_at DESC', [id]),
-      pool.query('SELECT * FROM cobros WHERE cliente_id=$1 ORDER BY periodo DESC', [id]),
+      pool.query(`SELECT c.*, (SELECT COALESCE(SUM(monto),0) FROM pagos WHERE cobro_id=c.id) AS pagado
+                    FROM cobros c WHERE c.cliente_id=$1 ORDER BY c.periodo DESC`, [id]),
       pool.query('SELECT * FROM seguimientos WHERE cliente_id=$1 ORDER BY fecha DESC, id DESC', [id]),
       pool.query('SELECT id, categoria, nombre, mime, tamano, descripcion, created_at FROM archivos WHERE cliente_id=$1 ORDER BY created_at DESC', [id]),
     ])
@@ -277,7 +278,8 @@ api.get('/cobros', async (req, res, next) => {
     if (periodo) { params.push(periodo); where = 'WHERE c.periodo = $1' }
     const { rows } = await pool.query(
       `SELECT c.*, cl.nombre AS cliente_nombre,
-              cl.email AS cliente_email, cl.proyecto AS cliente_proyecto
+              cl.email AS cliente_email, cl.proyecto AS cliente_proyecto,
+              (SELECT COALESCE(SUM(monto),0) FROM pagos WHERE cobro_id = c.id) AS pagado
          FROM cobros c JOIN clientes cl ON cl.id = c.cliente_id
          ${where}
          ORDER BY cl.nombre`,
@@ -334,7 +336,15 @@ api.post('/cobros', async (req, res, next) => {
       [cliente_id, periodo, monto || 0, moneda, est, tipo, concepto,
        fecha_emision || null, fp, vencimiento || null, metodo_pago, notas]
     )
-    res.status(201).json(rows[0])
+    const cobro = rows[0]
+    // Si nace pagado, registramos el pago total para mantener el modelo de abonos consistente.
+    if (est === 'pagado' && Number(cobro.monto) > 0) {
+      await pool.query(
+        `INSERT INTO pagos (cobro_id, monto, fecha, metodo) VALUES ($1,$2,$3,$4)`,
+        [cobro.id, cobro.monto, fp || cobro.fecha_emision, metodo_pago]
+      )
+    }
+    res.status(201).json(cobro)
   } catch (e) {
     // Choque con el cobro mensual único del período.
     if (e.code === '23505') {
@@ -369,19 +379,79 @@ api.delete('/cobros/:id', async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
+// ---------- Pagos parciales (abonos) ----------
+// Recalcula estado y fecha_pago de un cobro según la suma de sus abonos.
+async function recomputeCobro(id) {
+  await pool.query(
+    `UPDATE cobros c SET
+        estado = CASE WHEN pg.pagado >= c.monto AND c.monto > 0 THEN 'pagado'
+                      WHEN pg.pagado > 0 THEN 'parcial'
+                      ELSE 'pendiente' END,
+        fecha_pago = CASE WHEN pg.pagado >= c.monto AND c.monto > 0 THEN pg.ult ELSE NULL END
+       FROM (SELECT COALESCE(SUM(monto),0) AS pagado, MAX(fecha) AS ult
+               FROM pagos WHERE cobro_id = $1) pg
+      WHERE c.id = $1`,
+    [id]
+  )
+}
+
+async function cobroConPagado(id) {
+  const { rows } = await pool.query(
+    `SELECT c.*, (SELECT COALESCE(SUM(monto),0) FROM pagos WHERE cobro_id = c.id) AS pagado
+       FROM cobros c WHERE c.id = $1`, [id]
+  )
+  return rows[0]
+}
+
+api.get('/cobros/:id/pagos', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT * FROM pagos WHERE cobro_id = $1 ORDER BY fecha, id', [req.params.id]
+    )
+    res.json(rows)
+  } catch (e) { next(e) }
+})
+
+// Registrar un abono (ej: la seña, o el saldo al entregar)
+api.post('/cobros/:id/pagos', async (req, res, next) => {
+  try {
+    const { monto, fecha, metodo, nota } = req.body
+    if (!(Number(monto) > 0)) return res.status(400).json({ error: 'El monto del pago debe ser mayor a 0' })
+    await pool.query(
+      `INSERT INTO pagos (cobro_id, monto, fecha, metodo, nota)
+       VALUES ($1,$2,COALESCE($3,CURRENT_DATE),$4,$5)`,
+      [req.params.id, monto, fecha || null, metodo, nota]
+    )
+    await recomputeCobro(req.params.id)
+    res.status(201).json(await cobroConPagado(req.params.id))
+  } catch (e) { next(e) }
+})
+
+api.delete('/pagos/:id', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query('SELECT cobro_id FROM pagos WHERE id = $1', [req.params.id])
+    if (!rows[0]) return res.status(404).json({ error: 'Pago no encontrado' })
+    await pool.query('DELETE FROM pagos WHERE id = $1', [req.params.id])
+    await recomputeCobro(rows[0].cobro_id)
+    res.json(await cobroConPagado(rows[0].cobro_id))
+  } catch (e) { next(e) }
+})
+
 // ---------- Resumen del mes (por moneda) ----------
 api.get('/resumen', async (req, res, next) => {
   try {
     const { periodo } = req.query
     const { rows } = await pool.query(
-      `SELECT moneda,
-         COALESCE(SUM(monto),0)                                        AS facturado,
-         COALESCE(SUM(monto) FILTER (WHERE estado='pagado'),0)         AS cobrado,
-         COALESCE(SUM(monto) FILTER (WHERE estado<>'pagado'),0)        AS pendiente,
-         COUNT(*)                                                      AS cantidad,
-         COUNT(*) FILTER (WHERE estado='pagado')                       AS pagados
-       FROM cobros WHERE periodo = $1
-       GROUP BY moneda`,
+      `SELECT c.moneda,
+         COALESCE(SUM(c.monto),0)                                 AS facturado,
+         COALESCE(SUM(pg.pagado),0)                               AS cobrado,
+         COALESCE(SUM(GREATEST(c.monto - pg.pagado, 0)),0)        AS pendiente,
+         COUNT(*)                                                 AS cantidad,
+         COUNT(*) FILTER (WHERE pg.pagado >= c.monto AND c.monto > 0) AS pagados
+       FROM cobros c
+       LEFT JOIN LATERAL (SELECT COALESCE(SUM(monto),0) AS pagado FROM pagos WHERE cobro_id = c.id) pg ON true
+       WHERE c.periodo = $1
+       GROUP BY c.moneda`,
       [periodo]
     )
     res.json(rows)
@@ -403,21 +473,28 @@ api.get('/dashboard', async (req, res, next) => {
       // MRR: abono mensual de clientes activos, por moneda
       pool.query(`SELECT moneda, COALESCE(SUM(monto_mensual),0) AS mrr
          FROM clientes WHERE estado='activo' AND monto_mensual > 0 GROUP BY moneda`),
-      // Ingresos del mes actual (cobrado) por moneda
-      pool.query(`SELECT moneda,
-         COALESCE(SUM(monto) FILTER (WHERE estado='pagado'),0) AS cobrado,
-         COALESCE(SUM(monto),0)                                AS facturado
-         FROM cobros WHERE periodo=$1 GROUP BY moneda`, [periodo]),
-      // Deuda: todo lo no pagado (cualquier período) por moneda
-      pool.query(`SELECT moneda,
-         COALESCE(SUM(monto),0) AS total, COUNT(*) AS cantidad
-         FROM cobros WHERE estado<>'pagado' GROUP BY moneda`),
-      // Ingresos NO recurrentes: setup y cobros únicos (cualquier período), por tipo y moneda
-      pool.query(`SELECT tipo, moneda,
-         COALESCE(SUM(monto) FILTER (WHERE estado='pagado'),0) AS cobrado,
-         COALESCE(SUM(monto),0)                                AS total,
-         COUNT(*)                                              AS cantidad
-         FROM cobros WHERE tipo IN ('setup','unico') GROUP BY tipo, moneda`),
+      // Ingresos del mes actual (cobrado real = suma de abonos) por moneda
+      pool.query(`SELECT c.moneda,
+         COALESCE(SUM(pg.pagado),0) AS cobrado,
+         COALESCE(SUM(c.monto),0)   AS facturado
+         FROM cobros c
+         LEFT JOIN LATERAL (SELECT COALESCE(SUM(monto),0) AS pagado FROM pagos WHERE cobro_id=c.id) pg ON true
+         WHERE c.periodo=$1 GROUP BY c.moneda`, [periodo]),
+      // Deuda: saldo pendiente (cualquier período) por moneda
+      pool.query(`SELECT c.moneda,
+         COALESCE(SUM(GREATEST(c.monto - pg.pagado, 0)),0)   AS total,
+         COUNT(*) FILTER (WHERE c.monto - pg.pagado > 0)     AS cantidad
+         FROM cobros c
+         LEFT JOIN LATERAL (SELECT COALESCE(SUM(monto),0) AS pagado FROM pagos WHERE cobro_id=c.id) pg ON true
+         GROUP BY c.moneda`),
+      // Ingresos NO recurrentes: setup y cobros únicos (cobrado real), por tipo y moneda
+      pool.query(`SELECT c.tipo, c.moneda,
+         COALESCE(SUM(pg.pagado),0) AS cobrado,
+         COALESCE(SUM(c.monto),0)   AS total,
+         COUNT(*)                   AS cantidad
+         FROM cobros c
+         LEFT JOIN LATERAL (SELECT COALESCE(SUM(monto),0) AS pagado FROM pagos WHERE cobro_id=c.id) pg ON true
+         WHERE c.tipo IN ('setup','unico') GROUP BY c.tipo, c.moneda`),
       // Proyectos por estado
       pool.query(`SELECT estado, COUNT(*) AS cantidad FROM proyectos GROUP BY estado`),
       // Próximos vencimientos (no pagados con fecha de vencimiento)

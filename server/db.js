@@ -106,6 +106,31 @@ export async function initDb() {
     );
   `)
 
+  // ---------- Pagos parciales (abonos) ----------
+  // Un cobro puede pagarse en varias veces (seña + saldo, cuotas, etc.).
+  // El estado del cobro se recalcula según la suma de estos pagos.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS pagos (
+      id         SERIAL PRIMARY KEY,
+      cobro_id   INTEGER NOT NULL REFERENCES cobros(id) ON DELETE CASCADE,
+      monto      NUMERIC(12,2) NOT NULL DEFAULT 0,
+      fecha      DATE NOT NULL DEFAULT CURRENT_DATE,
+      metodo     TEXT,
+      nota       TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
+  // Backfill: los cobros ya marcados 'pagado' (modelo viejo, sin abonos) se
+  // convierten en un pago único por su monto total. Idempotente.
+  await pool.query(`
+    INSERT INTO pagos (cobro_id, monto, fecha, metodo)
+    SELECT c.id, c.monto, COALESCE(c.fecha_pago, c.fecha_emision, CURRENT_DATE), c.metodo_pago
+      FROM cobros c
+     WHERE c.estado = 'pagado' AND c.monto > 0
+       AND NOT EXISTS (SELECT 1 FROM pagos p WHERE p.cobro_id = c.id)
+  `)
+
   // ---------- Archivos adjuntos ----------
   // Facturas, informes mensuales, contratos, etc. Se guardan en la misma base
   // (bytea) para no depender de disco ni de un servicio externo.
