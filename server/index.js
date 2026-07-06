@@ -503,6 +503,21 @@ api.post('/cobros/:id/pagos', async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
+// Editar un pago existente (monto, fecha, método)
+api.put('/pagos/:id', async (req, res, next) => {
+  try {
+    const { monto, fecha, metodo, nota } = req.body
+    const { rows } = await pool.query(
+      `UPDATE pagos SET monto=COALESCE($1,monto), fecha=COALESCE($2,fecha), metodo=$3, nota=$4
+       WHERE id=$5 RETURNING cobro_id`,
+      [monto, fecha, metodo, nota, req.params.id]
+    )
+    if (!rows[0]) return res.status(404).json({ error: 'Pago no encontrado' })
+    await recomputeCobro(rows[0].cobro_id)
+    res.json(await cobroConPagado(rows[0].cobro_id))
+  } catch (e) { next(e) }
+})
+
 api.delete('/pagos/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query('SELECT cobro_id FROM pagos WHERE id = $1', [req.params.id])
