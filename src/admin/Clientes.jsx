@@ -1,8 +1,21 @@
 import { useEffect, useState } from 'react'
-import { Plus, Pencil, Trash2, X, Loader2, Search, FolderKanban, Bell } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Loader2, Search, FolderKanban, Bell, Columns3, Check } from 'lucide-react'
 import { apiFetch } from './api'
 import { fmtMoney, MONEDAS } from './format'
 import { useNav } from './nav'
+
+// Columnas opcionales de la tabla (Nombre y acciones siempre se muestran)
+const COLS = [
+  { k: 'contacto', label: 'Contacto' },
+  { k: 'actividad', label: 'Actividad' },
+  { k: 'abono', label: 'Abono mensual' },
+  { k: 'estado', label: 'Estado' },
+]
+const COLS_KEY = 'margon_cli_cols'
+function loadCols() {
+  try { return { contacto: true, actividad: true, abono: true, estado: true, ...JSON.parse(localStorage.getItem(COLS_KEY) || '{}') } }
+  catch { return { contacto: true, actividad: true, abono: true, estado: true } }
+}
 
 const VACIO = {
   nombre: '', email: '', telefono: '', proyecto: '',
@@ -17,7 +30,13 @@ export default function Clientes() {
   const [error, setError] = useState('')
   const [editing, setEditing] = useState(null)
   const [q, setQ] = useState('')
+  const [cols, setCols] = useState(loadCols)
+  const [colMenu, setColMenu] = useState(false)
   const { verCliente } = useNav()
+
+  function toggleCol(k) {
+    setCols((c) => { const n = { ...c, [k]: !c[k] }; localStorage.setItem(COLS_KEY, JSON.stringify(n)); return n })
+  }
 
   async function load() {
     setLoading(true)
@@ -60,9 +79,27 @@ export default function Clientes() {
         <button onClick={() => setEditing({ ...VACIO })} className="ad-btn ad-btn-primary"><Plus className="w-4 h-4" /> Nuevo cliente</button>
       </div>
 
-      <div className="flex items-center gap-2 ad-card px-3 max-w-sm">
-        <Search className="w-4 h-4 ad-faint" />
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar cliente…" className="w-full bg-transparent py-2.5 text-sm outline-none ad-ink" />
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ad-card px-3 flex-1 max-w-sm">
+          <Search className="w-4 h-4 ad-faint" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar cliente…" className="w-full bg-transparent py-2.5 text-sm outline-none ad-ink" />
+        </div>
+        <div className="relative">
+          <button onClick={() => setColMenu((v) => !v)} className="ad-btn ad-btn-ghost ad-btn-sm"><Columns3 className="w-4 h-4" /> Columnas</button>
+          {colMenu && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={() => setColMenu(false)} />
+              <div className="absolute right-0 mt-2 z-20 ad-card p-1.5 w-48">
+                {COLS.map((col) => (
+                  <button key={col.k} onClick={() => toggleCol(col.k)} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm ad-ink hover:bg-white/5 transition text-left">
+                    <span className={`w-4 h-4 rounded grid place-items-center ${cols[col.k] ? 'bg-primary-500 text-[#04120c]' : 'ring-1 ad-line'}`}>{cols[col.k] && <Check className="w-3 h-3" />}</span>
+                    {col.label}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
@@ -75,9 +112,12 @@ export default function Clientes() {
         <div className="ad-card overflow-x-auto">
           <table className="w-full">
             <thead><tr>
-              <th className="ad-th">Nombre</th><th className="ad-th">Contacto</th>
-              <th className="ad-th text-center">Actividad</th><th className="ad-th text-right">Abono</th>
-              <th className="ad-th text-center">Estado</th><th className="ad-th"></th>
+              <th className="ad-th">Nombre</th>
+              {cols.contacto && <th className="ad-th">Contacto</th>}
+              {cols.actividad && <th className="ad-th text-center">Actividad</th>}
+              {cols.abono && <th className="ad-th text-right">Abono</th>}
+              {cols.estado && <th className="ad-th text-center">Estado</th>}
+              <th className="ad-th"></th>
             </tr></thead>
             <tbody>
               {list.map((c) => (
@@ -88,16 +128,18 @@ export default function Clientes() {
                       <span>{c.nombre}{c.proyecto && <span className="block text-xs ad-faint font-normal">{c.proyecto}</span>}</span>
                     </button>
                   </td>
-                  <td className="ad-td ad-muted">{c.email || c.telefono || '—'}</td>
-                  <td className="ad-td">
-                    <div className="flex items-center justify-center gap-3 text-xs ad-muted">
-                      {Number(c.proyectos_count) > 0 && <span className="flex items-center gap-1"><FolderKanban className="w-3.5 h-3.5" /> {c.proyectos_count}</span>}
-                      {Number(c.pendientes_count) > 0 && <span className="flex items-center gap-1 text-amber-300"><Bell className="w-3.5 h-3.5" /> {c.pendientes_count}</span>}
-                      {Number(c.proyectos_count) === 0 && Number(c.pendientes_count) === 0 && '—'}
-                    </div>
-                  </td>
-                  <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto_mensual, c.moneda)}{c.moneda === 'USD' && <span className="text-xs text-primary-300 ml-1">USD</span>}</td>
-                  <td className="ad-td text-center"><span className={`ad-pill ${c.estado === 'activo' ? 'ad-pill-green' : 'ad-pill-gray'}`}>{c.estado}</span></td>
+                  {cols.contacto && <td className="ad-td ad-muted">{c.email || c.telefono || '—'}</td>}
+                  {cols.actividad && (
+                    <td className="ad-td">
+                      <div className="flex items-center justify-center gap-3 text-xs ad-muted">
+                        {Number(c.proyectos_count) > 0 && <span className="flex items-center gap-1" title="Proyectos"><FolderKanban className="w-3.5 h-3.5" /> {c.proyectos_count}</span>}
+                        {Number(c.pendientes_count) > 0 && <span className="flex items-center gap-1 text-amber-300" title="Tareas pendientes"><Bell className="w-3.5 h-3.5" /> {c.pendientes_count}</span>}
+                        {Number(c.proyectos_count) === 0 && Number(c.pendientes_count) === 0 && '—'}
+                      </div>
+                    </td>
+                  )}
+                  {cols.abono && <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto_mensual, c.moneda)}{c.moneda === 'USD' && <span className="text-xs text-primary-300 ml-1">USD</span>}</td>}
+                  {cols.estado && <td className="ad-td text-center"><span className={`ad-pill ${c.estado === 'activo' ? 'ad-pill-green' : 'ad-pill-gray'}`}>{c.estado}</span></td>}
                   <td className="ad-td">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => setEditing(c)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Pencil className="w-4 h-4" /></button>

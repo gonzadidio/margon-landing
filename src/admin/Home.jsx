@@ -116,9 +116,9 @@ export default function Home() {
 function Kpi({ icon: Icon, label, tone, children }) {
   const val = tone === 'amber' ? 'text-amber-300' : tone === 'green' ? 'text-primary-300' : 'ad-ink'
   return (
-    <div className="ad-card p-4">
-      <div className="flex items-center gap-1.5 ad-muted text-xs"><Icon className="w-4 h-4" /> {label}</div>
-      <p className={`text-[22px] font-extrabold mt-2 tabular-nums tracking-tight ${val}`}>{children}</p>
+    <div className="ad-card p-4 min-w-0">
+      <div className="flex items-center gap-1.5 ad-muted text-xs"><Icon className="w-4 h-4 shrink-0" /> <span className="truncate">{label}</span></div>
+      <p className={`text-lg lg:text-xl font-extrabold mt-2 tabular-nums tracking-tight leading-tight break-words ${val}`}>{children}</p>
     </div>
   )
 }

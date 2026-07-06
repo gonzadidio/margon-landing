@@ -22,6 +22,7 @@ export default function Cobros() {
   const [periodo, setPeriodo] = useState(periodoActual)
   const [pend, setPend] = useState([])
   const [mes, setMes] = useState([])
+  const [todos, setTodos] = useState([])
   const [resumen, setResumen] = useState([])
   const [clientes, setClientes] = useState([])
   const [loading, setLoading] = useState(true)
@@ -35,13 +36,14 @@ export default function Cobros() {
   async function load() {
     setLoading(true)
     try {
-      const [p, m, r, c] = await Promise.all([
+      const [p, m, t, r, c] = await Promise.all([
         apiFetch('/pendientes'),
         apiFetch(`/cobros?periodo=${periodo}`),
+        apiFetch('/cobros'),
         apiFetch(`/resumen?periodo=${periodo}`),
         apiFetch('/clientes'),
       ])
-      setPend(p); setMes(m); setResumen(r); setClientes(c); setError('')
+      setPend(p); setMes(m); setTodos(t); setResumen(r); setClientes(c); setError('')
     } catch (e) { setError(e.message) } finally { setLoading(false) }
   }
   useEffect(() => { load() }, [periodo])
@@ -67,7 +69,7 @@ export default function Cobros() {
   }
 
   const porCobrar = porMoneda(pend.map((c) => ({ moneda: c.moneda, s: saldoCobro(c) })), 's')
-  const rows = vista === 'pendientes' ? pend : mes
+  const rows = vista === 'pendientes' ? pend : vista === 'mes' ? mes : todos
 
   return (
     <div className="space-y-5">
@@ -90,9 +92,11 @@ export default function Cobros() {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex rounded-lg border ad-line overflow-hidden text-sm bg-transparent">
           <button onClick={() => setVista('pendientes')} className={`px-3.5 py-2 font-medium ${vista === 'pendientes' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Por cobrar</button>
-          <button onClick={() => setVista('mes')} className={`px-3.5 py-2 font-medium ${vista === 'mes' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Del mes</button>
+          <button onClick={() => setVista('mes')} className={`px-3.5 py-2 font-medium border-l ad-line ${vista === 'mes' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Del mes</button>
+          <button onClick={() => setVista('todos')} className={`px-3.5 py-2 font-medium border-l ad-line ${vista === 'todos' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Todos</button>
         </div>
         {vista === 'mes' && <input type="month" value={periodo} onChange={(e) => setPeriodo(e.target.value)} className="ad-input !w-auto" />}
+        {vista === 'todos' && <span className="text-xs ad-faint">{todos.length} cobro(s) en total</span>}
       </div>
 
       {msg && <p className="flex items-center gap-2 text-sm text-primary-300"><Check className="w-4 h-4" /> {msg}</p>}
@@ -101,7 +105,7 @@ export default function Cobros() {
       {loading ? (
         <div className="flex items-center gap-2 ad-muted text-sm py-10 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
       ) : rows.length === 0 ? (
-        <p className="ad-muted text-sm py-10 text-center">{vista === 'pendientes' ? '🎉 No hay nada pendiente de cobro.' : `No hay cobros para ${periodo}. Usá “Generar mes”.`}</p>
+        <p className="ad-muted text-sm py-10 text-center">{vista === 'pendientes' ? '🎉 No hay nada pendiente de cobro.' : vista === 'todos' ? 'Todavía no hay cobros cargados.' : `No hay cobros para ${periodo}. Usá “Generar mes”.`}</p>
       ) : (
         <div className="ad-card overflow-x-auto">
           <table className="w-full">
@@ -152,9 +156,9 @@ export default function Cobros() {
 function Kpi({ label, value, tone, sub }) {
   const cls = tone === 'amber' ? 'text-amber-300' : tone === 'green' ? 'text-primary-300' : 'ad-ink'
   return (
-    <div className="ad-card p-4">
-      <p className="text-xs uppercase tracking-wide ad-muted">{label}</p>
-      <p className={`text-xl font-extrabold mt-1.5 tabular-nums tracking-tight ${cls}`}>{value}</p>
+    <div className="ad-card p-4 min-w-0">
+      <p className="text-xs uppercase tracking-wide ad-muted truncate">{label}</p>
+      <p className={`text-lg lg:text-xl font-extrabold mt-1.5 tabular-nums tracking-tight leading-tight break-words ${cls}`}>{value}</p>
       {sub && <p className="text-xs ad-faint mt-0.5">{sub}</p>}
     </div>
   )
