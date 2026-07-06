@@ -437,6 +437,21 @@ api.delete('/pagos/:id', async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
+// ---------- Pendientes: todo lo que falta cobrar ----------
+// Cobros con saldo > 0 (parciales, pendientes, vencidos), ordenados por urgencia.
+api.get('/pendientes', async (_req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT c.*, cl.nombre AS cliente_nombre,
+              (SELECT COALESCE(SUM(monto),0) FROM pagos WHERE cobro_id = c.id) AS pagado
+         FROM cobros c JOIN clientes cl ON cl.id = c.cliente_id
+        WHERE c.monto > (SELECT COALESCE(SUM(monto),0) FROM pagos WHERE cobro_id = c.id)
+        ORDER BY (c.vencimiento IS NULL), c.vencimiento ASC, c.periodo ASC`
+    )
+    res.json(rows)
+  } catch (e) { next(e) }
+})
+
 // ---------- Resumen del mes (por moneda) ----------
 api.get('/resumen', async (req, res, next) => {
   try {

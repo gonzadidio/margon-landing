@@ -124,7 +124,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Próximos vencimientos */}
-        <Panel title="Próximos vencimientos" icon={CalendarClock} onVerMas={() => irA('pagos')}>
+        <Panel title="Próximos vencimientos" icon={CalendarClock} onVerMas={() => irA('pendientes')}>
           {data.vencimientos.length === 0 ? (
             <Vacio texto="Sin vencimientos próximos." />
           ) : (
