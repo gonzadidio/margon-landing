@@ -25,12 +25,19 @@ function fmtFecha(v) {
 // N° de comprobante a partir del período y el id del cobro
 const nroComprobante = (c) => `${c.periodo}-${String(c.id).padStart(4, '0')}`
 
+// Concepto por defecto según el tipo de cobro (se puede editar antes de imprimir).
+function conceptoDefault(cobro) {
+  if (cobro.concepto?.trim()) return cobro.concepto.trim()
+  if (cobro.notas?.trim()) return cobro.notas.trim()
+  const proy = cobro.cliente_proyecto ? ` — ${cobro.cliente_proyecto}` : ''
+  if (cobro.tipo === 'setup') return `Setup inicial / puesta en marcha${proy}`
+  if (cobro.tipo === 'unico') return `Servicio de desarrollo de software${proy}`
+  return `Servicios de desarrollo y mantenimiento de software${proy}`
+}
+
 export default function Comprobante({ cobro, hoy, onClose }) {
   // El usuario puede ajustar el concepto antes de imprimir
-  const [concepto, setConcepto] = useState(
-    cobro.notas?.trim() ||
-    `Servicios de desarrollo y mantenimiento de software${cobro.cliente_proyecto ? ` — ${cobro.cliente_proyecto}` : ''}`
-  )
+  const [concepto, setConcepto] = useState(() => conceptoDefault(cobro))
 
   const pagado = cobro.estado === 'pagado'
 
