@@ -21,7 +21,7 @@ const VACIO = {
   nombre: '', email: '', telefono: '', proyecto: '',
   monto_mensual: '', moneda: 'ARS', estado: 'activo', notas: '',
   dia_cobro: '', sitio_url: '', canal: '', fecha_alta: '',
-  setup_monto: '', setup_estado: 'pagado',
+  setup_monto: '', setup_moneda: 'ARS', setup_estado: 'pagado',
 }
 
 export default function Clientes() {
@@ -46,7 +46,7 @@ export default function Clientes() {
   useEffect(() => { load() }, [])
 
   async function save(data) {
-    const { setup_monto, setup_estado, ...rest } = data
+    const { setup_monto, setup_estado, setup_moneda, ...rest } = data
     const payload = { ...rest, monto_mensual: Number(rest.monto_mensual) || 0, dia_cobro: rest.dia_cobro ? Number(rest.dia_cobro) : null }
     if (data.id) {
       await apiFetch(`/clientes/${data.id}`, { method: 'PUT', body: JSON.stringify(payload) })
@@ -57,7 +57,7 @@ export default function Clientes() {
         const est = setup_estado || 'pagado'
         await apiFetch('/cobros', { method: 'POST', body: JSON.stringify({
           cliente_id: cliente.id, tipo: 'setup', concepto: 'Setup inicial',
-          periodo: new Date().toISOString().slice(0, 7), monto, moneda: payload.moneda,
+          periodo: new Date().toISOString().slice(0, 7), monto, moneda: setup_moneda || payload.moneda,
           estado: est, fecha_pago: est === 'pagado' ? new Date().toISOString().slice(0, 10) : null,
         }) })
       }
@@ -195,8 +195,9 @@ function ClienteForm({ initial, onSave, onClose }) {
                 <p className="text-xs font-semibold uppercase tracking-wide text-violet-300">Setup inicial · pago único (opcional)</p>
                 <p className="text-[11px] ad-faint mt-0.5">Si cobrás una puesta en marcha, ponés el monto y se registra solo.</p>
               </div>
-              <Field label={`Monto del setup (${form.moneda})`}><input type="number" min="0" step="0.01" value={form.setup_monto} onChange={set('setup_monto')} placeholder="0" className="ad-input" /></Field>
-              <Field label="Estado del setup"><select value={form.setup_estado} onChange={set('setup_estado')} className="ad-input"><option value="pagado">Pagado</option><option value="pendiente">Pendiente</option></select></Field>
+              <Field label="Monto del setup"><input type="number" min="0" step="0.01" value={form.setup_monto} onChange={set('setup_monto')} placeholder="0" className="ad-input" /></Field>
+              <Field label="Moneda del setup"><select value={form.setup_moneda} onChange={set('setup_moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}</select></Field>
+              <Field label="Estado del setup" full><select value={form.setup_estado} onChange={set('setup_estado')} className="ad-input"><option value="pagado">Pagado</option><option value="pendiente">Pendiente</option></select></Field>
             </>
           )}
 
