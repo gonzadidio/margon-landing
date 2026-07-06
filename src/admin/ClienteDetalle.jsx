@@ -36,7 +36,7 @@ export default function ClienteDetalle({ id, onClose }) {
   useEffect(() => { load() }, [load])
 
   if (loading) return <div className="flex items-center gap-2 ad-muted text-sm py-20 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando ficha…</div>
-  if (error) return <p className="text-sm text-red-600">{error}</p>
+  if (error) return <p className="text-sm text-red-400">{error}</p>
   if (!data) return null
 
   const pagado = {}, deuda = {}
@@ -68,9 +68,9 @@ export default function ClienteDetalle({ id, onClose }) {
         <div className="flex-1 min-w-0">
           <h1 className="text-xl font-bold ad-ink flex items-center gap-2 flex-wrap">{data.nombre}<span className={`ad-pill ${data.estado === 'activo' ? 'ad-pill-green' : 'ad-pill-gray'}`}>{data.estado}</span></h1>
           <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5 text-[13px] ad-muted">
-            {data.email && <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 ad-faint" /> <a href={`mailto:${data.email}`} className="hover:text-primary-700">{data.email}</a></span>}
+            {data.email && <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 ad-faint" /> <a href={`mailto:${data.email}`} className="hover:text-primary-300">{data.email}</a></span>}
             {data.telefono && <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 ad-faint" /> {data.telefono}</span>}
-            {data.sitio_url && <span className="flex items-center gap-1.5"><Globe className="w-3.5 h-3.5 ad-faint" /> <a href={data.sitio_url} target="_blank" rel="noreferrer" className="hover:text-primary-700">{data.sitio_url}</a></span>}
+            {data.sitio_url && <span className="flex items-center gap-1.5"><Globe className="w-3.5 h-3.5 ad-faint" /> <a href={data.sitio_url} target="_blank" rel="noreferrer" className="hover:text-primary-300">{data.sitio_url}</a></span>}
             {data.fecha_alta && <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 ad-faint" /> desde {fmtFecha(data.fecha_alta)}</span>}
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function ClienteDetalle({ id, onClose }) {
       {/* Tabs */}
       <div className="flex gap-1 border-b ad-line overflow-x-auto">
         {TABS.map((t) => (
-          <button key={t} onClick={() => setTab(t)} className={`px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px whitespace-nowrap transition ${tab === t ? 'text-primary-700 border-primary-600' : 'ad-muted border-transparent hover:ad-ink'}`}>{t}</button>
+          <button key={t} onClick={() => setTab(t)} className={`px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px whitespace-nowrap transition ${tab === t ? 'text-primary-300 border-primary-600' : 'ad-muted border-transparent hover:ad-ink'}`}>{t}</button>
         ))}
       </div>
 
@@ -122,9 +122,9 @@ export default function ClienteDetalle({ id, onClose }) {
                       <tr key={c.id} className="ad-hover transition">
                         <td className="ad-td"><span className="ad-ink">{c.concepto || c.periodo}</span>{c.tipo !== 'mensual' && <span className={`ad-pill ml-2 ${c.tipo === 'setup' ? 'ad-pill-violet' : 'ad-pill-blue'}`}>{tipoCobroMeta(c.tipo).label}</span>}<p className="text-xs ad-faint">{fmtFecha(c.fecha_emision)}</p></td>
                         <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto, c.moneda)}</td>
-                        <td className="ad-td text-xs tabular-nums">{est === 'pagado' ? <span className="text-primary-700">{fmtMoney(c.pagado, c.moneda)}</span> : Number(c.pagado) > 0 ? <span className="text-blue-700">{fmtMoney(c.pagado, c.moneda)} <span className="ad-faint">· falta {fmtMoney(saldo, c.moneda)}</span></span> : <span className="ad-faint">—</span>}</td>
+                        <td className="ad-td text-xs tabular-nums">{est === 'pagado' ? <span className="text-primary-300">{fmtMoney(c.pagado, c.moneda)}</span> : Number(c.pagado) > 0 ? <span className="text-sky-300">{fmtMoney(c.pagado, c.moneda)} <span className="ad-faint">· falta {fmtMoney(saldo, c.moneda)}</span></span> : <span className="ad-faint">—</span>}</td>
                         <td className="ad-td text-center"><span className={`ad-pill ${EST_PILL[est]}`}>{EST_LBL[est]}</span></td>
-                        <td className="ad-td"><div className="flex items-center justify-end gap-1">{saldo > 0 && <button onClick={() => setGestion(c)} className="ad-btn ad-btn-soft ad-btn-sm">Pago</button>}<button onClick={() => setComprobante(c)} className="p-1.5 rounded-lg hover:bg-[#eef1ef] ad-muted hover:text-primary-700 transition"><Printer className="w-4 h-4" /></button></div></td>
+                        <td className="ad-td"><div className="flex items-center justify-end gap-1">{saldo > 0 && <button onClick={() => setGestion(c)} className="ad-btn ad-btn-soft ad-btn-sm">Pago</button>}<button onClick={() => setComprobante(c)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Printer className="w-4 h-4" /></button></div></td>
                       </tr>
                     )
                   })}
@@ -147,9 +147,9 @@ export default function ClienteDetalle({ id, onClose }) {
                     <p className="font-semibold ad-ink">{p.nombre}</p>
                     <div className="flex gap-1 shrink-0">
                       {p.repo_url && <a href={p.repo_url} target="_blank" rel="noreferrer" className="ad-faint hover:ad-ink"><Github className="w-4 h-4" /></a>}
-                      {p.deploy_url && <a href={p.deploy_url} target="_blank" rel="noreferrer" className="ad-faint hover:text-primary-700"><ExternalLink className="w-4 h-4" /></a>}
-                      <button onClick={() => setProy(p)} className="ad-faint hover:text-primary-700"><Pencil className="w-3.5 h-3.5" /></button>
-                      <button onClick={() => delProy(p)} className="ad-faint hover:text-red-600"><Trash2 className="w-3.5 h-3.5" /></button>
+                      {p.deploy_url && <a href={p.deploy_url} target="_blank" rel="noreferrer" className="ad-faint hover:text-primary-300"><ExternalLink className="w-4 h-4" /></a>}
+                      <button onClick={() => setProy(p)} className="ad-faint hover:text-primary-300"><Pencil className="w-3.5 h-3.5" /></button>
+                      <button onClick={() => delProy(p)} className="ad-faint hover:text-red-400"><Trash2 className="w-3.5 h-3.5" /></button>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mt-2 text-xs ad-muted">
@@ -178,13 +178,13 @@ export default function ClienteDetalle({ id, onClose }) {
                   <div className="flex items-start justify-between gap-2">
                     <p className={`text-sm font-medium ${s.completado ? 'ad-faint line-through' : 'ad-ink'}`}>{s.titulo}</p>
                     <div className="flex gap-1 shrink-0">
-                      {s.proxima_accion && <button onClick={() => toggleSeg(s)} title="Completar" className={s.completado ? 'text-primary-600' : 'ad-faint hover:text-primary-700'}><CheckCircle2 className="w-4 h-4" /></button>}
-                      <button onClick={() => setSeg(s)} className="ad-faint hover:text-primary-700"><Pencil className="w-3.5 h-3.5" /></button>
-                      <button onClick={() => delSeg(s)} className="ad-faint hover:text-red-600"><Trash2 className="w-3.5 h-3.5" /></button>
+                      {s.proxima_accion && <button onClick={() => toggleSeg(s)} title="Completar" className={s.completado ? 'text-primary-400' : 'ad-faint hover:text-primary-300'}><CheckCircle2 className="w-4 h-4" /></button>}
+                      <button onClick={() => setSeg(s)} className="ad-faint hover:text-primary-300"><Pencil className="w-3.5 h-3.5" /></button>
+                      <button onClick={() => delSeg(s)} className="ad-faint hover:text-red-400"><Trash2 className="w-3.5 h-3.5" /></button>
                     </div>
                   </div>
                   {s.detalle && <p className="text-sm ad-muted mt-1 whitespace-pre-wrap">{s.detalle}</p>}
-                  {s.proxima_accion && <p className="text-xs text-primary-700 mt-1.5 flex items-center gap-1"><Clock className="w-3 h-3" /> {s.proxima_accion}{s.proxima_fecha ? ` · ${fmtFecha(s.proxima_fecha)}` : ''}</p>}
+                  {s.proxima_accion && <p className="text-xs text-primary-300 mt-1.5 flex items-center gap-1"><Clock className="w-3 h-3" /> {s.proxima_accion}{s.proxima_fecha ? ` · ${fmtFecha(s.proxima_fecha)}` : ''}</p>}
                   <p className="text-[11px] ad-faint mt-1.5">{fmtFecha(s.fecha)}</p>
                 </div>
               ))}
@@ -204,7 +204,7 @@ export default function ClienteDetalle({ id, onClose }) {
 }
 
 function Stat({ label, value, tone }) {
-  const cls = tone === 'green' ? 'text-primary-700' : tone === 'amber' ? 'text-amber-700' : 'ad-ink'
+  const cls = tone === 'green' ? 'text-primary-300' : tone === 'amber' ? 'text-amber-300' : 'ad-ink'
   return <div className="ad-card p-3"><p className="text-[11px] uppercase tracking-wide ad-faint">{label}</p><p className={`text-base font-bold mt-0.5 tabular-nums ${cls}`}>{value}</p></div>
 }
 function Row({ label, value }) {

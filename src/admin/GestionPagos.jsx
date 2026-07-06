@@ -47,7 +47,7 @@ export default function GestionPagos({ cobro, onClose, onChanged }) {
             <h3 className="text-base font-semibold ad-ink">Pagos · {cobro.cliente_nombre}</h3>
             <p className="text-xs ad-muted">{cobro.concepto || cobro.periodo}</p>
           </div>
-          <button onClick={onClose} className="p-1 rounded-lg hover:bg-[#eef1ef] ad-muted"><X className="w-5 h-5" /></button>
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-white/10 ad-muted"><X className="w-5 h-5" /></button>
         </div>
 
         <div className="grid grid-cols-3 gap-2 text-center">
@@ -61,12 +61,12 @@ export default function GestionPagos({ cobro, onClose, onChanged }) {
         ) : pagos.length > 0 ? (
           <div className="space-y-1">
             {pagos.map((p) => (
-              <div key={p.id} className="flex items-center justify-between gap-2 rounded-lg bg-[#f5f7f6] px-3 py-2">
+              <div key={p.id} className="flex items-center justify-between gap-2 rounded-lg bg-white/5 px-3 py-2">
                 <div className="min-w-0">
                   <span className="text-sm tabular-nums ad-ink font-medium">{fmtMoney(p.monto, cobro.moneda)}</span>
                   <span className="text-xs ad-muted"> · {fmtFecha(p.fecha)}{p.metodo ? ` · ${p.metodo}` : ''}</span>
                 </div>
-                <button onClick={() => borrar(p)} className="p-1 rounded hover:bg-[#e6eae8] ad-faint hover:text-red-600 transition"><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => borrar(p)} className="p-1 rounded hover:bg-[#e6eae8] ad-faint hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
               </div>
             ))}
           </div>
@@ -74,7 +74,7 @@ export default function GestionPagos({ cobro, onClose, onChanged }) {
 
         {saldo > 0 ? (
           <form onSubmit={agregar} className="border-t ad-line pt-4 space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-primary-700">Registrar un pago</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary-300">Registrar un pago</p>
             <div className="grid grid-cols-2 gap-3">
               <label className="flex flex-col gap-1.5 col-span-2">
                 <span className="text-xs ad-muted">Monto ({cobro.moneda})</span>
@@ -86,11 +86,11 @@ export default function GestionPagos({ cobro, onClose, onChanged }) {
               <label className="flex flex-col gap-1.5"><span className="text-xs ad-muted">Fecha</span><input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} className="ad-input" /></label>
               <label className="flex flex-col gap-1.5"><span className="text-xs ad-muted">Método</span><input value={metodo} onChange={(e) => setMetodo(e.target.value)} placeholder="Transf., efectivo…" className="ad-input" /></label>
             </div>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-red-400">{error}</p>}
             <div className="flex justify-end"><button type="submit" disabled={saving} className="ad-btn ad-btn-primary">{saving && <Loader2 className="w-4 h-4 animate-spin" />} Registrar pago</button></div>
           </form>
         ) : !loading && (
-          <p className="flex items-center gap-2 text-sm text-primary-700 border-t ad-line pt-4"><CheckCircle2 className="w-4 h-4" /> Cobro saldado por completo.</p>
+          <p className="flex items-center gap-2 text-sm text-primary-300 border-t ad-line pt-4"><CheckCircle2 className="w-4 h-4" /> Cobro saldado por completo.</p>
         )}
       </div>
     </div>
@@ -98,9 +98,9 @@ export default function GestionPagos({ cobro, onClose, onChanged }) {
 }
 
 function Mini({ label, value, tone }) {
-  const cls = tone === 'green' ? 'text-primary-700' : tone === 'amber' ? 'text-amber-700' : 'ad-ink'
+  const cls = tone === 'green' ? 'text-primary-300' : tone === 'amber' ? 'text-amber-300' : 'ad-ink'
   return (
-    <div className="rounded-lg bg-[#f5f7f6] p-2.5">
+    <div className="rounded-lg bg-white/5 p-2.5">
       <p className="text-[10px] uppercase tracking-wide ad-faint">{label}</p>
       <p className={`text-sm font-bold mt-0.5 tabular-nums ${cls}`}>{value}</p>
     </div>

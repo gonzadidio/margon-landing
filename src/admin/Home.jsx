@@ -34,7 +34,7 @@ export default function Home() {
   }, [])
 
   if (loading) return <div className="flex items-center gap-2 ad-muted text-sm py-20 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
-  if (error) return <p className="text-sm text-red-600">{error}</p>
+  if (error) return <p className="text-sm text-red-400">{error}</p>
 
   const porCobrar = porMoneda(pend.map((c) => ({ moneda: c.moneda, s: saldoCobro(c) })), 's')
   const cobrado = porMoneda(d.mes, 'cobrado')
@@ -66,7 +66,7 @@ export default function Home() {
         <div className="ad-card">
           <div className="flex items-center justify-between px-4 py-3 border-b ad-line">
             <b className="text-sm ad-ink">Para cobrar</b>
-            <button onClick={() => irA('cobros')} className="text-xs text-primary-700 font-semibold flex items-center gap-1 hover:gap-1.5 transition-all">Ver todo <ArrowRight className="w-3.5 h-3.5" /></button>
+            <button onClick={() => irA('cobros')} className="text-xs text-primary-300 font-semibold flex items-center gap-1 hover:gap-1.5 transition-all">Ver todo <ArrowRight className="w-3.5 h-3.5" /></button>
           </div>
           {pend.length === 0
             ? <p className="text-sm ad-muted text-center py-8">🎉 No hay nada pendiente de cobro.</p>
@@ -74,7 +74,7 @@ export default function Home() {
               const est = estadoPago(c)
               return (
                 <button key={c.id} onClick={() => verCliente(c.cliente_id)} className="w-full flex items-center gap-3 px-4 py-3 border-b ad-line last:border-0 ad-hover text-left transition">
-                  <div className="w-8 h-8 rounded-lg bg-primary-50 text-primary-700 grid place-items-center text-xs font-bold shrink-0">{c.cliente_nombre.slice(0, 2).toUpperCase()}</div>
+                  <div className="w-8 h-8 rounded-lg bg-primary-500/15 text-primary-300 grid place-items-center text-xs font-bold shrink-0">{c.cliente_nombre.slice(0, 2).toUpperCase()}</div>
                   <div className="min-w-0 flex-1">
                     <p className="text-[13.5px] font-semibold ad-ink truncate">{c.cliente_nombre}</p>
                     <p className="text-xs ad-muted truncate">{c.concepto || c.periodo}</p>
@@ -90,10 +90,10 @@ export default function Home() {
         <div className="ad-card">
           <div className="flex items-center justify-between px-4 py-3 border-b ad-line">
             <b className="text-sm ad-ink">Tareas y seguimiento</b>
-            <button onClick={() => irA('oportunidades')} className="text-xs text-primary-700 font-semibold flex items-center gap-1 hover:gap-1.5 transition-all">Oportunidades <ArrowRight className="w-3.5 h-3.5" /></button>
+            <button onClick={() => irA('oportunidades')} className="text-xs text-primary-300 font-semibold flex items-center gap-1 hover:gap-1.5 transition-all">Oportunidades <ArrowRight className="w-3.5 h-3.5" /></button>
           </div>
           {tareas.length === 0
-            ? <p className="text-sm ad-muted text-center py-8 flex items-center justify-center gap-2"><CheckCircle2 className="w-4 h-4 text-primary-600" /> Todo al día.</p>
+            ? <p className="text-sm ad-muted text-center py-8 flex items-center justify-center gap-2"><CheckCircle2 className="w-4 h-4 text-primary-400" /> Todo al día.</p>
             : tareas.map((t) => {
               const dd = diasHasta(t.fecha)
               const atras = dd != null && dd < 0
@@ -103,7 +103,7 @@ export default function Home() {
                     <p className="text-[13.5px] font-medium ad-ink truncate">{t.txt}</p>
                     <p className="text-xs ad-muted truncate">{t.ref}</p>
                   </div>
-                  <span className={`text-xs shrink-0 ${atras ? 'text-red-600 font-semibold' : 'ad-muted'}`}>{atras ? `hace ${-dd}d` : fmtFecha(t.fecha)}</span>
+                  <span className={`text-xs shrink-0 ${atras ? 'text-red-400 font-semibold' : 'ad-muted'}`}>{atras ? `hace ${-dd}d` : fmtFecha(t.fecha)}</span>
                 </div>
               )
             })}
@@ -114,7 +114,7 @@ export default function Home() {
 }
 
 function Kpi({ icon: Icon, label, tone, children }) {
-  const val = tone === 'amber' ? 'text-amber-700' : tone === 'green' ? 'text-primary-700' : 'ad-ink'
+  const val = tone === 'amber' ? 'text-amber-300' : tone === 'green' ? 'text-primary-300' : 'ad-ink'
   return (
     <div className="ad-card p-4">
       <div className="flex items-center gap-1.5 ad-muted text-xs"><Icon className="w-4 h-4" /> {label}</div>

@@ -88,15 +88,15 @@ export default function Cobros() {
 
       {/* Tabs */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex rounded-lg border ad-line overflow-hidden text-sm bg-white">
-          <button onClick={() => setVista('pendientes')} className={`px-3.5 py-2 font-medium ${vista === 'pendientes' ? 'bg-primary-50 text-primary-700' : 'ad-muted hover:bg-[#f3f6f4]'}`}>Por cobrar</button>
-          <button onClick={() => setVista('mes')} className={`px-3.5 py-2 font-medium ${vista === 'mes' ? 'bg-primary-50 text-primary-700' : 'ad-muted hover:bg-[#f3f6f4]'}`}>Del mes</button>
+        <div className="flex rounded-lg border ad-line overflow-hidden text-sm bg-transparent">
+          <button onClick={() => setVista('pendientes')} className={`px-3.5 py-2 font-medium ${vista === 'pendientes' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Por cobrar</button>
+          <button onClick={() => setVista('mes')} className={`px-3.5 py-2 font-medium ${vista === 'mes' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Del mes</button>
         </div>
         {vista === 'mes' && <input type="month" value={periodo} onChange={(e) => setPeriodo(e.target.value)} className="ad-input !w-auto" />}
       </div>
 
-      {msg && <p className="flex items-center gap-2 text-sm text-primary-700"><Check className="w-4 h-4" /> {msg}</p>}
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {msg && <p className="flex items-center gap-2 text-sm text-primary-300"><Check className="w-4 h-4" /> {msg}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       {loading ? (
         <div className="flex items-center gap-2 ad-muted text-sm py-10 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
@@ -116,22 +116,22 @@ export default function Cobros() {
                 return (
                   <tr key={c.id} className="ad-hover transition">
                     <td className="ad-td">
-                      <button onClick={() => verCliente(c.cliente_id)} className="font-semibold ad-ink hover:text-primary-700 transition text-left">{c.cliente_nombre}</button>
+                      <button onClick={() => verCliente(c.cliente_id)} className="font-semibold ad-ink hover:text-primary-300 transition text-left">{c.cliente_nombre}</button>
                       {c.concepto && <p className="text-xs ad-faint">{c.concepto}</p>}
                     </td>
                     <td className="ad-td"><span className={`ad-pill ${['setup', 'unico'].includes(c.tipo) ? (c.tipo === 'setup' ? 'ad-pill-violet' : 'ad-pill-blue') : 'ad-pill-gray'}`}>{tipoCobroMeta(c.tipo).label}</span></td>
                     <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto, c.moneda)}</td>
                     <td className="ad-td text-xs tabular-nums">
-                      {est === 'pagado' ? <span className="text-primary-700">{fmtMoney(pagado, c.moneda)}</span>
-                        : pagado > 0 ? <span><span className="text-blue-700">{fmtMoney(pagado, c.moneda)}</span><span className="ad-faint"> · falta </span><span className="text-amber-700">{fmtMoney(saldo, c.moneda)}</span></span>
+                      {est === 'pagado' ? <span className="text-primary-300">{fmtMoney(pagado, c.moneda)}</span>
+                        : pagado > 0 ? <span><span className="text-sky-300">{fmtMoney(pagado, c.moneda)}</span><span className="ad-faint"> · falta </span><span className="text-amber-300">{fmtMoney(saldo, c.moneda)}</span></span>
                         : <span className="ad-faint">—</span>}
                     </td>
                     <td className="ad-td text-center"><span className={`ad-pill ${EST_PILL[est]}`}>{EST_LBL[est]}</span></td>
                     <td className="ad-td">
                       <div className="flex items-center justify-end gap-1">
                         {saldo > 0 && <button onClick={() => setGestion(c)} className="ad-btn ad-btn-soft ad-btn-sm">Registrar pago</button>}
-                        <button onClick={() => setComprobante(c)} title="Comprobante" className="p-1.5 rounded-lg hover:bg-[#eef1ef] ad-muted hover:text-primary-700 transition"><Printer className="w-4 h-4" /></button>
-                        <button onClick={() => remove(c)} title="Quitar" className="p-1.5 rounded-lg hover:bg-[#eef1ef] ad-muted hover:text-red-600 transition"><Trash2 className="w-4 h-4" /></button>
+                        <button onClick={() => setComprobante(c)} title="Comprobante" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Printer className="w-4 h-4" /></button>
+                        <button onClick={() => remove(c)} title="Quitar" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
                       </div>
                     </td>
                   </tr>
@@ -150,7 +150,7 @@ export default function Cobros() {
 }
 
 function Kpi({ label, value, tone, sub }) {
-  const cls = tone === 'amber' ? 'text-amber-700' : tone === 'green' ? 'text-primary-700' : 'ad-ink'
+  const cls = tone === 'amber' ? 'text-amber-300' : tone === 'green' ? 'text-primary-300' : 'ad-ink'
   return (
     <div className="ad-card p-4">
       <p className="text-xs uppercase tracking-wide ad-muted">{label}</p>

@@ -50,16 +50,16 @@ export default function Oportunidades() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div><h1 className="text-2xl font-bold ad-ink tracking-tight">Oportunidades</h1><p className="ad-muted text-sm mt-0.5">Posibles clientes y proyectos propios que estamos persiguiendo.</p></div>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-lg border ad-line overflow-hidden text-sm bg-white">
+          <div className="flex rounded-lg border ad-line overflow-hidden text-sm bg-transparent">
             {[{ v: 'todas', l: 'Todas' }, { v: 'lead', l: 'Clientes' }, { v: 'propio', l: 'Propios' }].map((f) => (
-              <button key={f.v} onClick={() => setFiltro(f.v)} className={`px-3 py-1.5 font-medium ${filtro === f.v ? 'bg-primary-50 text-primary-700' : 'ad-muted hover:bg-[#f3f6f4]'}`}>{f.l}</button>
+              <button key={f.v} onClick={() => setFiltro(f.v)} className={`px-3 py-1.5 font-medium ${filtro === f.v ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>{f.l}</button>
             ))}
           </div>
           <button onClick={() => setEditing({ ...VACIO })} className="ad-btn ad-btn-primary ad-btn-sm"><Plus className="w-4 h-4" /> Nueva</button>
         </div>
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       {loading ? (
         <div className="flex items-center gap-2 ad-muted text-sm py-10 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
@@ -97,18 +97,18 @@ function Card({ o, onEdit, onEtapa, onConvertir, onRemove }) {
       <div className="flex items-start justify-between gap-2">
         <button onClick={() => onEdit(o)} className="text-left min-w-0"><p className="text-sm font-semibold ad-ink truncate">{o.nombre}</p></button>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition shrink-0">
-          <button onClick={() => onEdit(o)} className="ad-faint hover:text-primary-700"><Pencil className="w-3.5 h-3.5" /></button>
-          <button onClick={() => onRemove(o)} className="ad-faint hover:text-red-600"><Trash2 className="w-3.5 h-3.5" /></button>
+          <button onClick={() => onEdit(o)} className="ad-faint hover:text-primary-300"><Pencil className="w-3.5 h-3.5" /></button>
+          <button onClick={() => onRemove(o)} className="ad-faint hover:text-red-400"><Trash2 className="w-3.5 h-3.5" /></button>
         </div>
       </div>
       <div className="flex items-center gap-1.5 mt-1 text-[11px] ad-faint"><Icon className="w-3 h-3" /> {tm.label}{o.contacto && <span className="truncate">· {o.contacto}</span>}</div>
       {o.proxima_accion && <div className={`mt-2 inline-flex items-center gap-1 text-[11px] rounded-md px-1.5 py-0.5 ${atras ? 'ad-pill-red' : 'ad-pill-gray'}`}><Bell className="w-3 h-3" /> {o.proxima_accion}{o.proxima_fecha && <span>· {fmtFecha(o.proxima_fecha)}</span>}</div>}
       <div className="flex items-center justify-between mt-2 gap-2">
         {Number(o.valor) > 0 ? <span className="text-xs tabular-nums ad-muted">{fmtMoney(o.valor, o.moneda)}</span> : <span />}
-        <select value={o.etapa} onChange={(e) => onEtapa(o, e.target.value)} className="text-[11px] rounded border ad-line px-1.5 py-0.5 ad-muted bg-white outline-none">{ETAPAS.map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}</select>
+        <select value={o.etapa} onChange={(e) => onEtapa(o, e.target.value)} className="text-[11px] rounded border ad-line px-1.5 py-0.5 ad-muted bg-transparent outline-none">{ETAPAS.map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}</select>
       </div>
       {o.tipo === 'lead' && !o.cliente_id && <button onClick={() => onConvertir(o)} className="mt-2 w-full ad-btn ad-btn-soft ad-btn-sm"><UserCheck className="w-3.5 h-3.5" /> Convertir en cliente</button>}
-      {o.cliente_id && <p className="mt-2 text-[11px] text-primary-700 flex items-center gap-1"><UserCheck className="w-3 h-3" /> Ya es cliente</p>}
+      {o.cliente_id && <p className="mt-2 text-[11px] text-primary-300 flex items-center gap-1"><UserCheck className="w-3 h-3" /> Ya es cliente</p>}
     </div>
   )
 }
@@ -131,12 +131,12 @@ function Form({ initial, onSave, onClose }) {
           <L label="Canal / origen"><input value={f.canal || ''} onChange={s('canal')} placeholder="Instagram, referido…" className="ad-input" /></L>
           <L label="Valor estimado"><input type="number" min="0" step="0.01" value={f.valor ?? ''} onChange={s('valor')} className="ad-input" /></L>
           <L label="Moneda"><select value={f.moneda} onChange={s('moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}</select></L>
-          <div className="col-span-2 border-t ad-line pt-3"><p className="text-xs font-semibold uppercase tracking-wide text-primary-700">Próximo paso</p></div>
+          <div className="col-span-2 border-t ad-line pt-3"><p className="text-xs font-semibold uppercase tracking-wide text-primary-300">Próximo paso</p></div>
           <L label="Qué hacer"><input value={f.proxima_accion || ''} onChange={s('proxima_accion')} placeholder="Ej: mandar propuesta" className="ad-input" /></L>
           <L label="Cuándo"><input type="date" value={f.proxima_fecha || ''} onChange={s('proxima_fecha')} className="ad-input" /></L>
           <L label="Notas" full><textarea rows={2} value={f.notas || ''} onChange={s('notas')} className="ad-input" /></L>
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
         <div className="flex justify-end gap-2"><button type="button" onClick={onClose} className="ad-btn ad-btn-ghost">Cancelar</button><button type="submit" disabled={saving} className="ad-btn ad-btn-primary">{saving && <Loader2 className="w-4 h-4 animate-spin" />} Guardar</button></div>
       </form>
     </div>

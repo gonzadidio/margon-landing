@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Lock, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { login } from './api'
+import Logo from '../components/Logo'
 
 export default function Login({ onSuccess }) {
   const [password, setPassword] = useState('')
@@ -17,11 +18,9 @@ export default function Login({ onSuccess }) {
     <div className="ad-app flex items-center justify-center px-4 font-sans">
       <form onSubmit={handleSubmit} className="ad-card w-full max-w-sm p-8 space-y-6">
         <div className="flex flex-col items-center text-center gap-3">
-          <div className="grid place-items-center w-12 h-12 rounded-xl bg-primary-50 ring-1 ring-primary-200">
-            <Lock className="w-6 h-6 text-primary-600" />
-          </div>
+          <Logo src="/logo.png" alt="Margon" className="h-11 w-auto" />
           <div>
-            <h1 className="text-xl font-bold ad-ink">Margon · Panel interno</h1>
+            <h1 className="text-lg font-bold ad-ink">Panel interno</h1>
             <p className="text-sm ad-muted mt-1">Acceso restringido</p>
           </div>
         </div>
@@ -29,7 +28,7 @@ export default function Login({ onSuccess }) {
           <label className="text-xs font-medium uppercase tracking-wide ad-muted">Contraseña</label>
           <input type="password" autoFocus value={password} onChange={(e) => setPassword(e.target.value)} className="ad-input" placeholder="••••••••" />
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
         <button type="submit" disabled={loading || !password} className="ad-btn ad-btn-primary w-full py-2.5">
           {loading && <Loader2 className="w-4 h-4 animate-spin" />} Entrar
         </button>

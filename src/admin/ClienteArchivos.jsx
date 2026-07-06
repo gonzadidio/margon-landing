@@ -73,7 +73,7 @@ export default function ClienteArchivos({ clienteId, archivos = [], onChange }) 
         </div>
       </div>
 
-      {error && <p className="text-xs text-red-600 mb-2">{error}</p>}
+      {error && <p className="text-xs text-red-400 mb-2">{error}</p>}
 
       {archivos.length === 0 ? (
         <p className="text-sm ad-faint py-6 text-center">Todavía no subiste archivos.</p>
@@ -88,8 +88,8 @@ export default function ClienteArchivos({ clienteId, archivos = [], onChange }) 
                   <div className="flex items-center gap-2"><span className="text-sm ad-ink truncate">{a.nombre}</span><span className={`ad-pill ${cm.cls}`}>{cm.label}</span></div>
                   <p className="text-xs ad-faint">{fmtSize(a.tamano)} · {fmtFecha(a.created_at)}</p>
                 </div>
-                <button onClick={() => descargar(a)} className="p-1.5 rounded-lg hover:bg-[#eef1ef] ad-muted hover:text-primary-700 transition">{bajando === a.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}</button>
-                <button onClick={() => borrar(a)} className="p-1.5 rounded-lg hover:bg-[#eef1ef] ad-muted hover:text-red-600 transition"><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => descargar(a)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition">{bajando === a.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}</button>
+                <button onClick={() => borrar(a)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
               </div>
             )
           })}

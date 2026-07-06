@@ -29,7 +29,7 @@ export default function CobroForm({ initial, clientes, lockCliente = false, onSa
       <form onClick={(e) => e.stopPropagation()} onSubmit={submit} className="ad-card w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold ad-ink">Cargar cobro</h3>
-          <button type="button" onClick={onClose} className="p-1 rounded-lg hover:bg-[#eef1ef] ad-muted"><X className="w-5 h-5" /></button>
+          <button type="button" onClick={onClose} className="p-1 rounded-lg hover:bg-white/10 ad-muted"><X className="w-5 h-5" /></button>
         </div>
         <p className="text-xs ad-muted -mt-1">Setup inicial, abono o un cobro puntual. Podés cargarlo con <b>cualquier fecha</b> (sirve para cosas viejas).</p>
 
@@ -50,7 +50,7 @@ export default function CobroForm({ initial, clientes, lockCliente = false, onSa
           {pagado && <Field label="Método de pago" full><input value={form.metodo_pago || ''} onChange={set('metodo_pago')} placeholder="Transferencia, efectivo…" className="ad-input" /></Field>}
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
         <div className="flex justify-end gap-2 pt-1">
           <button type="button" onClick={onClose} className="ad-btn ad-btn-ghost">Cancelar</button>
           <button type="submit" disabled={saving} className="ad-btn ad-btn-primary">{saving && <Loader2 className="w-4 h-4 animate-spin" />} Guardar cobro</button>

@@ -65,7 +65,7 @@ export default function Clientes() {
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar cliente…" className="w-full bg-transparent py-2.5 text-sm outline-none ad-ink" />
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       {loading ? (
         <div className="flex items-center gap-2 ad-muted text-sm py-10 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
@@ -83,8 +83,8 @@ export default function Clientes() {
               {list.map((c) => (
                 <tr key={c.id} className="ad-hover transition">
                   <td className="ad-td">
-                    <button onClick={() => verCliente(c.id)} className="font-semibold ad-ink hover:text-primary-700 transition text-left flex items-center gap-2.5">
-                      <span className="w-8 h-8 rounded-lg bg-primary-50 text-primary-700 grid place-items-center text-xs font-bold">{c.nombre.slice(0, 2).toUpperCase()}</span>
+                    <button onClick={() => verCliente(c.id)} className="font-semibold ad-ink hover:text-primary-300 transition text-left flex items-center gap-2.5">
+                      <span className="w-8 h-8 rounded-lg bg-primary-500/15 text-primary-300 grid place-items-center text-xs font-bold">{c.nombre.slice(0, 2).toUpperCase()}</span>
                       <span>{c.nombre}{c.proyecto && <span className="block text-xs ad-faint font-normal">{c.proyecto}</span>}</span>
                     </button>
                   </td>
@@ -92,16 +92,16 @@ export default function Clientes() {
                   <td className="ad-td">
                     <div className="flex items-center justify-center gap-3 text-xs ad-muted">
                       {Number(c.proyectos_count) > 0 && <span className="flex items-center gap-1"><FolderKanban className="w-3.5 h-3.5" /> {c.proyectos_count}</span>}
-                      {Number(c.pendientes_count) > 0 && <span className="flex items-center gap-1 text-amber-700"><Bell className="w-3.5 h-3.5" /> {c.pendientes_count}</span>}
+                      {Number(c.pendientes_count) > 0 && <span className="flex items-center gap-1 text-amber-300"><Bell className="w-3.5 h-3.5" /> {c.pendientes_count}</span>}
                       {Number(c.proyectos_count) === 0 && Number(c.pendientes_count) === 0 && '—'}
                     </div>
                   </td>
-                  <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto_mensual, c.moneda)}{c.moneda === 'USD' && <span className="text-xs text-primary-700 ml-1">USD</span>}</td>
+                  <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto_mensual, c.moneda)}{c.moneda === 'USD' && <span className="text-xs text-primary-300 ml-1">USD</span>}</td>
                   <td className="ad-td text-center"><span className={`ad-pill ${c.estado === 'activo' ? 'ad-pill-green' : 'ad-pill-gray'}`}>{c.estado}</span></td>
                   <td className="ad-td">
                     <div className="flex items-center justify-end gap-1">
-                      <button onClick={() => setEditing(c)} className="p-1.5 rounded-lg hover:bg-[#eef1ef] ad-muted hover:text-primary-700 transition"><Pencil className="w-4 h-4" /></button>
-                      <button onClick={() => remove(c)} className="p-1.5 rounded-lg hover:bg-[#eef1ef] ad-muted hover:text-red-600 transition"><Trash2 className="w-4 h-4" /></button>
+                      <button onClick={() => setEditing(c)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Pencil className="w-4 h-4" /></button>
+                      <button onClick={() => remove(c)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   </td>
                 </tr>
@@ -132,7 +132,7 @@ function ClienteForm({ initial, onSave, onClose }) {
       <form onClick={(e) => e.stopPropagation()} onSubmit={submit} className="ad-card w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold ad-ink">{form.id ? 'Editar cliente' : 'Nuevo cliente'}</h3>
-          <button type="button" onClick={onClose} className="p-1 rounded-lg hover:bg-[#eef1ef] ad-muted"><X className="w-5 h-5" /></button>
+          <button type="button" onClick={onClose} className="p-1 rounded-lg hover:bg-white/10 ad-muted"><X className="w-5 h-5" /></button>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <Field label="Nombre *" full><input required value={form.nombre} onChange={set('nombre')} className="ad-input" /></Field>
@@ -150,7 +150,7 @@ function ClienteForm({ initial, onSave, onClose }) {
           {!form.id && (
             <>
               <div className="col-span-2 border-t ad-line pt-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Setup inicial · pago único (opcional)</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-violet-300">Setup inicial · pago único (opcional)</p>
                 <p className="text-[11px] ad-faint mt-0.5">Si cobrás una puesta en marcha, ponés el monto y se registra solo.</p>
               </div>
               <Field label={`Monto del setup (${form.moneda})`}><input type="number" min="0" step="0.01" value={form.setup_monto} onChange={set('setup_monto')} placeholder="0" className="ad-input" /></Field>
@@ -160,7 +160,7 @@ function ClienteForm({ initial, onSave, onClose }) {
 
           <Field label="Notas" full><textarea rows={2} value={form.notas || ''} onChange={set('notas')} className="ad-input" /></Field>
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
         <div className="flex justify-end gap-2 pt-1">
           <button type="button" onClick={onClose} className="ad-btn ad-btn-ghost">Cancelar</button>
           <button type="submit" disabled={saving} className="ad-btn ad-btn-primary">{saving && <Loader2 className="w-4 h-4 animate-spin" />} Guardar</button>
