@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Loader2, CheckCircle2, Clock, AlertTriangle, Printer } from 'lucide-react'
 import { apiFetch } from './api'
+import { fmtMoney } from './format'
 import Comprobante from './Comprobante'
-
-const fmtMoney = (n) =>
-  new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(Number(n) || 0)
 
 const ESTADOS = [
   { v: 'pendiente', label: 'Pendiente', icon: Clock, cls: 'bg-amber-500/15 text-amber-300 ring-amber-500/20' },
@@ -15,7 +13,7 @@ const ESTADOS = [
 export default function Pagos() {
   const [periodo, setPeriodo] = useState(() => new Date().toISOString().slice(0, 7))
   const [cobros, setCobros] = useState([])
-  const [resumen, setResumen] = useState(null)
+  const [resumen, setResumen] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [comprobante, setComprobante] = useState(null)
@@ -58,13 +56,18 @@ export default function Pagos() {
         />
       </div>
 
-      {resumen && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <Card label="Facturado" value={fmtMoney(resumen.facturado)} sub={`${resumen.cantidad} cobro(s)`} />
-          <Card label="Cobrado" value={fmtMoney(resumen.cobrado)} sub={`${resumen.pagados} pagado(s)`} accent="primary" />
-          <Card label="Pendiente" value={fmtMoney(resumen.pendiente)} sub="por cobrar" accent="amber" />
-        </div>
-      )}
+      {resumen.length > 0 && (() => {
+        // El resumen viene agrupado por moneda; combinamos las monedas en cada card.
+        const money = (campo) => resumen.map((r) => fmtMoney(r[campo], r.moneda)).join('  ·  ')
+        const sum = (campo) => resumen.reduce((s, r) => s + Number(r[campo] || 0), 0)
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <Card label="Facturado" value={money('facturado')} sub={`${sum('cantidad')} cobro(s)`} />
+            <Card label="Cobrado" value={money('cobrado')} sub={`${sum('pagados')} pagado(s)`} accent="primary" />
+            <Card label="Pendiente" value={money('pendiente')} sub="por cobrar" accent="amber" />
+          </div>
+        )
+      })()}
 
       {error && <p className="text-sm text-red-400">{error}</p>}
 
@@ -94,7 +97,7 @@ export default function Pagos() {
                 return (
                   <tr key={c.id} className={`transition ${deudor ? 'bg-red-500/[0.03]' : ''} hover:bg-surface-900/30`}>
                     <td className="px-4 py-3 font-medium text-white">{c.cliente_nombre}</td>
-                    <td className="px-4 py-3 text-right tabular-nums">{fmtMoney(c.monto)}</td>
+                    <td className="px-4 py-3 text-right tabular-nums">{fmtMoney(c.monto, c.moneda)}</td>
                     <td className="px-4 py-3 text-surface-200/60">{c.fecha_pago || '—'}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-center gap-1">

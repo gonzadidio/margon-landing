@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react'
-import { Plus, Pencil, Trash2, X, Loader2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Loader2, Eye, FolderKanban, Bell } from 'lucide-react'
 import { apiFetch } from './api'
+import { fmtMoney, MONEDAS } from './format'
+import { useNav } from './nav'
 
 const VACIO = {
   nombre: '', email: '', telefono: '', proyecto: '',
-  monto_mensual: '', estado: 'activo', notas: '',
+  monto_mensual: '', moneda: 'ARS', estado: 'activo', notas: '',
+  dia_cobro: '', sitio_url: '', canal: '', fecha_alta: '',
 }
-
-const fmtMoney = (n) =>
-  new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(Number(n) || 0)
 
 export default function Clientes() {
   const [clientes, setClientes] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [editing, setEditing] = useState(null) // null | {} (nuevo) | cliente
+  const { verCliente } = useNav()
 
   async function load() {
     setLoading(true)
@@ -28,7 +29,11 @@ export default function Clientes() {
   useEffect(() => { load() }, [])
 
   async function save(data) {
-    const payload = { ...data, monto_mensual: Number(data.monto_mensual) || 0 }
+    const payload = {
+      ...data,
+      monto_mensual: Number(data.monto_mensual) || 0,
+      dia_cobro: data.dia_cobro ? Number(data.dia_cobro) : null,
+    }
     if (data.id) {
       await apiFetch(`/clientes/${data.id}`, { method: 'PUT', body: JSON.stringify(payload) })
     } else {
@@ -39,7 +44,7 @@ export default function Clientes() {
   }
 
   async function remove(c) {
-    if (!confirm(`¿Eliminar a "${c.nombre}"? Se borran también sus cobros.`)) return
+    if (!confirm(`¿Eliminar a "${c.nombre}"? Se borran también sus cobros, proyectos y seguimientos.`)) return
     await apiFetch(`/clientes/${c.id}`, { method: 'DELETE' })
     load()
   }
@@ -72,8 +77,8 @@ export default function Clientes() {
             <thead className="bg-surface-900/40 text-surface-200/50 text-xs uppercase tracking-wide">
               <tr>
                 <th className="text-left font-medium px-4 py-3">Nombre</th>
-                <th className="text-left font-medium px-4 py-3">Proyecto</th>
                 <th className="text-left font-medium px-4 py-3">Contacto</th>
+                <th className="text-center font-medium px-4 py-3">Actividad</th>
                 <th className="text-right font-medium px-4 py-3">Abono mensual</th>
                 <th className="text-center font-medium px-4 py-3">Estado</th>
                 <th className="px-4 py-3"></th>
@@ -82,12 +87,28 @@ export default function Clientes() {
             <tbody className="divide-y divide-primary-500/5">
               {clientes.map((c) => (
                 <tr key={c.id} className="hover:bg-surface-900/30 transition">
-                  <td className="px-4 py-3 font-medium text-white">{c.nombre}</td>
-                  <td className="px-4 py-3 text-surface-200/70">{c.proyecto || '—'}</td>
-                  <td className="px-4 py-3 text-surface-200/70">
-                    {c.email || c.telefono || '—'}
+                  <td className="px-4 py-3">
+                    <button onClick={() => verCliente(c.id)} className="font-medium text-white hover:text-primary-300 transition text-left">
+                      {c.nombre}
+                    </button>
+                    {c.proyecto && <p className="text-xs text-surface-200/40">{c.proyecto}</p>}
                   </td>
-                  <td className="px-4 py-3 text-right tabular-nums">{fmtMoney(c.monto_mensual)}</td>
+                  <td className="px-4 py-3 text-surface-200/70">{c.email || c.telefono || '—'}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-center gap-3 text-xs text-surface-200/50">
+                      {Number(c.proyectos_count) > 0 && (
+                        <span className="flex items-center gap-1" title="Proyectos"><FolderKanban className="w-3.5 h-3.5" /> {c.proyectos_count}</span>
+                      )}
+                      {Number(c.pendientes_count) > 0 && (
+                        <span className="flex items-center gap-1 text-amber-300/80" title="Acciones pendientes"><Bell className="w-3.5 h-3.5" /> {c.pendientes_count}</span>
+                      )}
+                      {Number(c.proyectos_count) === 0 && Number(c.pendientes_count) === 0 && '—'}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-right tabular-nums">
+                    {fmtMoney(c.monto_mensual, c.moneda)}
+                    {c.moneda === 'USD' && <span className="text-xs text-primary-300/60 ml-1">USD</span>}
+                  </td>
                   <td className="px-4 py-3 text-center">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
                       c.estado === 'activo'
@@ -99,10 +120,13 @@ export default function Clientes() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
-                      <button onClick={() => setEditing(c)} className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-primary-300 transition">
+                      <button onClick={() => verCliente(c.id)} title="Ver ficha" className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-primary-300 transition">
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => setEditing(c)} title="Editar" className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-primary-300 transition">
                         <Pencil className="w-4 h-4" />
                       </button>
-                      <button onClick={() => remove(c)} className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-red-400 transition">
+                      <button onClick={() => remove(c)} title="Eliminar" className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-red-400 transition">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -153,7 +177,7 @@ function ClienteForm({ initial, onSave, onClose }) {
           <Field label="Nombre *" className="col-span-2">
             <input required value={form.nombre} onChange={set('nombre')} className={inputCls} />
           </Field>
-          <Field label="Proyecto" className="col-span-2">
+          <Field label="Proyecto / referencia" className="col-span-2">
             <input value={form.proyecto || ''} onChange={set('proyecto')} className={inputCls} />
           </Field>
           <Field label="Email">
@@ -162,8 +186,25 @@ function ClienteForm({ initial, onSave, onClose }) {
           <Field label="Teléfono">
             <input value={form.telefono || ''} onChange={set('telefono')} className={inputCls} />
           </Field>
-          <Field label="Abono mensual (ARS)">
+          <Field label="Sitio web">
+            <input value={form.sitio_url || ''} onChange={set('sitio_url')} placeholder="https://…" className={inputCls} />
+          </Field>
+          <Field label="Canal de captación">
+            <input value={form.canal || ''} onChange={set('canal')} placeholder="Instagram, referido…" className={inputCls} />
+          </Field>
+          <Field label="Abono mensual">
             <input type="number" min="0" step="0.01" value={form.monto_mensual ?? ''} onChange={set('monto_mensual')} className={inputCls} />
+          </Field>
+          <Field label="Moneda">
+            <select value={form.moneda} onChange={set('moneda')} className={inputCls}>
+              {MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </Field>
+          <Field label="Día de cobro (1-28)">
+            <input type="number" min="1" max="28" value={form.dia_cobro ?? ''} onChange={set('dia_cobro')} placeholder="Ej: 10" className={inputCls} />
+          </Field>
+          <Field label="Cliente desde">
+            <input type="date" value={form.fecha_alta || ''} onChange={set('fecha_alta')} className={inputCls} />
           </Field>
           <Field label="Estado">
             <select value={form.estado} onChange={set('estado')} className={inputCls}>

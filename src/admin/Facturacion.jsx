@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Zap, Trash2, Loader2, Check, Printer } from 'lucide-react'
 import { apiFetch } from './api'
+import { fmtMoney } from './format'
 import Comprobante from './Comprobante'
-
-const fmtMoney = (n) =>
-  new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(Number(n) || 0)
 
 export default function Facturacion() {
   const [periodo, setPeriodo] = useState(() => new Date().toISOString().slice(0, 7))
@@ -54,7 +52,13 @@ export default function Facturacion() {
     load()
   }
 
-  const total = cobros.reduce((s, c) => s + Number(c.monto), 0)
+  // Total agrupado por moneda (ARS y USD no se mezclan)
+  const totalPorMoneda = cobros.reduce((acc, c) => {
+    const m = c.moneda || 'ARS'
+    acc[m] = (acc[m] || 0) + Number(c.monto)
+    return acc
+  }, {})
+  const totalStr = Object.entries(totalPorMoneda).map(([m, v]) => fmtMoney(v, m)).join('  ·  ') || fmtMoney(0)
 
   return (
     <div className="space-y-5">
@@ -102,6 +106,7 @@ export default function Facturacion() {
                 <th className="text-left font-medium px-4 py-3">Cliente</th>
                 <th className="text-left font-medium px-4 py-3">Estado</th>
                 <th className="text-right font-medium px-4 py-3">Monto</th>
+                <th className="text-center font-medium px-4 py-3">Moneda</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
@@ -121,6 +126,7 @@ export default function Facturacion() {
                       className="w-32 text-right tabular-nums rounded-lg bg-surface-900/60 border border-primary-500/15 px-2 py-1.5 text-white outline-none focus:border-primary-400/50"
                     />
                   </td>
+                  <td className="px-4 py-3 text-center text-xs text-surface-200/60">{c.moneda || 'ARS'}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => setComprobante(c)} title="Comprobante de pago" className="p-1.5 rounded hover:bg-surface-800 text-surface-200/60 hover:text-primary-300 transition">
@@ -137,7 +143,7 @@ export default function Facturacion() {
             <tfoot>
               <tr className="border-t border-primary-500/10 font-semibold text-white">
                 <td className="px-4 py-3" colSpan={2}>Total facturado</td>
-                <td className="px-4 py-3 text-right tabular-nums">{fmtMoney(total)}</td>
+                <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap" colSpan={2}>{totalStr}</td>
                 <td></td>
               </tr>
             </tfoot>

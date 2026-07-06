@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import { Printer, X } from 'lucide-react'
+import { fmtMoney } from './format'
 
 const MESES = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
 ]
-
-const fmtMoney = (n) =>
-  new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(Number(n) || 0)
 
 // "2026-06" -> "Junio 2026"
 function periodoLargo(periodo) {
@@ -109,7 +107,7 @@ export default function Comprobante({ cobro, hoy, onClose }) {
               <tr className="border-b border-zinc-100">
                 <td className="py-4 pr-4 text-zinc-700">{concepto}</td>
                 <td className="py-4 text-right font-medium text-zinc-900 tabular-nums whitespace-nowrap">
-                  {fmtMoney(cobro.monto)}
+                  {fmtMoney(cobro.monto, cobro.moneda)}
                 </td>
               </tr>
             </tbody>
@@ -120,7 +118,7 @@ export default function Comprobante({ cobro, hoy, onClose }) {
             <div className="w-64">
               <div className="flex items-center justify-between border-t-2 border-zinc-800 pt-3">
                 <span className="font-bold text-zinc-900">TOTAL</span>
-                <span className="text-xl font-extrabold text-zinc-900 tabular-nums">{fmtMoney(cobro.monto)}</span>
+                <span className="text-xl font-extrabold text-zinc-900 tabular-nums">{fmtMoney(cobro.monto, cobro.moneda)}</span>
               </div>
             </div>
           </div>
