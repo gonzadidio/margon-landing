@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import express from 'express'
+import multer from 'multer'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { pool, initDb } from './db.js'
@@ -7,6 +8,9 @@ import { login, verifyToken } from './auth.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const distDir = path.join(__dirname, '..', 'dist')
+
+// Archivos en memoria (van a Postgres como bytea). Límite 15 MB por archivo.
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } })
 
 const app = express()
 app.use(express.json())
@@ -39,14 +43,15 @@ api.get('/clientes', async (_req, res, next) => {
 api.get('/clientes/:id', async (req, res, next) => {
   try {
     const id = req.params.id
-    const [cli, proy, cob, seg] = await Promise.all([
+    const [cli, proy, cob, seg, arch] = await Promise.all([
       pool.query('SELECT * FROM clientes WHERE id=$1', [id]),
       pool.query('SELECT * FROM proyectos WHERE cliente_id=$1 ORDER BY created_at DESC', [id]),
       pool.query('SELECT * FROM cobros WHERE cliente_id=$1 ORDER BY periodo DESC', [id]),
       pool.query('SELECT * FROM seguimientos WHERE cliente_id=$1 ORDER BY fecha DESC, id DESC', [id]),
+      pool.query('SELECT id, categoria, nombre, mime, tamano, descripcion, created_at FROM archivos WHERE cliente_id=$1 ORDER BY created_at DESC', [id]),
     ])
     if (!cli.rows[0]) return res.status(404).json({ error: 'Cliente no encontrado' })
-    res.json({ ...cli.rows[0], proyectos: proy.rows, cobros: cob.rows, seguimientos: seg.rows })
+    res.json({ ...cli.rows[0], proyectos: proy.rows, cobros: cob.rows, seguimientos: seg.rows, archivos: arch.rows })
   } catch (e) { next(e) }
 })
 
@@ -211,6 +216,54 @@ api.put('/seguimientos/:id', async (req, res, next) => {
 api.delete('/seguimientos/:id', async (req, res, next) => {
   try {
     await pool.query('DELETE FROM seguimientos WHERE id=$1', [req.params.id])
+    res.status(204).end()
+  } catch (e) { next(e) }
+})
+
+// ---------- Archivos adjuntos ----------
+// Listado (metadata) de archivos de un cliente
+api.get('/clientes/:id/archivos', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT id, categoria, nombre, mime, tamano, descripcion, created_at
+         FROM archivos WHERE cliente_id=$1 ORDER BY created_at DESC`,
+      [req.params.id]
+    )
+    res.json(rows)
+  } catch (e) { next(e) }
+})
+
+// Subir un archivo (multipart, campo "archivo")
+api.post('/clientes/:id/archivos', upload.single('archivo'), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No se recibió ningún archivo' })
+    const { categoria, descripcion, proyecto_id } = req.body
+    const { rows } = await pool.query(
+      `INSERT INTO archivos (cliente_id, proyecto_id, categoria, nombre, mime, tamano, datos, descripcion)
+       VALUES ($1,$2,COALESCE($3,'otro'),$4,$5,$6,$7,$8)
+       RETURNING id, categoria, nombre, mime, tamano, descripcion, created_at`,
+      [req.params.id, proyecto_id || null, categoria, req.file.originalname,
+       req.file.mimetype, req.file.size, req.file.buffer, descripcion || null]
+    )
+    res.status(201).json(rows[0])
+  } catch (e) { next(e) }
+})
+
+// Descargar / ver un archivo
+api.get('/archivos/:id', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query('SELECT nombre, mime, datos FROM archivos WHERE id=$1', [req.params.id])
+    if (!rows[0]) return res.status(404).json({ error: 'Archivo no encontrado' })
+    const a = rows[0]
+    res.setHeader('Content-Type', a.mime || 'application/octet-stream')
+    res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(a.nombre)}"`)
+    res.send(a.datos)
+  } catch (e) { next(e) }
+})
+
+api.delete('/archivos/:id', async (req, res, next) => {
+  try {
+    await pool.query('DELETE FROM archivos WHERE id=$1', [req.params.id])
     res.status(204).end()
   } catch (e) { next(e) }
 })
@@ -397,6 +450,12 @@ app.use('/api', api)
 
 // Error handler de la API
 app.use('/api', (err, _req, res, _next) => {
+  if (err instanceof multer.MulterError) {
+    const msg = err.code === 'LIMIT_FILE_SIZE'
+      ? 'El archivo supera el límite de 15 MB.'
+      : 'No se pudo subir el archivo.'
+    return res.status(400).json({ error: msg })
+  }
   console.error('[api error]', err)
   res.status(500).json({ error: 'Error interno del servidor' })
 })

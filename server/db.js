@@ -106,5 +106,23 @@ export async function initDb() {
     );
   `)
 
+  // ---------- Archivos adjuntos ----------
+  // Facturas, informes mensuales, contratos, etc. Se guardan en la misma base
+  // (bytea) para no depender de disco ni de un servicio externo.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS archivos (
+      id          SERIAL PRIMARY KEY,
+      cliente_id  INTEGER REFERENCES clientes(id) ON DELETE CASCADE,
+      proyecto_id INTEGER REFERENCES proyectos(id) ON DELETE SET NULL,
+      categoria   TEXT NOT NULL DEFAULT 'otro',
+      nombre      TEXT NOT NULL,
+      mime        TEXT,
+      tamano      INTEGER,
+      datos       BYTEA NOT NULL,
+      descripcion TEXT,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
   console.log('[db] tablas listas')
 }

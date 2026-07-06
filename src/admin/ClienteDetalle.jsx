@@ -6,6 +6,7 @@ import {
 import { apiFetch } from './api'
 import { fmtMoney, fmtFecha, tipoCobroMeta } from './format'
 import CobroForm, { nuevoCobro } from './CobroForm'
+import ClienteArchivos from './ClienteArchivos'
 
 const ESTADO_PROY = {
   propuesta: 'Propuesta', desarrollo: 'Desarrollo', produccion: 'Producción',
@@ -156,6 +157,9 @@ export default function ClienteDetalle({ id, onClose }) {
                   </div>
                 )}
               </Section>
+
+              {/* Archivos adjuntos */}
+              <ClienteArchivos clienteId={data.id} archivos={data.archivos || []} onChange={load} />
 
               {/* Seguimientos */}
               <Section icon={MessageSquare} title="Seguimientos" count={data.seguimientos.length}>
