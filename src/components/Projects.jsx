@@ -104,9 +104,6 @@ export default function Projects() {
 
   return (
     <section id="proyectos" className="relative py-24 lg:py-32">
-      {/* halo suave detrás de la grilla, en línea con el resto del sitio */}
-      <div className="absolute inset-x-0 top-1/4 h-96 hero-glow pointer-events-none" />
-
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <AnimatedSection className="text-center max-w-3xl mx-auto mb-10">
           <span className="inline-block text-sm font-semibold uppercase tracking-widest text-primary-400 mb-4">
@@ -157,21 +154,17 @@ export default function Projects() {
 }
 
 function ProjectCard({ project, index }) {
-  const big = project.featured
   const Wrapper = project.url ? 'a' : 'div'
   const linkProps = project.url ? { href: project.url, target: '_blank', rel: 'noreferrer' } : {}
 
   return (
-    <AnimatedSection
-      delay={index * 0.06}
-      className={big ? 'md:col-span-2 lg:col-span-2' : ''}
-    >
+    <AnimatedSection delay={index * 0.06}>
       <Wrapper
         {...linkProps}
-        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-primary-500/25 hover:bg-white/[0.04] hover:glow-sm"
+        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-primary-500/25 hover:bg-white/[0.04]"
       >
         {/* Imagen */}
-        <div className={`relative overflow-hidden bg-black/30 ${big ? 'aspect-[16/9]' : 'aspect-[16/10]'}`}>
+        <div className="relative aspect-[16/10] overflow-hidden bg-black/30">
           <img
             src={project.image}
             alt={project.title}
@@ -194,20 +187,14 @@ function ProjectCard({ project, index }) {
         </div>
 
         {/* Contenido */}
-        <div className={`flex flex-1 flex-col ${big ? 'p-6 lg:p-7' : 'p-5'}`}>
-          <div className="mb-2 flex items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary-400">
-              {project.category}
-            </span>
-          </div>
+        <div className="flex flex-1 flex-col p-5">
+          <span className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary-400">
+            {project.category}
+          </span>
 
-          <h3 className={`font-bold text-white mb-2 ${big ? 'text-xl lg:text-2xl' : 'text-lg'}`}>
-            {project.title}
-          </h3>
+          <h3 className="text-lg font-bold text-white mb-2">{project.title}</h3>
 
-          <p className={`text-surface-200/50 leading-relaxed mb-4 ${big ? 'text-sm lg:text-[15px] max-w-xl' : 'text-sm'}`}>
-            {project.description}
-          </p>
+          <p className="text-sm text-surface-200/50 leading-relaxed mb-4">{project.description}</p>
 
           {/* Tags */}
           <div className="mt-auto flex flex-wrap gap-1.5">

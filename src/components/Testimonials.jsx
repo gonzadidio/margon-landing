@@ -1,4 +1,4 @@
-import { Star, Quote } from 'lucide-react'
+import { Star } from 'lucide-react'
 import AnimatedSection from './AnimatedSection'
 
 const testimonials = [
@@ -45,14 +45,7 @@ export default function Testimonials() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <AnimatedSection key={t.name} delay={i * 0.12}>
-              <figure className="relative h-full flex flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 lg:p-8 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04] hover:border-primary-500/20 hover:glow-sm">
-                {/* Comilla decorativa */}
-                <Quote
-                  size={40}
-                  className="absolute top-6 right-6 text-primary-500/10 fill-primary-500/10"
-                  aria-hidden
-                />
-
+              <figure className="relative h-full flex flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 lg:p-8 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04] hover:border-primary-500/20">
                 {/* Estrellas */}
                 <div className="flex gap-1 mb-5">
                   {Array.from({ length: t.stars }).map((_, j) => (
