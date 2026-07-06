@@ -1,92 +1,7 @@
 import { useState, useMemo } from 'react'
-import { ExternalLink, Monitor, Smartphone, ArrowUpRight } from 'lucide-react'
+import { Monitor, Smartphone, ArrowUpRight } from 'lucide-react'
 import AnimatedSection from './AnimatedSection'
-
-const projects = [
-  {
-    title: 'Punto Bella Vista',
-    category: 'Concesionaria',
-    group: 'Web',
-    description: 'Plataforma web para concesionaria multimarca con catálogo de vehículos, sistema de turnos online y panel de administración.',
-    image: '/projects/puntobellavista.png',
-    tags: ['Next.js', 'React', 'PostgreSQL', 'Prisma'],
-    type: 'web',
-    featured: true,
-  },
-  {
-    title: 'HandProX',
-    category: 'SaaS Deportivo',
-    group: 'SaaS',
-    description: 'Plataforma SaaS de gestión y análisis de handball con estadísticas en vivo, gestión de equipos y ligas.',
-    image: '/projects/handprox.png',
-    tags: ['Next.js', 'Fastify', 'Prisma', 'Socket.io'],
-    type: 'web',
-    featured: true,
-  },
-  {
-    title: 'Sinnergia',
-    category: 'Marketing Digital',
-    group: 'Web',
-    description: 'Landing page premium para agencia de marketing digital con animaciones, portfolio dinámico y formulario de contacto.',
-    image: '/projects/sinnergia.png',
-    tags: ['Next.js', 'React', 'Tailwind', 'Framer Motion'],
-    type: 'web',
-  },
-  {
-    title: 'Fleur & Co',
-    category: 'E-Commerce',
-    group: 'E-Commerce',
-    description: 'E-Commerce premium de flores artificiales con carrito, checkout, MercadoPago integrado y panel admin.',
-    image: '/projects/flores.png',
-    tags: ['Next.js', 'TypeScript', 'Prisma', 'MercadoPago'],
-    type: 'web',
-  },
-  {
-    title: 'Celebria',
-    category: 'Invitaciones Digitales',
-    group: 'Web',
-    description: 'Plataforma de invitaciones digitales interactivas con templates premium, editor en tiempo real y gestión de RSVP.',
-    image: '/projects/celebria.png',
-    tags: ['Next.js', 'TypeScript', 'Prisma', 'Framer Motion'],
-    type: 'web',
-  },
-  {
-    title: 'Bar — App',
-    category: 'Gastronomía',
-    group: 'Mobile',
-    description: 'Aplicación mobile para clientes del bar con wallet digital, sistema VIP, pedidos desde la mesa y reservas con QR.',
-    image: '/projects/rotta-app.png',
-    tags: ['React', 'NestJS', 'PostgreSQL', 'Redis'],
-    type: 'mobile',
-  },
-  {
-    title: 'Bar — Admin',
-    category: 'Gastronomía',
-    group: 'Web',
-    description: 'Panel de administración con métricas en tiempo real, gestión de pedidos, reservas, eventos y gamificación.',
-    image: '/projects/rotta-admin.png',
-    tags: ['Next.js', 'NestJS', 'PostgreSQL', 'Redis'],
-    type: 'web',
-  },
-  {
-    title: 'Pinturería',
-    category: 'E-Commerce',
-    group: 'E-Commerce',
-    description: 'E-Commerce de pinturas con asistente IA que calcula materiales, catálogo de +500 productos y buscador de sucursales.',
-    image: '/projects/pintureria.png',
-    tags: ['Next.js', 'React', 'Tailwind', 'OpenAI'],
-    type: 'web',
-  },
-  {
-    title: 'PadelLeague',
-    category: 'SaaS Deportivo',
-    group: 'SaaS',
-    description: 'Plataforma SaaS para torneos de pádel con fixtures automáticos, rankings en tiempo real y gestión de pagos.',
-    image: '/projects/padelleague.png',
-    tags: ['Next.js', 'NestJS', 'PostgreSQL', 'Stripe'],
-    type: 'web',
-  },
-]
+import { projects } from '../projectsData'
 
 // Filtros derivados de los datos, con su conteo real.
 const GROUPS = ['Todos', 'Web', 'E-Commerce', 'SaaS', 'Mobile']
@@ -154,13 +69,10 @@ export default function Projects() {
 }
 
 function ProjectCard({ project, index }) {
-  const Wrapper = project.url ? 'a' : 'div'
-  const linkProps = project.url ? { href: project.url, target: '_blank', rel: 'noreferrer' } : {}
-
   return (
     <AnimatedSection delay={index * 0.06}>
-      <Wrapper
-        {...linkProps}
+      <a
+        href={`/proyecto/${project.slug}`}
         className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-primary-500/25 hover:bg-white/[0.04]"
       >
         {/* Imagen */}
@@ -182,7 +94,7 @@ function ProjectCard({ project, index }) {
 
           {/* Acción al pasar el mouse */}
           <div className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-primary-500 text-[#04120c] opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-            {project.url ? <ExternalLink size={16} /> : <ArrowUpRight size={16} />}
+            <ArrowUpRight size={16} />
           </div>
         </div>
 
@@ -208,7 +120,7 @@ function ProjectCard({ project, index }) {
             ))}
           </div>
         </div>
-      </Wrapper>
+      </a>
     </AnimatedSection>
   )
 }
