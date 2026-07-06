@@ -55,7 +55,17 @@ export async function initDb() {
     ALTER TABLE cobros
       ADD COLUMN IF NOT EXISTS moneda      TEXT NOT NULL DEFAULT 'ARS',
       ADD COLUMN IF NOT EXISTS metodo_pago TEXT,
-      ADD COLUMN IF NOT EXISTS vencimiento DATE;
+      ADD COLUMN IF NOT EXISTS vencimiento DATE,
+      ADD COLUMN IF NOT EXISTS tipo        TEXT NOT NULL DEFAULT 'mensual',
+      ADD COLUMN IF NOT EXISTS concepto    TEXT;
+  `)
+
+  // Antes: un único cobro por (cliente, período). Ahora eso solo aplica a los
+  // cobros MENSUALES; los de tipo setup/único pueden repetirse en un mismo mes.
+  await pool.query(`ALTER TABLE cobros DROP CONSTRAINT IF EXISTS cobros_cliente_id_periodo_key`)
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS cobros_mensual_periodo_uidx
+      ON cobros (cliente_id, periodo) WHERE tipo = 'mensual'
   `)
 
   // ---------- Proyectos ----------

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Loader2, CheckCircle2, Clock, AlertTriangle, Printer } from 'lucide-react'
 import { apiFetch } from './api'
-import { fmtMoney } from './format'
+import { fmtMoney, tipoCobroMeta } from './format'
 import Comprobante from './Comprobante'
 
 const ESTADOS = [
@@ -96,7 +96,17 @@ export default function Pagos() {
                 const deudor = c.estado !== 'pagado'
                 return (
                   <tr key={c.id} className={`transition ${deudor ? 'bg-red-500/[0.03]' : ''} hover:bg-surface-900/30`}>
-                    <td className="px-4 py-3 font-medium text-white">{c.cliente_nombre}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-white">{c.cliente_nombre}</span>
+                        {c.tipo && c.tipo !== 'mensual' && (
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${tipoCobroMeta(c.tipo).cls}`}>
+                            {tipoCobroMeta(c.tipo).label}
+                          </span>
+                        )}
+                      </div>
+                      {c.concepto && <p className="text-xs text-surface-200/40">{c.concepto}</p>}
+                    </td>
                     <td className="px-4 py-3 text-right tabular-nums">{fmtMoney(c.monto, c.moneda)}</td>
                     <td className="px-4 py-3 text-surface-200/60">{c.fecha_pago || '—'}</td>
                     <td className="px-4 py-3">

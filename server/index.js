@@ -243,15 +243,16 @@ api.post('/cobros/generar', async (req, res, next) => {
       return res.status(400).json({ error: 'periodo debe tener formato YYYY-MM' })
     }
     const { rows } = await pool.query(
-      `INSERT INTO cobros (cliente_id, periodo, monto, moneda, vencimiento)
+      `INSERT INTO cobros (cliente_id, periodo, monto, moneda, vencimiento, tipo)
          SELECT id, $1, monto_mensual, moneda,
                 CASE WHEN dia_cobro IS NOT NULL
                      THEN (to_date($1 || '-01','YYYY-MM-DD')
                            + (LEAST(dia_cobro, 28) - 1) * INTERVAL '1 day')::date
-                     ELSE NULL END
+                     ELSE NULL END,
+                'mensual'
            FROM clientes
           WHERE estado = 'activo' AND monto_mensual > 0
-       ON CONFLICT (cliente_id, periodo) DO NOTHING
+       ON CONFLICT (cliente_id, periodo) WHERE tipo = 'mensual' DO NOTHING
        RETURNING *`,
       [periodo]
     )
@@ -259,17 +260,49 @@ api.post('/cobros/generar', async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
+// Cobro manual: cosas viejas / históricas y pagos únicos (setup inicial).
+api.post('/cobros', async (req, res, next) => {
+  try {
+    const { cliente_id, periodo, monto, moneda, estado, tipo, concepto,
+            fecha_emision, fecha_pago, vencimiento, metodo_pago, notas } = req.body
+    if (!cliente_id) return res.status(400).json({ error: 'Falta el cliente' })
+    if (!/^\d{4}-\d{2}$/.test(periodo || '')) {
+      return res.status(400).json({ error: 'periodo debe tener formato YYYY-MM' })
+    }
+    const est = estado || 'pendiente'
+    // Si nace pagado y no mandan fecha, usamos hoy.
+    const fp = est === 'pagado' ? (fecha_pago || new Date().toISOString().slice(0, 10)) : (fecha_pago || null)
+    const { rows } = await pool.query(
+      `INSERT INTO cobros
+         (cliente_id, periodo, monto, moneda, estado, tipo, concepto, fecha_emision, fecha_pago, vencimiento, metodo_pago, notas)
+       VALUES ($1,$2,$3,COALESCE($4,'ARS'),$5,COALESCE($6,'mensual'),$7,
+               COALESCE($8,CURRENT_DATE),$9,$10,$11,$12)
+       RETURNING *`,
+      [cliente_id, periodo, monto || 0, moneda, est, tipo, concepto,
+       fecha_emision || null, fp, vencimiento || null, metodo_pago, notas]
+    )
+    res.status(201).json(rows[0])
+  } catch (e) {
+    // Choque con el cobro mensual único del período.
+    if (e.code === '23505') {
+      return res.status(409).json({ error: 'Ya existe un cobro mensual para ese cliente y período.' })
+    }
+    next(e)
+  }
+})
+
 api.put('/cobros/:id', async (req, res, next) => {
   try {
-    const { monto, estado, fecha_pago, notas, metodo_pago } = req.body
+    const { monto, estado, fecha_pago, notas, metodo_pago, tipo, concepto } = req.body
     // Si pasa a pagado y no mandan fecha, usamos hoy; si vuelve a pendiente, la limpiamos.
     const fp = estado === 'pagado' ? (fecha_pago || new Date().toISOString().slice(0, 10))
              : estado === 'pendiente' || estado === 'vencido' ? null
              : fecha_pago
     const { rows } = await pool.query(
       `UPDATE cobros SET monto=COALESCE($1,monto), estado=COALESCE($2,estado),
-         fecha_pago=$3, notas=$4, metodo_pago=COALESCE($5,metodo_pago) WHERE id=$6 RETURNING *`,
-      [monto, estado, fp, notas, metodo_pago, req.params.id]
+         fecha_pago=$3, notas=$4, metodo_pago=COALESCE($5,metodo_pago),
+         tipo=COALESCE($6,tipo), concepto=COALESCE($7,concepto) WHERE id=$8 RETURNING *`,
+      [monto, estado, fp, notas, metodo_pago, tipo, concepto, req.params.id]
     )
     if (!rows[0]) return res.status(404).json({ error: 'Cobro no encontrado' })
     res.json(rows[0])

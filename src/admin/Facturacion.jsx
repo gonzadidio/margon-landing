@@ -1,28 +1,44 @@
 import { useEffect, useState } from 'react'
-import { Zap, Trash2, Loader2, Check, Printer } from 'lucide-react'
+import { Zap, Trash2, Loader2, Check, Printer, Plus } from 'lucide-react'
 import { apiFetch } from './api'
-import { fmtMoney } from './format'
+import { fmtMoney, tipoCobroMeta } from './format'
 import Comprobante from './Comprobante'
+import CobroForm, { nuevoCobro } from './CobroForm'
 
 export default function Facturacion() {
   const [periodo, setPeriodo] = useState(() => new Date().toISOString().slice(0, 7))
   const [cobros, setCobros] = useState([])
+  const [clientes, setClientes] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [msg, setMsg] = useState('')
   const [generando, setGenerando] = useState(false)
   const [comprobante, setComprobante] = useState(null)
+  const [manual, setManual] = useState(null) // null | form de cobro manual
 
   async function load() {
     setLoading(true)
     try {
-      setCobros(await apiFetch(`/cobros?periodo=${periodo}`))
+      const [cob, cli] = await Promise.all([
+        apiFetch(`/cobros?periodo=${periodo}`),
+        apiFetch('/clientes'),
+      ])
+      setCobros(cob)
+      setClientes(cli)
       setError('')
     } catch (e) { setError(e.message) }
     finally { setLoading(false) }
   }
 
   useEffect(() => { load() }, [periodo])
+
+  async function guardarManual(data) {
+    await apiFetch('/cobros', { method: 'POST', body: JSON.stringify(data) })
+    setManual(null)
+    // Nos movemos al período del cobro cargado para que se vea al instante.
+    if (data.periodo && data.periodo !== periodo) setPeriodo(data.periodo)
+    else load()
+  }
 
   async function generar() {
     setGenerando(true)
@@ -72,6 +88,13 @@ export default function Facturacion() {
             className="rounded-lg bg-surface-900/60 border border-primary-500/15 px-3 py-2 text-white text-sm outline-none focus:border-primary-400/50"
           />
           <button
+            onClick={() => setManual(nuevoCobro(clientes[0]?.id || ''))}
+            disabled={clientes.length === 0}
+            className="flex items-center gap-2 rounded-lg border border-primary-500/25 text-primary-300 hover:bg-primary-500/10 disabled:opacity-40 font-semibold text-sm px-3.5 py-2 transition"
+          >
+            <Plus className="w-4 h-4" /> Cobro manual
+          </button>
+          <button
             onClick={generar}
             disabled={generando}
             className="flex items-center gap-2 rounded-lg bg-primary-500 hover:bg-primary-400 disabled:opacity-50 text-[#0a0f0d] font-semibold text-sm px-3.5 py-2 transition"
@@ -104,6 +127,7 @@ export default function Facturacion() {
             <thead className="bg-surface-900/40 text-surface-200/50 text-xs uppercase tracking-wide">
               <tr>
                 <th className="text-left font-medium px-4 py-3">Cliente</th>
+                <th className="text-left font-medium px-4 py-3">Tipo</th>
                 <th className="text-left font-medium px-4 py-3">Estado</th>
                 <th className="text-right font-medium px-4 py-3">Monto</th>
                 <th className="text-center font-medium px-4 py-3">Moneda</th>
@@ -113,7 +137,15 @@ export default function Facturacion() {
             <tbody className="divide-y divide-primary-500/5">
               {cobros.map((c) => (
                 <tr key={c.id} className="hover:bg-surface-900/30 transition">
-                  <td className="px-4 py-3 font-medium text-white">{c.cliente_nombre}</td>
+                  <td className="px-4 py-3">
+                    <span className="font-medium text-white">{c.cliente_nombre}</span>
+                    {c.concepto && <p className="text-xs text-surface-200/40">{c.concepto}</p>}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${tipoCobroMeta(c.tipo).cls}`}>
+                      {tipoCobroMeta(c.tipo).label}
+                    </span>
+                  </td>
                   <td className="px-4 py-3 text-surface-200/70">{c.estado}</td>
                   <td className="px-4 py-3 text-right">
                     <input
@@ -142,7 +174,7 @@ export default function Facturacion() {
             </tbody>
             <tfoot>
               <tr className="border-t border-primary-500/10 font-semibold text-white">
-                <td className="px-4 py-3" colSpan={2}>Total facturado</td>
+                <td className="px-4 py-3" colSpan={3}>Total facturado</td>
                 <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap" colSpan={2}>{totalStr}</td>
                 <td></td>
               </tr>
@@ -156,6 +188,15 @@ export default function Facturacion() {
           cobro={comprobante}
           hoy={new Date().toISOString()}
           onClose={() => setComprobante(null)}
+        />
+      )}
+
+      {manual && (
+        <CobroForm
+          initial={manual}
+          clientes={clientes}
+          onSave={guardarManual}
+          onClose={() => setManual(null)}
         />
       )}
     </div>

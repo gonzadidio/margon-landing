@@ -13,6 +13,15 @@ export function fmtMoney(n, moneda = 'ARS') {
 
 export const MONEDAS = ['ARS', 'USD']
 
+// Tipos de cobro. 'mensual' = recurrente; 'setup' = pago único inicial;
+// 'unico' = cualquier otro cobro puntual / histórico.
+export const TIPOS_COBRO = [
+  { v: 'mensual', label: 'Mensual', cls: 'bg-surface-800 text-surface-200/60' },
+  { v: 'setup',   label: 'Setup',   cls: 'bg-violet-500/15 text-violet-300' },
+  { v: 'unico',   label: 'Único',   cls: 'bg-sky-500/15 text-sky-300' },
+]
+export const tipoCobroMeta = (v) => TIPOS_COBRO.find((t) => t.v === v) || TIPOS_COBRO[0]
+
 // "2026-06-30" | ISO | Date -> "30/06/2026"
 export function fmtFecha(v) {
   if (!v) return ''

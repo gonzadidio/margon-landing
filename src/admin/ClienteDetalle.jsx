@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import {
   X, Loader2, Mail, Phone, Globe, Calendar, FolderKanban, Wallet,
-  MessageSquare, Github, ExternalLink, CheckCircle2, Clock,
+  MessageSquare, Github, ExternalLink, CheckCircle2, Clock, Plus,
 } from 'lucide-react'
 import { apiFetch } from './api'
-import { fmtMoney, fmtFecha } from './format'
+import { fmtMoney, fmtFecha, tipoCobroMeta } from './format'
+import CobroForm, { nuevoCobro } from './CobroForm'
 
 const ESTADO_PROY = {
   propuesta: 'Propuesta', desarrollo: 'Desarrollo', produccion: 'Producción',
@@ -15,14 +16,23 @@ export default function ClienteDetalle({ id, onClose }) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [manual, setManual] = useState(null) // form de cobro manual
 
-  useEffect(() => {
+  const load = useCallback(() => {
     setLoading(true)
     apiFetch(`/clientes/${id}`)
       .then(setData)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
   }, [id])
+
+  useEffect(() => { load() }, [load])
+
+  async function guardarCobro(payload) {
+    await apiFetch('/cobros', { method: 'POST', body: JSON.stringify(payload) })
+    setManual(null)
+    load()
+  }
 
   // Totales del historial de pagos (por moneda)
   const pagado = {}
@@ -110,21 +120,39 @@ export default function ClienteDetalle({ id, onClose }) {
               </Section>
 
               {/* Historial de pagos */}
-              <Section icon={Wallet} title="Historial de pagos" count={data.cobros.length}>
+              <Section
+                icon={Wallet}
+                title="Historial de pagos"
+                count={data.cobros.length}
+                action={
+                  <button
+                    onClick={() => setManual(nuevoCobro(data.id, data.moneda))}
+                    className="inline-flex items-center gap-1 text-xs text-primary-300 hover:text-primary-200 transition"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Agregar cobro
+                  </button>
+                }
+              >
                 {data.cobros.length === 0 ? <Vacio /> : (
                   <div className="space-y-1">
-                    {data.cobros.map((c) => (
-                      <div key={c.id} className="flex items-center justify-between gap-2 py-1.5 border-b border-primary-500/5 last:border-0">
-                        <div className="flex items-center gap-2 min-w-0">
-                          {c.estado === 'pagado'
-                            ? <CheckCircle2 className="w-4 h-4 text-primary-300 shrink-0" />
-                            : <Clock className="w-4 h-4 text-amber-300 shrink-0" />}
-                          <span className="text-sm text-surface-200/80">{c.periodo}</span>
-                          {c.fecha_pago && <span className="text-xs text-surface-200/40">· pagó {fmtFecha(c.fecha_pago)}</span>}
+                    {data.cobros.map((c) => {
+                      const tm = tipoCobroMeta(c.tipo)
+                      return (
+                        <div key={c.id} className="flex items-center justify-between gap-2 py-1.5 border-b border-primary-500/5 last:border-0">
+                          <div className="flex items-center gap-2 min-w-0">
+                            {c.estado === 'pagado'
+                              ? <CheckCircle2 className="w-4 h-4 text-primary-300 shrink-0" />
+                              : <Clock className="w-4 h-4 text-amber-300 shrink-0" />}
+                            <span className="text-sm text-surface-200/80">{c.concepto || c.periodo}</span>
+                            {c.tipo !== 'mensual' && (
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${tm.cls}`}>{tm.label}</span>
+                            )}
+                            {c.fecha_pago && <span className="text-xs text-surface-200/40 hidden sm:inline">· {fmtFecha(c.fecha_pago)}</span>}
+                          </div>
+                          <span className="text-sm tabular-nums text-surface-200/80 shrink-0">{fmtMoney(c.monto, c.moneda)}</span>
                         </div>
-                        <span className="text-sm tabular-nums text-surface-200/80">{fmtMoney(c.monto, c.moneda)}</span>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 )}
               </Section>
@@ -152,6 +180,16 @@ export default function ClienteDetalle({ id, onClose }) {
           </>
         )}
       </div>
+
+      {manual && data && (
+        <CobroForm
+          initial={manual}
+          clientes={[{ id: data.id, nombre: data.nombre }]}
+          lockCliente
+          onSave={guardarCobro}
+          onClose={() => setManual(null)}
+        />
+      )}
     </div>
   )
 }
@@ -180,13 +218,16 @@ function Mini({ label, value, accent }) {
   )
 }
 
-function Section({ icon: Icon, title, count, children }) {
+function Section({ icon: Icon, title, count, children, action }) {
   return (
     <div>
-      <h3 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
-        <Icon className="w-4 h-4 text-primary-300" /> {title}
-        <span className="text-xs font-normal text-surface-200/40">{count}</span>
-      </h3>
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
+          <Icon className="w-4 h-4 text-primary-300" /> {title}
+          <span className="text-xs font-normal text-surface-200/40">{count}</span>
+        </h3>
+        {action}
+      </div>
       {children}
     </div>
   )
