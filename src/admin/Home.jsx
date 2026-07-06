@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {
   Loader2, TrendingUp, Wallet, AlertTriangle, Users, FolderKanban,
-  CalendarClock, ArrowRight, CheckCircle2,
+  CalendarClock, ArrowRight, CheckCircle2, Coins,
 } from 'lucide-react'
 import { apiFetch } from './api'
 import { fmtMoney, fmtFecha, diasHasta } from './format'
@@ -65,6 +65,13 @@ export default function Home() {
   const deuda = porMoneda(data.deuda, 'total')
   const deudaCant = (data.deuda || []).reduce((s, r) => s + Number(r.cantidad || 0), 0)
 
+  // Ingresos no recurrentes (setup + únicos), cobrados, por moneda y por tipo.
+  const extras = data.extras || []
+  const extrasCobrado = porMoneda(extras, 'cobrado')
+  const setupCant = extras.filter((r) => r.tipo === 'setup').reduce((s, r) => s + Number(r.cantidad || 0), 0)
+  const unicoCant = extras.filter((r) => r.tipo === 'unico').reduce((s, r) => s + Number(r.cantidad || 0), 0)
+  const hayExtras = Object.values(extrasCobrado).some(Boolean) || setupCant + unicoCant > 0
+
   return (
     <div className="space-y-6">
       <div className="flex items-end justify-between">
@@ -96,6 +103,24 @@ export default function Home() {
           </p>
         </Kpi>
       </div>
+
+      {/* Ingresos no recurrentes: setup + cobros únicos (aparte del MRR) */}
+      {hayExtras && (
+        <div className="glass rounded-xl p-4 ring-1 ring-violet-500/20 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="grid place-items-center w-10 h-10 rounded-lg bg-violet-500/10 text-violet-300 shrink-0">
+              <Coins className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-wide text-surface-200/50">Setup y pagos únicos · cobrado</p>
+              <p className="text-xs text-surface-200/40 mt-0.5">
+                No recurrente · {setupCant} setup · {unicoCant} único(s)
+              </p>
+            </div>
+          </div>
+          <MoneyMulti map={extrasCobrado} className="text-2xl font-bold text-violet-300 tabular-nums" />
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Próximos vencimientos */}

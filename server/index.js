@@ -342,7 +342,7 @@ api.get('/dashboard', async (req, res, next) => {
       ? req.query.periodo
       : new Date().toISOString().slice(0, 7)
 
-    const [clientes, mrr, mes, deuda, proyectos, vencimientos, pendientes] = await Promise.all([
+    const [clientes, mrr, mes, deuda, extras, proyectos, vencimientos, pendientes] = await Promise.all([
       // Clientes activos / totales
       pool.query(`SELECT
          COUNT(*)                                   AS total,
@@ -359,6 +359,12 @@ api.get('/dashboard', async (req, res, next) => {
       pool.query(`SELECT moneda,
          COALESCE(SUM(monto),0) AS total, COUNT(*) AS cantidad
          FROM cobros WHERE estado<>'pagado' GROUP BY moneda`),
+      // Ingresos NO recurrentes: setup y cobros únicos (cualquier período), por tipo y moneda
+      pool.query(`SELECT tipo, moneda,
+         COALESCE(SUM(monto) FILTER (WHERE estado='pagado'),0) AS cobrado,
+         COALESCE(SUM(monto),0)                                AS total,
+         COUNT(*)                                              AS cantidad
+         FROM cobros WHERE tipo IN ('setup','unico') GROUP BY tipo, moneda`),
       // Proyectos por estado
       pool.query(`SELECT estado, COUNT(*) AS cantidad FROM proyectos GROUP BY estado`),
       // Próximos vencimientos (no pagados con fecha de vencimiento)
@@ -379,6 +385,7 @@ api.get('/dashboard', async (req, res, next) => {
       mrr: mrr.rows,
       mes: mes.rows,
       deuda: deuda.rows,
+      extras: extras.rows,
       proyectos: proyectos.rows,
       vencimientos: vencimientos.rows,
       pendientes: pendientes.rows,
