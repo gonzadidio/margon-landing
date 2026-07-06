@@ -136,7 +136,7 @@ export default function ClienteDetalle({ id, onClose }) {
                     const est = estadoPago(c); const saldo = saldoCobro(c)
                     return (
                       <tr key={c.id} className="ad-hover transition">
-                        <td className="ad-td"><span className="ad-ink">{c.concepto || c.periodo}</span>{c.tipo !== 'mensual' && <span className={`ad-pill ml-2 ${c.tipo === 'setup' ? 'ad-pill-violet' : 'ad-pill-blue'}`}>{tipoCobroMeta(c.tipo).label}</span>}<p className="text-xs ad-faint">{fmtFecha(c.fecha_emision)}</p></td>
+                        <td className="ad-td"><span className="ad-ink">{c.concepto || c.periodo}</span>{c.tipo !== 'mensual' && <span className={`ad-pill ml-2 ${c.tipo === 'setup' ? 'ad-pill-violet' : 'ad-pill-blue'}`}>{tipoCobroMeta(c.tipo).label}</span>}<p className="text-xs ad-faint">{fmtFecha(c.fecha_emision)}{c.metodo_pago ? ` · ${c.metodo_pago}` : ''}</p></td>
                         <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto, c.moneda)}</td>
                         <td className="ad-td text-xs tabular-nums">{est === 'pagado' ? <span className="text-primary-300">{fmtMoney(c.pagado, c.moneda)}</span> : Number(c.pagado) > 0 ? <span className="text-sky-300">{fmtMoney(c.pagado, c.moneda)} <span className="ad-faint">· falta {fmtMoney(saldo, c.moneda)}</span></span> : <span className="ad-faint">—</span>}</td>
                         <td className="ad-td text-center"><span className={`ad-pill ${EST_PILL[est]}`}>{EST_LBL[est]}</span></td>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Loader2, CheckCircle2, Trash2, Pencil, X } from 'lucide-react'
 import { apiFetch } from './api'
-import { fmtMoney, fmtFecha } from './format'
+import { fmtMoney, fmtFecha, FORMAS_PAGO } from './format'
 
 // Modal para ver, registrar y editar los abonos (pagos parciales) de un cobro.
 export default function GestionPagos({ cobro, onClose, onChanged }) {
@@ -97,7 +97,12 @@ export default function GestionPagos({ cobro, onClose, onChanged }) {
                 </div>
               </label>
               <label className="flex flex-col gap-1.5"><span className="text-xs ad-muted">Fecha</span><input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} className="ad-input" /></label>
-              <label className="flex flex-col gap-1.5"><span className="text-xs ad-muted">Método</span><input value={metodo} onChange={(e) => setMetodo(e.target.value)} placeholder="Transf., efectivo…" className="ad-input" /></label>
+              <label className="flex flex-col gap-1.5"><span className="text-xs ad-muted">Forma de pago</span>
+                <select value={metodo} onChange={(e) => setMetodo(e.target.value)} className="ad-input">
+                  <option value="">— sin especificar —</option>
+                  {FORMAS_PAGO.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
+              </label>
             </div>
             {error && <p className="text-sm text-red-400">{error}</p>}
             <div className="flex justify-end gap-2">

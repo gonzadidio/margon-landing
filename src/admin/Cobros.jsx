@@ -128,6 +128,7 @@ export default function Cobros() {
                     <td className="ad-td ad-muted whitespace-nowrap">
                       {fmtFecha(c.fecha_emision) || c.periodo}
                       {c.fecha_pago && <span className="block text-[11px] ad-faint">pagó {fmtFecha(c.fecha_pago)}</span>}
+                      {c.metodo_pago && <span className="block text-[11px] text-primary-300">{c.metodo_pago}</span>}
                     </td>
                     <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto, c.moneda)}</td>
                     <td className="ad-td text-xs tabular-nums">

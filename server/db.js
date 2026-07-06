@@ -151,6 +151,23 @@ export async function initDb() {
        AND NOT EXISTS (SELECT 1 FROM pagos p WHERE p.cobro_id = c.id)
   `)
 
+  // Sincronizar la forma de pago en datos ya cargados:
+  // el cobro toma el método de su último pago si no lo tenía…
+  await pool.query(`
+    UPDATE cobros c SET metodo_pago = p.metodo
+      FROM (SELECT DISTINCT ON (cobro_id) cobro_id, metodo
+              FROM pagos WHERE metodo IS NOT NULL AND metodo <> ''
+             ORDER BY cobro_id, fecha DESC, id DESC) p
+     WHERE p.cobro_id = c.id AND (c.metodo_pago IS NULL OR c.metodo_pago = '')
+  `)
+  // …y los pagos sin método heredan el del cobro.
+  await pool.query(`
+    UPDATE pagos p SET metodo = c.metodo_pago
+      FROM cobros c
+     WHERE c.id = p.cobro_id AND (p.metodo IS NULL OR p.metodo = '')
+       AND c.metodo_pago IS NOT NULL AND c.metodo_pago <> ''
+  `)
+
   // ---------- Archivos adjuntos ----------
   // Facturas, informes mensuales, contratos, etc. Se guardan en la misma base
   // (bytea) para no depender de disco ni de un servicio externo.

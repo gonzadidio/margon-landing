@@ -13,6 +13,9 @@ export function fmtMoney(n, moneda = 'ARS') {
 
 export const MONEDAS = ['ARS', 'USD']
 
+// Formas de pago disponibles.
+export const FORMAS_PAGO = ['Transferencia', 'Efectivo', 'MercadoPago', 'Débito', 'Crédito', 'Cheque', 'Otro']
+
 // Tipos de cobro. 'mensual' = recurrente; 'setup' = pago único inicial;
 // 'unico' = cualquier otro cobro puntual / histórico.
 export const TIPOS_COBRO = [

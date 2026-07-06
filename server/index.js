@@ -498,6 +498,7 @@ api.post('/cobros/:id/pagos', async (req, res, next) => {
        VALUES ($1,$2,COALESCE($3,CURRENT_DATE),$4,$5)`,
       [req.params.id, monto, fecha || null, metodo, nota]
     )
+    if (metodo) await pool.query('UPDATE cobros SET metodo_pago=$1 WHERE id=$2', [metodo, req.params.id])
     await recomputeCobro(req.params.id)
     res.status(201).json(await cobroConPagado(req.params.id))
   } catch (e) { next(e) }
@@ -513,6 +514,7 @@ api.put('/pagos/:id', async (req, res, next) => {
       [monto, fecha, metodo, nota, req.params.id]
     )
     if (!rows[0]) return res.status(404).json({ error: 'Pago no encontrado' })
+    if (metodo) await pool.query('UPDATE cobros SET metodo_pago=$1 WHERE id=$2', [metodo, rows[0].cobro_id])
     await recomputeCobro(rows[0].cobro_id)
     res.json(await cobroConPagado(rows[0].cobro_id))
   } catch (e) { next(e) }

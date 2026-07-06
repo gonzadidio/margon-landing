@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { X, Loader2 } from 'lucide-react'
-import { MONEDAS, TIPOS_COBRO, periodoActual } from './format'
+import { MONEDAS, TIPOS_COBRO, FORMAS_PAGO, periodoActual } from './format'
 
 export function nuevoCobro(clienteId = '', moneda = 'ARS') {
   return {
@@ -13,7 +13,7 @@ export function nuevoCobro(clienteId = '', moneda = 'ARS') {
 export function editarCobro(c) {
   return {
     id: c.id, cliente_id: c.cliente_id, tipo: c.tipo || 'mensual', concepto: c.concepto || '',
-    periodo: c.periodo, monto: c.monto, moneda: c.moneda || 'ARS',
+    periodo: c.periodo, monto: c.monto, moneda: c.moneda || 'ARS', metodo_pago: c.metodo_pago || '',
   }
 }
 
@@ -58,7 +58,12 @@ export default function CobroForm({ initial, clientes, lockCliente = false, onSa
           <Field label="Moneda"><select value={form.moneda} onChange={set('moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}</select></Field>
           {!esEdicion && <Field label="Estado"><select value={form.estado} onChange={set('estado')} className="ad-input"><option value="pagado">Pagado</option><option value="pendiente">Pendiente</option></select></Field>}
           {!esEdicion && pagado && <Field label="Fecha de pago"><input type="date" value={form.fecha_pago || ''} onChange={set('fecha_pago')} className="ad-input" /></Field>}
-          {!esEdicion && pagado && <Field label="Método de pago" full><input value={form.metodo_pago || ''} onChange={set('metodo_pago')} placeholder="Transferencia, efectivo…" className="ad-input" /></Field>}
+          <Field label="Forma de pago" full>
+            <select value={form.metodo_pago || ''} onChange={set('metodo_pago')} className="ad-input">
+              <option value="">— sin especificar —</option>
+              {FORMAS_PAGO.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+          </Field>
         </div>
 
         {error && <p className="text-sm text-red-400">{error}</p>}
