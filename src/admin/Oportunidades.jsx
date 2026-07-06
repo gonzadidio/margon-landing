@@ -1,27 +1,39 @@
 import { useEffect, useState } from 'react'
-import { Plus, Pencil, Trash2, X, Loader2, UserCheck, Bell } from 'lucide-react'
+import { Plus, Pencil, Trash2, X, Loader2, UserCheck, Bell, Building2, Lightbulb } from 'lucide-react'
 import { apiFetch } from './api'
 import { fmtMoney, MONEDAS, fmtFecha, diasHasta } from './format'
 
-// Pipeline de posibles clientes (leads). Etapas del embudo de venta.
-const ETAPAS = [
-  { v: 'nuevo', label: 'Nuevo', dot: 'bg-sky-400' },
-  { v: 'contactado', label: 'Contactado', dot: 'bg-violet-400' },
-  { v: 'propuesta', label: 'Propuesta', dot: 'bg-amber-400' },
-  { v: 'negociacion', label: 'Negociación', dot: 'bg-emerald-400' },
-  { v: 'ganado', label: 'Ganado', dot: 'bg-emerald-600' },
-  { v: 'perdido', label: 'Perdido', dot: 'bg-zinc-400' },
-]
-const VACIO = { nombre: '', tipo: 'lead', contacto: '', canal: '', etapa: 'nuevo', valor: '', moneda: 'ARS', notas: '', proxima_accion: '', proxima_fecha: '' }
-
-const porMoneda = (rows) => { const a = {}; for (const o of rows) a[o.moneda] = (a[o.moneda] || 0) + Number(o.valor || 0); return a }
-const moneyStr = (map) => { const e = Object.entries(map).filter(([, v]) => v); return e.length ? e.map(([m, v]) => fmtMoney(v, m)).join(' · ') : '—' }
+// Dos tipos de seguimiento con sus propios estados.
+const TIPOS = {
+  lead: { label: 'Posibles clientes', icon: Building2 },
+  propio: { label: 'Proyectos propios', icon: Lightbulb },
+}
+const ESTADOS = {
+  lead: [
+    { v: 'nuevo', label: 'A contactar', cls: 'ad-pill-blue' },
+    { v: 'contactado', label: 'En conversación', cls: 'ad-pill-violet' },
+    { v: 'propuesta', label: 'Propuesta enviada', cls: 'ad-pill-amber' },
+    { v: 'negociacion', label: 'Negociando', cls: 'ad-pill-green' },
+    { v: 'ganado', label: 'Ganado', cls: 'ad-pill-green' },
+    { v: 'perdido', label: 'Descartado', cls: 'ad-pill-gray' },
+  ],
+  propio: [
+    { v: 'idea', label: 'Idea', cls: 'ad-pill-blue' },
+    { v: 'en_progreso', label: 'En progreso', cls: 'ad-pill-green' },
+    { v: 'pausado', label: 'Pausado', cls: 'ad-pill-amber' },
+    { v: 'terminado', label: 'Terminado', cls: 'ad-pill-gray' },
+  ],
+}
+const CERRADOS = { lead: ['ganado', 'perdido'], propio: ['terminado'] }
+const estMeta = (tipo, v) => (ESTADOS[tipo] || ESTADOS.lead).find((e) => e.v === v) || { label: v, cls: 'ad-pill-gray' }
+const nuevoVacio = (tipo) => ({ nombre: '', tipo, contacto: '', canal: '', etapa: ESTADOS[tipo][0].v, valor: '', moneda: 'ARS', notas: '', proxima_accion: '', proxima_fecha: '' })
 
 export default function Oportunidades() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [editing, setEditing] = useState(null)
+  const [tipo, setTipo] = useState('lead')
 
   async function load() {
     setLoading(true)
@@ -36,7 +48,7 @@ export default function Oportunidades() {
     else await apiFetch('/oportunidades', { method: 'POST', body: JSON.stringify(payload) })
     setEditing(null); load()
   }
-  async function cambiarEtapa(o, etapa) { await apiFetch(`/oportunidades/${o.id}`, { method: 'PUT', body: JSON.stringify({ ...o, etapa }) }); setItems((xs) => xs.map((x) => x.id === o.id ? { ...x, etapa } : x)) }
+  async function cambiarEstado(o, etapa) { await apiFetch(`/oportunidades/${o.id}`, { method: 'PUT', body: JSON.stringify({ ...o, etapa }) }); setItems((xs) => xs.map((x) => x.id === o.id ? { ...x, etapa } : x)) }
   async function remove(o) { if (confirm(`¿Eliminar "${o.nombre}"?`)) { await apiFetch(`/oportunidades/${o.id}`, { method: 'DELETE' }); load() } }
   async function convertir(o) {
     if (!confirm(`¿Convertir "${o.nombre}" en cliente?`)) return
@@ -44,41 +56,49 @@ export default function Oportunidades() {
     catch (e) { alert(e.message) }
   }
 
-  const abiertas = items.filter((o) => !['ganado', 'perdido'].includes(o.etapa))
+  // Los del tipo activo, ordenados por próxima acción (lo más urgente arriba; sin fecha al final).
+  const lista = items
+    .filter((o) => (o.tipo || 'lead') === tipo)
+    .sort((a, b) => {
+      const fa = a.proxima_fecha || '9999', fb = b.proxima_fecha || '9999'
+      return fa.localeCompare(fb)
+    })
+  const abiertos = lista.filter((o) => !CERRADOS[tipo].includes(o.etapa))
+  const atrasados = abiertos.filter((o) => o.proxima_fecha && diasHasta(o.proxima_fecha) < 0).length
 
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold ad-ink tracking-tight">Oportunidades</h1>
-          <p className="ad-muted text-sm mt-0.5">Posibles clientes que estamos persiguiendo · {abiertas.length} abierta(s) · <span className="text-primary-300 font-semibold">{moneyStr(porMoneda(abiertas))}</span> en pipeline</p>
+          <p className="ad-muted text-sm mt-0.5">Seguimiento de posibles clientes y proyectos propios.</p>
         </div>
-        <button onClick={() => setEditing({ ...VACIO })} className="ad-btn ad-btn-primary ad-btn-sm"><Plus className="w-4 h-4" /> Nueva</button>
+        <button onClick={() => setEditing(nuevoVacio(tipo))} className="ad-btn ad-btn-primary ad-btn-sm"><Plus className="w-4 h-4" /> Nuevo</button>
       </div>
+
+      {/* Toggle tipo */}
+      <div className="flex rounded-lg border ad-line overflow-hidden text-sm bg-transparent w-max">
+        {Object.entries(TIPOS).map(([k, t]) => {
+          const Icon = t.icon
+          return (
+            <button key={k} onClick={() => setTipo(k)} className={`px-4 py-2 font-medium flex items-center gap-2 ${tipo === k ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>
+              <Icon className="w-4 h-4" /> {t.label}
+            </button>
+          )
+        })}
+      </div>
+
+      <p className="text-xs ad-faint">{abiertos.length} abierto(s){atrasados > 0 && <span className="text-red-400"> · {atrasados} con acción atrasada</span>}</p>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
 
       {loading ? (
         <div className="flex items-center gap-2 ad-muted text-sm py-10 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
-      ) : items.length === 0 ? (
-        <p className="ad-muted text-sm py-10 text-center">Todavía no hay oportunidades. Creá la primera con “Nueva”.</p>
+      ) : lista.length === 0 ? (
+        <p className="ad-muted text-sm py-10 text-center">Nada en {TIPOS[tipo].label.toLowerCase()} todavía. Creá el primero con “Nuevo”.</p>
       ) : (
-        <div className="flex gap-3 overflow-x-auto pb-2">
-          {ETAPAS.map((col) => {
-            const cards = items.filter((o) => o.etapa === col.v)
-            const total = cards.reduce((s, o) => s + Number(o.valor || 0), 0)
-            return (
-              <div key={col.v} className="shrink-0 w-72">
-                <div className="flex items-center gap-2 px-1 pb-2">
-                  <span className={`w-2 h-2 rounded-full ${col.dot}`} /><span className="text-sm font-semibold ad-ink">{col.label}</span><span className="text-xs ad-faint">{cards.length}</span>
-                  {total > 0 && <span className="ml-auto text-[11px] ad-faint tabular-nums">{fmtMoney(total)}</span>}
-                </div>
-                <div className="space-y-2 min-h-[60px]">
-                  {cards.map((o) => <Card key={o.id} o={o} onEdit={setEditing} onEtapa={cambiarEtapa} onConvertir={convertir} onRemove={remove} />)}
-                </div>
-              </div>
-            )
-          })}
+        <div className="space-y-2">
+          {lista.map((o) => <Fila key={o.id} o={o} tipo={tipo} onEstado={cambiarEstado} onEdit={setEditing} onRemove={remove} onConvertir={convertir} />)}
         </div>
       )}
 
@@ -87,26 +107,35 @@ export default function Oportunidades() {
   )
 }
 
-function Card({ o, onEdit, onEtapa, onConvertir, onRemove }) {
-  const d = diasHasta(o.proxima_fecha); const atras = !o.cliente_id && d != null && d < 0
+function Fila({ o, tipo, onEstado, onEdit, onRemove, onConvertir }) {
+  const cerrado = CERRADOS[tipo].includes(o.etapa)
+  const d = diasHasta(o.proxima_fecha)
+  const atras = !cerrado && d != null && d < 0
+  const meta = estMeta(tipo, o.etapa)
   return (
-    <div className="ad-card p-3 group">
-      <div className="flex items-start justify-between gap-2">
-        <button onClick={() => onEdit(o)} className="text-left min-w-0"><p className="text-sm font-semibold ad-ink truncate">{o.nombre}</p></button>
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition shrink-0">
-          <button onClick={() => onEdit(o)} className="ad-faint hover:text-primary-300"><Pencil className="w-3.5 h-3.5" /></button>
-          <button onClick={() => onRemove(o)} className="ad-faint hover:text-red-400"><Trash2 className="w-3.5 h-3.5" /></button>
+    <div className={`ad-card p-4 flex flex-wrap items-center gap-x-4 gap-y-2 ${atras ? 'ring-1 ring-red-500/30' : ''}`}>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className={`font-semibold ${cerrado ? 'ad-muted' : 'ad-ink'}`}>{o.nombre}</span>
+          {Number(o.valor) > 0 && <span className="text-xs ad-muted tabular-nums">{fmtMoney(o.valor, o.moneda)}</span>}
+          {o.cliente_id && <span className="ad-pill ad-pill-green"><UserCheck className="w-3 h-3" /> cliente</span>}
         </div>
+        {(o.contacto || o.canal) && <p className="text-xs ad-faint mt-0.5">{[o.contacto, o.canal && `vía ${o.canal}`].filter(Boolean).join(' · ')}</p>}
+        {o.proxima_accion
+          ? <p className={`text-xs mt-1 flex items-center gap-1 ${atras ? 'text-red-400 font-medium' : 'ad-muted'}`}><Bell className="w-3.5 h-3.5" /> {o.proxima_accion}{o.proxima_fecha && <span>· {atras ? `atrasada (${fmtFecha(o.proxima_fecha)})` : fmtFecha(o.proxima_fecha)}</span>}</p>
+          : <p className="text-xs ad-faint mt-1 flex items-center gap-1"><Bell className="w-3.5 h-3.5" /> sin próxima acción</p>}
+        {o.notas && <p className="text-xs ad-faint mt-1 line-clamp-1">{o.notas}</p>}
       </div>
-      {o.contacto && <p className="text-[11px] ad-faint mt-0.5 truncate">{o.contacto}</p>}
-      {o.canal && <p className="text-[11px] ad-faint truncate">vía {o.canal}</p>}
-      {o.proxima_accion && <div className={`mt-2 inline-flex items-center gap-1 text-[11px] rounded-md px-1.5 py-0.5 ${atras ? 'ad-pill-red' : 'ad-pill-gray'}`}><Bell className="w-3 h-3" /> {o.proxima_accion}{o.proxima_fecha && <span>· {fmtFecha(o.proxima_fecha)}</span>}</div>}
-      <div className="flex items-center justify-between mt-2 gap-2">
-        {Number(o.valor) > 0 ? <span className="text-xs tabular-nums ad-ink font-medium">{fmtMoney(o.valor, o.moneda)}</span> : <span className="text-xs ad-faint">sin valor</span>}
-        <select value={o.etapa} onChange={(e) => onEtapa(o, e.target.value)} className="text-[11px] rounded border ad-line px-1.5 py-0.5 ad-muted bg-transparent outline-none">{ETAPAS.map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}</select>
+
+      <select value={o.etapa} onChange={(e) => onEstado(o, e.target.value)} className="ad-input !w-auto !py-1.5 text-xs">
+        {ESTADOS[tipo].map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}
+      </select>
+
+      <div className="flex items-center gap-1">
+        {tipo === 'lead' && !o.cliente_id && !cerrado && <button onClick={() => onConvertir(o)} title="Convertir en cliente" className="ad-btn ad-btn-soft ad-btn-sm"><UserCheck className="w-3.5 h-3.5" /> Cliente</button>}
+        <button onClick={() => onEdit(o)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Pencil className="w-4 h-4" /></button>
+        <button onClick={() => onRemove(o)} className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
       </div>
-      {!o.cliente_id && o.etapa !== 'perdido' && <button onClick={() => onConvertir(o)} className="mt-2 w-full ad-btn ad-btn-soft ad-btn-sm"><UserCheck className="w-3.5 h-3.5" /> Convertir en cliente</button>}
-      {o.cliente_id && <p className="mt-2 text-[11px] text-primary-300 flex items-center gap-1"><UserCheck className="w-3 h-3" /> Ya es cliente</p>}
     </div>
   )
 }
@@ -116,21 +145,21 @@ function Form({ initial, onSave, onClose }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const s = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.value }))
+  const esLead = f.tipo === 'lead'
   async function submit(e) { e.preventDefault(); setSaving(true); setError(''); try { await onSave(f) } catch (err) { setError(err.message); setSaving(false) } }
   return (
     <div className="ad-overlay" onClick={onClose}>
       <form onClick={(e) => e.stopPropagation()} onSubmit={submit} className="ad-card w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between"><h3 className="text-base font-semibold ad-ink">{f.id ? 'Editar' : 'Nueva'} oportunidad</h3><button type="button" onClick={onClose} className="ad-muted"><X className="w-5 h-5" /></button></div>
+        <div className="flex items-center justify-between"><h3 className="text-base font-semibold ad-ink">{f.id ? 'Editar' : 'Nuevo'} · {TIPOS[f.tipo].label.slice(0, -1)}</h3><button type="button" onClick={onClose} className="ad-muted"><X className="w-5 h-5" /></button></div>
         <div className="grid grid-cols-2 gap-3">
-          <L label="Nombre / empresa *" full><input required value={f.nombre} onChange={s('nombre')} placeholder="Ej: Cafetería Norte" className="ad-input" /></L>
-          <L label="Contacto"><input value={f.contacto || ''} onChange={s('contacto')} placeholder="Email o teléfono" className="ad-input" /></L>
-          <L label="Canal / origen"><input value={f.canal || ''} onChange={s('canal')} placeholder="Instagram, referido…" className="ad-input" /></L>
-          <L label="Etapa"><select value={f.etapa} onChange={s('etapa')} className="ad-input">{ETAPAS.map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}</select></L>
-          <div />
-          <L label="Valor estimado"><input type="number" min="0" step="0.01" value={f.valor ?? ''} onChange={s('valor')} className="ad-input" /></L>
-          <L label="Moneda"><select value={f.moneda} onChange={s('moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}</select></L>
-          <div className="col-span-2 border-t ad-line pt-3"><p className="text-xs font-semibold uppercase tracking-wide text-primary-300">Próximo paso (seguimiento)</p></div>
-          <L label="Qué hacer"><input value={f.proxima_accion || ''} onChange={s('proxima_accion')} placeholder="Ej: mandar propuesta" className="ad-input" /></L>
+          <L label={esLead ? 'Nombre / empresa *' : 'Nombre del proyecto *'} full><input required value={f.nombre} onChange={s('nombre')} placeholder={esLead ? 'Ej: Cafetería Norte' : 'Ej: App de turnos propia'} className="ad-input" /></L>
+          <L label="Estado"><select value={f.etapa} onChange={s('etapa')} className="ad-input">{ESTADOS[f.tipo].map((e) => <option key={e.v} value={e.v}>{e.label}</option>)}</select></L>
+          {esLead && <L label="Contacto"><input value={f.contacto || ''} onChange={s('contacto')} placeholder="Email o teléfono" className="ad-input" /></L>}
+          {esLead && <L label="Canal / origen"><input value={f.canal || ''} onChange={s('canal')} placeholder="Instagram, referido…" className="ad-input" /></L>}
+          {esLead && <L label="Valor estimado"><input type="number" min="0" step="0.01" value={f.valor ?? ''} onChange={s('valor')} className="ad-input" /></L>}
+          {esLead && <L label="Moneda"><select value={f.moneda} onChange={s('moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}</select></L>
+          <div className="col-span-2 border-t ad-line pt-3"><p className="text-xs font-semibold uppercase tracking-wide text-primary-300">Próxima acción (seguimiento)</p></div>
+          <L label="Qué hacer"><input value={f.proxima_accion || ''} onChange={s('proxima_accion')} placeholder={esLead ? 'Ej: mandar propuesta' : 'Ej: definir MVP'} className="ad-input" /></L>
           <L label="Cuándo"><input type="date" value={f.proxima_fecha || ''} onChange={s('proxima_fecha')} className="ad-input" /></L>
           <L label="Notas" full><textarea rows={2} value={f.notas || ''} onChange={s('notas')} className="ad-input" /></L>
         </div>
