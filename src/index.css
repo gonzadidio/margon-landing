@@ -149,12 +149,14 @@
     top: 0;
     width: 100%;
     box-shadow: none !important;
+    padding: 1.4cm !important;
   }
   .no-print {
     display: none !important;
   }
+  /* margin 0 → el navegador no agrega la URL ni el número de página */
   @page {
-    margin: 1.5cm;
+    margin: 0;
   }
 }
 
