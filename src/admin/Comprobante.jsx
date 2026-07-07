@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Printer, X } from 'lucide-react'
-import { fmtMoney } from './format'
+import { fmtMoney, estadoPago, saldoCobro } from './format'
 
 const MESES = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -39,7 +39,11 @@ export default function Comprobante({ cobro, hoy, onClose }) {
   // El usuario puede ajustar el concepto antes de imprimir
   const [concepto, setConcepto] = useState(() => conceptoDefault(cobro))
 
-  const pagado = cobro.estado === 'pagado'
+  const montoPagado = Number(cobro.pagado) || 0
+  const saldo = saldoCobro(cobro)
+  const est = estadoPago(cobro)   // pagado | parcial | pendiente | vencido
+  const parcial = est === 'parcial' || (montoPagado > 0 && saldo > 0)
+  const pagado = est === 'pagado'
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-black/70 backdrop-blur-sm overflow-auto">
@@ -120,13 +124,25 @@ export default function Comprobante({ cobro, hoy, onClose }) {
             </tbody>
           </table>
 
-          {/* Total */}
+          {/* Total y detalle de pago */}
           <div className="flex justify-end mt-4">
-            <div className="w-64">
+            <div className="w-72 space-y-1.5">
               <div className="flex items-center justify-between border-t-2 border-zinc-800 pt-3">
                 <span className="font-bold text-zinc-900">TOTAL</span>
                 <span className="text-xl font-extrabold text-zinc-900 tabular-nums">{fmtMoney(cobro.monto, cobro.moneda)}</span>
               </div>
+              {(parcial || montoPagado > 0) && (
+                <>
+                  <div className="flex items-center justify-between text-sm text-emerald-700">
+                    <span>Pagado</span>
+                    <span className="tabular-nums font-semibold">{fmtMoney(montoPagado, cobro.moneda)}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-zinc-700">
+                    <span className="font-semibold">Saldo pendiente</span>
+                    <span className="tabular-nums font-bold">{fmtMoney(saldo, cobro.moneda)}</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -135,6 +151,10 @@ export default function Comprobante({ cobro, hoy, onClose }) {
             {pagado ? (
               <span className="inline-flex items-center gap-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-3 py-1.5">
                 ✓ PAGADO{cobro.fecha_pago ? ` el ${fmtFecha(cobro.fecha_pago)}` : ''}
+              </span>
+            ) : parcial ? (
+              <span className="inline-flex items-center gap-2 rounded-md bg-sky-50 border border-sky-200 text-sky-700 text-sm font-semibold px-3 py-1.5">
+                PAGO PARCIAL — Pagado {fmtMoney(montoPagado, cobro.moneda)} · Saldo {fmtMoney(saldo, cobro.moneda)}
               </span>
             ) : (
               <span className="inline-flex items-center gap-2 rounded-md bg-amber-50 border border-amber-200 text-amber-700 text-sm font-semibold px-3 py-1.5">
