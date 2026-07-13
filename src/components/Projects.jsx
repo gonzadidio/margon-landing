@@ -4,7 +4,7 @@ import AnimatedSection from './AnimatedSection'
 import { projects } from '../projectsData'
 
 // Filtros derivados de los datos, con su conteo real.
-const GROUPS = ['Todos', 'Web', 'E-Commerce', 'SaaS', 'Mobile']
+const GROUPS = ['Todos', 'Web', 'E-Commerce', 'SaaS', 'CRM', 'Mobile']
 
 export default function Projects() {
   const [filter, setFilter] = useState('Todos')
@@ -80,7 +80,7 @@ function ProjectCard({ project, index }) {
           <img
             src={project.image}
             alt={project.title}
-            className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+            className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04] ${project.placeholder ? 'object-center' : 'object-top'}`}
             loading="lazy"
           />
           {/* velo inferior para asentar los badges */}

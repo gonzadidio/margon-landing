@@ -5,6 +5,27 @@
 
 export const projects = [
   {
+    slug: 'orbex',
+    title: 'ORBEX Desarrollos',
+    category: 'Desarrollos Inmobiliarios',
+    group: 'CRM',
+    type: 'web',
+    image: '/projects/orbex-logo.png',
+    placeholder: true, // usando el logo como portada hasta tener las capturas reales de la app
+    tags: ['React', 'Node.js', 'PostgreSQL', 'Meta API'],
+    description: 'CRM comercial para una desarrolladora de lotes: los leads de Facebook e Instagram entran solos, se reparten entre los equipos sin mezclarse y cada venta se sigue de punta a punta.',
+    lede: 'El sistema comercial propio de ORBEX Desarrollos: cada lead de Meta cae en las manos correctas, se reparte entre los equipos sin superponerse y cada venta se sigue de principio a fin.',
+    url: '',
+    duration: 'Sistema propio en producción y evolución continua.',
+    results: 'Leads de campañas gestionados de punta a punta, sin perder oportunidades.',
+    cases: [
+      { title: 'Leads de Meta, automáticos', text: 'Las campañas de Facebook e Instagram vuelcan cada lead directo al sistema. Nada se carga a mano ni se pierde en una planilla.' },
+      { title: 'Reparto entre equipos', text: 'Cada lead se asigna al equipo comercial correspondiente sin mezclarse ni superponerse, con reglas claras de distribución.' },
+      { title: 'Seguimiento de la venta', text: 'Cada oportunidad se sigue de principio a fin: estados, contactos y cierre del lote, todo en un mismo panel.' },
+    ],
+    testimonial: { text: 'Dejamos de perder leads. Cada campaña entra al sistema y sabemos exactamente en qué está cada venta.', name: 'Nombre Apellido', role: 'Gerencia · ORBEX Desarrollos' },
+  },
+  {
     slug: 'punto-bella-vista',
     title: 'Punto Bella Vista',
     category: 'Concesionaria',

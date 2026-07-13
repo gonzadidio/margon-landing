@@ -49,7 +49,7 @@ export default function ProjectDetail({ slug }) {
 
         {/* Captura principal */}
         <div className="mt-8 overflow-hidden rounded-2xl border border-white/[0.07] bg-black/30 shadow-2xl shadow-black/50">
-          <img src={p.image} alt={p.title} className="w-full object-cover object-top" loading="lazy" />
+          <img src={p.image} alt={p.title} className={`w-full ${p.placeholder ? 'aspect-[16/9] object-cover object-center' : 'object-cover object-top'}`} loading="lazy" />
         </div>
 
         {/* Meta */}
@@ -75,7 +75,7 @@ export default function ProjectDetail({ slug }) {
                 <p className="mt-3 leading-relaxed text-surface-200/60">{c.text}</p>
               </div>
               <div className="overflow-hidden rounded-xl border border-white/[0.07] bg-black/30">
-                <img src={c.image || p.image} alt={c.title} className="w-full object-cover object-top" loading="lazy" />
+                <img src={c.image || p.image} alt={c.title} className={`w-full ${(c.image ? false : p.placeholder) ? 'aspect-[16/10] object-cover object-center' : 'object-cover object-top'}`} loading="lazy" />
               </div>
             </div>
           ))}

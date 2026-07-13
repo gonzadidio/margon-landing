@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import {
   Bell, Search, Plus, MoreHorizontal, FolderKanban, UserPlus,
-  CheckSquare, TrendingUp, ArrowUpRight,
+  CheckSquare, TrendingUp, ArrowUpRight, ArrowRight,
 } from 'lucide-react'
+import Logo from './Logo'
 
 function CountUp({ end, decimals = 0, duration = 2000 }) {
   const [val, setVal] = useState(0)
@@ -27,10 +28,10 @@ const stats = [
 
 // Actividad reciente: proyectos con su estado
 const proyectos = [
-  { name: 'Punto Bella Vista', cat: 'Concesionaria', estado: 'Producción', color: 'emerald', icon: '🚗' },
-  { name: 'HandProX', cat: 'SaaS Deportivo', estado: 'Desarrollo', color: 'sky', icon: '🏆' },
-  { name: 'Fleur & Co', cat: 'E-Commerce', estado: 'Entregado', color: 'violet', icon: '🌸' },
-  { name: 'Celebria', cat: 'Invitaciones', estado: 'Propuesta', color: 'amber', icon: '💌' },
+  { name: 'ORBEX CRM', cat: 'Sistema de gestión', estado: 'Producción', color: 'emerald' },
+  { name: 'Padel Pro', cat: 'SaaS Deportivo', estado: 'Desarrollo', color: 'sky' },
+  { name: 'Punto Bella Vista', cat: 'Concesionaria', estado: 'Entregado', color: 'violet' },
+  { name: 'Bar App', cat: 'Gastronomía', estado: 'Propuesta', color: 'amber' },
 ]
 
 const PILL = {
@@ -38,6 +39,14 @@ const PILL = {
   sky: 'bg-sky-500/15 text-sky-300 ring-sky-500/20',
   violet: 'bg-violet-500/15 text-violet-300 ring-violet-500/20',
   amber: 'bg-amber-500/15 text-amber-300 ring-amber-500/20',
+}
+
+// Acento vertical por proyecto (reemplaza a los iconos)
+const ACCENT = {
+  emerald: 'from-emerald-400 to-emerald-600 shadow-emerald-500/40',
+  sky: 'from-sky-400 to-sky-600 shadow-sky-500/40',
+  violet: 'from-violet-400 to-violet-600 shadow-violet-500/40',
+  amber: 'from-amber-400 to-amber-600 shadow-amber-500/40',
 }
 
 export default function HeroVisual() {
@@ -57,7 +66,9 @@ export default function HeroVisual() {
         {/* Top bar */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.06]">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-[10px] font-bold text-[#0c1210]">M</div>
+            <div className="w-7 h-7 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center p-1">
+              <Logo src="/logo2.png" alt="Margon" className="h-full w-full object-contain" />
+            </div>
             <span className="text-[13px] font-semibold text-white">Margon CRM</span>
           </div>
           <div className="flex items-center gap-2">
@@ -124,21 +135,28 @@ export default function HeroVisual() {
         <div className="border-t border-white/[0.06]">
           <div className="flex items-center justify-between px-5 py-3">
             <span className="text-[11px] font-medium text-white/40">Proyectos recientes</span>
-            <span className="text-[10px] text-emerald-400/60">Ver todo</span>
+            <a
+              href="#proyectos"
+              className="group/all flex items-center gap-1 text-[10px] font-medium text-emerald-400/70 hover:text-emerald-300 transition-colors"
+            >
+              Ver todo
+              <ArrowRight size={11} className="transition-transform group-hover/all:translate-x-0.5" />
+            </a>
           </div>
           <div className="pb-2">
             {proyectos.map((p, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between px-5 py-2.5 hover:bg-white/[0.02] transition-colors"
+                className="group/row flex items-center justify-between pl-4 pr-5 py-2.5 hover:bg-white/[0.025] transition-colors animate-fade-up"
+                style={{ animationDelay: `${700 + i * 110}ms` }}
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center text-sm">
-                    {p.icon}
-                  </div>
+                <div className="flex items-center gap-3.5">
+                  <span
+                    className={`h-8 w-1 rounded-full bg-gradient-to-b ${ACCENT[p.color]} shadow-[0_0_8px] transition-all duration-300 group-hover/row:h-9`}
+                  />
                   <div>
-                    <p className="text-[12px] text-white/70 font-medium">{p.name}</p>
-                    <p className="text-[10px] text-white/20">{p.cat}</p>
+                    <p className="text-[12px] text-white/75 font-medium group-hover/row:text-white transition-colors">{p.name}</p>
+                    <p className="text-[10px] text-white/25">{p.cat}</p>
                   </div>
                 </div>
                 <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ring-1 ${PILL[p.color]}`}>
@@ -158,7 +176,7 @@ export default function HeroVisual() {
         <div className="w-5 h-5 rounded-md bg-emerald-500/15 flex items-center justify-center text-[10px]">✓</div>
         <div>
           <div className="text-[10px] font-semibold text-white">Proyecto entregado</div>
-          <div className="text-[8px] text-white/25">HandProX v2.0</div>
+          <div className="text-[8px] text-white/25">Punto Bella Vista</div>
         </div>
       </div>
     </div>
