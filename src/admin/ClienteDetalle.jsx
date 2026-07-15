@@ -9,6 +9,8 @@ import CobroForm, { nuevoCobro, editarCobro } from './CobroForm'
 import GestionPagos from './GestionPagos'
 import ClienteArchivos from './ClienteArchivos'
 import Comprobante from './Comprobante'
+import PresupuestosAdmin from './PresupuestosAdmin'
+import PortalAcceso from './PortalAcceso'
 
 const EST_PILL = { vencido: 'ad-pill-red', parcial: 'ad-pill-blue', pendiente: 'ad-pill-amber', pagado: 'ad-pill-green' }
 const EST_LBL = { vencido: 'Vencido', parcial: 'Parcial', pendiente: 'Pendiente', pagado: 'Pagado' }
@@ -16,7 +18,7 @@ const PROY_EST = ['propuesta', 'desarrollo', 'produccion', 'mantenimiento', 'pau
 const PROY_LBL = { propuesta: 'Propuesta', desarrollo: 'Desarrollo', produccion: 'Producción', mantenimiento: 'Mantenimiento', pausado: 'Pausado', finalizado: 'Finalizado' }
 const SEG_TIPOS = ['nota', 'llamada', 'email', 'reunion', 'whatsapp', 'tarea']
 
-const TABS = ['Resumen', 'Pagos', 'Proyectos', 'Archivos', 'Notas']
+const TABS = ['Resumen', 'Pagos', 'Presupuestos', 'Proyectos', 'Archivos', 'Notas']
 
 export default function ClienteDetalle({ id, onClose }) {
   const [data, setData] = useState(null)
@@ -119,6 +121,10 @@ export default function ClienteDetalle({ id, onClose }) {
           </div>
         </div>
       )}
+      {tab === 'Resumen' && <PortalAcceso cliente={data} />}
+
+      {/* ===== Presupuestos ===== */}
+      {tab === 'Presupuestos' && <PresupuestosAdmin clienteId={data.id} defaultMoneda={data.moneda} />}
 
       {/* ===== Pagos ===== */}
       {tab === 'Pagos' && (

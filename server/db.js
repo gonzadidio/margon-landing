@@ -186,5 +186,54 @@ export async function initDb() {
     );
   `)
 
+  // ---------- Portal de clientes: credenciales ----------
+  // El cliente entra con su email + una contraseña que él mismo crea desde un
+  // link de invitación (portal_invite_token). Nada de esto rompe datos previos.
+  await pool.query(`
+    ALTER TABLE clientes
+      ADD COLUMN IF NOT EXISTS portal_password_hash TEXT,
+      ADD COLUMN IF NOT EXISTS portal_invite_token  TEXT,
+      ADD COLUMN IF NOT EXISTS portal_token_exp     TIMESTAMPTZ,
+      ADD COLUMN IF NOT EXISTS portal_activo        BOOLEAN NOT NULL DEFAULT false,
+      ADD COLUMN IF NOT EXISTS portal_last_login    TIMESTAMPTZ;
+  `)
+
+  // ---------- Presupuestos ----------
+  // Margon arma un presupuesto con ítems; el cliente elige los opcionales,
+  // simula el total y lo firma (aprueba) desde el portal.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS presupuestos (
+      id           SERIAL PRIMARY KEY,
+      cliente_id   INTEGER NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
+      titulo       TEXT NOT NULL,
+      descripcion  TEXT,
+      moneda       TEXT NOT NULL DEFAULT 'ARS',
+      estado       TEXT NOT NULL DEFAULT 'borrador', -- borrador | enviado | aprobado | rechazado
+      version      INTEGER NOT NULL DEFAULT 1,
+      firma_nombre TEXT,
+      firma_fecha  TIMESTAMPTZ,
+      firma_total  NUMERIC(12,2),
+      notas        TEXT,
+      created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+      sent_at      TIMESTAMPTZ
+    );
+  `)
+
+  // Ítems del presupuesto. obligatorio=true => base (no se puede desmarcar);
+  // false => opcional (el cliente elige). seleccionado = elección actual.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS presupuesto_items (
+      id             SERIAL PRIMARY KEY,
+      presupuesto_id INTEGER NOT NULL REFERENCES presupuestos(id) ON DELETE CASCADE,
+      grupo          TEXT,
+      concepto       TEXT NOT NULL,
+      descripcion    TEXT,
+      costo          NUMERIC(12,2) NOT NULL DEFAULT 0,
+      obligatorio    BOOLEAN NOT NULL DEFAULT true,
+      seleccionado   BOOLEAN NOT NULL DEFAULT true,
+      orden          INTEGER NOT NULL DEFAULT 0
+    );
+  `)
+
   console.log('[db] tablas listas')
 }

@@ -13,15 +13,19 @@ import Footer from './components/Footer'
 import BudgetBuilder from './components/BudgetBuilder'
 import ProjectDetail from './components/ProjectDetail'
 import AdminApp from './admin/AdminApp'
+import PortalApp from './portal/PortalApp'
 
 const path = window.location.pathname
 // Zona interna oculta: /admin (no se enlaza desde la web pública)
 const isAdmin = path.startsWith('/admin')
+// Portal de clientes: /portal
+const isPortal = path.startsWith('/portal')
 // Caso de estudio por proyecto: /proyecto/:slug
 const projectMatch = path.match(/^\/proyecto\/([^/]+)/)
 
 export default function App() {
   if (isAdmin) return <AdminApp />
+  if (isPortal) return <PortalApp />
   if (projectMatch) return <ProjectDetail slug={decodeURIComponent(projectMatch[1])} />
 
   return <LandingApp />
