@@ -59,12 +59,16 @@ export default function PortalShell({ onLogout }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-5 py-7">
-        {section === 'inicio' && <PortalHome me={me} onGo={setSection} />}
-        {section === 'presupuestos' && <PortalPresupuestos />}
-        {section === 'pagos' && <PortalPagos />}
-        {section === 'proyectos' && <PortalProyectos />}
-        {section === 'archivos' && <PortalArchivos />}
+      <main className="relative mx-auto max-w-5xl px-5 py-7">
+        <div className="pointer-events-none absolute inset-x-0 -top-2 h-56"
+          style={{ background: 'radial-gradient(ellipse 55% 100% at 50% 0%, rgba(16,185,129,.07), transparent 70%)' }} />
+        <div className="relative">
+          {section === 'inicio' && <PortalHome me={me} onGo={setSection} />}
+          {section === 'presupuestos' && <PortalPresupuestos />}
+          {section === 'pagos' && <PortalPagos />}
+          {section === 'proyectos' && <PortalProyectos />}
+          {section === 'archivos' && <PortalArchivos />}
+        </div>
       </main>
     </div>
   )

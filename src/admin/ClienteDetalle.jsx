@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import {
   ArrowLeft, Loader2, Mail, Phone, Globe, Calendar, Pencil, Plus, X,
-  CheckCircle2, Clock, Github, ExternalLink, Trash2, Printer,
+  CheckCircle2, Clock, Github, ExternalLink, Trash2, Printer, ChevronRight,
 } from 'lucide-react'
 import { apiFetch } from './api'
 import { fmtMoney, fmtFecha, tipoCobroMeta, estadoPago, saldoCobro, MONEDAS } from './format'
@@ -11,11 +11,13 @@ import ClienteArchivos from './ClienteArchivos'
 import Comprobante from './Comprobante'
 import PresupuestosAdmin from './PresupuestosAdmin'
 import PortalAcceso from './PortalAcceso'
+import ProyectoDetalle from './ProyectoDetalle'
 
 const EST_PILL = { vencido: 'ad-pill-red', parcial: 'ad-pill-blue', pendiente: 'ad-pill-amber', pagado: 'ad-pill-green' }
 const EST_LBL = { vencido: 'Vencido', parcial: 'Parcial', pendiente: 'Pendiente', pagado: 'Pagado' }
 const PROY_EST = ['propuesta', 'desarrollo', 'produccion', 'mantenimiento', 'pausado', 'finalizado']
 const PROY_LBL = { propuesta: 'Propuesta', desarrollo: 'Desarrollo', produccion: 'Producción', mantenimiento: 'Mantenimiento', pausado: 'Pausado', finalizado: 'Finalizado' }
+const PROY_PILL = { produccion: 'ad-pill-green', finalizado: 'ad-pill-green', desarrollo: 'ad-pill-blue', mantenimiento: 'ad-pill-violet', pausado: 'ad-pill-gray', propuesta: 'ad-pill-amber' }
 const SEG_TIPOS = ['nota', 'llamada', 'email', 'reunion', 'whatsapp', 'tarea']
 
 const TABS = ['Resumen', 'Pagos', 'Presupuestos', 'Proyectos', 'Archivos', 'Notas']
@@ -29,6 +31,7 @@ export default function ClienteDetalle({ id, onClose }) {
   const [gestion, setGestion] = useState(null)
   const [comprobante, setComprobante] = useState(null)
   const [proy, setProy] = useState(null)
+  const [verProy, setVerProy] = useState(null)
   const [seg, setSeg] = useState(null)
 
   const load = useCallback(() => {
@@ -166,25 +169,31 @@ export default function ClienteDetalle({ id, onClose }) {
       {tab === 'Proyectos' && (
         <div className="space-y-3">
           <div className="flex justify-end"><button onClick={() => setProy({ nombre: '', estado: 'desarrollo', stack: '', repo_url: '', deploy_url: '', monto: '', moneda: data.moneda, fecha_inicio: '', fecha_fin: '', descripcion: '' })} className="ad-btn ad-btn-primary ad-btn-sm"><Plus className="w-4 h-4" /> Nuevo proyecto</button></div>
-          {data.proyectos.length === 0 ? <p className="ad-faint text-sm py-8 text-center">Sin proyectos.</p> : (
+          {data.proyectos.length === 0 ? (
+            <div className="ad-card p-8 text-center">
+              <p className="ad-ink text-sm font-medium">Sin proyectos</p>
+              <p className="ad-faint text-xs mt-1">Cargá un proyecto para llevar su estado, links y montos.</p>
+            </div>
+          ) : (
             <div className="grid sm:grid-cols-2 gap-3">
               {data.proyectos.map((p) => (
-                <div key={p.id} className="ad-card p-4">
+                <button key={p.id} onClick={() => setVerProy(p)}
+                  className="ad-card p-4 text-left transition hover:border-primary-500/30 group">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="font-semibold ad-ink">{p.nombre}</p>
-                    <div className="flex gap-1 shrink-0">
-                      {p.repo_url && <a href={p.repo_url} target="_blank" rel="noreferrer" className="ad-faint hover:ad-ink"><Github className="w-4 h-4" /></a>}
-                      {p.deploy_url && <a href={p.deploy_url} target="_blank" rel="noreferrer" className="ad-faint hover:text-primary-300"><ExternalLink className="w-4 h-4" /></a>}
-                      <button onClick={() => setProy(p)} className="ad-faint hover:text-primary-300"><Pencil className="w-3.5 h-3.5" /></button>
-                      <button onClick={() => delProy(p)} className="ad-faint hover:text-red-400"><Trash2 className="w-3.5 h-3.5" /></button>
+                    <p className="font-semibold ad-ink group-hover:text-primary-300 transition">{p.nombre}</p>
+                    <div className="flex gap-1.5 shrink-0 ad-faint">
+                      {p.repo_url && <Github className="w-4 h-4" />}
+                      {p.deploy_url && <ExternalLink className="w-4 h-4" />}
+                      <ChevronRight className="w-4 h-4 group-hover:text-primary-300 group-hover:translate-x-0.5 transition" />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 mt-2 text-xs ad-muted">
-                    <span className="ad-pill ad-pill-gray">{PROY_LBL[p.estado] || p.estado}</span>
+                  {p.descripcion && <p className="text-xs ad-muted mt-1 line-clamp-2 leading-relaxed">{p.descripcion}</p>}
+                  <div className="flex items-center gap-2 mt-2.5 text-xs ad-muted">
+                    <span className={`ad-pill ${PROY_PILL[p.estado] || 'ad-pill-gray'}`}>{PROY_LBL[p.estado] || p.estado}</span>
                     {p.stack && <span className="truncate">{p.stack}</span>}
-                    {Number(p.monto) > 0 && <span className="ml-auto tabular-nums">{fmtMoney(p.monto, p.moneda)}</span>}
+                    {Number(p.monto) > 0 && <span className="ml-auto tabular-nums ad-ink font-medium">{fmtMoney(p.monto, p.moneda)}</span>}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -224,6 +233,7 @@ export default function ClienteDetalle({ id, onClose }) {
       {manual && <CobroForm initial={manual} clientes={[{ id: data.id, nombre: data.nombre }]} lockCliente onSave={saveCobro} onClose={() => setManual(null)} />}
       {gestion && <GestionPagos cobro={{ ...gestion, cliente_nombre: data.nombre }} onClose={() => setGestion(null)} onChanged={load} />}
       {comprobante && <Comprobante cobro={{ ...comprobante, cliente_nombre: data.nombre, cliente_email: data.email, cliente_proyecto: data.proyecto }} hoy={new Date().toISOString()} onClose={() => setComprobante(null)} />}
+      {verProy && <ProyectoDetalle proyecto={verProy} onClose={() => setVerProy(null)} onEdit={(p) => { setVerProy(null); setProy(p) }} onEliminar={(p) => { setVerProy(null); delProy(p) }} />}
       {proy && <ProyectoModal initial={proy} onSave={saveProy} onClose={() => setProy(null)} />}
       {seg && <SeguimientoModal initial={seg} onSave={saveSeg} onClose={() => setSeg(null)} />}
     </div>

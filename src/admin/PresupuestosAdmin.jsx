@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
-import { Plus, Pencil, Trash2, Send, X, Loader2, GripVertical, CheckCircle2 } from 'lucide-react'
+import { Plus, Trash2, X, Loader2, ChevronRight } from 'lucide-react'
 import { apiFetch } from './api'
 import { fmtMoney, fmtFecha, MONEDAS } from './format'
+import PresupuestoDetalle from './PresupuestoDetalle'
 
 const EST = {
   borrador:  { label: 'Borrador', cls: 'ad-pill-gray' },
@@ -13,6 +14,7 @@ const EST = {
 export default function PresupuestosAdmin({ clienteId, defaultMoneda = 'ARS' }) {
   const [list, setList] = useState(null)
   const [form, setForm] = useState(null)   // objeto presupuesto en edición / creación
+  const [detalle, setDetalle] = useState(null) // id del presupuesto abierto
   const [busy, setBusy] = useState(null)
 
   const load = useCallback(() => {
@@ -56,16 +58,20 @@ export default function PresupuestosAdmin({ clienteId, defaultMoneda = 'ARS' }) 
       </div>
 
       {list.length === 0 ? (
-        <p className="ad-faint text-sm py-8 text-center">Sin presupuestos todavía.</p>
+        <div className="ad-card p-8 text-center">
+          <p className="ad-ink text-sm font-medium">Sin presupuestos todavía</p>
+          <p className="ad-faint text-xs mt-1">Creá uno con ítems base y opcionales para enviárselo al cliente.</p>
+        </div>
       ) : (
         <div className="space-y-2">
           {list.map((p) => {
             const e = EST[p.estado] || EST.borrador
             return (
-              <div key={p.id} className="ad-card p-4 flex items-center gap-4">
+              <button key={p.id} onClick={() => setDetalle(p.id)}
+                className="ad-card w-full p-4 flex items-center gap-4 text-left transition hover:border-primary-500/30 group">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="font-semibold ad-ink truncate">{p.titulo}</p>
+                    <p className="font-semibold ad-ink truncate group-hover:text-primary-300 transition">{p.titulo}</p>
                     <span className={`ad-pill ${e.cls}`}>{e.label}</span>
                   </div>
                   <p className="text-xs ad-faint mt-0.5">
@@ -75,24 +81,24 @@ export default function PresupuestosAdmin({ clienteId, defaultMoneda = 'ARS' }) 
                 </div>
                 <div className="text-right shrink-0">
                   <p className="font-bold ad-ink tabular-nums text-sm">{fmtMoney(p.estado === 'aprobado' ? p.firma_total : p.total_elegido, p.moneda)}</p>
+                  <p className="text-[10.5px] ad-faint">{p.estado === 'aprobado' ? 'firmado' : 'actual'}</p>
                 </div>
-                <div className="flex items-center gap-1 shrink-0">
-                  {p.estado !== 'aprobado' && (
-                    <button onClick={() => enviar(p)} disabled={busy === p.id} title="Enviar al portal" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition">
-                      {busy === p.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                    </button>
-                  )}
-                  {p.estado === 'aprobado'
-                    ? <span className="p-1.5 text-primary-400" title="Firmado"><CheckCircle2 className="w-4 h-4" /></span>
-                    : <button onClick={() => editar(p)} title="Editar" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Pencil className="w-4 h-4" /></button>}
-                  <button onClick={() => borrar(p)} title="Eliminar" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
-                </div>
-              </div>
+                <ChevronRight className="w-4 h-4 ad-faint shrink-0 group-hover:text-primary-300 group-hover:translate-x-0.5 transition" />
+              </button>
             )
           })}
         </div>
       )}
 
+      {detalle && (
+        <PresupuestoDetalle
+          id={detalle}
+          onClose={() => setDetalle(null)}
+          onEdit={(p) => { setDetalle(null); editar(p) }}
+          onEnviar={(p) => { setDetalle(null); enviar(p) }}
+          onEliminar={(p) => { setDetalle(null); borrar(p) }}
+        />
+      )}
       {form && <PresupuestoForm initial={form} onSave={save} onClose={() => setForm(null)} />}
     </div>
   )

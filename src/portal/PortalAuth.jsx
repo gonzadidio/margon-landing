@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react'
+import { ShieldCheck } from 'lucide-react'
 import Logo from '../components/Logo'
 import { getInvite, activar, loginPortal } from './portalApi'
 
 export default function PortalAuth({ activarToken, onSuccess }) {
   return (
-    <div className="ad-app flex min-h-screen items-center justify-center p-5">
-      <div className="w-full max-w-sm">
+    <div className="ad-app relative flex min-h-screen items-center justify-center overflow-hidden p-5">
+      {/* Atmósfera de marca */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
+        style={{ background: 'radial-gradient(ellipse 70% 100% at 50% 0%, rgba(16,185,129,.13), transparent 70%)' }} />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.4]"
+        style={{ backgroundImage: 'radial-gradient(rgba(16,185,129,.10) 1px, transparent 1px)', backgroundSize: '26px 26px', maskImage: 'radial-gradient(ellipse 60% 50% at 50% 30%, black, transparent 75%)' }} />
+
+      <div className="relative w-full max-w-sm">
         <div className="mb-7 flex flex-col items-center gap-3 text-center">
           <Logo src="/logo.png" alt="Margon" className="h-11 w-auto" />
           <p className="ad-muted text-sm">Portal de clientes</p>
@@ -13,6 +20,9 @@ export default function PortalAuth({ activarToken, onSuccess }) {
         {activarToken
           ? <Activar token={activarToken} onSuccess={onSuccess} />
           : <LoginForm onSuccess={onSuccess} />}
+        <p className="mt-5 flex items-center justify-center gap-1.5 ad-faint text-[11px]">
+          <ShieldCheck className="h-3.5 w-3.5" /> Acceso privado y seguro · Margon
+        </p>
       </div>
     </div>
   )
