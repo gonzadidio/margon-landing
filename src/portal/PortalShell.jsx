@@ -64,7 +64,7 @@ export default function PortalShell({ onLogout }) {
           style={{ background: 'radial-gradient(ellipse 55% 100% at 50% 0%, rgba(16,185,129,.07), transparent 70%)' }} />
         <div className="relative">
           {section === 'inicio' && <PortalHome me={me} onGo={setSection} />}
-          {section === 'presupuestos' && <PortalPresupuestos />}
+          {section === 'presupuestos' && <PortalPresupuestos clienteNombre={me?.cliente?.nombre} />}
           {section === 'pagos' && <PortalPagos />}
           {section === 'proyectos' && <PortalProyectos />}
           {section === 'archivos' && <PortalArchivos />}

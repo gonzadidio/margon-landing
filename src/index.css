@@ -151,19 +151,19 @@
     box-shadow: none !important;
     padding: 1.4cm !important;
   }
-  /* Presupuesto del portal: se imprime con sus colores (tema oscuro) */
-  #presupuesto-print,
-  #presupuesto-print * {
+  /* Presupuesto: documento claro tipo comprobante */
+  #presupuesto-doc,
+  #presupuesto-doc * {
     visibility: visible !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
   }
-  #presupuesto-print {
+  #presupuesto-doc {
     position: absolute !important;
     left: 0;
     top: 0;
     width: 100%;
     box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 1.4cm !important;
   }
   .no-print {
     display: none !important;
@@ -213,3 +213,14 @@
 .ad-th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:#5f6a63;font-weight:600;padding:11px 16px;border-bottom:1px solid rgba(233,245,238,.08)}
 .ad-td{padding:12px 16px;border-bottom:1px solid rgba(233,245,238,.05);vertical-align:middle;font-size:13.5px}
 .ad-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);padding:16px}
+
+/* ============================================================
+   Scrollbars finos y modernos (sin las flechas ▲▼ nativas)
+   ============================================================ */
+html{scrollbar-width:thin;scrollbar-color:rgba(233,245,238,.16) transparent}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(233,245,238,.15);border-radius:999px;border:2px solid transparent;background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(233,245,238,.28);background-clip:padding-box}
+::-webkit-scrollbar-button{display:none;width:0;height:0}
+::-webkit-scrollbar-corner{background:transparent}

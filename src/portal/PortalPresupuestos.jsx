@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { ArrowLeft, Check, Lock, PenLine, Printer } from 'lucide-react'
 import { portalGet, portalPost, portalPatch } from './portalApi'
 import { fmtMoney, fmtFecha } from '../admin/format'
+import PresupuestoPrint from './PresupuestoPrint'
 
 const ESTADO = {
   enviado:   { label: 'Por revisar', cls: 'ad-pill ad-pill-amber' },
@@ -9,14 +10,14 @@ const ESTADO = {
   rechazado: { label: 'Rechazado', cls: 'ad-pill ad-pill-red' },
 }
 
-export default function PortalPresupuestos() {
+export default function PortalPresupuestos({ clienteNombre }) {
   const [list, setList] = useState(null)
   const [sel, setSel] = useState(null)
 
   const load = () => portalGet('/presupuestos').then(setList).catch(() => setList([]))
   useEffect(() => { load() }, [])
 
-  if (sel) return <Detalle id={sel} onBack={() => { setSel(null); load() }} />
+  if (sel) return <Detalle id={sel} clienteNombre={clienteNombre} onBack={() => { setSel(null); load() }} />
   if (!list) return <p className="ad-muted">Cargando…</p>
   if (list.length === 0) {
     return (
@@ -55,13 +56,14 @@ export default function PortalPresupuestos() {
   )
 }
 
-function Detalle({ id, onBack }) {
+function Detalle({ id, clienteNombre, onBack }) {
   const [p, setP] = useState(null)
   const [items, setItems] = useState([])
   const [modo, setModo] = useState('ver')   // 'ver' | 'firmar'
   const [nombre, setNombre] = useState('')
   const [err, setErr] = useState('')
   const [saving, setSaving] = useState(false)
+  const [imprimir, setImprimir] = useState(false)
 
   useEffect(() => {
     portalGet(`/presupuestos/${id}`).then((d) => { setP(d); setItems(d.items) }).catch(() => {})
@@ -109,7 +111,7 @@ function Detalle({ id, onBack }) {
     <div className="space-y-5">
       <button onClick={onBack} className="ad-btn ad-btn-ghost ad-btn-sm no-print"><ArrowLeft className="h-4 w-4" /> Presupuestos</button>
 
-      <div id="presupuesto-print" className="ad-card p-6 sm:p-8">
+      <div className="ad-card p-6 sm:p-8">
         {/* Encabezado */}
         <div className="flex items-start justify-between gap-4 border-b border-white/5 pb-5">
           <div>
@@ -215,11 +217,13 @@ function Detalle({ id, onBack }) {
         </div>
       )}
 
-      {(firmado) && (
-        <button onClick={() => window.print()} className="ad-btn ad-btn-ghost no-print">
+      {firmado && (
+        <button onClick={() => setImprimir(true)} className="ad-btn ad-btn-ghost no-print">
           <Printer className="h-4 w-4" /> Descargar / imprimir
         </button>
       )}
+
+      {imprimir && <PresupuestoPrint p={p} items={items} clienteNombre={clienteNombre} onClose={() => setImprimir(false)} />}
     </div>
   )
 }
