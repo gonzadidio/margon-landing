@@ -243,8 +243,10 @@ ${discountAmount > 0 ? `<div class="total-row"><span class="total-row-label" sty
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="flex h-14 items-center justify-between">
             <a href="/" className={`flex items-center gap-2 text-sm font-medium transition-colors ${T.navLink}`}><ArrowLeft size={16} /><span className="hidden sm:inline">Volver al inicio</span></a>
-            <Logo src="/logo.png" alt="MarGon Software" className="h-8 w-auto" />
-            <div className="w-20" />
+            {config.theme === 'light'
+              ? <a href="/" className="flex items-center gap-2"><img src="/logo2.png" alt="Margon" className="h-7 w-auto" /><span className="font-extrabold tracking-tight text-slate-900 text-[15px]">Margon<span className="text-primary-600"> Software</span></span></a>
+              : <Logo src="/logo.png" alt="MarGon Software" className="h-8 w-auto" />}
+            <div className="w-24" />
           </div>
         </div>
       </nav>
@@ -275,15 +277,17 @@ ${discountAmount > 0 ? `<div class="total-row"><span class="total-row-label" sty
           </div>
         )}
 
-        {/* Contacto */}
-        <div className="max-w-xl mx-auto mb-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input type="text" value={clientName} onChange={e => setClientName(e.target.value)} placeholder={config.nameLabel || 'Nombre / empresa'}
-            className={`sm:col-span-2 w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-1 transition-all ${T.input}`} />
-          <input type="tel" value={telefono} onChange={e => setTelefono(e.target.value)} placeholder="WhatsApp / teléfono"
-            className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-1 transition-all ${T.input}`} />
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email (opcional)"
-            className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-1 transition-all ${T.input}`} />
-        </div>
+        {/* Contacto (opcional según config) */}
+        {config.showContact !== false && (
+          <div className="max-w-xl mx-auto mb-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input type="text" value={clientName} onChange={e => setClientName(e.target.value)} placeholder={config.nameLabel || 'Nombre / empresa'}
+              className={`sm:col-span-2 w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-1 transition-all ${T.input}`} />
+            <input type="tel" value={telefono} onChange={e => setTelefono(e.target.value)} placeholder="WhatsApp / teléfono"
+              className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-1 transition-all ${T.input}`} />
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email (opcional)"
+              className={`w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-1 transition-all ${T.input}`} />
+          </div>
+        )}
 
         {config.discountLabel && (
           <div className="flex justify-center mb-5">

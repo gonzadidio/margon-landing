@@ -177,12 +177,13 @@ export const orbexConfig = {
   currency: 'USD',
   waNumber: '541131930330',
   roundTo: 50,
+  showContact: false,
   discountLabel: 'Cuanto más elegís, más descuento (hasta 16%)',
   // Pasos simples arriba de todo, para que se entienda de una.
   steps: [
     { t: 'Elegí los módulos', d: 'Tocá los que necesitás. Podés probar los combos sugeridos.' },
     { t: 'Mirá el precio', d: 'Se calcula solo, con tu descuento ya aplicado.' },
-    { t: 'Pedí la propuesta', d: 'Dejás tu nombre y teléfono y te escribimos.' },
+    { t: 'Pedí la propuesta', d: 'Se abre WhatsApp con tu selección — nos la mandás y listo.' },
   ],
   // Descuento por tramos según subtotal: cuanto más suman, mejor el precio.
   discountTiers: [
