@@ -100,6 +100,7 @@ const genericPresets = [
 
 export const defaultConfig = {
   slug: 'presupuesto',
+  theme: 'dark',
   eyebrow: 'Generador de Presupuestos Interactivo',
   title: 'Armá tu proyecto',
   titleAccent: 'a medida',
@@ -109,6 +110,7 @@ export const defaultConfig = {
   waNumber: '541131930330',
   discountLabel: '50% OFF en todos los módulos',
   discountTiers: [{ min: 0, pct: 0.5 }],
+  roundTo: 1,
   categories: genericCategories,
   presets: genericPresets,
   terms: [
@@ -165,15 +167,23 @@ const orbexPresets = [
 
 export const orbexConfig = {
   slug: 'orbex-admin',
+  theme: 'light',
   brand: 'ORBEX Desarrollos',
-  eyebrow: 'Fase 2 · Sistema Operativo & Administrativo',
+  eyebrow: 'Sistema Administrativo · ORBEX',
   title: 'Armá tu sistema',
   titleAccent: 'administrativo',
-  subtitle: 'Elegí los módulos que querés arrancar ahora. Sumás el resto cuando quieras — igual que hicimos con lo comercial. El precio se ajusta solo, con más descuento a mayor combo.',
-  nameLabel: 'Tu nombre / a nombre de quién (para identificar la propuesta)',
+  subtitle: 'Elegí lo que querés para arrancar ahora y sumás el resto cuando quieras. El precio se calcula solo — cuanto más elegís, más te descontamos.',
+  nameLabel: 'Tu nombre (para saber de quién es la propuesta)',
   currency: 'USD',
   waNumber: '541131930330',
-  discountLabel: 'Descuento por combo · hasta 16% OFF',
+  roundTo: 50,
+  discountLabel: 'Cuanto más elegís, más descuento (hasta 16%)',
+  // Pasos simples arriba de todo, para que se entienda de una.
+  steps: [
+    { t: 'Elegí los módulos', d: 'Tocá los que necesitás. Podés probar los combos sugeridos.' },
+    { t: 'Mirá el precio', d: 'Se calcula solo, con tu descuento ya aplicado.' },
+    { t: 'Pedí la propuesta', d: 'Dejás tu nombre y teléfono y te escribimos.' },
+  ],
   // Descuento por tramos según subtotal: cuanto más suman, mejor el precio.
   discountTiers: [
     { min: 8000, pct: 0.16 },
