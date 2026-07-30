@@ -195,6 +195,7 @@ export const orbexConfig = {
   ],
   categories: orbexCategories,
   presets: orbexPresets,
+  defaultSelected: orbexPresets[0].ids, // arranca con el Núcleo administrativo elegido
   paymentNote: 'Pagable en cuotas mensuales (a coordinar). Abono mensual del sistema: USD 300/mes (hosting, servidor, base de datos, backups y soporte).',
   terms: [
     'Valores en USD. Propuesta válida 15 días.',

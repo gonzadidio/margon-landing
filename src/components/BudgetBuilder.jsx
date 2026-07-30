@@ -125,7 +125,7 @@ export default function BudgetBuilder({ config = defaultConfig }) {
   const roundTo = config.roundTo || 1
   const roundNice = (n) => Math.round(n / roundTo) * roundTo
 
-  const [selected, setSelected] = useState(new Set())
+  const [selected, setSelected] = useState(() => new Set(config.defaultSelected || []))
   const [clientName, setClientName] = useState('')
   const [telefono, setTelefono] = useState('')
   const [email, setEmail] = useState('')
