@@ -14,6 +14,7 @@ import BudgetBuilder from './components/BudgetBuilder'
 import ProjectDetail from './components/ProjectDetail'
 import AdminApp from './admin/AdminApp'
 import PortalApp from './portal/PortalApp'
+import { getPresupuestoConfig, defaultConfig } from './config/presupuestos'
 
 const path = window.location.pathname
 // Zona interna oculta: /admin (no se enlaza desde la web pública)
@@ -22,11 +23,16 @@ const isAdmin = path.startsWith('/admin')
 const isPortal = path.startsWith('/portal')
 // Caso de estudio por proyecto: /proyecto/:slug
 const projectMatch = path.match(/^\/proyecto\/([^/]+)/)
+// Presupuesto interactivo: /presupuesto (genérico) o /p/:slug (por cliente, no listado)
+const isPresupuesto = path === '/presupuesto' || path === '/presupuesto/'
+const presMatch = path.match(/^\/p\/([^/]+)/)
 
 export default function App() {
   if (isAdmin) return <AdminApp />
   if (isPortal) return <PortalApp />
   if (projectMatch) return <ProjectDetail slug={decodeURIComponent(projectMatch[1])} />
+  if (presMatch) return <BudgetBuilder config={getPresupuestoConfig(decodeURIComponent(presMatch[1]))} />
+  if (isPresupuesto) return <BudgetBuilder config={defaultConfig} />
 
   return <LandingApp />
 }

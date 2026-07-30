@@ -21,6 +21,22 @@ app.use(express.json())
 // ---------- Auth ----------
 app.post('/api/login', login)
 
+// ---------- Presupuesto interactivo público (sin token) ----------
+// Recibe la selección del configurador (/presupuesto o /p/:slug) y la guarda.
+app.post('/api/presupuesto', async (req, res, next) => {
+  try {
+    const { nombre, email, telefono, origen, modulos, total, moneda, mensaje } = req.body || {}
+    const mods = Array.isArray(modulos) ? modulos : []
+    const { rows } = await pool.query(
+      `INSERT INTO solicitudes_presupuesto (nombre, email, telefono, origen, modulos, total, moneda, mensaje)
+       VALUES ($1,$2,$3,$4,$5,$6,COALESCE($7,'USD'),$8) RETURNING id, created_at`,
+      [nombre || null, email || null, telefono || null, origen || null,
+       JSON.stringify(mods), Number(total) || 0, moneda || null, mensaje || null]
+    )
+    res.status(201).json(rows[0])
+  } catch (e) { next(e) }
+})
+
 // Todo lo que cuelga de /api (menos login) requiere token
 const api = express.Router()
 api.use(verifyToken)
@@ -317,6 +333,33 @@ api.put('/oportunidades/:id', async (req, res, next) => {
 api.delete('/oportunidades/:id', async (req, res, next) => {
   try {
     await pool.query('DELETE FROM oportunidades WHERE id=$1', [req.params.id])
+    res.status(204).end()
+  } catch (e) { next(e) }
+})
+
+// ---------- Presupuestos recibidos (del configurador web) ----------
+api.get('/presupuestos-web', async (_req, res, next) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM solicitudes_presupuesto ORDER BY created_at DESC')
+    res.json(rows)
+  } catch (e) { next(e) }
+})
+
+api.put('/presupuestos-web/:id', async (req, res, next) => {
+  try {
+    const { estado } = req.body || {}
+    const { rows } = await pool.query(
+      'UPDATE solicitudes_presupuesto SET estado=COALESCE($1,estado) WHERE id=$2 RETURNING *',
+      [estado || null, req.params.id]
+    )
+    if (!rows[0]) return res.status(404).json({ error: 'No encontrado' })
+    res.json(rows[0])
+  } catch (e) { next(e) }
+})
+
+api.delete('/presupuestos-web/:id', async (req, res, next) => {
+  try {
+    await pool.query('DELETE FROM solicitudes_presupuesto WHERE id=$1', [req.params.id])
     res.status(204).end()
   } catch (e) { next(e) }
 })

@@ -235,5 +235,23 @@ export async function initDb() {
     );
   `)
 
+  // Solicitudes del presupuesto interactivo público (web). Los módulos elegidos
+  // se guardan como JSON para no necesitar tabla hija.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS solicitudes_presupuesto (
+      id          SERIAL PRIMARY KEY,
+      nombre      TEXT,
+      email       TEXT,
+      telefono    TEXT,
+      origen      TEXT,
+      modulos     JSONB NOT NULL DEFAULT '[]',
+      total       NUMERIC(12,2) NOT NULL DEFAULT 0,
+      moneda      TEXT NOT NULL DEFAULT 'USD',
+      mensaje     TEXT,
+      estado      TEXT NOT NULL DEFAULT 'nuevo',
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
   console.log('[db] tablas listas')
 }

@@ -1,17 +1,19 @@
 import { useState } from 'react'
-import { LayoutDashboard, Users, Target, Wallet, LogOut, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Users, Target, Wallet, FileText, LogOut, Menu, X } from 'lucide-react'
 import { NavContext } from './nav'
 import Logo from '../components/Logo'
 import Home from './Home'
 import Clientes from './Clientes'
 import Oportunidades from './Oportunidades'
 import Cobros from './Cobros'
+import PresupuestosRecibidos from './PresupuestosRecibidos'
 import ClienteDetalle from './ClienteDetalle'
 
 const TABS = [
   { id: 'inicio', label: 'Inicio', icon: LayoutDashboard, Comp: Home },
   { id: 'clientes', label: 'Clientes', icon: Users, Comp: Clientes },
   { id: 'oportunidades', label: 'Oportunidades', icon: Target, Comp: Oportunidades },
+  { id: 'presupuestos', label: 'Presupuestos web', icon: FileText, Comp: PresupuestosRecibidos },
   { id: 'cobros', label: 'Cobros', icon: Wallet, Comp: Cobros },
 ]
 
