@@ -316,7 +316,7 @@ ${discountAmount > 0 ? `<div class="total-row"><span class="total-row-label" sty
         {presets.length > 0 && (
           <div className="mb-8">
             <p className={`text-center text-xs font-semibold uppercase tracking-widest mb-4 ${T.statFaint}`}>Combos sugeridos — tocá uno para empezar</p>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className={`grid gap-3 ${presets.length <= 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2 lg:grid-cols-4'}`}>
               {presets.map(preset => {
                 const PreIcon = preset.icon
                 const isActive = preset.ids.length === selected.size && preset.ids.every(id => selected.has(id))

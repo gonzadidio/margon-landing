@@ -159,10 +159,9 @@ const orbexCategories = [
 ]
 
 const orbexPresets = [
-  { name: 'Arranque administrativo', icon: Rocket, desc: 'Expediente + docs + firma + aprobación', ids: ['operaciones', 'documentacion', 'aprobacion', 'firmas', 'admin', 'integracion'] },
-  { name: 'Núcleo mínimo', icon: ClipboardList, desc: 'Lo básico para operar', ids: ['operaciones', 'documentacion', 'aprobacion', 'admin', 'integracion'] },
-  { name: 'Cobranzas', icon: Wallet, desc: 'Núcleo + cuotas + clientes', ids: ['operaciones', 'documentacion', 'aprobacion', 'firmas', 'admin', 'integracion', 'cuotas', 'clientes'] },
-  { name: 'Sistema completo', icon: Layers, desc: 'Los 9 módulos administrativos', ids: ['operaciones', 'documentacion', 'aprobacion', 'firmas', 'cuotas', 'clientes', 'rrhh', 'admin', 'integracion'] },
+  { name: 'Núcleo administrativo', icon: Rocket, desc: 'Reserva, documentos, firma, aprobación e integración con el CRM.', ids: ['operaciones', 'documentacion', 'aprobacion', 'firmas', 'integracion'] },
+  { name: 'Cobranzas', icon: Wallet, desc: 'El núcleo administrativo + cuotas y base de clientes.', ids: ['operaciones', 'documentacion', 'aprobacion', 'firmas', 'integracion', 'cuotas', 'clientes'] },
+  { name: 'Sistema completo', icon: Layers, desc: 'Los 9 módulos administrativos, todo incluido.', ids: ['operaciones', 'documentacion', 'aprobacion', 'firmas', 'cuotas', 'clientes', 'rrhh', 'admin', 'integracion'] },
 ]
 
 export const orbexConfig = {
@@ -186,11 +185,12 @@ export const orbexConfig = {
     { t: 'Pedí la propuesta', d: 'Se abre WhatsApp con tu selección — nos la mandás y listo.' },
   ],
   // Descuento por tramos según subtotal: cuanto más suman, mejor el precio.
+  // Calibrado para que Núcleo administrativo (5.050) → 4.500 y Completo → 7.500.
   discountTiers: [
     { min: 8000, pct: 0.16 },
-    { min: 6000, pct: 0.13 },
-    { min: 4000, pct: 0.10 },
-    { min: 2500, pct: 0.06 },
+    { min: 6500, pct: 0.13 },
+    { min: 5000, pct: 0.11 },
+    { min: 3500, pct: 0.08 },
     { min: 0, pct: 0 },
   ],
   categories: orbexCategories,
