@@ -5,25 +5,23 @@
 
 export const projects = [
   {
+    // El caso completo se arma en components/orbex/. Acá queda solo lo que
+    // usa la tarjeta de la landing. Contenido a nivel producto: sin reglas
+    // internas de negocio, por privacidad del cliente.
     slug: 'orbex',
     title: 'ORBEX Desarrollos',
     category: 'Desarrollos Inmobiliarios',
     group: 'CRM',
     type: 'web',
-    image: '/projects/orbex-logo.png',
-    placeholder: true, // usando el logo como portada hasta tener las capturas reales de la app
+    image: '/projects/orbex-login.png',
     tags: ['React', 'Node.js', 'PostgreSQL', 'Meta API'],
-    description: 'CRM comercial para una desarrolladora de lotes: los leads de Facebook e Instagram entran solos, se reparten entre los equipos sin mezclarse y cada venta se sigue de punta a punta.',
-    lede: 'El sistema comercial propio de ORBEX Desarrollos: cada lead de Meta cae en las manos correctas, se reparte entre los equipos sin superponerse y cada venta se sigue de principio a fin.',
+    description: 'Sistema comercial propio para una desarrolladora de lotes: cada oportunidad seguida desde el primer contacto hasta el cierre de la venta.',
+    lede: 'Sistema comercial propio para gestionar cada oportunidad desde el primer contacto hasta el cierre de la venta.',
     url: '',
-    duration: 'Sistema propio en producción y evolución continua.',
-    results: 'Leads de campañas gestionados de punta a punta, sin perder oportunidades.',
-    cases: [
-      { title: 'Leads de Meta, automáticos', text: 'Las campañas de Facebook e Instagram vuelcan cada lead directo al sistema. Nada se carga a mano ni se pierde en una planilla.' },
-      { title: 'Reparto entre equipos', text: 'Cada lead se asigna al equipo comercial correspondiente sin mezclarse ni superponerse, con reglas claras de distribución.' },
-      { title: 'Seguimiento de la venta', text: 'Cada oportunidad se sigue de principio a fin: estados, contactos y cierre del lote, todo en un mismo panel.' },
-    ],
-    testimonial: { text: 'Dejamos de perder leads. Cada campaña entra al sistema y sabemos exactamente en qué está cada venta.', name: 'Nombre Apellido', role: 'Gerencia · ORBEX Desarrollos' },
+    duration: 'Sistema propio en producción, con desarrollo continuo.',
+    results: 'Todo el proceso comercial en una sola plataforma.',
+    cases: [],
+    testimonial: { text: 'Dejamos de perder leads. Ahora sabemos exactamente en qué está cada venta.', name: 'Nombre Apellido', role: 'Gerencia · ORBEX Desarrollos' },
   },
   {
     slug: 'punto-bella-vista',
@@ -46,6 +44,25 @@ export const projects = [
     testimonial: { text: 'Margon entendió el negocio y nos dejó una herramienta que usamos todos los días. Las consultas por la web se dispararon.', name: 'Nombre Apellido', role: 'Dueño · Punto Bella Vista' },
   },
   {
+    // TODO: completar con el contenido real del caso (resultados, testimonio,
+    // duración) y subir la captura a /public/projects/comextracker.png
+    slug: 'comextracker',
+    title: 'ComexTracker',
+    category: 'Comercio Exterior',
+    group: 'SaaS',
+    type: 'web',
+    image: '',
+    placeholder: true,
+    tags: ['React', 'Node.js', 'PostgreSQL'],
+    description: 'Seguimiento de operaciones de comercio exterior: embarques, documentación y estado de cada operación en un solo panel.',
+    lede: 'Seguimiento de operaciones de comercio exterior de punta a punta: embarques, documentación y estado de cada operación en un mismo panel.',
+    url: '',
+    duration: '',
+    results: '',
+    cases: [],
+    testimonial: null,
+  },
+  {
     slug: 'handprox',
     title: 'HandProX',
     category: 'SaaS Deportivo',
@@ -63,25 +80,6 @@ export const projects = [
       { title: 'Gestión de equipos y ligas', text: 'Altas de jugadores, planteles, fixtures y tablas de posiciones. Todo el torneo administrado desde un solo lugar.' },
     ],
     testimonial: { text: 'Pasamos de las planillas de Excel a tener todo en vivo. Un cambio total para la liga.', name: 'Nombre Apellido', role: 'Coordinador · HandProX' },
-  },
-  {
-    slug: 'sinnergia',
-    title: 'Sinnergia',
-    category: 'Marketing Digital',
-    group: 'Web',
-    type: 'web',
-    image: '/projects/sinnergia.png',
-    tags: ['Next.js', 'React', 'Tailwind', 'Framer Motion'],
-    description: 'Landing page premium para agencia de marketing digital con animaciones, portfolio dinámico y formulario de contacto.',
-    lede: 'Una landing premium para una agencia de marketing: animaciones cuidadas, portfolio dinámico y un embudo de contacto claro.',
-    url: '',
-    duration: '4 semanas.',
-    results: 'Más consultas calificadas desde el sitio.',
-    cases: [
-      { title: 'Diseño con movimiento', text: 'Animaciones sutiles al hacer scroll que guían la atención sin distraer, transmitiendo el nivel de la agencia.' },
-      { title: 'Portfolio y contacto', text: 'Casos destacados con carga dinámica y un formulario de contacto directo al equipo comercial.' },
-    ],
-    testimonial: { text: 'La web quedó a la altura de lo que ofrecemos. Nos representa perfecto.', name: 'Nombre Apellido', role: 'Directora · Sinnergia' },
   },
   {
     slug: 'fleur-co',
@@ -197,6 +195,35 @@ export const projects = [
     ],
     testimonial: { text: 'Organizar un torneo pasó de días a minutos. Impecable.', name: 'Nombre Apellido', role: 'Organizador · PadelLeague' },
   },
+  {
+    // Contenido a nivel producto, tomado del documento del portal.
+    slug: 'aguilasoft',
+    title: 'AguilaSoft',
+    category: 'Portal B2B para distribuidoras',
+    group: 'SaaS',
+    type: 'web',
+    image: '/projects/aguilasoft/home.png',
+    tags: ['Portal web', 'WhatsApp API', 'Multiempresa', 'IA'],
+    description: 'Portal de autogestión para los clientes de una distribuidora: cuenta corriente, catálogo con su propio precio, pedidos y seguimiento, en la web y por WhatsApp.',
+    lede: 'El teléfono deja de sonar. Una distribuidora atiende a cientos de comercios y todo el día entran los mismos cuatro llamados: cuánto debo, mandame la lista, tenés stock, en qué anda mi pedido. El portal es la puerta para que el cliente entre solo, a cualquier hora, y vea sus datos sin que nadie los busque por él.',
+    url: '',
+    duration: 'En producción, con varias distribuidoras activas.',
+    results: 'Cuatro llamados menos por día: saldo, precios, stock y pedidos disponibles un domingo a la noche.',
+    cases: [
+      { title: 'Su precio, no una lista genérica', text: 'Cada cliente ve lo que él paga: su lista, su descuento y los precios acordados, ya aplicados. Busca por código, nombre o descripción —y según la empresa, también por código de fabricante o equivalencia— con fotos y filtros que cada distribuidora define.' },
+      { title: 'La cuenta corriente, clara', text: 'Cuánto debe, qué está vencido y qué vence pronto, separado por antigüedad y no en un número suelto. Filtra por fecha y tipo de comprobante, abre el detalle de una factura con sus renglones y se baja el resumen en Excel o PDF.' },
+      { title: 'Pedidos de punta a punta', text: 'Arma el pedido desde el catálogo o pegando una lista de códigos, elige fecha de entrega y sucursal, y lo manda. Después sigue en qué etapa está cada uno —enviado, aceptado, en preparación, facturado— con el avance por unidades y un botón para repetir un pedido anterior entero.' },
+      { title: 'Un bot de WhatsApp por empresa', text: 'Lo mismo que el portal, por el canal donde la gente ya está, y con el número de cada distribuidora. Responde saldo, precios, stock y estado de pedidos; nunca redacta un número: los datos salen del sistema en el momento. Cuando el cliente lo pide, se calla y la conversación aparece sin leer en el panel del proveedor.' },
+      { title: 'El panel del proveedor', text: 'La empresa maneja su portal sin pedirle nada a nadie: define qué ve cada cliente, su logo y su color, el vocabulario de su rubro, y sube las fotos de producto en tanda. Las facturas de proveedor se leen solas del PDF y se revisan antes de entrar al sistema.' },
+      { title: 'Lee en vivo, no copia datos', text: 'El portal lee la base del sistema de gestión en el momento: no hay sincronización nocturna ni datos de ayer. Y solo escribe en un lugar —la bandeja de pedidos—; no emite comprobantes, no imputa en cuenta corriente y no mueve stock. La base del cliente no se toca.' },
+      { title: 'Un sistema, muchos portales', text: 'Cada empresa entra por su propio subdominio y ve su portal, con su marca y sus reglas. Es el mismo sistema: lo que se arregla o se mejora aparece en todos a la vez. Para el cliente final, es el portal de su proveedor.' },
+    ],
+    testimonial: null,
+  },
 ]
+
+// Los 4 casos que van como cartas largas, en este orden. Un null reserva el
+// contenedor de un caso todavía por definir.
+export const featuredSlugs = ['orbex', 'punto-bella-vista', 'comextracker', 'aguilasoft']
 
 export const getProject = (slug) => projects.find((p) => p.slug === slug)

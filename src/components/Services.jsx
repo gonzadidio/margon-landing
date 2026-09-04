@@ -1,84 +1,87 @@
-import {
-  Globe, Smartphone, ShoppingCart, Server,
-  Workflow, Database, BarChart3, Shield
-} from 'lucide-react'
 import AnimatedSection from './AnimatedSection'
+import {
+  VisualProduct, VisualPhone, VisualCode, VisualChart, VisualAutomation, VisualCloud,
+} from './services/ServiceVisuals'
 
+/**
+ * Servicios: 6 tarjetas con título, texto y un visual a la derecha.
+ * Para reemplazar un visual por imagen, agregar `img: '/ruta.png'` al servicio.
+ */
 const services = [
   {
-    icon: Globe,
-    title: 'Aplicaciones Web',
-    description: 'Plataformas web robustas, rápidas y escalables. Desde dashboards corporativos hasta SaaS complejos.',
+    title: 'Producto & Diseño',
+    text: 'Investigación, UX/UI, design systems y prototipos que conectan con usuarios y objetivos de negocio.',
+    Visual: VisualProduct,
+    img: '/services/producto.png',
   },
   {
-    icon: Smartphone,
-    title: 'Apps Mobile',
-    description: 'Aplicaciones nativas y multiplataforma para iOS y Android con experiencias de usuario excepcionales.',
+    title: 'Desarrollo Web & Mobile',
+    text: 'Aplicaciones rápidas, escalables y responsivas para web y dispositivos móviles.',
+    Visual: VisualPhone,
+    img: '/services/web-mobile.png',
   },
   {
-    icon: ShoppingCart,
-    title: 'E-Commerce',
-    description: 'Tiendas online optimizadas para conversión, con pasarelas de pago, inventario y logística integrados.',
+    title: 'Backend & APIs',
+    text: 'Desarrollamos la lógica, APIs e integraciones que hacen funcionar todo tu producto.',
+    Visual: VisualCode,
   },
   {
-    icon: Server,
-    title: 'Sistemas a Medida',
-    description: 'Software empresarial diseñado para tus procesos. ERPs, CRMs y herramientas internas a tu medida.',
+    title: 'Datos & Analytics',
+    text: 'Bases de datos, reportes y dashboards para tomar decisiones basadas en información real.',
+    Visual: VisualChart,
   },
   {
-    icon: Workflow,
     title: 'Automatizaciones',
-    description: 'Automatizá procesos repetitivos, integrá sistemas y optimizá flujos de trabajo con soluciones inteligentes.',
+    text: 'Conectamos herramientas y automatizamos procesos para que tu equipo enfoque lo que importa.',
+    Visual: VisualAutomation,
   },
   {
-    icon: Database,
-    title: 'Integraciones & APIs',
-    description: 'Conectamos tus sistemas entre sí y con servicios de terceros mediante APIs robustas y bien documentadas.',
-  },
-  {
-    icon: BarChart3,
-    title: 'Consultoría Técnica',
-    description: 'Auditorías de código, arquitectura de soluciones y estrategia tecnológica para escalar tu negocio.',
-  },
-  {
-    icon: Shield,
-    title: 'Mantenimiento & Soporte',
-    description: 'Soporte continuo, actualizaciones de seguridad y mejoras evolutivas para mantener tu software en su mejor versión.',
+    title: 'Integraciones & Cloud',
+    text: 'Conectamos sistemas terceros y desplegamos en la nube con seguridad y escalabilidad.',
+    Visual: VisualCloud,
+    img: '/services/cloud.png',
   },
 ]
 
+function ServiceCard({ title, text, Visual, img }) {
+  return (
+    <article className="svc-card">
+      <div className="svc-card-content">
+        <div className="min-w-0">
+          <h3 className="m-0 mb-5 text-lg font-semibold tracking-tight text-white leading-tight">{title}</h3>
+          <p className="m-0 text-[15px] leading-relaxed text-surface-100/75">{text}</p>
+        </div>
+
+        <div className="svc-visual">
+          <Visual img={img} />
+        </div>
+      </div>
+
+      <div className="svc-dots" aria-hidden="true">
+        <span className="svc-dot svc-dot-active" />
+        <span className="svc-dot" />
+        <span className="svc-dot" />
+      </div>
+    </article>
+  )
+}
+
 export default function Services() {
   return (
-    <section id="servicios" className="relative py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block text-sm font-semibold uppercase tracking-widest text-primary-400 mb-4">
-            Servicios
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white">
-            Todo lo que necesitás para{' '}
-            <span className="gradient-text">digitalizar tu negocio</span>
+    <section id="servicios" className="relative py-20 lg:py-24">
+      <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-12">
+        <AnimatedSection className="mb-10">
+          <h2 className="m-0 max-w-3xl text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.08] text-white">
+            Diseño, desarrollo y datos.
+            <br />
+            Todo en <span className="gradient-text">un solo lugar.</span>
           </h2>
-          <p className="mt-5 text-lg text-surface-200/60 leading-relaxed">
-            Ofrecemos un ecosistema completo de servicios de desarrollo.
-            Cada solución está diseñada para generar resultados medibles.
-          </p>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {services.map((service, i) => (
-            <AnimatedSection key={service.title} delay={i * 0.08}>
-              <div className="group relative h-full rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-all duration-300 hover:bg-white/[0.05] hover:border-primary-500/20 hover:glow-sm">
-                <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-500/10 text-primary-400 transition-colors group-hover:bg-primary-500/20">
-                  <service.icon size={24} />
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-sm text-surface-200/50 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
+          {services.map((s, i) => (
+            <AnimatedSection key={s.title} delay={i * 0.08}>
+              <ServiceCard {...s} />
             </AnimatedSection>
           ))}
         </div>

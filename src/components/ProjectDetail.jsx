@@ -47,10 +47,12 @@ export default function ProjectDetail({ slug }) {
           </div>
         </header>
 
-        {/* Captura principal */}
-        <div className="mt-8 overflow-hidden rounded-2xl border border-white/[0.07] bg-black/30 shadow-2xl shadow-black/50">
-          <img src={p.image} alt={p.title} className={`w-full ${p.placeholder ? 'aspect-[16/9] object-cover object-center' : 'object-cover object-top'}`} loading="lazy" />
-        </div>
+        {/* Captura principal — puede no existir todavía */}
+        {p.image && (
+          <div className="mt-8 overflow-hidden rounded-2xl border border-white/[0.07] bg-black/30 shadow-2xl shadow-black/50">
+            <img src={p.image} alt={p.title} className={`w-full ${p.placeholder ? 'aspect-[16/9] object-cover object-center' : 'object-cover object-top'}`} loading="lazy" />
+          </div>
+        )}
 
         {/* Meta */}
         <section className="mt-12 grid gap-4 sm:grid-cols-3">
@@ -61,8 +63,8 @@ export default function ProjectDetail({ slug }) {
               ))}
             </div>
           </MetaCard>
-          <MetaCard icon={Clock} title="Duración"><p className="text-sm text-surface-200/70 leading-relaxed">{p.duration}</p></MetaCard>
-          <MetaCard icon={TrendingUp} title="Resultados"><p className="text-sm text-surface-200/70 leading-relaxed">{p.results}</p></MetaCard>
+          {p.duration && <MetaCard icon={Clock} title="Duración"><p className="text-sm text-surface-200/70 leading-relaxed">{p.duration}</p></MetaCard>}
+          {p.results && <MetaCard icon={TrendingUp} title="Resultados"><p className="text-sm text-surface-200/70 leading-relaxed">{p.results}</p></MetaCard>}
         </section>
 
         {/* Caso de estudio */}

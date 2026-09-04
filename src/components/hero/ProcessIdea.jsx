@@ -1,37 +1,24 @@
-import { Target, Users, BarChart3, AlertTriangle, ArrowRight } from 'lucide-react'
 import ProcessCard from './ProcessCard'
 
 const items = [
-  { icon: Target, label: 'Objetivos del negocio' },
-  { icon: Users, label: 'Necesidades de usuarios' },
-  { icon: BarChart3, label: 'Procesos a mejorar' },
-  { icon: AlertTriangle, label: 'Dolores actuales' },
+  { title: 'Objetivos del negocio', sub: 'Qué querés lograr y hacia dónde crecer.' },
+  { title: 'Necesidades de usuarios', sub: 'Qué necesitan y cómo interactúan.' },
+  { title: 'Procesos a mejorar', sub: 'Qué podemos simplificar u optimizar.' },
+  { title: 'Problemas actuales', sub: 'Qué está frenando hoy tu operación.' },
 ]
 
-/** Tarjeta 01 — Tu idea / desafío */
+/** Tarjeta 01 — Tu idea / desafío: lista de título + detalle con barra lateral */
 export default function ProcessIdea() {
   return (
-    <ProcessCard
-      tone="red"
-      number="01"
-      title="Tu idea / desafío"
-      description="Escuchamos tu idea y entendemos los desafíos que tu negocio necesita resolver para crecer."
-    >
-      <div className="grid gap-2.5">
-        {items.map(({ icon: Icon, label }) => (
-          <div key={label} className="hero-list-item">
-            <span className="hero-list-icon">
-              <Icon size={20} strokeWidth={1.8} />
-            </span>
-            <span className="text-[13px] text-white">{label}</span>
-          </div>
+    <ProcessCard tone="green" number="01" plainNumber title="Tu idea / desafío">
+      <ul className="m-0 p-0 list-none flex flex-col gap-5">
+        {items.map((it) => (
+          <li key={it.title} className="hero-idea-item">
+            <span className="hero-idea-title">{it.title}</span>
+            <span className="hero-idea-sub">{it.sub}</span>
+          </li>
         ))}
-      </div>
-
-      <div className="hero-list-item mt-6 !py-2.5 text-xs text-surface-200">
-        <ArrowRight size={16} className="text-current shrink-0" style={{ color: 'var(--hero-tone)' }} />
-        Convertimos tu idea en una oportunidad real.
-      </div>
+      </ul>
     </ProcessCard>
   )
 }

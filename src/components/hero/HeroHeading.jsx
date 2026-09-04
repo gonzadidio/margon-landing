@@ -18,9 +18,12 @@ const codeLines = [
   { n: '13', html: <>console.<span className="text-accent-300">log</span>( resultados_reales );</> },
 ]
 
+/* Título principal debajo del logo. En prueba oculto: poner en true para restaurarlo. */
+const SHOW_TITLE = false
+
 export default function HeroHeading() {
   return (
-    <div className="relative text-center pt-6 pb-10 lg:pt-10 lg:pb-12">
+    <div className="hero-heading relative text-center pt-6 pb-10 lg:pt-10 lg:pb-12">
       {/* Código decorativo — izquierda */}
       <div
         className="hero-floating-code hidden lg:flex absolute left-0 top-0 flex-col text-left font-mono text-[12px] leading-[1.65] text-[#6c8b80] select-none"
@@ -34,36 +37,27 @@ export default function HeroHeading() {
         ))}
       </div>
 
-      {/* Ventanas decorativas — derecha */}
-      <div className="hero-floating-windows hidden lg:block absolute right-0 top-0 w-[340px] h-[210px]" aria-hidden="true">
-        <div className="hero-mini-window w-[170px] h-[160px] right-[175px] top-0">
-          {[80, 50, 70, 60, 75, 45, 65].map((w, i) => (
-            <span key={i} style={{ width: `${w}%` }} className={i % 3 === 1 ? 'bg-primary-400/30' : ''} />
-          ))}
-        </div>
-        <div className="hero-mini-window w-[60px] h-[45px] right-[110px] top-0" />
-        <div className="hero-mini-window w-[165px] h-[135px] right-0 top-[55px]">
-          {[80, 50, 70, 60, 75].map((w, i) => (
-            <span key={i} style={{ width: `${w}%` }} />
-          ))}
-        </div>
-        <div className="absolute right-[40px] bottom-0 hero-dots-grid" />
+
+      {/* Ventanas decorativas — esquina derecha */}
+      <div className="hero-floating-windows hidden lg:block absolute right-0 top-0 w-[380px] h-[250px]" aria-hidden="true">
+        <img src="/hero/ventanas.png" alt="" className="hero-floating-windows-img w-full h-full object-contain" />
       </div>
 
       {/* Ícono persona */}
       <div className="hero-symbol animate-fade-up mx-auto" aria-hidden="true">
-        <div className="hero-symbol-head" />
-        <div className="hero-symbol-body" />
+        <img src="/hero/logo-hero.png" alt="" className="hero-symbol-img" />
       </div>
 
-      <h1
-        className="animate-fade-up relative z-10 mx-auto mt-4 max-w-3xl text-3xl sm:text-4xl lg:text-[52px] font-extrabold tracking-tight leading-[1.08]"
-        style={{ animationDelay: '0.1s' }}
-      >
-        Transformamos <span className="text-accent-300">ideas</span> en{' '}
-        <br className="hidden sm:block" />
-        <span className="text-cyan-400">soluciones digitales</span> reales
-      </h1>
+      {SHOW_TITLE && (
+        <h1
+          className="animate-fade-up relative z-10 mx-auto mt-4 max-w-3xl text-3xl sm:text-4xl lg:text-[52px] font-extrabold tracking-tight leading-[1.08]"
+          style={{ animationDelay: '0.1s' }}
+        >
+          Transformamos <span className="gradient-text">ideas</span> en{' '}
+          <br className="hidden sm:block" />
+          <span className="gradient-text">soluciones digitales</span> reales
+        </h1>
+      )}
     </div>
   )
 }
