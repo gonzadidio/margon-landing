@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+  <g>
+    <!-- Arco superior (sonrisa) -->
+    <path d="M 80 120 Q 200 40 320 120" stroke="#22C55E" stroke-width="28" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Punto izquierdo (ojo) -->
+    <circle cx="100" cy="220" r="20" fill="#22C55E"/>
+
+    <!-- Guión 1 derecha -->
+    <rect x="280" y="200" width="80" height="20" fill="#22C55E" rx="10"/>
+
+    <!-- Guión 2 derecha -->
+    <rect x="280" y="280" width="80" height="20" fill="#22C55E" rx="10"/>
+
+    <!-- Barra diagonal -->
+    <line x1="160" y1="350" x2="240" y2="450" stroke="#22C55E" stroke-width="28" stroke-linecap="round"/>
+
+    <!-- Candado -->
+    <rect x="140" y="480" width="120" height="100" fill="none" stroke="#22C55E" stroke-width="16" rx="12"/>
+    <path d="M 170 480 Q 170 420 200 420 Q 230 420 230 480" fill="none" stroke="#22C55E" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="200" cy="520" r="8" fill="#22C55E"/>
+
+    <!-- Puntos abajo -->
+    <circle cx="200" cy="570" r="10" fill="#22C55E"/>
+  </g>
+</svg>

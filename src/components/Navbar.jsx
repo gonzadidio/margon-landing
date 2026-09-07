@@ -5,8 +5,8 @@ import Logo from './Logo'
 const navLinks = [
   { label: 'Servicios', href: '#servicios' },
   { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Proceso', href: '#proceso' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Clientes', href: '#clientes' },
+  { label: 'Soluciones', href: '#soluciones' },
   // { label: 'Presupuesto', href: '#presupuesto', highlight: true },
 ]
 
@@ -60,7 +60,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-4">
             <a
               href="#contacto"
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary-600 to-accent-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all hover:shadow-primary-500/40 hover:brightness-110"
+              className="btn-outline-gradient inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-primary-500/25"
             >
               Hablemos
             </a>
@@ -94,7 +94,7 @@ export default function Navbar() {
             <a
               href="#contacto"
               onClick={() => setMobileOpen(false)}
-              className="mt-4 block w-full text-center rounded-lg bg-gradient-to-r from-primary-600 to-accent-600 px-5 py-3 text-sm font-semibold text-white"
+              className="btn-outline-gradient mt-4 block w-full text-center rounded-lg px-5 py-3 text-sm font-semibold text-white"
             >
               Hablemos
             </a>

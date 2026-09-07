@@ -4,14 +4,13 @@ import Background from './components/Background'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Services from './components/Services'
-import Benefits from './components/Benefits'
-import Process from './components/Process'
 import Projects from './components/Projects'
-import FAQ from './components/FAQ'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
 import BudgetBuilder from './components/BudgetBuilder'
 import ProjectDetail from './components/ProjectDetail'
+import OrbexCase from './components/orbex/OrbexCase'
+import PuntoBellaVistaCase from './components/pbv/PuntoBellaVistaCase'
 import AdminApp from './admin/AdminApp'
 import PortalApp from './portal/PortalApp'
 import { getPresupuestoConfig, defaultConfig } from './config/presupuestos'
@@ -30,7 +29,15 @@ const presMatch = path.match(/^\/p\/([^/]+)/)
 export default function App() {
   if (isAdmin) return <AdminApp />
   if (isPortal) return <PortalApp />
-  if (projectMatch) return <ProjectDetail slug={decodeURIComponent(projectMatch[1])} />
+
+  if (projectMatch) {
+    const slug = decodeURIComponent(projectMatch[1])
+    // Casos con página propia; el resto usa la genérica.
+    if (slug === 'orbex') return <OrbexCase />
+    if (slug === 'punto-bella-vista') return <PuntoBellaVistaCase />
+    return <ProjectDetail slug={slug} />
+  }
+
   if (presMatch) return <BudgetBuilder config={getPresupuestoConfig(decodeURIComponent(presMatch[1]))} />
   if (isPresupuesto) return <BudgetBuilder config={defaultConfig} />
 
@@ -61,9 +68,6 @@ function LandingApp() {
         <Hero />
         <Services />
         <Projects />
-        <Benefits />
-        <Process />
-        <FAQ />
         <CTA />
       </main>
       <Footer />
