@@ -1125,6 +1125,9 @@ a.proj-feature:hover {
 
   /* La captura de Gestio es vertical y estiraba la carta: la recorto. */
   .proj-feature--gestio .proj-feature-media { max-height: 270px; }
+
+  /* Corro el recorte un poco hacia abajo, dejando algo de aire arriba. */
+  .proj-feature--gestio .proj-img { object-position: 50% 35%; }
 }
 
 .proj-img {
