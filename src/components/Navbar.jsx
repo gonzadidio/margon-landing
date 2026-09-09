@@ -5,8 +5,6 @@ import Logo from './Logo'
 const navLinks = [
   { label: 'Servicios', href: '#servicios' },
   { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Clientes', href: '#clientes' },
-  { label: 'Soluciones', href: '#soluciones' },
   // { label: 'Presupuesto', href: '#presupuesto', highlight: true },
 ]
 
