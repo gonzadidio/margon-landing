@@ -37,14 +37,6 @@ export default function CTA() {
               Escribinos
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </a>
-            <a
-              href="https://wa.me/541131930330"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-surface-200/10 bg-white/5 px-8 py-4 text-base font-semibold text-surface-200 backdrop-blur-sm transition-all hover:bg-white/10 hover:border-surface-200/20"
-            >
-              WhatsApp directo
-            </a>
           </div>
 
           <p className="mt-8 text-xs text-surface-200/30">

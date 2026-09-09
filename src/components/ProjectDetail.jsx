@@ -33,7 +33,12 @@ export default function ProjectDetail({ slug }) {
         {/* Hero */}
         <header className="pt-14 pb-4 text-center">
           <span className="text-xs font-semibold uppercase tracking-widest text-primary-400">{p.category}</span>
-          <h1 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-white">{p.title}</h1>
+          {/* Si el proyecto trae logo, va en lugar del titular escrito */}
+          <h1 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
+            {p.logo
+              ? <img src={p.logo} alt={p.title} className="mx-auto h-14 sm:h-20 w-auto max-w-full" />
+              : p.title}
+          </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-surface-200/70">{p.lede}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             {p.url && (
@@ -46,13 +51,6 @@ export default function ProjectDetail({ slug }) {
             </a>
           </div>
         </header>
-
-        {/* Captura principal — puede no existir todavía */}
-        {p.image && (
-          <div className="mt-8 overflow-hidden rounded-2xl border border-white/[0.07] bg-black/30 shadow-2xl shadow-black/50">
-            <img src={p.image} alt={p.title} className={`w-full ${p.placeholder ? 'aspect-[16/9] object-cover object-center' : 'object-cover object-top'}`} loading="lazy" />
-          </div>
-        )}
 
         {/* Meta */}
         <section className="mt-12 grid gap-4 sm:grid-cols-3">
@@ -67,41 +65,28 @@ export default function ProjectDetail({ slug }) {
           {p.results && <MetaCard icon={TrendingUp} title="Resultados"><p className="text-sm text-surface-200/70 leading-relaxed">{p.results}</p></MetaCard>}
         </section>
 
-        {/* Caso de estudio */}
-        <section className="mt-6">
-          {p.cases.map((c, i) => (
-            <div key={i} className={`grid items-center gap-8 border-t border-white/5 py-12 lg:grid-cols-2 ${i % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
-              <div>
-                <span className="font-mono text-sm text-primary-400">{String(i + 1).padStart(2, '0')}</span>
-                <h2 className="mt-2 text-2xl font-bold tracking-tight text-white">{c.title}</h2>
-                <p className="mt-3 leading-relaxed text-surface-200/60">{c.text}</p>
-              </div>
-              <div className="overflow-hidden rounded-xl border border-white/[0.07] bg-black/30">
-                <img src={c.image || p.image} alt={c.title} className={`w-full ${(c.image ? false : p.placeholder) ? 'aspect-[16/10] object-cover object-center' : 'object-cover object-top'}`} loading="lazy" />
-              </div>
-            </div>
-          ))}
-        </section>
+        {/* Qué hace la app — sin capturas, solo el listado */}
+        {p.cases.length > 0 && (
+          <section className="mt-16">
+            <h2 className="text-2xl font-bold tracking-tight text-white">Qué hace</h2>
 
-        {/* Testimonio */}
-        {p.testimonial && (
-          <section className="my-12 rounded-2xl border border-white/[0.07] bg-white/[0.02] p-8 sm:p-10 text-center">
-            <p className="mx-auto max-w-2xl text-xl font-medium leading-relaxed text-white">“{p.testimonial.text}”</p>
-            <div className="mt-6 flex items-center justify-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-primary-500 to-accent-500 font-bold text-white">
-                {p.testimonial.name.charAt(0)}
-              </div>
-              <div className="text-left">
-                <p className="text-sm font-semibold text-white">{p.testimonial.name}</p>
-                <p className="text-xs text-surface-200/40">{p.testimonial.role}</p>
-              </div>
-            </div>
+            <ul className="mt-8">
+              {p.cases.map((c, i) => (
+                <li key={c.title} className="flex gap-5 border-t border-white/5 py-7">
+                  <span className="mt-1 font-mono text-sm text-primary-400">{String(i + 1).padStart(2, '0')}</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">{c.title}</h3>
+                    <p className="mt-2 leading-relaxed text-surface-200/60">{c.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
       </main>
 
       {/* CTA final */}
-      <section className="border-t border-white/5 py-16 text-center">
+      <section className="mt-16 border-t border-white/5 py-16 text-center">
         <div className="mx-auto max-w-5xl px-6">
           <h3 className="text-3xl font-extrabold tracking-tight text-white">¿Tenés un proyecto así en mente?</h3>
           <p className="mt-3 text-surface-200/60">Contanos qué necesitás y lo hacemos realidad.</p>

@@ -45,7 +45,7 @@ function FeaturedCard({ project, index }) {
 
   return (
     <AnimatedSection delay={index * 0.06}>
-      <a href={`/proyecto/${project.slug}`} className="proj-feature group">
+      <a href={`/proyecto/${project.slug}`} className={`proj-feature proj-feature--${project.slug} group`}>
         <div className={`proj-feature-media ${imagenDerecha ? 'lg:order-2' : ''}`}>
           <Portada project={project} />
           <span className="proj-badge">

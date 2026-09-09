@@ -21,7 +21,6 @@ export const projects = [
     duration: 'Sistema propio en producción, con desarrollo continuo.',
     results: 'Todo el proceso comercial en una sola plataforma.',
     cases: [],
-    testimonial: { text: 'Dejamos de perder leads. Ahora sabemos exactamente en qué está cada venta.', name: 'Nombre Apellido', role: 'Gerencia · ORBEX Desarrollos' },
   },
   {
     slug: 'punto-bella-vista',
@@ -41,18 +40,14 @@ export const projects = [
       { title: 'Turnos online sin llamadas', text: 'Reservas de test drive y service sincronizadas con la agenda del local. Menos idas y vueltas por teléfono, más turnos confirmados.' },
       { title: 'Panel de administración', text: 'Alta y edición de vehículos, gestión de turnos y métricas de consultas en un panel simple que el equipo maneja sin depender de nadie.' },
     ],
-    testimonial: { text: 'Margon entendió el negocio y nos dejó una herramienta que usamos todos los días. Las consultas por la web se dispararon.', name: 'Nombre Apellido', role: 'Dueño · Punto Bella Vista' },
   },
   {
-    // TODO: completar con el contenido real del caso (resultados, testimonio,
-    // duración) y subir la captura a /public/projects/comextracker.png
     slug: 'comextracker',
     title: 'ComexTracker',
     category: 'Comercio Exterior',
     group: 'SaaS',
     type: 'web',
-    image: '',
-    placeholder: true,
+    image: '/projects/comextracker/login.png',
     tags: ['React', 'Node.js', 'PostgreSQL'],
     description: 'Seguimiento de operaciones de comercio exterior: embarques, documentación y estado de cada operación en un solo panel.',
     lede: 'Seguimiento de operaciones de comercio exterior de punta a punta: embarques, documentación y estado de cada operación en un mismo panel.',
@@ -60,7 +55,6 @@ export const projects = [
     duration: '',
     results: '',
     cases: [],
-    testimonial: null,
   },
   {
     slug: 'handprox',
@@ -79,7 +73,6 @@ export const projects = [
       { title: 'Estadísticas en vivo', text: 'Carga de eventos partido a partido con actualización en tiempo real vía websockets. Rankings y métricas que se calculan solos.' },
       { title: 'Gestión de equipos y ligas', text: 'Altas de jugadores, planteles, fixtures y tablas de posiciones. Todo el torneo administrado desde un solo lugar.' },
     ],
-    testimonial: { text: 'Pasamos de las planillas de Excel a tener todo en vivo. Un cambio total para la liga.', name: 'Nombre Apellido', role: 'Coordinador · HandProX' },
   },
   {
     slug: 'fleur-co',
@@ -98,7 +91,6 @@ export const projects = [
       { title: 'Compra sin fricción', text: 'Catálogo con variantes, carrito persistente y checkout con MercadoPago integrado para pagar en segundos.' },
       { title: 'Panel de gestión', text: 'Alta de productos, control de stock y seguimiento de pedidos desde un panel pensado para no-técnicos.' },
     ],
-    testimonial: { text: 'Empezamos a vender online sin complicaciones. El panel es súper fácil de usar.', name: 'Nombre Apellido', role: 'Fundadora · Fleur & Co' },
   },
   {
     slug: 'celebria',
@@ -117,7 +109,6 @@ export const projects = [
       { title: 'Editor en tiempo real', text: 'Los usuarios personalizan su invitación y ven los cambios al instante, sin saber nada de diseño.' },
       { title: 'RSVP y gestión de invitados', text: 'Confirmaciones online, lista de invitados y recordatorios, todo centralizado para el organizador.' },
     ],
-    testimonial: { text: 'Nuestros clientes arman su invitación solos y quedan fascinados. Nos ahorró muchísimo tiempo.', name: 'Nombre Apellido', role: 'Fundador · Celebria' },
   },
   {
     slug: 'bar-app',
@@ -136,7 +127,6 @@ export const projects = [
       { title: 'Pedidos desde la mesa', text: 'El cliente escanea un QR, pide y paga desde el celular. Menos filas, más rotación.' },
       { title: 'Wallet y beneficios VIP', text: 'Saldo digital, niveles y recompensas que incentivan a volver. Gamificación aplicada al negocio.' },
     ],
-    testimonial: { text: 'La app cambió la experiencia del bar. Los clientes la aman y vuelven más seguido.', name: 'Nombre Apellido', role: 'Dueño · Bar' },
   },
   {
     slug: 'bar-admin',
@@ -155,7 +145,6 @@ export const projects = [
       { title: 'Métricas en tiempo real', text: 'Ventas, mesas y reservas del día en vivo, para tomar decisiones sobre la marcha.' },
       { title: 'Gestión integral', text: 'Pedidos, reservas, eventos y recompensas administrados desde un mismo lugar.' },
     ],
-    testimonial: { text: 'Tengo todo el bar en una pantalla. No vuelvo atrás.', name: 'Nombre Apellido', role: 'Encargado · Bar' },
   },
   {
     slug: 'pintureria',
@@ -174,7 +163,6 @@ export const projects = [
       { title: 'Asistente con IA', text: 'El cliente ingresa metros y tipo de superficie y la IA le dice cuánta pintura comprar. Menos errores, más ventas.' },
       { title: 'Catálogo grande y buscable', text: 'Más de 500 productos organizados y filtrables, con buscador de sucursales por cercanía.' },
     ],
-    testimonial: { text: 'El calculador con IA fue un golazo. Los clientes compran justo lo que necesitan.', name: 'Nombre Apellido', role: 'Gerente · Pinturería' },
   },
   {
     slug: 'padelleague',
@@ -193,7 +181,6 @@ export const projects = [
       { title: 'Fixtures automáticos', text: 'Se arman los cruces y el calendario solos a partir de los inscriptos. Cero armado manual.' },
       { title: 'Rankings y pagos', text: 'Ranking en vivo y cobro de inscripciones online con Stripe, todo integrado.' },
     ],
-    testimonial: { text: 'Organizar un torneo pasó de días a minutos. Impecable.', name: 'Nombre Apellido', role: 'Organizador · PadelLeague' },
   },
   {
     // Contenido a nivel producto, tomado del documento del portal.
@@ -203,6 +190,8 @@ export const projects = [
     group: 'SaaS',
     type: 'web',
     image: '/projects/aguilasoft/home.png',
+    // Si hay logo, la carta destacada lo muestra en lugar del título escrito
+    logo: '/projects/aguilasoft/logo.png',
     tags: ['Portal web', 'WhatsApp API', 'Multiempresa', 'IA'],
     description: 'Portal de autogestión para los clientes de una distribuidora: cuenta corriente, catálogo con su propio precio, pedidos y seguimiento, en la web y por WhatsApp.',
     lede: 'El teléfono deja de sonar. Una distribuidora atiende a cientos de comercios y todo el día entran los mismos cuatro llamados: cuánto debo, mandame la lista, tenés stock, en qué anda mi pedido. El portal es la puerta para que el cliente entre solo, a cualquier hora, y vea sus datos sin que nadie los busque por él.',
@@ -218,12 +207,27 @@ export const projects = [
       { title: 'Lee en vivo, no copia datos', text: 'El portal lee la base del sistema de gestión en el momento: no hay sincronización nocturna ni datos de ayer. Y solo escribe en un lugar —la bandeja de pedidos—; no emite comprobantes, no imputa en cuenta corriente y no mueve stock. La base del cliente no se toca.' },
       { title: 'Un sistema, muchos portales', text: 'Cada empresa entra por su propio subdominio y ve su portal, con su marca y sus reglas. Es el mismo sistema: lo que se arregla o se mejora aparece en todos a la vez. Para el cliente final, es el portal de su proveedor.' },
     ],
-    testimonial: null,
+  },
+  {
+    // El caso completo se arma en components/gestio/.
+    slug: 'gestio',
+    title: 'Gestio',
+    category: 'Sistema de Gestión',
+    group: 'SaaS',
+    type: 'web',
+    image: '/projects/gestio/login.png',
+    tags: ['React', 'Node.js', 'PostgreSQL'],
+    description: 'Panel de gestión para un negocio: pedidos, clientes, mercadería, proveedores, gastos y seguimiento comercial en una sola vista.',
+    lede: 'Todo el negocio en una sola vista: pedidos, clientes, mercadería, proveedores, gastos y seguimiento comercial en un mismo panel.',
+    url: '',
+    duration: '',
+    results: '',
+    cases: [],
   },
 ]
 
-// Los 4 casos que van como cartas largas, en este orden. Un null reserva el
+// Los casos que van como cartas largas, en este orden. Un null reserva el
 // contenedor de un caso todavía por definir.
-export const featuredSlugs = ['orbex', 'punto-bella-vista', 'comextracker', 'aguilasoft']
+export const featuredSlugs = ['orbex', 'punto-bella-vista', 'comextracker', 'aguilasoft', 'gestio']
 
 export const getProject = (slug) => projects.find((p) => p.slug === slug)

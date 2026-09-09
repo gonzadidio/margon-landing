@@ -11,6 +11,9 @@ import BudgetBuilder from './components/BudgetBuilder'
 import ProjectDetail from './components/ProjectDetail'
 import OrbexCase from './components/orbex/OrbexCase'
 import PuntoBellaVistaCase from './components/pbv/PuntoBellaVistaCase'
+import ComexTrackerCase from './components/comex/ComexTrackerCase'
+import AguilaSoftCase from './components/aguila/AguilaSoftCase'
+import GestioCase from './components/gestio/GestioCase'
 import AdminApp from './admin/AdminApp'
 import PortalApp from './portal/PortalApp'
 import { getPresupuestoConfig, defaultConfig } from './config/presupuestos'
@@ -35,6 +38,9 @@ export default function App() {
     // Casos con página propia; el resto usa la genérica.
     if (slug === 'orbex') return <OrbexCase />
     if (slug === 'punto-bella-vista') return <PuntoBellaVistaCase />
+    if (slug === 'comextracker') return <ComexTrackerCase />
+    if (slug === 'aguilasoft') return <AguilaSoftCase />
+    if (slug === 'gestio') return <GestioCase />
     return <ProjectDetail slug={slug} />
   }
 
