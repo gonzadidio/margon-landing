@@ -4,8 +4,13 @@ import {
   LayoutGrid, FileText, Ship, Users, Bell, BarChart3, Calendar,
 } from 'lucide-react'
 import Logo from '../Logo'
+import LanguageToggle from '../LanguageToggle'
 import { useDynamicFavicon } from '../../hooks/useDynamicFavicon'
-import { hero, pastillas, resumen, bloques, columnas, cierre } from './contenido'
+import { useI18n, useContenidoDe } from '../../i18n'
+import { getContenido } from './contenido'
+
+/** Atajo: el contenido de esta pagina en el idioma activo. */
+const useContenido = () => useContenidoDe(getContenido)
 
 const iconos = {
   operaciones: LayoutGrid,
@@ -19,6 +24,8 @@ const iconos = {
 
 /** Caso de estudio de ComexTracker */
 export default function ComexTrackerCase() {
+  const { t } = useI18n()
+
   useDynamicFavicon('/logo2.png')
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -29,9 +36,12 @@ export default function ComexTrackerCase() {
           <a href="/" className="flex items-center">
             <Logo src="/logo.png" alt="MarGon Software" className="h-9 w-auto" />
           </a>
-          <a href="/#proyectos" className="cx-volver">
-            <ArrowLeft size={15} /> Proyectos
-          </a>
+          <div className="flex items-center gap-4">
+            <LanguageToggle size="sm" />
+            <a href="/#proyectos" className="cx-volver">
+              <ArrowLeft size={15} /> {t('caso.proyectos')}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -59,6 +69,9 @@ function Marca() {
 /* ---------- Hero ---------- */
 
 function Hero() {
+  const { t } = useI18n()
+  const { hero, pastillas } = useContenido()
+
   return (
     <section className="cx-hero">
       <div className="cx-container cx-hero-grid">
@@ -87,7 +100,7 @@ function Hero() {
           </div>
 
           <a href="#resumen" className="cx-btn">
-            Conocé el proyecto <ArrowRight size={15} />
+            {t('caso.conocerProyecto')} <ArrowRight size={15} />
           </a>
         </div>
 
@@ -100,7 +113,7 @@ function Hero() {
           </p>
 
           <div className="cx-marco cx-marco-plano">
-            <Captura src={hero.img} alt="Acceso a ComexTracker" />
+            <Captura src={hero.img} alt={hero.alt} />
           </div>
         </div>
       </div>
@@ -111,6 +124,8 @@ function Hero() {
 /* ---------- Pantallazo general ---------- */
 
 function Resumen() {
+  const { resumen } = useContenido()
+
   const modulo = ({ titulo, texto, icono }) => {
     const Icono = iconos[icono] ?? LayoutGrid
     return (
@@ -137,7 +152,7 @@ function Resumen() {
           <div className="cx-modulos">{resumen.izquierda.map(modulo)}</div>
 
           <div className="cx-resumen-pantalla">
-            <Captura src={resumen.img} alt="Panel general de ComexTracker" />
+            <Captura src={resumen.img} alt={resumen.alt} />
           </div>
 
           <div className="cx-modulos">{resumen.derecha.map(modulo)}</div>
@@ -150,6 +165,8 @@ function Resumen() {
 /* ---------- Bloques grandes ---------- */
 
 function Bloques() {
+  const { bloques } = useContenido()
+
   return (
     <section className="cx-section">
       <div className="cx-container cx-bloques">
@@ -191,6 +208,8 @@ function Bloques() {
 /* ---------- Tres columnas ---------- */
 
 function Columnas() {
+  const { columnas } = useContenido()
+
   return (
     <section className="cx-section">
       <div className="cx-container cx-columnas">
@@ -213,6 +232,8 @@ function Columnas() {
 /* ---------- Cierre ---------- */
 
 function Cierre() {
+  const { cierre } = useContenido()
+
   return (
     <section className="cx-cierre">
       <div className="cx-container cx-cierre-grid">
@@ -235,13 +256,14 @@ function Cierre() {
  * marcador en vez de una imagen rota.
  */
 function Captura({ src, alt }) {
+  const { t } = useI18n()
   const [falla, setFalla] = useState(false)
 
   if (!src || falla) {
     return (
       <div className="cx-sin-captura">
         <ImageOff size={20} strokeWidth={1.5} />
-        <span>Captura pendiente</span>
+        <span>{t('caso.capturaPendiente')}</span>
       </div>
     )
   }

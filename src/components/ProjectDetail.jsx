@@ -2,17 +2,20 @@ import { useEffect } from 'react'
 import { ArrowLeft, ArrowRight, ExternalLink, Wrench, Clock, TrendingUp } from 'lucide-react'
 import { getProject } from '../projectsData'
 import Logo from './Logo'
+import { useI18n } from '../i18n'
+import LanguageToggle from './LanguageToggle'
 
 export default function ProjectDetail({ slug }) {
-  const p = getProject(slug)
+  const { t, lang } = useI18n()
+  const p = getProject(slug, lang)
 
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
 
   if (!p) {
     return (
       <div className="min-h-screen bg-[#0a0f0d] text-surface-200 flex flex-col items-center justify-center gap-4 px-6 text-center">
-        <p className="text-lg text-white">Proyecto no encontrado.</p>
-        <a href="/#proyectos" className="text-primary-400 hover:underline">← Volver a proyectos</a>
+        <p className="text-lg text-white">{t('detalle.noEncontrado')}</p>
+        <a href="/#proyectos" className="text-primary-400 hover:underline">{t('detalle.volverProyectos')}</a>
       </div>
     )
   }
@@ -23,9 +26,12 @@ export default function ProjectDetail({ slug }) {
       <nav className="sticky top-0 z-20 border-b border-white/5 bg-[#0a0f0d]/80 backdrop-blur-md">
         <div className="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
           <a href="/" className="hover:opacity-80 transition"><Logo src="/logo.png" alt="Margon" className="h-9 w-auto" /></a>
-          <a href="/#proyectos" className="flex items-center gap-1.5 text-sm text-surface-200/60 hover:text-white transition">
-            <ArrowLeft size={15} /> Proyectos
-          </a>
+          <div className="flex items-center gap-4">
+            <LanguageToggle size="sm" />
+            <a href="/#proyectos" className="flex items-center gap-1.5 text-sm text-surface-200/60 hover:text-white transition">
+              <ArrowLeft size={15} /> {t('detalle.proyectos')}
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -43,32 +49,32 @@ export default function ProjectDetail({ slug }) {
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             {p.url && (
               <a href={p.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-accent-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 hover:brightness-110 transition">
-                Ver sitio <ExternalLink size={15} />
+                {t('detalle.verSitio')} <ExternalLink size={15} />
               </a>
             )}
             <a href="/#proyectos" className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-surface-200 hover:bg-white/10 transition">
-              <ArrowLeft size={15} /> Volver
+              <ArrowLeft size={15} /> {t('detalle.volver')}
             </a>
           </div>
         </header>
 
         {/* Meta */}
         <section className="mt-12 grid gap-4 sm:grid-cols-3">
-          <MetaCard icon={Wrench} title="Tecnologías">
+          <MetaCard icon={Wrench} title={t('detalle.tecnologias')}>
             <div className="flex flex-wrap gap-1.5">
               {p.tags.map((t) => (
                 <span key={t} className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] font-mono text-surface-200/60">{t}</span>
               ))}
             </div>
           </MetaCard>
-          {p.duration && <MetaCard icon={Clock} title="Duración"><p className="text-sm text-surface-200/70 leading-relaxed">{p.duration}</p></MetaCard>}
-          {p.results && <MetaCard icon={TrendingUp} title="Resultados"><p className="text-sm text-surface-200/70 leading-relaxed">{p.results}</p></MetaCard>}
+          {p.duration && <MetaCard icon={Clock} title={t('detalle.duracion')}><p className="text-sm text-surface-200/70 leading-relaxed">{p.duration}</p></MetaCard>}
+          {p.results && <MetaCard icon={TrendingUp} title={t('detalle.resultados')}><p className="text-sm text-surface-200/70 leading-relaxed">{p.results}</p></MetaCard>}
         </section>
 
         {/* Qué hace la app — sin capturas, solo el listado */}
         {p.cases.length > 0 && (
           <section className="mt-16">
-            <h2 className="text-2xl font-bold tracking-tight text-white">Qué hace</h2>
+            <h2 className="text-2xl font-bold tracking-tight text-white">{t('detalle.queHace')}</h2>
 
             <ul className="mt-8">
               {p.cases.map((c, i) => (
@@ -88,14 +94,14 @@ export default function ProjectDetail({ slug }) {
       {/* CTA final */}
       <section className="mt-16 border-t border-white/5 py-16 text-center">
         <div className="mx-auto max-w-5xl px-6">
-          <h3 className="text-3xl font-extrabold tracking-tight text-white">¿Tenés un proyecto así en mente?</h3>
-          <p className="mt-3 text-surface-200/60">Contanos qué necesitás y lo hacemos realidad.</p>
+          <h3 className="text-3xl font-extrabold tracking-tight text-white">{t('detalle.cierreTitulo')}</h3>
+          <p className="mt-3 text-surface-200/60">{t('detalle.cierreTexto')}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <a href="/#contacto" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-accent-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 hover:brightness-110 transition">
-              Hablemos <ArrowRight size={15} />
+              {t('detalle.cierreBoton')} <ArrowRight size={15} />
             </a>
             <a href="/#proyectos" className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-surface-200 hover:bg-white/10 transition">
-              Ver más proyectos
+              {t('detalle.cierreSecundario')}
             </a>
           </div>
         </div>

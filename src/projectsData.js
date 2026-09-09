@@ -1,4 +1,11 @@
+import { projectsEn } from './i18n/projects.en.js'
+
 // Datos de los proyectos + contenido de caso de estudio.
+//
+// Este archivo es la fuente de verdad en español. La versión en inglés de los
+// textos vive en ./i18n/projects.en.js, indexada por slug; `getProjects(lang)`
+// las combina. Los campos que no son texto (slug, image, tags, type, logo) y el
+// título, que es un nombre de marca, salen siempre de acá.
 // El texto es un placeholder realista: reemplazalo cuando tengas lo real.
 // Las capturas usan por ahora la imagen que ya tenés (se repite); subí más a
 // /public/projects/ y sumalas al array `gallery` / a cada `case`.
@@ -230,4 +237,14 @@ export const projects = [
 // contenedor de un caso todavía por definir.
 export const featuredSlugs = ['orbex', 'punto-bella-vista', 'comextracker', 'aguilasoft', 'gestio']
 
-export const getProject = (slug) => projects.find((p) => p.slug === slug)
+const traducciones = { en: projectsEn }
+
+/** Los proyectos con los textos del idioma pedido (cae a español si falta algo). */
+export const getProjects = (lang = 'es') => {
+  const overlay = traducciones[lang]
+  if (!overlay) return projects
+  return projects.map((p) => ({ ...p, ...(overlay[p.slug] ?? {}) }))
+}
+
+export const getProject = (slug, lang = 'es') =>
+  getProjects(lang).find((p) => p.slug === slug)

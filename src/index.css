@@ -126,6 +126,74 @@
 }
 
 /* ============================================================
+   Switch de idioma (ES / EN)
+   ============================================================ */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s ease;
+}
+
+.lang-switch:hover {
+  border-color: rgba(16, 185, 129, 0.28);
+}
+
+.lang-switch-icon {
+  margin: 0 3px 0 4px;
+  color: rgba(228, 228, 231, 0.4);
+  flex-shrink: 0;
+}
+
+.lang-switch-opt {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  padding: 4px 8px;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  color: rgba(228, 228, 231, 0.55);
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.lang-switch-opt:hover {
+  color: #fff;
+}
+
+.lang-switch-opt-on {
+  color: #0a0f0d;
+  background: linear-gradient(135deg, #a3e635, #34d399);
+}
+
+.lang-switch-opt-on:hover {
+  color: #0a0f0d;
+  filter: brightness(1.08);
+}
+
+.lang-switch-opt:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+.lang-switch-sm .lang-switch-opt {
+  font-size: 11px;
+  padding: 4px 7px;
+}
+
+.lang-switch-md .lang-switch-opt {
+  font-size: 13px;
+  padding: 6px 11px;
+}
+
+/* ============================================================
    Hero · proceso 01 → 02 → 03
    ============================================================ */
 .hero-grid-bg::before {
@@ -724,6 +792,22 @@
 @media (min-width: 1024px) {
   .hero-tech {
     display: none;
+  }
+
+  /* En inglés no hay PNG equivalente, así que la versión en texto también se
+     muestra en escritorio: en fila y centrada, como la píldora de la imagen. */
+  .hero-tech-texto {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1040px;
+    padding: 16px 34px;
+  }
+
+  .hero-tech-texto > ul {
+    justify-content: center;
   }
 }
 

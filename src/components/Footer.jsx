@@ -1,26 +1,6 @@
 import { Github, Linkedin, Twitter, Instagram } from 'lucide-react'
 import Logo from './Logo'
-
-const footerLinks = {
-  Servicios: [
-    { label: 'Aplicaciones Web', href: '#servicios' },
-    { label: 'Apps Mobile', href: '#servicios' },
-    { label: 'E-Commerce', href: '#servicios' },
-    { label: 'Sistemas a Medida', href: '#servicios' },
-    { label: 'Automatizaciones', href: '#servicios' },
-  ],
-  Empresa: [
-    { label: 'Sobre Nosotros', href: '#' },
-    { label: 'Blog', href: '#' },
-    { label: 'Carreras', href: '#' },
-    { label: 'Contacto', href: '#contacto' },
-  ],
-  Legal: [
-    { label: 'Privacidad', href: '#' },
-    { label: 'Términos', href: '#' },
-    { label: 'Cookies', href: '#' },
-  ],
-}
+import { useI18n } from '../i18n'
 
 const socials = [
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
@@ -30,6 +10,9 @@ const socials = [
 ]
 
 export default function Footer() {
+  const { t } = useI18n()
+  const columnas = t('footer.columnas')
+
   return (
     <footer className="relative border-t border-white/5">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
@@ -40,8 +23,7 @@ export default function Footer() {
               <Logo src="/logo.png" alt="MarGon Software" className="h-10 w-auto" />
             </a>
             <p className="text-sm text-surface-200/40 leading-relaxed mb-6 max-w-xs">
-              Transformamos ideas y procesos en soluciones digitales reales.
-              Software de alto nivel para empresas que quieren crecer.
+              {t('footer.descripcion')}
             </p>
             <div className="flex gap-3">
               {socials.map((s) => (
@@ -58,11 +40,11 @@ export default function Footer() {
           </div>
 
           {/* Link columns */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="text-sm font-semibold text-white mb-4">{title}</h4>
+          {columnas.map((columna) => (
+            <div key={columna.titulo}>
+              <h4 className="text-sm font-semibold text-white mb-4">{columna.titulo}</h4>
               <ul className="space-y-2.5">
-                {links.map((link) => (
+                {columna.links.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
@@ -80,10 +62,10 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-surface-200/30">
-            &copy; {new Date().getFullYear()} Margon. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Margon. {t('footer.derechos')}
           </p>
           <p className="text-xs text-surface-200/20">
-            Hecho con dedicación en Argentina
+            {t('footer.hecho')}
           </p>
         </div>
       </div>

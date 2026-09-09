@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, ImageOff } from 'lucide-react'
 import Logo from '../Logo'
+import LanguageToggle from '../LanguageToggle'
 import { useDynamicFavicon } from '../../hooks/useDynamicFavicon'
-import { hero, casos, cierre } from './contenido'
+import { useI18n, useContenidoDe } from '../../i18n'
+import { getContenido } from './contenido'
+
+/** Atajo: el contenido de esta pagina en el idioma activo. */
+const useContenido = () => useContenidoDe(getContenido)
 
 /** Caso de estudio de Punto Bella Vista */
 export default function PuntoBellaVistaCase() {
+  const { t } = useI18n()
+
   useDynamicFavicon('/logo2.png')
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -16,9 +23,12 @@ export default function PuntoBellaVistaCase() {
           <a href="/" className="flex items-center">
             <Logo src="/logo.png" alt="MarGon Software" className="h-9 w-auto" />
           </a>
-          <a href="/#proyectos" className="pbv-volver">
-            <ArrowLeft size={15} /> Proyectos
-          </a>
+          <div className="flex items-center gap-4">
+            <LanguageToggle size="sm" />
+            <a href="/#proyectos" className="pbv-volver">
+              <ArrowLeft size={15} /> {t('caso.proyectos')}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -34,6 +44,8 @@ export default function PuntoBellaVistaCase() {
 /* ---------- Hero ---------- */
 
 function Hero() {
+  const { hero } = useContenido()
+
   return (
     <section className="pbv-hero">
       <div className="pbv-container pbv-hero-grid">
@@ -44,11 +56,7 @@ function Hero() {
         </div>
 
         <div className="pbv-hero-visual">
-          <img
-            className="pbv-mockup"
-            src={hero.mockup}
-            alt="Punto Bella Vista en escritorio y mobile"
-          />
+          <img className="pbv-mockup" src={hero.mockup} alt={hero.alt} />
         </div>
       </div>
     </section>
@@ -58,6 +66,8 @@ function Hero() {
 /* ---------- Casos ---------- */
 
 function Casos() {
+  const { casos } = useContenido()
+
   return (
     <>
       {casos.map((caso, i) => (
@@ -85,13 +95,14 @@ function Casos() {
  * marcador en vez de una imagen rota.
  */
 function Captura({ src, alt }) {
+  const { t } = useI18n()
   const [falla, setFalla] = useState(false)
 
   if (!src || falla) {
     return (
       <div className="pbv-sin-captura">
         <ImageOff size={20} strokeWidth={1.5} />
-        <span>Captura pendiente</span>
+        <span>{t('caso.capturaPendiente')}</span>
       </div>
     )
   }
@@ -102,6 +113,9 @@ function Captura({ src, alt }) {
 /* ---------- Cierre e identidad Margon ---------- */
 
 function Cierre() {
+  const { t } = useI18n()
+  const { cierre } = useContenido()
+
   return (
     <section className="pbv-cierre">
 
@@ -115,7 +129,7 @@ function Cierre() {
           rel="noreferrer"
           className="pbv-btn pbv-btn-primario"
         >
-          Contactanos <ArrowRight size={15} />
+          {t('caso.contactanos')} <ArrowRight size={15} />
         </a>
       </div>
     </section>

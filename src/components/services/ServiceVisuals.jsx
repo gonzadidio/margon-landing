@@ -1,4 +1,5 @@
 import { ArrowUpRight, ArrowRight, ArrowLeftRight, Share2, Settings, Circle } from 'lucide-react'
+import { useI18n } from '../../i18n'
 
 /**
  * Visuales de cada tarjeta de servicios. Son mockups en CSS a modo de
@@ -13,6 +14,8 @@ function WithImage({ img, alt, children }) {
 
 /** Producto & Diseño: pantalla clara con menú, modal flotante y botón */
 export function VisualProduct({ img }) {
+  const { t } = useI18n()
+
   return (
     <WithImage img={img}>
       <div className="svc-dashboard">
@@ -30,7 +33,7 @@ export function VisualProduct({ img }) {
           <span className="block w-8 h-1.5 rounded bg-white/20" />
         </div>
         <div className="svc-dashboard-btn">
-          Publicar proyecto <ArrowUpRight size={9} />
+          {t('services.visuales.publicar')} <ArrowUpRight size={9} />
         </div>
       </div>
     </WithImage>
@@ -39,14 +42,16 @@ export function VisualProduct({ img }) {
 
 /** Desarrollo Web & Mobile: dos teléfonos superpuestos */
 export function VisualPhone({ img }) {
+  const { t } = useI18n()
+
   return (
     <WithImage img={img}>
       <div className="svc-phones">
         <div className="svc-phone svc-phone-back" />
         <div className="svc-phone svc-phone-front">
           <div className="svc-phone-image" />
-          <span className="block mx-2 mb-1.5 text-[9px] font-semibold text-white">Discover ideas</span>
-          <small className="block mx-2 text-[6px] text-white/55">Diseño pensado para vos.</small>
+          <span className="block mx-2 mb-1.5 text-[9px] font-semibold text-white">{t('services.visuales.phoneTitulo')}</span>
+          <small className="block mx-2 text-[6px] text-white/55">{t('services.visuales.phoneSub')}</small>
         </div>
       </div>
     </WithImage>
@@ -71,12 +76,9 @@ export function VisualCode({ img }) {
 
 /** Datos & Analytics: gráfico de barras */
 export function VisualChart({ img }) {
-  const bars = [
-    { h: 48, label: 'Ene' },
-    { h: 33, label: 'Feb' },
-    { h: 68, label: 'Abr' },
-    { h: 86, label: 'May' },
-  ]
+  const { t } = useI18n()
+  const meses = t('services.visuales.meses')
+  const bars = [48, 33, 68, 86].map((h, i) => ({ h, label: meses[i] }))
   return (
     <WithImage img={img}>
       <div className="svc-chart">
@@ -99,20 +101,23 @@ export function VisualChart({ img }) {
 
 /** Automatizaciones: flujo Lead → CRM → Venta / Factura ↔ Reporte */
 export function VisualAutomation({ img }) {
+  const { t } = useI18n()
+  const flujo = t('services.visuales.flujo')
+
   return (
     <WithImage img={img}>
       <div className="svc-flow">
         <div className="svc-flow-row">
-          <div className="svc-flow-node">Lead</div>
+          <div className="svc-flow-node">{flujo.lead}</div>
           <ArrowRight size={14} className="svc-flow-arrow" />
-          <div className="svc-flow-node">CRM</div>
+          <div className="svc-flow-node">{flujo.crm}</div>
           <ArrowRight size={14} className="svc-flow-arrow" />
-          <div className="svc-flow-node">Venta</div>
+          <div className="svc-flow-node">{flujo.venta}</div>
         </div>
         <div className="svc-flow-row ml-7">
-          <div className="svc-flow-node">Factura</div>
+          <div className="svc-flow-node">{flujo.factura}</div>
           <ArrowLeftRight size={14} className="svc-flow-arrow" />
-          <div className="svc-flow-node">Reporte</div>
+          <div className="svc-flow-node">{flujo.reporte}</div>
         </div>
       </div>
     </WithImage>

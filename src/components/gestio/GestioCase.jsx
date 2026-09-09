@@ -5,7 +5,12 @@ import {
 } from 'lucide-react'
 import Logo from '../Logo'
 import { useDynamicFavicon } from '../../hooks/useDynamicFavicon'
-import { marca, hero, dia, modulos, seguimiento, cierre } from './contenido'
+import LanguageToggle from '../LanguageToggle'
+import { useI18n, useContenidoDe } from '../../i18n'
+import { getContenido } from './contenido'
+
+/** Atajo: el contenido de esta pagina en el idioma activo. */
+const useContenido = () => useContenidoDe(getContenido)
 
 const iconos = {
   pedidos: ClipboardList,
@@ -24,6 +29,8 @@ const Icono = ({ nombre, ...props }) => {
 
 /** Caso de estudio de Gestio */
 export default function GestioCase() {
+  const { t } = useI18n()
+
   useDynamicFavicon('/logo2.png')
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -37,9 +44,12 @@ export default function GestioCase() {
           </a>
 
 
-          <a href="/#proyectos" className="ge-volver">
-            <ArrowLeft size={15} /> Volver a proyectos
-          </a>
+          <div className="flex items-center gap-4">
+            <LanguageToggle size="sm" />
+            <a href="/#proyectos" className="ge-volver">
+              <ArrowLeft size={15} /> {t('caso.volverProyectos')}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -56,7 +66,7 @@ export default function GestioCase() {
 
 /* ---------- Marca ---------- */
 
-function Marca() {
+function Marca({ marca }) {
   return (
     <div className="ge-marca">
       <img src={marca.logo} alt={marca.nombre} />
@@ -67,10 +77,12 @@ function Marca() {
 /* ---------- Hero ---------- */
 
 function Hero() {
+  const { hero, marca } = useContenido()
+
   return (
     <section className="ge-hero">
       <div className="ge-container ge-hero-copy">
-        <Marca />
+        <Marca marca={marca} />
 
         <span className="ge-eyebrow">{hero.eyebrow}</span>
 
@@ -105,7 +117,7 @@ function Hero() {
         <span className="ge-brillo" aria-hidden="true" />
 
         <div className="ge-notebook">
-          <Captura src={hero.img} alt="Dashboard del panel de gestión" />
+          <Captura src={hero.img} alt={hero.alt} />
         </div>
       </div>
     </section>
@@ -115,6 +127,8 @@ function Hero() {
 /* ---------- El día ---------- */
 
 function Dia() {
+  const { dia } = useContenido()
+
   return (
     <section className="ge-section ge-section-dia" id="pantallas">
       <div className="ge-container ge-dia">
@@ -145,7 +159,7 @@ function Dia() {
           </p>
 
           <div className="ge-pantalla">
-            <Captura src={dia.img} alt="Resumen del día" />
+            <Captura src={dia.img} alt={dia.alt} />
           </div>
         </div>
       </div>
@@ -156,6 +170,8 @@ function Dia() {
 /* ---------- Módulos ---------- */
 
 function Modulos() {
+  const { modulos } = useContenido()
+
   return (
     <section className="ge-section ge-section-modulos" id="modulos">
       <div className="ge-container">
@@ -188,11 +204,13 @@ function Modulos() {
 /* ---------- Seguimiento ---------- */
 
 function Seguimiento() {
+  const { seguimiento } = useContenido()
+
   return (
     <section className="ge-section ge-section-seguimiento" id="beneficios">
       <div className="ge-container ge-seguimiento">
         <div className="ge-pantalla ge-pantalla-grande">
-          <Captura src={seguimiento.img} alt="Seguimiento de clientes y productos" />
+          <Captura src={seguimiento.img} alt={seguimiento.alt} />
         </div>
 
         <div>
@@ -221,6 +239,8 @@ function Seguimiento() {
 /* ---------- Cierre ---------- */
 
 function Cierre() {
+  const { cierre } = useContenido()
+
   return (
     <section className="ge-cierre" id="contacto">
       <div className="ge-container ge-cierre-grid">
@@ -238,7 +258,7 @@ function Cierre() {
           <a href={cierre.href} target="_blank" rel="noreferrer" className="ge-btn ge-btn-primario">
             {cierre.boton} <ArrowRight size={15} />
           </a>
-          <a href="/#proyectos" className="ge-btn ge-btn-secundario">Ver más proyectos</a>
+          <a href="/#proyectos" className="ge-btn ge-btn-secundario">{cierre.verMas}</a>
         </div>
 
         <div className="ge-cierre-detalle">
@@ -255,13 +275,14 @@ function Cierre() {
  * marcador en vez de una imagen rota.
  */
 function Captura({ src, alt }) {
+  const { t } = useI18n()
   const [falla, setFalla] = useState(false)
 
   if (!src || falla) {
     return (
       <div className="ge-sin-captura">
         <ImageOff size={20} strokeWidth={1.5} />
-        <span>Captura pendiente</span>
+        <span>{t('caso.capturaPendiente')}</span>
       </div>
     )
   }

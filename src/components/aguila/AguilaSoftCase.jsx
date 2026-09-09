@@ -6,7 +6,12 @@ import {
 } from 'lucide-react'
 import Logo from '../Logo'
 import { useDynamicFavicon } from '../../hooks/useDynamicFavicon'
-import { marca, hero, barra, problema, caracteristicas, resultado, cierre } from './contenido'
+import LanguageToggle from '../LanguageToggle'
+import { useI18n, useContenidoDe } from '../../i18n'
+import { getContenido } from './contenido'
+
+/** Atajo: el contenido de esta pagina en el idioma activo. */
+const useContenido = () => useContenidoDe(getContenido)
 
 const iconos = {
   portal: MonitorSmartphone,
@@ -28,6 +33,9 @@ const Icono = ({ nombre, ...props }) => {
 
 /** Caso de estudio de AguilaSoft */
 export default function AguilaSoftCase() {
+  const { t } = useI18n()
+  const { marca } = useContenido()
+
   useDynamicFavicon('/logo2.png')
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -42,9 +50,12 @@ export default function AguilaSoftCase() {
           </a>
 
 
-          <a href="/#proyectos" className="ag-volver">
-            <ArrowLeft size={15} /> Volver a proyectos
-          </a>
+          <div className="flex items-center gap-4">
+            <LanguageToggle size="sm" />
+            <a href="/#proyectos" className="ag-volver">
+              <ArrowLeft size={15} /> {t('caso.volverProyectos')}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -87,6 +98,8 @@ function Fondo() {
 /* ---------- Hero ---------- */
 
 function Hero() {
+  const { hero } = useContenido()
+
   return (
     <section className="ag-hero">
       <div className="ag-container ag-hero-grid">
@@ -109,7 +122,7 @@ function Hero() {
           <span className="ag-brillo ag-brillo-cyan" aria-hidden="true" />
           <span className="ag-brillo ag-brillo-naranja" aria-hidden="true" />
 
-          <img src={hero.mockup} alt="Portal B2B y bot de WhatsApp de AguilaSoft" className="ag-mockup" />
+          <img src={hero.mockup} alt={hero.alt} className="ag-mockup" />
 
         </div>
       </div>
@@ -120,6 +133,8 @@ function Hero() {
 /* ---------- Barra de tecnologías ---------- */
 
 function Barra() {
+  const { barra } = useContenido()
+
   return (
     <section className="ag-barra" id="tecnologias">
       <div className="ag-container ag-barra-grid">
@@ -149,6 +164,8 @@ function Barra() {
 /* ---------- El problema ---------- */
 
 function Problema() {
+  const { problema, marca } = useContenido()
+
   return (
     <section className="ag-section">
       <div className="ag-container">
@@ -219,6 +236,8 @@ function Flecha() {
 /* ---------- Características ---------- */
 
 function Caracteristicas() {
+  const { caracteristicas } = useContenido()
+
   return (
     <section className="ag-section ag-section-caracteristicas" id="caracteristicas">
       <div className="ag-container">
@@ -243,6 +262,8 @@ function Caracteristicas() {
 /* ---------- El resultado ---------- */
 
 function Resultado() {
+  const { resultado } = useContenido()
+
   return (
     <section className="ag-section ag-section-resultado" id="resultados">
       <div className="ag-container ag-resultado">
@@ -267,6 +288,8 @@ function Resultado() {
 /* ---------- Cierre ---------- */
 
 function Cierre() {
+  const { cierre } = useContenido()
+
   return (
     <section className="ag-cierre">
       <div className="ag-container ag-cierre-grid">
@@ -280,7 +303,7 @@ function Cierre() {
           <a href={cierre.href} target="_blank" rel="noreferrer" className="ag-btn ag-btn-primario">
             {cierre.boton} <ArrowRight size={15} />
           </a>
-          <a href="/#proyectos" className="ag-btn ag-btn-secundario">Ver más proyectos</a>
+          <a href="/#proyectos" className="ag-btn ag-btn-secundario">{cierre.verMas}</a>
         </div>
       </div>
     </section>

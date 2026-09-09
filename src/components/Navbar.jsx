@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 import Logo from './Logo'
-
-const navLinks = [
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Proyectos', href: '#proyectos' },
-  // { label: 'Presupuesto', href: '#presupuesto', highlight: true },
-]
+import LanguageToggle from './LanguageToggle'
+import { useI18n } from '../i18n'
 
 export default function Navbar() {
+  const { t } = useI18n()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const navLinks = t('nav.links')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -54,24 +53,29 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA */}
+          {/* Idioma + CTA */}
           <div className="hidden lg:flex items-center gap-4">
+            <LanguageToggle size="sm" />
             <a
               href="#contacto"
               className="btn-outline-gradient inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-primary-500/25"
             >
-              Hablemos
+              {t('nav.cta')}
             </a>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-white p-2"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Idioma + toggle mobile */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageToggle size="sm" />
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="text-white p-2"
+              aria-expanded={mobileOpen}
+              aria-label={mobileOpen ? t('nav.cerrarMenu') : t('nav.abrirMenu')}
+            >
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -94,7 +98,7 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
               className="btn-outline-gradient mt-4 block w-full text-center rounded-lg px-5 py-3 text-sm font-semibold text-white"
             >
-              Hablemos
+              {t('nav.cta')}
             </a>
           </div>
         </div>

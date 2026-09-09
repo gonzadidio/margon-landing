@@ -16,6 +16,7 @@ import AguilaSoftCase from './components/aguila/AguilaSoftCase'
 import GestioCase from './components/gestio/GestioCase'
 import AdminApp from './admin/AdminApp'
 import PortalApp from './portal/PortalApp'
+import { LanguageProvider } from './i18n'
 import { getPresupuestoConfig, defaultConfig } from './config/presupuestos'
 
 const path = window.location.pathname
@@ -29,6 +30,12 @@ const projectMatch = path.match(/^\/proyecto\/([^/]+)/)
 const isPresupuesto = path === '/presupuesto' || path === '/presupuesto/'
 const presMatch = path.match(/^\/p\/([^/]+)/)
 
+/**
+ * El switch ES/EN solo envuelve al sitio público. El admin, el portal de
+ * clientes y los presupuestos son herramientas internas en español.
+ */
+const publico = (vista) => <LanguageProvider>{vista}</LanguageProvider>
+
 export default function App() {
   if (isAdmin) return <AdminApp />
   if (isPortal) return <PortalApp />
@@ -36,18 +43,18 @@ export default function App() {
   if (projectMatch) {
     const slug = decodeURIComponent(projectMatch[1])
     // Casos con página propia; el resto usa la genérica.
-    if (slug === 'orbex') return <OrbexCase />
-    if (slug === 'punto-bella-vista') return <PuntoBellaVistaCase />
-    if (slug === 'comextracker') return <ComexTrackerCase />
-    if (slug === 'aguilasoft') return <AguilaSoftCase />
-    if (slug === 'gestio') return <GestioCase />
-    return <ProjectDetail slug={slug} />
+    if (slug === 'orbex') return publico(<OrbexCase />)
+    if (slug === 'punto-bella-vista') return publico(<PuntoBellaVistaCase />)
+    if (slug === 'comextracker') return publico(<ComexTrackerCase />)
+    if (slug === 'aguilasoft') return publico(<AguilaSoftCase />)
+    if (slug === 'gestio') return publico(<GestioCase />)
+    return publico(<ProjectDetail slug={slug} />)
   }
 
   if (presMatch) return <BudgetBuilder config={getPresupuestoConfig(decodeURIComponent(presMatch[1]))} />
   if (isPresupuesto) return <BudgetBuilder config={defaultConfig} />
 
-  return <LandingApp />
+  return publico(<LandingApp />)
 }
 
 function LandingApp() {

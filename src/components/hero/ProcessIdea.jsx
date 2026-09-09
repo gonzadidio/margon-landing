@@ -1,16 +1,13 @@
 import ProcessCard from './ProcessCard'
-
-const items = [
-  { title: 'Objetivos del negocio', sub: 'Qué querés lograr y hacia dónde crecer.' },
-  { title: 'Necesidades de usuarios', sub: 'Qué necesitan y cómo interactúan.' },
-  { title: 'Procesos a mejorar', sub: 'Qué podemos simplificar u optimizar.' },
-  { title: 'Problemas actuales', sub: 'Qué está frenando hoy tu operación.' },
-]
+import { useI18n } from '../../i18n'
 
 /** Tarjeta 01 — Tu idea / desafío: lista de título + detalle con barra lateral */
 export default function ProcessIdea() {
+  const { t } = useI18n()
+  const items = t('hero.idea.items')
+
   return (
-    <ProcessCard tone="green" number="01" plainNumber title="Tu idea / desafío">
+    <ProcessCard tone="green" number="01" plainNumber title={t('hero.idea.titulo')}>
       <ul className="m-0 p-0 list-none flex flex-col gap-5">
         {items.map((it) => (
           <li key={it.title} className="hero-idea-item">

@@ -4,15 +4,20 @@ import {
   Users, DollarSign, Megaphone, Share2,
 } from 'lucide-react'
 import Logo from '../Logo'
+import LanguageToggle from '../LanguageToggle'
 import { useDynamicFavicon } from '../../hooks/useDynamicFavicon'
-import {
-  hero, desafio, funcionalidades, sistema, mock,
-} from './contenido'
+import { useI18n, useContenidoDe } from '../../i18n'
+import { getContenido } from './contenido'
+
+/** Atajo: el contenido de esta pagina en el idioma activo. */
+const useContenido = () => useContenidoDe(getContenido)
 
 const iconosFlujo = [Megaphone, Share2, Users, DollarSign]
 
 /** Caso de estudio de ORBEX Desarrollos */
 export default function OrbexCase() {
+  const { t } = useI18n()
+
   useDynamicFavicon('/logo2.png')
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -23,9 +28,12 @@ export default function OrbexCase() {
           <a href="/" className="flex items-center">
             <Logo src="/logo.png" alt="MarGon Software" className="h-9 w-auto" />
           </a>
-          <a href="/#proyectos" className="cs-back">
-            <ArrowLeft size={15} /> Volver a proyectos
-          </a>
+          <div className="flex items-center gap-4">
+            <LanguageToggle size="sm" />
+            <a href="/#proyectos" className="cs-back">
+              <ArrowLeft size={15} /> {t('caso.volverProyectos')}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -43,6 +51,8 @@ export default function OrbexCase() {
 /* ---------- Hero ---------- */
 
 function Hero() {
+  const { hero } = useContenido()
+
   return (
     <section className="cs-hero">
       <span className="cs-ghost" aria-hidden="true">{hero.titulo}</span>
@@ -61,14 +71,14 @@ function Hero() {
           </div>
 
           <a href="#funcionalidades" className="cs-text-cta">
-            Ver funcionalidades
+            {hero.cta}
             <i><ArrowDown size={13} /></i>
           </a>
         </div>
 
         <div className="cs-hero-visual">
           {hero.img
-            ? <img src={hero.img} alt="Panel del sistema ORBEX" className="cs-hero-img" />
+            ? <img src={hero.img} alt={hero.alt} className="cs-hero-img" />
             : <PanelMock />}
         </div>
       </div>
@@ -79,13 +89,15 @@ function Hero() {
 /* ---------- Desafío ---------- */
 
 function Desafio() {
+  const { desafio } = useContenido()
+
   return (
     <section className="cs-section">
       <div className="cs-container">
         <div className="cs-desafio">
           <div>
-            <span className="cs-section-num">El</span>
-            <h2 className="cs-display">Desafío</h2>
+            <span className="cs-section-num">{desafio.numero}</span>
+            <h2 className="cs-display">{desafio.encabezado}</h2>
             <span className="cs-regla" />
           </div>
 
@@ -136,6 +148,8 @@ const visuales = {
 }
 
 function Funcionalidades() {
+  const { funcionalidades } = useContenido()
+
   return (
     <section id="funcionalidades" className="cs-section cs-section-funcionalidades">
       <div className="cs-container">
@@ -188,11 +202,13 @@ function VisualFeature({ f }) {
 }
 
 function TablaLeads() {
+  const { mock, ui } = useContenido()
+
   return (
     <div className="cs-tabla">
-      <div className="cs-tabla-head"><strong>Leads nuevos</strong></div>
+      <div className="cs-tabla-head"><strong>{ui.leadsNuevos}</strong></div>
       <div className="cs-fila cs-fila-head">
-        <span>Nombre</span><span>Fuente</span><span>Campaña</span><span>Hora</span><span>Estado</span>
+        {ui.columnas.map((c) => <span key={c}>{c}</span>)}
       </div>
       {mock.leads.map((l) => (
         <div key={l.nombre} className="cs-fila">
@@ -200,7 +216,7 @@ function TablaLeads() {
           <span>{l.fuente}</span>
           <span>{l.campania}</span>
           <span>{l.hora}</span>
-          <em>Nuevo</em>
+          <em>{ui.nuevo}</em>
         </div>
       ))}
     </div>
@@ -208,10 +224,14 @@ function TablaLeads() {
 }
 
 function RepartoMock() {
+  const { mock, ui } = useContenido()
+  const lead = mock.leads[0]
+  const iniciales = lead.nombre.split(' ').map((n) => n[0]).join('')
+
   return (
     <div className="cs-reparto">
       <div className="cs-panel">
-        <span className="cs-panel-titulo">Distribución de leads</span>
+        <span className="cs-panel-titulo">{ui.distribucion}</span>
         {mock.equipos.map((e) => (
           <div key={e.nombre} className="cs-equipo">
             <b>{e.nombre}</b>
@@ -222,17 +242,17 @@ function RepartoMock() {
       </div>
 
       <div className="cs-panel">
-        <span className="cs-panel-titulo">Lead asignado</span>
+        <span className="cs-panel-titulo">{ui.leadAsignado}</span>
         <div className="cs-lead">
-          <div className="cs-avatar">MP</div>
+          <div className="cs-avatar">{iniciales}</div>
           <div>
-            <strong>Martina Pérez</strong>
-            <span>Origen: campaña</span>
+            <strong>{lead.nombre}</strong>
+            <span>{ui.origen}</span>
           </div>
         </div>
         <div className="cs-lead-meta">
-          <div><small>Asignado a</small><b>Equipo Norte</b></div>
-          <div><small>Asesor</small><b>Sofía Gómez</b></div>
+          <div><small>{ui.asignadoA}</small><b>{mock.asignacion.equipo}</b></div>
+          <div><small>{ui.asesor}</small><b>{mock.asignacion.asesor}</b></div>
         </div>
       </div>
     </div>
@@ -240,6 +260,8 @@ function RepartoMock() {
 }
 
 function EmbudoMock() {
+  const { mock } = useContenido()
+
   return (
     <div className="cs-embudo">
       {mock.embudo.map((e) => (
@@ -253,11 +275,12 @@ function EmbudoMock() {
 }
 
 function ExpedienteMock() {
+  const { mock, ui } = useContenido()
   const { codigo, cliente, lote, docs, etapas } = mock.expediente
   return (
     <div className="cs-reparto">
       <div className="cs-panel">
-        <span className="cs-panel-titulo">Documentación · {codigo}</span>
+        <span className="cs-panel-titulo">{ui.documentacion} · {codigo}</span>
         <ul className="cs-docs">
           {docs.map((d) => (
             <li key={d.nombre} className={d.ok ? 'cs-doc-ok' : ''}>
@@ -284,11 +307,13 @@ function ExpedienteMock() {
 }
 
 function FirmasMock() {
+  const { mock, ui } = useContenido()
+
   return (
     <div className="cs-tabla">
-      <div className="cs-tabla-head"><strong>Firmas programadas</strong></div>
+      <div className="cs-tabla-head"><strong>{ui.firmasProgramadas}</strong></div>
       <div className="cs-fila cs-fila-firmas cs-fila-head">
-        <span>Cliente</span><span>Lote</span><span>Fecha</span><span>Estado</span>
+        {ui.columnasFirmas.map((c) => <span key={c}>{c}</span>)}
       </div>
       {mock.firmas.map((f) => (
         <div key={f.cliente} className="cs-fila cs-fila-firmas">
@@ -303,6 +328,7 @@ function FirmasMock() {
 }
 
 function CuotasMock() {
+  const { mock, ui } = useContenido()
   const { cliente, plan, resumen, filas } = mock.cuotas
   return (
     <div className="cs-panel">
@@ -321,7 +347,7 @@ function CuotasMock() {
         {filas.map((f) => (
           <div key={f.numero} className="cs-cuota">
             <b>{f.numero}</b>
-            <small>Vence {f.vence}</small>
+            <small>{ui.vence} {f.vence}</small>
             <em className={`cs-chip-${f.tono}`}>{f.estado}</em>
           </div>
         ))}
@@ -333,6 +359,8 @@ function CuotasMock() {
 /* ---------- El sistema ---------- */
 
 function Sistema() {
+  const { hero, sistema } = useContenido()
+
   return (
     <section className="cs-section cs-sistema-seccion">
       <span className="cs-ghost" aria-hidden="true">{hero.titulo}</span>
@@ -349,6 +377,8 @@ function Sistema() {
 
 /** Mockup del panel. Placeholder hasta tener las capturas reales. */
 function PanelMock({ conGraficos = false }) {
+  const { mock, ui } = useContenido()
+
   return (
     <div className={`cs-panel-mock ${conGraficos ? 'cs-panel-mock-full' : ''}`}>
       <aside className="cs-mock-side">
@@ -376,7 +406,7 @@ function PanelMock({ conGraficos = false }) {
             </div>
             <div className="cs-mock-conversion">
               <strong>{mock.conversion}</strong>
-              <small>Conversión general</small>
+              <small>{ui.conversion}</small>
               <svg viewBox="0 0 250 80" preserveAspectRatio="none" aria-hidden="true">
                 <polyline points="0,65 25,60 50,63 75,47 100,51 125,36 150,42 175,28 200,30 225,17 250,9" />
               </svg>
@@ -391,17 +421,22 @@ function PanelMock({ conGraficos = false }) {
 /* ---------- Cierre ---------- */
 
 function Cierre() {
+  const { cierre } = useContenido()
+
   return (
     <section className="cs-cierre">
       <div className="cs-cierre-patron" aria-hidden="true" />
       <div className="cs-container cs-cierre-content">
-        <h2>¿Tu <span className="gradient-text">negocio</span> necesita<br />algo parecido?</h2>
-        <p>Diseñamos sistemas adaptados a cómo trabaja tu empresa.</p>
+        <h2>
+          {cierre.tituloAntes} <span className="gradient-text">{cierre.tituloResaltado}</span>{' '}
+          {cierre.tituloDespues}<br />{cierre.tituloLinea2}
+        </h2>
+        <p>{cierre.bajada}</p>
         <div className="cs-cierre-botones">
           <a href="/#contacto" className="cs-btn cs-btn-primario">
-            Contanos tu proyecto <ArrowRight size={15} />
+            {cierre.boton} <ArrowRight size={15} />
           </a>
-          <a href="/#proyectos" className="cs-btn cs-btn-outline">Ver otros proyectos</a>
+          <a href="/#proyectos" className="cs-btn cs-btn-outline">{cierre.verOtros}</a>
         </div>
       </div>
     </section>

@@ -2,45 +2,21 @@ import AnimatedSection from './AnimatedSection'
 import {
   VisualProduct, VisualPhone, VisualCode, VisualChart, VisualAutomation, VisualCloud,
 } from './services/ServiceVisuals'
+import { useI18n } from '../i18n'
 
 /**
  * Servicios: 6 tarjetas con título, texto y un visual a la derecha.
- * Para reemplazar un visual por imagen, agregar `img: '/ruta.png'` al servicio.
+ * El texto sale del diccionario (services.items); acá queda solo el visual de
+ * cada tarjeta, en el mismo orden. Para reemplazar un visual por imagen,
+ * agregar `img: '/ruta.png'`.
  */
-const services = [
-  {
-    title: 'Producto & Diseño',
-    text: 'Investigación, UX/UI, design systems y prototipos que conectan con usuarios y objetivos de negocio.',
-    Visual: VisualProduct,
-    img: '/services/producto.png',
-  },
-  {
-    title: 'Desarrollo Web & Mobile',
-    text: 'Aplicaciones rápidas, escalables y responsivas para web y dispositivos móviles.',
-    Visual: VisualPhone,
-    img: '/services/web-mobile.png',
-  },
-  {
-    title: 'Backend & APIs',
-    text: 'Desarrollamos la lógica, APIs e integraciones que hacen funcionar todo tu producto.',
-    Visual: VisualCode,
-  },
-  {
-    title: 'Datos & Analytics',
-    text: 'Bases de datos, reportes y dashboards para tomar decisiones basadas en información real.',
-    Visual: VisualChart,
-  },
-  {
-    title: 'Automatizaciones',
-    text: 'Conectamos herramientas y automatizamos procesos para que tu equipo enfoque lo que importa.',
-    Visual: VisualAutomation,
-  },
-  {
-    title: 'Integraciones & Cloud',
-    text: 'Conectamos sistemas terceros y desplegamos en la nube con seguridad y escalabilidad.',
-    Visual: VisualCloud,
-    img: '/services/cloud.png',
-  },
+const visuales = [
+  { Visual: VisualProduct, img: '/services/producto.png' },
+  { Visual: VisualPhone, img: '/services/web-mobile.png' },
+  { Visual: VisualCode },
+  { Visual: VisualChart },
+  { Visual: VisualAutomation },
+  { Visual: VisualCloud, img: '/services/cloud.png' },
 ]
 
 function ServiceCard({ title, text, Visual, img }) {
@@ -67,21 +43,25 @@ function ServiceCard({ title, text, Visual, img }) {
 }
 
 export default function Services() {
+  const { t } = useI18n()
+  const items = t('services.items')
+
   return (
     <section id="servicios" className="relative py-20 lg:py-24">
       <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-12">
         <AnimatedSection className="mb-10">
           <h2 className="m-0 max-w-3xl text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.08] text-white">
-            Diseño, desarrollo y datos.
+            {t('services.tituloLinea1')}
             <br />
-            Todo en <span className="gradient-text">un solo lugar.</span>
+            {t('services.tituloLinea2Antes')}{' '}
+            <span className="gradient-text">{t('services.tituloLinea2Resaltado')}</span>
           </h2>
         </AnimatedSection>
 
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
-          {services.map((s, i) => (
-            <AnimatedSection key={s.title} delay={i * 0.08}>
-              <ServiceCard {...s} />
+          {items.map((item, i) => (
+            <AnimatedSection key={item.title} delay={i * 0.08}>
+              <ServiceCard {...item} {...visuales[i]} />
             </AnimatedSection>
           ))}
         </div>
