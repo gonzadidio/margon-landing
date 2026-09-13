@@ -2,6 +2,9 @@ import pg from 'pg'
 
 const { Pool } = pg
 
+// DATE viene como string 'YYYY-MM-DD' (sin corrimientos por zona horaria).
+pg.types.setTypeParser(1082, (v) => v)
+
 // Railway inyecta DATABASE_URL al linkear el servicio de Postgres.
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -250,6 +253,48 @@ export async function initDb() {
       mensaje     TEXT,
       estado      TEXT NOT NULL DEFAULT 'nuevo',
       created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
+  // ---------- Recordatorios propios ----------
+  // Cosas que Gonzalo no se quiere olvidar. Pueden colgar de un cliente o no.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS recordatorios (
+      id          SERIAL PRIMARY KEY,
+      titulo      TEXT NOT NULL,
+      detalle     TEXT,
+      fecha       DATE,
+      cliente_id  INTEGER REFERENCES clientes(id) ON DELETE CASCADE,
+      hecho       BOOLEAN NOT NULL DEFAULT false,
+      hecho_at    TIMESTAMPTZ,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
+  // ---------- Envíos (mails y WhatsApp) ----------
+  // Registro de cada mensaje que salió desde el panel: para saber a quién ya
+  // se le avisó, cuándo y por qué canal. El WhatsApp se abre con el texto
+  // listo (wa.me) y se registra acá al momento de abrirlo.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS envios (
+      id          SERIAL PRIMARY KEY,
+      cliente_id  INTEGER REFERENCES clientes(id) ON DELETE CASCADE,
+      cobro_id    INTEGER REFERENCES cobros(id) ON DELETE SET NULL,
+      canal       TEXT NOT NULL,            -- 'email' | 'whatsapp'
+      tipo        TEXT NOT NULL,            -- 'aviso' | 'recordatorio' | 'comprobante' | 'portal' | 'presupuesto' | 'libre'
+      destino     TEXT,
+      asunto      TEXT,
+      cuerpo      TEXT,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
+  // ---------- Ajustes (clave / valor) ----------
+  // Plantillas de mensajes, datos de pago, firma, mail del admin, etc.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS ajustes (
+      clave  TEXT PRIMARY KEY,
+      valor  JSONB NOT NULL DEFAULT '{}'
     );
   `)
 

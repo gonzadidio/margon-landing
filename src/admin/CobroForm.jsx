@@ -1,86 +1,93 @@
-import { useState } from 'react'
-import { X, Loader2 } from 'lucide-react'
-import { MONEDAS, TIPOS_COBRO, FORMAS_PAGO, periodoActual } from './format'
+// Alta / edición de un cobro (setup, único, histórico o mensual puntual).
+import { useEffect, useState } from 'react'
+import { apiGet, apiPost, apiPut } from './api'
+import { Modal, Btn, Field, ErrorMsg } from './ui'
+import { MONEDAS, TIPOS_COBRO, FORMAS_PAGO, periodoActual, hoyISO } from './format'
 
-export function nuevoCobro(clienteId = '', moneda = 'ARS') {
-  return {
-    cliente_id: clienteId, tipo: 'setup', concepto: '', periodo: periodoActual(),
-    monto: '', moneda, estado: 'pagado', fecha_pago: new Date().toISOString().slice(0, 10), metodo_pago: '',
-  }
-}
-
-// Mapea un cobro existente al formulario para editarlo.
-export function editarCobro(c) {
-  return {
-    id: c.id, cliente_id: c.cliente_id, tipo: c.tipo || 'mensual', concepto: c.concepto || '',
-    periodo: c.periodo, monto: c.monto, moneda: c.moneda || 'ARS', metodo_pago: c.metodo_pago || '',
-  }
-}
-
-const PLACEHOLDER = { setup: 'Setup inicial / puesta en marcha', unico: 'Ej: desarrollo de módulo extra', mensual: 'Abono mensual' }
-
-export default function CobroForm({ initial, clientes, lockCliente = false, onSave, onClose }) {
-  const [form, setForm] = useState(initial)
-  const [saving, setSaving] = useState(false)
+export default function CobroForm({ cobro, clienteId, clienteNombre, onClose, onSaved }) {
+  const editando = !!cobro?.id
+  const [clientes, setClientes] = useState(null)
+  const [f, setF] = useState(() => ({
+    cliente_id: cobro?.cliente_id || clienteId || '',
+    tipo: cobro?.tipo || 'mensual',
+    concepto: cobro?.concepto || '',
+    periodo: cobro?.periodo || periodoActual(),
+    monto: cobro?.monto ?? '',
+    moneda: cobro?.moneda || 'ARS',
+    vencimiento: cobro?.vencimiento ? String(cobro.vencimiento).slice(0, 10) : '',
+    notas: cobro?.notas || '',
+    pagado: false, fecha_pago: hoyISO(), metodo_pago: '',
+  }))
   const [error, setError] = useState('')
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
-  const esEdicion = !!form.id
-  const pagado = form.estado === 'pagado'
+  const [guardando, setGuardando] = useState(false)
+  const set = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }))
 
-  async function submit(e) {
-    e.preventDefault(); setSaving(true); setError('')
-    try { await onSave({ ...form, monto: Number(form.monto) || 0 }) }
-    catch (err) { setError(err.message); setSaving(false) }
+  useEffect(() => {
+    if (clienteId || editando) return
+    apiGet('/clientes').then((cs) => {
+      setClientes(cs)
+      setF((x) => x.cliente_id ? x : { ...x, cliente_id: cs[0]?.id || '' })
+    }).catch((e) => setError(e.message))
+  }, [clienteId, editando])
+
+  // Al elegir cliente, heredamos su moneda y abono.
+  useEffect(() => {
+    if (!clientes || editando) return
+    const c = clientes.find((x) => String(x.id) === String(f.cliente_id))
+    if (c) setF((x) => ({ ...x, moneda: c.moneda || 'ARS', monto: x.monto === '' && f.tipo === 'mensual' ? c.monto_mensual : x.monto }))
+  }, [f.cliente_id, clientes]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function guardar(e) {
+    e.preventDefault(); setError(''); setGuardando(true)
+    try {
+      const body = { ...f, monto: Number(f.monto) || 0, vencimiento: f.vencimiento || null, concepto: f.concepto || null, notas: f.notas || null }
+      const r = editando ? await apiPut(`/cobros/${cobro.id}`, body) : await apiPost('/cobros', body)
+      onSaved?.(r)
+    } catch (err) { setError(err.message) } finally { setGuardando(false) }
   }
 
   return (
-    <div className="ad-overlay" onClick={onClose}>
-      <form onClick={(e) => e.stopPropagation()} onSubmit={submit} className="ad-card w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold ad-ink">{esEdicion ? 'Editar cobro' : 'Cargar cobro'}</h3>
-          <button type="button" onClick={onClose} className="p-1 rounded-lg hover:bg-white/10 ad-muted"><X className="w-5 h-5" /></button>
-        </div>
-        {esEdicion
-          ? <p className="text-xs ad-muted -mt-1">Cambiá monto, concepto, tipo o período. El estado (pagos) se maneja con “Registrar pago”.</p>
-          : <p className="text-xs ad-muted -mt-1">Setup inicial, abono o un cobro puntual. Podés cargarlo con <b>cualquier fecha</b> (sirve para cosas viejas).</p>}
-
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Cliente *" full>
-            <select required value={form.cliente_id} onChange={set('cliente_id')} disabled={lockCliente || esEdicion} className="ad-input">
-              <option value="" disabled>Elegí un cliente…</option>
-              {clientes.map((c) => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+    <Modal title={editando ? 'Editar cobro' : 'Nuevo cobro'} subtitle={clienteNombre || cobro?.cliente_nombre} onClose={onClose}
+      footer={<><Btn onClick={onClose}>Cancelar</Btn><Btn variant="primary" loading={guardando} onClick={guardar}>{editando ? 'Guardar' : 'Crear cobro'}</Btn></>}>
+      <form onSubmit={guardar} className="grid sm:grid-cols-2 gap-3">
+        {!clienteId && !editando && (
+          <Field label="Cliente" full>
+            <select value={f.cliente_id} onChange={set('cliente_id')} className="ad-input" required>
+              {(clientes || []).map((c) => <option key={c.id} value={c.id}>{c.nombre}</option>)}
             </select>
           </Field>
-          <Field label="Tipo"><select value={form.tipo} onChange={set('tipo')} className="ad-input">{TIPOS_COBRO.map((t) => <option key={t.v} value={t.v}>{t.label}</option>)}</select></Field>
-          <Field label="Período (mes)"><input type="month" value={form.periodo} onChange={set('periodo')} className="ad-input" /></Field>
-          <Field label="Concepto" full><input value={form.concepto} onChange={set('concepto')} placeholder={PLACEHOLDER[form.tipo]} className="ad-input" /></Field>
-          <Field label="Monto *"><input required type="number" min="0" step="0.01" value={form.monto} onChange={set('monto')} className="ad-input" /></Field>
-          <Field label="Moneda"><select value={form.moneda} onChange={set('moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m} value={m}>{m}</option>)}</select></Field>
-          {!esEdicion && <Field label="Estado"><select value={form.estado} onChange={set('estado')} className="ad-input"><option value="pagado">Pagado</option><option value="pendiente">Pendiente</option></select></Field>}
-          {!esEdicion && pagado && <Field label="Fecha de pago"><input type="date" value={form.fecha_pago || ''} onChange={set('fecha_pago')} className="ad-input" /></Field>}
-          <Field label="Forma de pago" full>
-            <select value={form.metodo_pago || ''} onChange={set('metodo_pago')} className="ad-input">
-              <option value="">— sin especificar —</option>
-              {FORMAS_PAGO.map((m) => <option key={m} value={m}>{m}</option>)}
-            </select>
-          </Field>
-        </div>
-
-        {error && <p className="text-sm text-red-400">{error}</p>}
-        <div className="flex justify-end gap-2 pt-1">
-          <button type="button" onClick={onClose} className="ad-btn ad-btn-ghost">Cancelar</button>
-          <button type="submit" disabled={saving} className="ad-btn ad-btn-primary">{saving && <Loader2 className="w-4 h-4 animate-spin" />} Guardar</button>
-        </div>
+        )}
+        <Field label="Tipo">
+          <select value={f.tipo} onChange={set('tipo')} className="ad-input">
+            {TIPOS_COBRO.map((t) => <option key={t.v} value={t.v}>{t.label}</option>)}
+          </select>
+        </Field>
+        <Field label="Período"><input type="month" value={f.periodo} onChange={set('periodo')} className="ad-input" required /></Field>
+        <Field label="Concepto" full hint="Si lo dejás vacío se usa uno genérico según el tipo."><input value={f.concepto} onChange={set('concepto')} placeholder="Ej: Setup inicial · Sitio institucional" className="ad-input" /></Field>
+        <Field label="Monto"><input type="number" min="0" step="0.01" value={f.monto} onChange={set('monto')} className="ad-input" required /></Field>
+        <Field label="Moneda"><select value={f.moneda} onChange={set('moneda')} className="ad-input">{MONEDAS.map((m) => <option key={m}>{m}</option>)}</select></Field>
+        <Field label="Vencimiento"><input type="date" value={f.vencimiento} onChange={set('vencimiento')} className="ad-input" /></Field>
+        <Field label="Notas internas"><input value={f.notas} onChange={set('notas')} className="ad-input" /></Field>
+        {!editando && (
+          <div className="sm:col-span-2 rounded-lg bg-white/4 ring-1 ad-line p-3 space-y-3">
+            <label className="flex items-center gap-2 text-[13px] ad-ink cursor-pointer">
+              <input type="checkbox" checked={f.pagado} onChange={set('pagado')} /> Ya está pagado (cobro histórico)
+            </label>
+            {f.pagado && (
+              <div className="grid sm:grid-cols-2 gap-3">
+                <Field label="Fecha de pago"><input type="date" value={f.fecha_pago} onChange={set('fecha_pago')} className="ad-input" /></Field>
+                <Field label="Forma de pago">
+                  <select value={f.metodo_pago} onChange={set('metodo_pago')} className="ad-input">
+                    <option value="">—</option>{FORMAS_PAGO.map((m) => <option key={m}>{m}</option>)}
+                  </select>
+                </Field>
+              </div>
+            )}
+          </div>
+        )}
+        <ErrorMsg>{error}</ErrorMsg>
+        <button type="submit" hidden />
       </form>
-    </div>
-  )
-}
-
-function Field({ label, children, full }) {
-  return (
-    <label className={`flex flex-col gap-1.5 ${full ? 'col-span-2' : ''}`}>
-      <span className="text-xs font-medium uppercase tracking-wide ad-muted">{label}</span>
-      {children}
-    </label>
+    </Modal>
   )
 }

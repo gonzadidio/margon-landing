@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { portalGet } from './portalApi'
+import { FileText } from 'lucide-react'
+import { portalGet, portalDownload } from './portalApi'
 import { fmtMoney, fmtFecha, estadoPago, saldoCobro } from '../admin/format'
 
 const PILL = {
@@ -22,9 +23,9 @@ export default function PortalPagos() {
     <div className="space-y-4">
       <h1 className="text-xl font-bold ad-ink">Tus pagos</h1>
       <div className="ad-card overflow-hidden">
-        <div className="hidden grid-cols-[1fr_auto_auto_auto] gap-4 border-b border-white/5 px-5 py-3 sm:grid">
-          {['Período / concepto', 'Monto', 'Estado', 'Saldo'].map((h) => (
-            <span key={h} className="ad-faint text-[11px] font-mono uppercase tracking-wider">{h}</span>
+        <div className="hidden grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b border-white/5 px-5 py-3 sm:grid">
+          {['Período / concepto', 'Monto', 'Estado', 'Saldo', ''].map((h, i) => (
+            <span key={i} className="ad-faint text-[11px] font-mono uppercase tracking-wider">{h}</span>
           ))}
         </div>
         <div className="divide-y divide-white/5">
@@ -32,7 +33,7 @@ export default function PortalPagos() {
             const est = estadoPago(c)
             const saldo = saldoCobro(c)
             return (
-              <div key={c.id} className="grid grid-cols-2 items-center gap-3 px-5 py-3.5 sm:grid-cols-[1fr_auto_auto_auto] sm:gap-4">
+              <div key={c.id} className="grid grid-cols-2 items-center gap-3 px-5 py-3.5 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:gap-4">
                 <div className="col-span-2 sm:col-span-1">
                   <p className="text-sm ad-ink">{c.concepto || c.periodo}</p>
                   <p className="ad-faint text-[12px]">
@@ -42,6 +43,10 @@ export default function PortalPagos() {
                 <span className="ad-ink tabular-nums text-sm font-medium">{fmtMoney(c.monto, c.moneda)}</span>
                 <span className={PILL[est]}>{LABEL[est]}</span>
                 <span className="tabular-nums text-sm text-right ad-muted">{saldo > 0 ? fmtMoney(saldo, c.moneda) : '—'}</span>
+                <button onClick={() => abrirComprobante(c.id)} title="Comprobante en PDF"
+                  className="ad-btn ad-btn-ghost ad-btn-sm justify-self-end">
+                  <FileText className="h-3.5 w-3.5" /> PDF
+                </button>
               </div>
             )
           })}
@@ -49,6 +54,17 @@ export default function PortalPagos() {
       </div>
     </div>
   )
+}
+
+// Abre el comprobante en una pestaña nueva (se abre antes del await para que
+// el navegador no bloquee el popup).
+async function abrirComprobante(id) {
+  const w = window.open('', '_blank')
+  try {
+    const blob = await portalDownload(`/cobros/${id}/comprobante.pdf`)
+    const url = URL.createObjectURL(blob)
+    if (w) w.location = url; else window.open(url, '_blank')
+  } catch { if (w) w.close() }
 }
 
 function Empty() {

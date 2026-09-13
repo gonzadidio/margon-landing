@@ -4616,3 +4616,32 @@ html{scrollbar-width:thin;scrollbar-color:rgba(233,245,238,.16) transparent}
   .ge-modulo { min-height: 0; align-items: flex-start; text-align: left; }
   .ge-cierre-acciones { flex-direction: column; align-items: stretch; }
 }
+
+/* ============================================================
+   Panel interno · agregados del rediseño (ERP)
+   ============================================================ */
+.ad-btn-danger{background:rgba(239,68,68,.12);color:#fca5a5}
+.ad-btn-danger:hover:not(:disabled){background:rgba(239,68,68,.2)}
+.ad-btn-wa{background:rgba(37,211,102,.14);color:#6ee7b7}
+.ad-btn-wa:hover:not(:disabled){background:rgba(37,211,102,.24)}
+.ad-iconbtn{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:8px;color:#8a958e;transition:background .15s,color .15s;cursor:pointer;border:0;background:transparent}
+.ad-iconbtn:hover:not(:disabled){background:rgba(255,255,255,.06);color:#eef2ef}
+.ad-iconbtn:disabled{opacity:.35;cursor:default}
+.ad-iconbtn-wa:hover:not(:disabled){background:rgba(37,211,102,.16);color:#6ee7b7}
+.ad-iconbtn-mail:hover:not(:disabled){background:rgba(56,189,248,.14);color:#7dd3fc}
+.ad-iconbtn-danger:hover:not(:disabled){background:rgba(239,68,68,.14);color:#fca5a5}
+.ad-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:11px 16px;border-bottom:1px solid rgba(233,245,238,.06)}
+.ad-row:last-child{border-bottom:0}
+.ad-row:hover{background:rgba(255,255,255,.025)}
+.ad-link{color:#eef2ef;font-weight:600}
+.ad-link:hover{color:#6ee7b7}
+.ad-toast{pointer-events:auto;display:flex;align-items:center;gap:8px;background:#121a16;border:1px solid rgba(233,245,238,.12);color:#eef2ef;font-size:13px;font-weight:500;padding:10px 14px;border-radius:10px;box-shadow:0 10px 30px -10px rgba(0,0,0,.7);animation:ad-toast-in .2s ease}
+.ad-toast-error{border-color:rgba(239,68,68,.35)}
+@keyframes ad-toast-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ad-nav{scrollbar-width:none}
+.ad-nav::-webkit-scrollbar{display:none}
+.ad-app input[type=checkbox]{accent-color:#10b981;width:16px;height:16px;cursor:pointer}
+.ad-app input[type=date],.ad-app input[type=month]{color-scheme:dark}
+.ad-textarea{min-height:120px;resize:vertical;line-height:1.5}
+.ad-banner{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.08);color:#fde68a;font-size:13.5px}
+.ad-code{font-family:var(--font-mono);font-size:12px;background:rgba(255,255,255,.05);padding:2px 6px;border-radius:5px;color:#c4b5fd}

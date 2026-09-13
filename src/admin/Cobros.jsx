@@ -1,172 +1,103 @@
-import { useEffect, useState } from 'react'
-import { Loader2, Zap, Plus, Printer, Trash2, Check, Pencil } from 'lucide-react'
-import { apiFetch } from './api'
-import { fmtMoney, fmtFecha, periodoActual, tipoCobroMeta, estadoPago, saldoCobro } from './format'
-import { useNav } from './nav'
-import GestionPagos from './GestionPagos'
-import CobroForm, { nuevoCobro, editarCobro } from './CobroForm'
-import Comprobante from './Comprobante'
+// Cobros por mes: generar el período, ver quién pagó y avisar a quien no.
+import { useState } from 'react'
+import { ChevronLeft, ChevronRight, Plus, AlertTriangle, Wallet } from 'lucide-react'
+import { apiGet, apiPost } from './api'
+import { Card, Btn, Cargando, ErrorMsg, Empty, Segment, useToast, useCarga } from './ui'
+import CobroRow, { useAccionesCobro } from './CobroRow'
+import CobroForm from './CobroForm'
+import { fmtMoney, periodoActual, periodoLargo, capitalizar, sumarMeses, estadoPago } from './format'
 
-const EST_PILL = { vencido: 'ad-pill-red', parcial: 'ad-pill-blue', pendiente: 'ad-pill-amber', pagado: 'ad-pill-green' }
-const EST_LBL = { vencido: 'Vencido', parcial: 'Parcial', pendiente: 'Pendiente', pagado: 'Pagado' }
+export default function Cobros({ periodoInicial }) {
+  const toast = useToast()
+  const [periodo, setPeriodo] = useState(periodoInicial || periodoActual())
+  const [modo, setModo] = useState('mes')          // 'mes' | 'pendientes'
+  const [filtro, setFiltro] = useState('todos')    // todos | pendientes | pagados
+  const [nuevo, setNuevo] = useState(false)
+  const [generando, setGenerando] = useState(false)
 
-function porMoneda(rows, campo) {
-  const acc = {}
-  for (const r of rows || []) acc[r.moneda] = (acc[r.moneda] || 0) + Number(r[campo] || 0)
-  return acc
-}
-const moneyStr = (map) => { const e = Object.entries(map).filter(([, v]) => v); return e.length ? e.map(([m, v]) => fmtMoney(v, m)).join('  ·  ') : '—' }
+  const { data, error, loading, recargar } = useCarga(
+    () => modo === 'mes'
+      ? Promise.all([apiGet('/cobros', { periodo }), apiGet('/cobros/resumen', { periodo })]).then(([cobros, resumen]) => ({ cobros, resumen }))
+      : apiGet('/cobros', { pendientes: 1 }).then((cobros) => ({ cobros, resumen: null })),
+    [periodo, modo])
+  const acciones = useAccionesCobro(recargar)
 
-export default function Cobros() {
-  const [vista, setVista] = useState('pendientes') // pendientes | mes
-  const [periodo, setPeriodo] = useState(periodoActual)
-  const [pend, setPend] = useState([])
-  const [mes, setMes] = useState([])
-  const [todos, setTodos] = useState([])
-  const [resumen, setResumen] = useState([])
-  const [clientes, setClientes] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [msg, setMsg] = useState('')
-  const [gestion, setGestion] = useState(null)
-  const [manual, setManual] = useState(null)
-  const [comprobante, setComprobante] = useState(null)
-  const { verCliente } = useNav()
-
-  async function load() {
-    setLoading(true)
-    try {
-      const [p, m, t, r, c] = await Promise.all([
-        apiFetch('/pendientes'),
-        apiFetch(`/cobros?periodo=${periodo}`),
-        apiFetch('/cobros'),
-        apiFetch(`/resumen?periodo=${periodo}`),
-        apiFetch('/clientes'),
-      ])
-      setPend(p); setMes(m); setTodos(t); setResumen(r); setClientes(c); setError('')
-    } catch (e) { setError(e.message) } finally { setLoading(false) }
-  }
-  useEffect(() => { load() }, [periodo])
+  function irPeriodo(p) { if (!p) return; setPeriodo(p); window.location.hash = `#/cobros?p=${p}` }
+  const cambiarMes = (n) => irPeriodo(sumarMeses(periodo, n))
 
   async function generar() {
-    setMsg(''); setError('')
+    setGenerando(true)
     try {
-      const r = await apiFetch('/cobros/generar', { method: 'POST', body: JSON.stringify({ periodo }) })
-      setMsg(r.creados > 0 ? `Se generaron ${r.creados} cobro(s) para ${periodo}.` : 'Ya estaban todos generados.')
-      load()
-    } catch (e) { setError(e.message) }
+      const r = await apiPost('/cobros/generar', { periodo })
+      toast(r.creados ? `${r.creados} cobro${r.creados === 1 ? '' : 's'} generado${r.creados === 1 ? '' : 's'}` : 'No había nada para generar')
+      recargar()
+    } catch (e) { toast(e.message, 'error') } finally { setGenerando(false) }
   }
 
-  async function guardarManual(data) {
-    if (data.id) await apiFetch(`/cobros/${data.id}`, { method: 'PUT', body: JSON.stringify(data) })
-    else await apiFetch('/cobros', { method: 'POST', body: JSON.stringify(data) })
-    setManual(null)
-    if (!data.id && data.periodo && data.periodo !== periodo) setPeriodo(data.periodo); else load()
-  }
-
-  async function remove(c) {
-    if (!confirm(`¿Quitar el cobro de "${c.cliente_nombre}"?`)) return
-    await apiFetch(`/cobros/${c.id}`, { method: 'DELETE' }); load()
-  }
-
-  const porCobrar = porMoneda(pend.map((c) => ({ moneda: c.moneda, s: saldoCobro(c) })), 's')
-  const rows = vista === 'pendientes' ? pend : vista === 'mes' ? mes : todos
+  const cobros = (data?.cobros || []).filter((c) => {
+    const e = estadoPago(c)
+    if (filtro === 'pendientes') return e !== 'pagado'
+    if (filtro === 'pagados') return e === 'pagado'
+    return true
+  })
+  const totales = data?.resumen?.totales || []
+  const sinGenerar = data?.resumen?.sin_generar || []
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold ad-ink tracking-tight">Cobros</h1>
-        <div className="flex items-center gap-2">
-          <button onClick={() => setManual(nuevoCobro(clientes[0]?.id || ''))} disabled={!clientes.length} className="ad-btn ad-btn-ghost ad-btn-sm"><Plus className="w-4 h-4" /> Cobro manual</button>
-          <button onClick={generar} className="ad-btn ad-btn-primary ad-btn-sm"><Zap className="w-4 h-4" /> Generar mes</button>
-        </div>
-      </div>
-
-      {/* KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <Kpi label="Por cobrar (total)" value={moneyStr(porCobrar)} tone="amber" sub={`${pend.length} con saldo`} />
-        <Kpi label={`Cobrado ${periodo}`} value={moneyStr(porMoneda(resumen, 'cobrado'))} tone="green" />
-        <Kpi label={`Facturado ${periodo}`} value={moneyStr(porMoneda(resumen, 'facturado'))} />
-      </div>
-
-      {/* Tabs */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex rounded-lg border ad-line overflow-hidden text-sm bg-transparent">
-          <button onClick={() => setVista('pendientes')} className={`px-3.5 py-2 font-medium ${vista === 'pendientes' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Por cobrar</button>
-          <button onClick={() => setVista('mes')} className={`px-3.5 py-2 font-medium border-l ad-line ${vista === 'mes' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Del mes</button>
-          <button onClick={() => setVista('todos')} className={`px-3.5 py-2 font-medium border-l ad-line ${vista === 'todos' ? 'bg-primary-500/15 text-primary-300' : 'ad-muted hover:bg-white/5'}`}>Todos</button>
+        <div>
+          <h1 className="text-2xl font-bold ad-ink tracking-tight">Cobros</h1>
+          <p className="ad-muted text-sm mt-0.5">Generá el mes, avisá y registrá los pagos.</p>
         </div>
-        {vista === 'mes' && <input type="month" value={periodo} onChange={(e) => setPeriodo(e.target.value)} className="ad-input !w-auto" />}
-        {vista === 'todos' && <span className="text-xs ad-faint">{todos.length} cobro(s) en total</span>}
+        <div className="flex items-center gap-2 flex-wrap">
+          <Segment size="sm" value={modo} onChange={setModo} options={[{ v: 'mes', label: 'Por mes' }, { v: 'pendientes', label: 'Todo lo pendiente' }]} />
+          <Btn variant="primary" size="sm" icon={Plus} onClick={() => setNuevo(true)}>Cobro manual</Btn>
+        </div>
       </div>
 
-      {msg && <p className="flex items-center gap-2 text-sm text-primary-300"><Check className="w-4 h-4" /> {msg}</p>}
-      {error && <p className="text-sm text-red-400">{error}</p>}
-
-      {loading ? (
-        <div className="flex items-center gap-2 ad-muted text-sm py-10 justify-center"><Loader2 className="w-4 h-4 animate-spin" /> Cargando…</div>
-      ) : rows.length === 0 ? (
-        <p className="ad-muted text-sm py-10 text-center">{vista === 'pendientes' ? '🎉 No hay nada pendiente de cobro.' : vista === 'todos' ? 'Todavía no hay cobros cargados.' : `No hay cobros para ${periodo}. Usá “Generar mes”.`}</p>
-      ) : (
-        <div className="ad-card overflow-x-auto">
-          <table className="w-full">
-            <thead><tr>
-              <th className="ad-th">Cliente</th><th className="ad-th">Tipo</th><th className="ad-th">Fecha</th>
-              <th className="ad-th text-right">Monto</th><th className="ad-th">Pagado / Saldo</th>
-              <th className="ad-th text-center">Estado</th><th className="ad-th"></th>
-            </tr></thead>
-            <tbody>
-              {rows.map((c) => {
-                const est = estadoPago(c); const saldo = saldoCobro(c); const pagado = Number(c.pagado) || 0
-                return (
-                  <tr key={c.id} className="ad-hover transition">
-                    <td className="ad-td">
-                      <button onClick={() => verCliente(c.cliente_id)} className="font-semibold ad-ink hover:text-primary-300 transition text-left">{c.cliente_nombre}</button>
-                      {c.concepto && <p className="text-xs ad-faint">{c.concepto}</p>}
-                    </td>
-                    <td className="ad-td"><span className={`ad-pill ${['setup', 'unico'].includes(c.tipo) ? (c.tipo === 'setup' ? 'ad-pill-violet' : 'ad-pill-blue') : 'ad-pill-gray'}`}>{tipoCobroMeta(c.tipo).label}</span></td>
-                    <td className="ad-td ad-muted whitespace-nowrap">
-                      {fmtFecha(c.fecha_emision) || c.periodo}
-                      {c.fecha_pago && <span className="block text-[11px] ad-faint">pagó {fmtFecha(c.fecha_pago)}</span>}
-                      {c.metodo_pago && <span className="block text-[11px] text-primary-300">{c.metodo_pago}</span>}
-                    </td>
-                    <td className="ad-td text-right tabular-nums ad-ink">{fmtMoney(c.monto, c.moneda)}</td>
-                    <td className="ad-td text-xs tabular-nums">
-                      {est === 'pagado' ? <span className="text-primary-300">{fmtMoney(pagado, c.moneda)}</span>
-                        : pagado > 0 ? <span><span className="text-sky-300">{fmtMoney(pagado, c.moneda)}</span><span className="ad-faint"> · falta </span><span className="text-amber-300">{fmtMoney(saldo, c.moneda)}</span></span>
-                        : <span className="ad-faint">—</span>}
-                    </td>
-                    <td className="ad-td text-center"><span className={`ad-pill ${EST_PILL[est]}`}>{EST_LBL[est]}</span></td>
-                    <td className="ad-td">
-                      <div className="flex items-center justify-end gap-1">
-                        {saldo > 0 && <button onClick={() => setGestion(c)} className="ad-btn ad-btn-soft ad-btn-sm">Registrar pago</button>}
-                        <button onClick={() => setManual(editarCobro(c))} title="Editar cobro" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Pencil className="w-4 h-4" /></button>
-                        <button onClick={() => setComprobante(c)} title="Comprobante" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-primary-300 transition"><Printer className="w-4 h-4" /></button>
-                        <button onClick={() => remove(c)} title="Quitar" className="p-1.5 rounded-lg hover:bg-white/10 ad-muted hover:text-red-400 transition"><Trash2 className="w-4 h-4" /></button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+      {modo === 'mes' && (
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="inline-flex items-center rounded-lg ring-1 ad-line bg-white/4">
+            <button onClick={() => cambiarMes(-1)} className="ad-iconbtn" title="Mes anterior"><ChevronLeft className="w-4 h-4" /></button>
+            <input type="month" value={periodo} onChange={(e) => irPeriodo(e.target.value)} className="bg-transparent text-[13.5px] font-semibold ad-ink text-center outline-none px-1 w-[176px]" />
+            <button onClick={() => cambiarMes(1)} className="ad-iconbtn" title="Mes siguiente"><ChevronRight className="w-4 h-4" /></button>
+          </div>
+          {periodo !== periodoActual() && <button onClick={() => { setPeriodo(periodoActual()); window.location.hash = '#/cobros' }} className="text-xs text-primary-300 font-semibold">Ir a este mes</button>}
+          <div className="ml-auto flex gap-2 flex-wrap">
+            {totales.map((t) => (
+              <div key={t.moneda} className="ad-card px-3 py-2 text-[12.5px] flex items-center gap-3">
+                <span className="ad-faint font-semibold">{t.moneda}</span>
+                <span className="ad-muted">Emitido <b className="ad-ink tabular-nums">{fmtMoney(t.facturado, t.moneda)}</b></span>
+                <span className="ad-muted">Cobrado <b className="text-primary-300 tabular-nums">{fmtMoney(t.cobrado, t.moneda)}</b></span>
+                {Number(t.facturado) - Number(t.cobrado) > 0 && <span className="ad-muted">Falta <b className="text-amber-300 tabular-nums">{fmtMoney(Number(t.facturado) - Number(t.cobrado), t.moneda)}</b></span>}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {gestion && <GestionPagos cobro={gestion} onClose={() => setGestion(null)} onChanged={load} />}
-      {manual && <CobroForm initial={manual} clientes={clientes} onSave={guardarManual} onClose={() => setManual(null)} />}
-      {comprobante && <Comprobante cobro={comprobante} hoy={new Date().toISOString()} onClose={() => setComprobante(null)} />}
-    </div>
-  )
-}
+      {modo === 'mes' && sinGenerar.length > 0 && (
+        <div className="ad-banner">
+          <AlertTriangle className="w-5 h-5 shrink-0" />
+          <div className="flex-1 min-w-0">
+            <b>{sinGenerar.length} cliente{sinGenerar.length === 1 ? '' : 's'} sin cobro de {periodoLargo(periodo)}</b>: <span className="opacity-80">{sinGenerar.map((c) => `${c.nombre} (${fmtMoney(c.monto_mensual, c.moneda)})`).join(', ')}</span>
+          </div>
+          <Btn variant="primary" size="sm" loading={generando} onClick={generar}>Generar</Btn>
+        </div>
+      )}
 
-function Kpi({ label, value, tone, sub }) {
-  const cls = tone === 'amber' ? 'text-amber-300' : tone === 'green' ? 'text-primary-300' : 'ad-ink'
-  return (
-    <div className="ad-card p-4 min-w-0">
-      <p className="text-xs uppercase tracking-wide ad-muted truncate">{label}</p>
-      <p className={`text-lg lg:text-xl font-extrabold mt-1.5 tabular-nums tracking-tight leading-tight break-words ${cls}`}>{value}</p>
-      {sub && <p className="text-xs ad-faint mt-0.5">{sub}</p>}
+      {loading ? <Cargando /> : error ? <ErrorMsg>{error}</ErrorMsg> : (
+        <Card flush title={modo === 'mes' ? capitalizar(periodoLargo(periodo)) : 'Todo lo que falta cobrar'}
+          extra={modo === 'mes' && <Segment size="sm" value={filtro} onChange={setFiltro} options={[{ v: 'todos', label: `Todos · ${data.cobros.length}` }, { v: 'pendientes', label: 'Pendientes' }, { v: 'pagados', label: 'Pagados' }]} />}>
+          {cobros.length === 0
+            ? <Empty icon={Wallet} title={modo === 'mes' ? 'No hay cobros en este mes' : 'No hay nada pendiente'} text={modo === 'mes' && data.cobros.length === 0 ? 'Generá los cobros mensuales o cargá uno manual.' : ''} />
+            : cobros.map((c) => <CobroRow key={c.id} c={c} acciones={acciones} mostrarPeriodo={modo !== 'mes'} />)}
+        </Card>
+      )}
+
+      {nuevo && <CobroForm onClose={() => setNuevo(false)} onSaved={() => { setNuevo(false); toast('Cobro creado'); recargar() }} />}
+      {acciones.modales}
     </div>
   )
 }

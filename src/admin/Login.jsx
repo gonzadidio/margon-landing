@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Loader2 } from 'lucide-react'
 import { login } from './api'
+import { Btn, ErrorMsg } from './ui'
 import Logo from '../components/Logo'
 
 export default function Login({ onSuccess }) {
@@ -20,18 +20,16 @@ export default function Login({ onSuccess }) {
         <div className="flex flex-col items-center text-center gap-3">
           <Logo src="/logo.png" alt="Margon" className="h-11 w-auto" />
           <div>
-            <h1 className="text-lg font-bold ad-ink">Panel interno</h1>
-            <p className="text-sm ad-muted mt-1">Acceso restringido</p>
+            <h1 className="text-lg font-bold ad-ink">Panel de Margon</h1>
+            <p className="text-sm ad-muted mt-1">Clientes, cobros y recordatorios</p>
           </div>
         </div>
-        <div className="space-y-2">
-          <label className="text-xs font-medium uppercase tracking-wide ad-muted">Contraseña</label>
+        <label className="block space-y-2">
+          <span className="text-[11px] font-semibold uppercase tracking-wide ad-muted">Contraseña</span>
           <input type="password" autoFocus value={password} onChange={(e) => setPassword(e.target.value)} className="ad-input" placeholder="••••••••" />
-        </div>
-        {error && <p className="text-sm text-red-400">{error}</p>}
-        <button type="submit" disabled={loading || !password} className="ad-btn ad-btn-primary w-full py-2.5">
-          {loading && <Loader2 className="w-4 h-4 animate-spin" />} Entrar
-        </button>
+        </label>
+        <ErrorMsg>{error}</ErrorMsg>
+        <Btn type="submit" variant="primary" loading={loading} disabled={!password} className="w-full py-2.5">Entrar</Btn>
       </form>
     </div>
   )
