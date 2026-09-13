@@ -20,9 +20,25 @@ const SECCIONES = [
   { id: 'ajustes', label: 'Ajustes', icon: Settings },
 ]
 
+// PWA: el manifest y el service worker se activan solo dentro de /admin, así
+// el panel se puede instalar en el celular sin que la landing ofrezca instalarse.
+function activarPwa() {
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const link = document.createElement('link')
+    link.rel = 'manifest'
+    link.href = '/admin-manifest.json'
+    document.head.appendChild(link)
+  }
+  document.title = 'Margon · Panel'
+  // El sw.js lo genera vite-plugin-pwa en el build (autoUpdate: se renueva solo).
+  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {})
+  }
+}
+
 export default function AdminApp() {
   const [authed, setAuthed] = useState(() => !!getToken())
-  useEffect(() => { setOnUnauthorized(() => setAuthed(false)) }, [])
+  useEffect(() => { setOnUnauthorized(() => setAuthed(false)); activarPwa() }, [])
 
   if (!authed) return <Login onSuccess={() => setAuthed(true)} />
   return (
