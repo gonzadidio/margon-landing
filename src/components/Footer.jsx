@@ -6,7 +6,7 @@ const socials = [
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
   { icon: Github, href: '#', label: 'GitHub' },
   { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
+  { icon: Instagram, href: 'https://www.instagram.com/margon.software/', label: 'Instagram' },
 ]
 
 export default function Footer() {
@@ -30,6 +30,8 @@ export default function Footer() {
                 <a
                   key={s.label}
                   href={s.href}
+                  target={s.href.startsWith('http') ? '_blank' : undefined}
+                  rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   aria-label={s.label}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] text-surface-200/40 transition-all hover:text-primary-400 hover:border-primary-500/20 hover:bg-primary-500/5"
                 >
