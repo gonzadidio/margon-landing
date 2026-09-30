@@ -16,8 +16,10 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'logo.png', 'pwa-192.png', 'pwa-512.png', 'pwa-maskable-512.png', 'apple-touch-icon.png'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,woff2}'],
+        // Las propuestas a clientes son páginas sueltas: fuera del precache y del fallback de la SPA.
+        globIgnores: ['propuestas/**'],
         navigateFallback: '/index.html',
-        navigateFallbackDenylist: [/^\/api\//],
+        navigateFallbackDenylist: [/^\/api\//, /^\/propuestas\//],
         // La API nunca se cachea: siempre datos frescos.
         runtimeCaching: [{ urlPattern: /^\/api\//, handler: 'NetworkOnly' }],
         cleanupOutdatedCaches: true,

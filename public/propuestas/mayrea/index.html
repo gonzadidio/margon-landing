@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Propuesta de funcionalidades para el nuevo ecommerce minorista de Mayrea.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pre-presupuesto Mayrea">
+<meta property="og:description" content="Elegí los módulos del nuevo ecommerce y mandá tu selección por WhatsApp.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Pre-presupuesto Mayrea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Propuesta comercial en papel claro: columna de lectura a la izquierda y un resumen fijo a la derecha con lo elegido. Sin precios: primero se elige, después se presupuesta. */
+:root{
+  --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
+  --line:#E2E5EA; --line-2:#C9CFD8; --accent:#E2621E; --accent-deep:#AE4810; --btn:#C2531A;
+  --accent-tint:#FFF3EB; --accent-line:#F3C3A5; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3{font-family:var(--sans);margin:0;line-height:1.15;text-wrap:balance;color:var(--ink)}
+h1{font-size:clamp(34px,4.6vw,50px);font-weight:700;letter-spacing:-.022em}
+h2{font-size:clamp(24px,2.6vw,30px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:19px;font-weight:600;letter-spacing:-.005em}
+p{margin:0}
+a{color:var(--accent-deep)}
+.mono{font-family:var(--mono)}
+.muted{color:var(--ink-2)}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.only-print{display:none}
+
+.wrap{max-width:1280px;margin:0 auto;padding-inline:24px;padding-block:0 140px}
+
+/* barra superior */
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
+.brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.client{font:700 17px/1 var(--sans);letter-spacing:.2em;color:var(--ink)}
+.client i{font-style:normal;color:var(--accent)}
+.brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
+.author{font-size:14px;color:var(--ink-2)}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:48px;align-items:start}
+main{min-width:0;display:grid;gap:72px}
+section{display:grid;gap:24px;min-width:0}
+.sec-head{display:grid;gap:10px;max-width:72ch}
+.sec-head p.muted{font-size:16.5px}
+
+/* portada */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px 40px;align-items:start}
+.cover-main{display:grid;gap:18px;min-width:0}
+.lede{font-size:18.5px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
+.ficha div{display:grid;gap:2px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.ficha div:last-child{border-bottom:0;margin-bottom:0}
+.ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ficha dd{margin:0;font-weight:500;font-size:15.5px}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:6px 0 0;padding:0;list-style:none;counter-reset:how}
+.how li{counter-increment:how;display:grid;gap:8px;align-content:start;padding:14px 16px;background:var(--paper);border:1px solid var(--line);border-radius:10px;font-size:14.5px;color:var(--ink-2)}
+.how li::before{content:"Paso " counter(how);font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+
+/* tabla de lo que escuchamos */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:660px}
+th,td{text-align:left;vertical-align:top;padding:14px 18px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+td.said{width:36%;color:var(--ink);font-weight:500}
+td.said::before{content:"\201C";color:var(--accent);font-weight:700;margin-right:2px}
+td.said::after{content:"\201D";color:var(--accent);font-weight:700;margin-left:1px}
+td.how-cell{color:var(--ink-2)}
+td.codes{white-space:nowrap;width:1%}
+.codelink{display:inline-block;font:600 12.5px/1 var(--mono);padding:5px 7px;border-radius:5px;background:var(--accent-tint);color:var(--accent-deep);text-decoration:none;margin:0 2px 4px 0}
+.codelink.is-base{background:var(--tint);color:var(--ink-2)}
+
+/* paquetes */
+.packs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.pack{position:relative;display:grid;grid-template-rows:auto auto 1fr auto auto;gap:10px;padding:24px 22px 22px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}
+.pack.rec{border:1.5px solid var(--accent)}
+.pack .flag{position:absolute;top:-11px;left:22px;font:600 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:#fff;padding:6px 9px;border-radius:999px}
+.pack h3{font-size:22px}
+.pack .desc{color:var(--ink-2);font-size:15px}
+.pack .tot{font:600 26px/1.1 var(--mono);letter-spacing:-.02em;padding-top:6px}
+.pack .det{font-size:13.5px;color:var(--ink-3);line-height:1.5}
+.pack.on{background:var(--accent-tint)}
+.pack.on .btn:not(.primary){border-color:var(--accent)}
+@media (min-width:901px){.pack .desc{min-height:4.9em}}
+
+/* botones */
+.btn{appearance:none;font:600 15px/1.2 var(--sans);padding:12px 18px;border-radius:9px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;text-align:center;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--ink-3);background:var(--tint)}
+.btn.primary{background:var(--btn);border-color:var(--btn);color:#fff}
+.btn.primary:hover{background:#A94613;border-color:#A94613}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#0E7640;border-color:#0E7640}
+.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+
+/* incluido */
+.base{display:grid;gap:22px;padding:30px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.base-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.base-badge{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ok);background:var(--ok-tint);padding:8px 11px;border-radius:999px}
+.checklist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 36px}
+.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
+.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.checklist b{color:var(--ink);font-weight:600}
+
+/* grupos y módulos */
+.groups{display:grid;gap:44px}
+.group{display:grid;gap:14px}
+.group-head{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:2px 14px;align-items:center}
+.group-head .letter{grid-row:span 2;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font:600 15px/1 var(--mono);background:var(--ink);color:#fff}
+.group-head h3{font-size:21px}
+.group-head .count{font:500 12.5px/1 var(--mono);color:var(--ink-3)}
+.group-head p{grid-column:2 / -1;color:var(--ink-2);font-size:15px}
+.mods{display:grid;gap:10px}
+.mod{display:grid;grid-template-columns:20px 46px minmax(0,1fr);grid-template-areas:"chk code body";gap:6px 16px;align-items:start;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s;scroll-margin-top:24px}
+.mod:hover{border-color:var(--line-2);box-shadow:var(--shadow)}
+.mod:has(input:checked){border-color:var(--accent-line);background:var(--accent-tint)}
+.mod:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.mod input{grid-area:chk;width:19px;height:19px;margin:3px 0 0;accent-color:var(--btn);cursor:pointer}
+.mod .code{grid-area:code;font:600 12.5px/1 var(--mono);text-align:center;padding:6px 0;border-radius:6px;background:var(--tint);color:var(--ink-2)}
+.mod:has(input:checked) .code{background:var(--paper);color:var(--accent-deep)}
+.mod .body{grid-area:body;display:grid;gap:6px;min-width:0}
+.mod .name{font-weight:600;font-size:17px;line-height:1.35}
+.mod .desc{color:var(--ink-2);font-size:15px;max-width:78ch}
+.mod .why{font-size:14.5px;color:var(--ink);padding-left:12px;border-left:2px solid var(--accent-line)}
+.mod .why b{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.mod .note{font-size:13.5px;color:var(--ink-3)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.tag{font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--tint);color:var(--ink-2)}
+.tag.rec{background:var(--accent);color:#fff}
+.tag.req{background:transparent;border:1px dashed var(--line-2)}
+
+/* bloques informativos */
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);display:grid;gap:14px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.card .kicker{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.card.notice{background:var(--tint);box-shadow:none}
+.card.notice b{color:var(--ink)}
+ul.plain,ol.plain{margin:0;padding-left:20px;display:grid;gap:10px;color:var(--ink-2)}
+ul.plain b,ol.plain b{color:var(--ink);font-weight:600}
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:st}
+ol.steps li{counter-increment:st;display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;padding:16px 18px;background:var(--paper);border:1px solid var(--line);border-radius:12px;color:var(--ink-2)}
+ol.steps li::before{content:counter(st);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 13px/1 var(--mono);background:var(--tint);color:var(--ink)}
+ol.steps b{color:var(--ink);font-weight:600}
+.timeline{list-style:none;margin:0;padding:6px 0 0;display:grid;border-left:2px solid var(--line);margin-left:8px}
+.timeline li{position:relative;display:grid;grid-template-columns:180px minmax(0,1fr);gap:4px 22px;padding:0 0 24px 26px}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2)}
+.timeline li.key::before{background:var(--accent);border-color:var(--accent)}
+.timeline .when{font:600 13.5px/1.5 var(--mono);color:var(--accent-deep)}
+.timeline .what{color:var(--ink-2)}
+.timeline .what b{color:var(--ink)}
+.cond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.cond div{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:4px}
+.cond dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.cond dd{margin:0;color:var(--ink-2);font-size:15px}
+footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* resumen */
+.sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);min-width:0}
+.sum-card{display:grid;gap:16px;padding:24px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sum-head{display:grid;gap:4px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.sum-head h2{font-size:22px}
+.sum-pack{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.counter{display:grid;gap:4px;padding:16px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.counter .lbl{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.counter .big{font:600 30px/1.1 var(--mono);letter-spacing:-.02em}
+.counter .big[hidden],.counter .empty[hidden]{display:none}
+.counter .empty{font-size:14.5px;color:var(--ink-2)}
+.lines{display:grid;gap:8px;font-size:14.5px;color:var(--ink-2)}
+.line{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.line b{color:var(--ink);font-weight:600;font-family:var(--mono);font-size:14px;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font:600 11.5px/1 var(--mono);padding:5px 7px;border-radius:5px;background:var(--tint);color:var(--ink-2);text-decoration:none}
+.actions{display:grid;gap:8px}
+.wa-note{font-size:13px;color:var(--ink-3);line-height:1.45}
+.wa-note .mono{color:var(--ink-2);user-select:all}
+.status{min-height:1.4em;font-size:13.5px;color:var(--ok)}
+.fallback{width:100%;min-height:140px;font:13px/1.45 var(--mono);padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--page);color:var(--ink)}
+.fallback[hidden]{display:none}
+.sum-bar{display:none}
+
+/* volver a donde estabas */
+.backjump{position:fixed;left:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:40;display:inline-flex;align-items:center;gap:10px;padding:12px 18px 12px 14px;border-radius:999px;border:0;background:var(--ink);color:#fff;font:600 14.5px/1.2 var(--sans);box-shadow:0 10px 28px rgba(19,23,32,.28);cursor:pointer;min-height:46px;max-width:calc(100vw - 32px)}
+.backjump[hidden]{display:none}
+.backjump:hover{background:#2A303B}
+.backjump:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.backjump svg{flex:0 0 18px}
+.backjump span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flash{animation:flash 1.8s ease-out 1}
+@keyframes flash{0%{box-shadow:0 0 0 5px var(--accent-line)}100%{box-shadow:0 0 0 0 rgba(243,195,165,0)}}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .sum{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;max-height:84vh;overflow:auto;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(19,23,32,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+  .sum-card{border:0;box-shadow:none;padding:8px 0 4px;border-radius:0}
+  .sum-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .sum-bar strong{display:block;font:600 20px/1.2 var(--mono)}
+  .sum-bar small{display:block;font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .sum:not(.open) .sum-card{display:none}
+  .backjump{left:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+}
+@media (max-width:900px){
+  .cover{grid-template-columns:minmax(0,1fr)}
+  .packs{grid-template-columns:minmax(0,1fr)}
+  .pack{grid-template-rows:auto}
+}
+@media (max-width:720px){
+  .cols2,.cond,.checklist{grid-template-columns:minmax(0,1fr)}
+  .how{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr)}
+  main{gap:56px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .mod{grid-template-columns:20px minmax(0,1fr);grid-template-areas:"chk code" "chk body";padding:16px}
+  .mod .code{justify-self:start;padding:6px 8px}
+  .base{padding:20px}
+  .brandline .kind{border-left:0;padding-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+  .flash{animation:none;box-shadow:0 0 0 3px var(--accent-line)}
+}
+
+/* impresión y PDF */
+@page{size:A4;margin:14mm 13mm}
+@media print{
+  html,body{background:#fff}
+  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .topbar{margin-bottom:14px;padding-block:0 8px}
+  .client{font-size:12pt} .brandline .kind,.author{font-size:9pt}
+  .layout{display:block}
+  main{gap:20px}
+  section{gap:9px}
+  h1{font-size:23pt} h2{font-size:15pt} h3{font-size:11.5pt}
+  .eyebrow{font-size:7.2pt}
+  .lede{font-size:10.5pt}
+  .sec-head{gap:4px}
+  .sec-head p.muted,.muted{font-size:9pt}
+  .sum,.only-screen,.pack .btn,.backjump{display:none!important}
+  .only-print{display:block}
+  .cover{grid-template-columns:minmax(0,1fr) 190px;gap:16px}
+  .ficha{padding:10px 12px 2px;box-shadow:none}
+  .ficha div{padding-bottom:6px;margin-bottom:6px}
+  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
+  .tbl-wrap,.base,.pack,.card{box-shadow:none}
+  th,td{padding:5px 9px;font-size:8.8pt}
+  th{font-size:6.8pt}
+  .codelink{font-size:7.5pt;padding:2px 4px;margin:0 1px 2px 0}
+  .tbl-wrap{overflow:visible;border-radius:6px}
+  table{min-width:0}
+  .packs{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .pack{padding:12px 12px 10px;gap:4px;border-radius:8px;grid-template-rows:auto}
+  .pack .flag{font-size:6.5pt;padding:3px 6px;top:-8px}
+  .pack h3{font-size:12.5pt}
+  .pack .desc{font-size:8.6pt;min-height:0}
+  .pack .tot{font-size:13pt;padding-top:2px}
+  .pack .det{font-size:7.8pt}
+  .pack.on{background:#fff}
+  .base{padding:12px 14px;gap:8px;border-radius:8px}
+  .base-head{padding-bottom:8px}
+  .base-badge{font-size:6.8pt;padding:4px 7px}
+  .checklist{gap:4px 20px}
+  .checklist li{font-size:8.8pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
+  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
+  .groups{gap:14px}
+  .group{gap:4px}
+  .group-head{grid-template-columns:20px minmax(0,1fr) auto;gap:1px 8px}
+  .group-head .letter{width:20px;height:20px;font-size:8.5pt;border-radius:4px}
+  .group-head h3{font-size:12pt}
+  .group-head p{font-size:8.8pt}
+  .group-head .count{font-size:7.5pt}
+  .mods{gap:0;border-top:1px solid var(--line)}
+  .mod{grid-template-columns:11px 28px minmax(0,1fr);grid-template-areas:"chk code body";gap:1px 9px;padding:6px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:#fff!important;cursor:default;box-shadow:none}
+  .mod .code{font-size:7.8pt;padding:3px 0;border-radius:3px;background:var(--tint)!important;color:var(--ink-2)!important}
+  .mod .body{gap:1px}
+  .mod .name{font-size:9.8pt}
+  .mod .desc{font-size:8.6pt;line-height:1.35;max-width:none}
+  .mod .why{font-size:8.6pt;line-height:1.35;padding-left:7px}
+  .mod .why b{display:inline;font-size:6.6pt;margin-right:5px}
+  .mod .note{font-size:7.8pt}
+  .tags{gap:3px;margin-top:2px}
+  .tag{font-size:6.2pt;padding:2px 5px}
+  .mod input{appearance:none;-webkit-appearance:none;width:10px;height:10px;margin:3px 0 0;border:1.2px solid #687182;border-radius:2px;background:#fff}
+  .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{padding:12px 14px;gap:6px;border-radius:8px}
+  .card .kicker{font-size:6.8pt}
+  ul.plain,ol.plain{gap:4px;font-size:9pt}
+  ol.steps{gap:4px}
+  ol.steps li{padding:6px 10px;grid-template-columns:18px minmax(0,1fr);gap:8px;font-size:9pt;border-radius:6px}
+  ol.steps li::before{width:16px;height:16px;font-size:7.5pt}
+  .timeline li{grid-template-columns:110px minmax(0,1fr);padding:0 0 6px 16px}
+  .timeline li::before{width:10px;height:10px;left:-6px}
+  .timeline .when{font-size:8.2pt} .timeline .what{font-size:9pt}
+  .cond{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .cond div{padding:8px 11px;border-radius:6px}
+  .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.5pt}
+  .mod,.pack,.card,.checklist li,.timeline li,tr,ol.steps li,.cond div{break-inside:avoid}
+  .group-head,.sec-head,h2,h3{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brandline"><span class="client">MAYREA<i>.</i></span><span class="kind">Propuesta comercial · Ecommerce minorista</span></div>
+    <span class="author">Gonzalo Di Dio Leal</span>
+  </div>
+
+  <div class="layout">
+    <main id="main">
+
+      <section class="cover" aria-labelledby="t-cover">
+        <div class="cover-main">
+          <p class="eyebrow">Pre-presupuesto</p>
+          <h1 id="t-cover">Nuevo ecommerce minorista para Mayrea</h1>
+          <p class="lede">Todo lo que puede tener la tienda nueva, módulo por módulo. Lo esencial viene incluido siempre. El resto lo eligen ustedes con total libertad, y con esa selección armamos el presupuesto.</p>
+          <ol class="how only-screen">
+            <li>Tildá los módulos que te interesan, o empezá por un paquete.</li>
+            <li>Tu selección se arma sola en el resumen.</li>
+            <li>Mandala por WhatsApp con un botón, y con eso armamos el presupuesto.</li>
+          </ol>
+          <p class="only-print muted">Cada módulo tiene un código. Marcá los que te interesan y mandá la lista por WhatsApp a Gonzalo, +54 9 11 3193-0330, por ejemplo: V1, V4, I1, C6.</p>
+        </div>
+        <dl class="ficha">
+          <div><dt>Cliente</dt><dd>Mayrea · Juan Martín Del Boca</dd></div>
+          <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal</dd></div>
+          <div><dt>Fecha</dt><dd>30 de septiembre de 2026</dd></div>
+          <div><dt>Lanzamiento propuesto</dt><dd>1 de diciembre de 2026</dd></div>
+          <div><dt>Próximo paso</dt><dd>Presupuesto con su selección</dd></div>
+        </dl>
+      </section>
+
+      <section id="escuchamos" aria-labelledby="t-escuchamos">
+        <div class="sec-head">
+          <p class="eyebrow">01 · Lo que escuchamos</p>
+          <h2 id="t-escuchamos">Cada problema que nos contaron tiene su respuesta</h2>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Lo que nos contaron</th><th>Cómo se resuelve</th><th>Dónde</th></tr></thead>
+            <tbody id="pains"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="paquetes" aria-labelledby="t-paquetes">
+        <div class="sec-head">
+          <p class="eyebrow">02 · Paquetes</p>
+          <h2 id="t-paquetes">Tres puntos de partida, si les sirve</h2>
+          <p class="muted">Los paquetes son solo un atajo. Pueden elegir uno y después sumar o sacar módulos, o ignorarlos y tildar uno por uno.</p>
+        </div>
+        <div class="packs" id="packs"></div>
+      </section>
+
+      <section id="incluido" aria-labelledby="t-incluido">
+        <div class="base">
+          <div class="base-head">
+            <div class="sec-head">
+              <p class="eyebrow">03 · Incluido siempre</p>
+              <h2 id="t-incluido">La tienda completa, lista para vender</h2>
+            </div>
+            <span class="base-badge">Viene en cualquier opción</span>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Tres propuestas de diseño</b> en la primera semana, con su logo y su paleta. Se puede mezclar lo mejor de cada una.</span></li>
+            <li><span><b>Tienda completa:</b> inicio, categorías, filtros por marca, rubro y precio, ficha con galería, carrito, checkout en una página, compra sin registrarse y cuenta del cliente con su historial.</span></li>
+            <li><span><b>Buscador propio,</b> rápido y tolerante a errores de tipeo, por nombre, código de producto y código de fabricante.</span></li>
+            <li><span><b>Stock, precios y fotos en el sistema, relacionados con Águila:</b> se manejan desde el backoffice y se relacionan con la información que ya está cargada en Águila. Los pedidos de la web entran a Águila con el estado que definan.</span></li>
+            <li><span><b>Mercado Pago bien configurado,</b> una sola vez y con cuotas. Transferencia bancaria.</span></li>
+            <li><span><b>Envíos:</b> reparto propio en AMBA por zonas, envío al interior por zona y peso, retiro en el showroom de Lanús y envío gratis desde el monto que definan.</span></li>
+            <li><span><b>Backoffice con usuarios, roles y permisos:</b> productos, categorías, pedidos, clientes, y banners y páginas con fecha y hora de publicación.</span></li>
+            <li><span><b>Páginas legales e informativas:</b> términos y condiciones, privacidad, botón de arrepentimiento, envíos, medios de pago, cambios y devoluciones, y preguntas frecuentes.</span></li>
+            <li><span><b>SEO y medición:</b> direcciones limpias, sitemap, datos de producto para Google, redirección de todas las direcciones actuales, Google Analytics, Píxel de Meta y Tag Manager.</span></li>
+            <li><span><b>Migración desde WordPress:</b> clientes, historial de pedidos y contenido, con respaldo completo al empezar y al terminar.</span></li>
+            <li><span><b>Ambiente de pruebas y de producción,</b> certificado de seguridad y copias de seguridad diarias automáticas.</span></li>
+            <li><span><b>Transición segura desde la agencia,</b> paso a paso en la sección 07.</span></li>
+            <li><span><b>Dos semanas de pruebas,</b> capacitación del equipo, manual de uso y 30 días de garantía de corrección sin cargo.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="modulos" aria-labelledby="t-modulos">
+        <div class="sec-head">
+          <p class="eyebrow">04 · Módulos</p>
+          <h2 id="t-modulos">Lo que se puede sumar</h2>
+          <p class="muted">Los marcados como recomendados atacan directo lo que nos contaron. Los de después del lanzamiento se suman sin frenar la salida de la tienda.</p>
+        </div>
+        <div class="groups" id="groups"></div>
+      </section>
+
+      <section id="despues" aria-labelledby="t-despues">
+        <div class="sec-head">
+          <p class="eyebrow">05 · Soporte y publicidad</p>
+          <h2 id="t-despues">Después del lanzamiento</h2>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <p class="kicker">Mantenimiento mensual</p>
+            <h3>Soporte con abono mensual</h3>
+            <p class="muted">La tienda funciona sola y el backoffice está pensado para que no dependan de nadie. Para lo que haga falta, el soporte se cobra como un mantenimiento mensual, que va detallado en el presupuesto.</p>
+            <ul class="plain">
+              <li>Tickets con respuesta en el día.</li>
+              <li>Monitoreo del sitio y copias de seguridad verificadas.</li>
+              <li>Actualizaciones de seguridad y corrección de errores.</li>
+            </ul>
+          </div>
+          <div class="card notice">
+            <p class="kicker">Meta Ads y Google Ads</p>
+            <h3>Conectamos, no gestionamos</h3>
+            <p class="muted">El sistema se conecta con sus cuentas de Meta y de Google: catálogo para anuncios, ventas medidas por anuncio, leads al CRM y resultados en el backoffice, según los módulos que elijan.</p>
+            <p class="muted"><b>La gestión de las campañas no está incluida.</b> La sigue manejando la persona o el equipo que ustedes elijan.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="terceros" aria-labelledby="t-terceros">
+        <div class="sec-head">
+          <p class="eyebrow">06 · Fuera del presupuesto</p>
+          <h2 id="t-terceros">Servicios de terceros y lo que dejan de pagar</h2>
+          <p class="muted">Estos servicios no los cobramos nosotros: los paga Mayrea directo a cada proveedor, y se ajustan con el uso real.</p>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <h3>Lo que se paga aparte</h3>
+            <ul class="plain">
+              <li><b>Servidor, base de datos y respaldos:</b> el servicio mensual del proveedor de nube.</li>
+              <li><b>Consumo de inteligencia artificial:</b> según el uso, solo si eligen módulos con IA.</li>
+              <li><b>WhatsApp Business oficial:</b> Meta cobra por mensaje enviado, solo si eligen I5.</li>
+              <li><b>Mercado Pago y Getnet:</b> la comisión por venta que ya negocian.</li>
+              <li><b>EnvíaloSimple y dominios:</b> lo que ya pagan hoy.</li>
+              <li><b>Publicidad:</b> la inversión en anuncios y su gestión.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Lo que dejan de pagar</h3>
+            <ul class="plain">
+              <li>El servicio anual del WordPress minorista y el de la agencia por la web.</li>
+              <li>Las licencias del tema y de los plugins pagos, como Elementor Pro y XStore.</li>
+              <li>Con el módulo X1, también el WordPress de Momo.</li>
+              <li>Las horas de quien hoy corrige a mano lo que el sitio sincroniza mal.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="transicion" aria-labelledby="t-transicion">
+        <div class="sec-head">
+          <p class="eyebrow">07 · Salida de la agencia</p>
+          <h2 id="t-transicion">Transición segura, incluida siempre</h2>
+          <p class="muted">No hace falta desconfiar para hacerlo bien. Es el orden normal para cambiar de proveedor sin sustos.</p>
+        </div>
+        <ol class="steps">
+          <li><span><b>Respaldo completo ya,</b> antes que nada: sitios, base de datos y fotos, guardados por Mayrea.</span></li>
+          <li><span><b>Inventario de accesos y titularidad:</b> dominios en NIC Argentina, Hostinger, Meta Business, Google Analytics, Mercado Pago, Mercado Libre y EnvíaloSimple. Verificamos que cada cuenta esté a nombre de Mayrea y no de la agencia.</span></li>
+          <li><span><b>Construcción en paralelo:</b> el sitio actual no se toca y sigue vendiendo hasta el último día.</span></li>
+          <li><span><b>Corte a fin de mes y de noche,</b> con la tienda en mantenimiento durante el cambio.</span></li>
+          <li><span><b>El mismo día, contraseñas nuevas</b> en todas las plataformas y baja de los usuarios de la agencia.</span></li>
+          <li><span><b>El correo no se corta:</b> se cambia solo el registro del sitio web. Los mails en Hostinger siguen igual.</span></li>
+          <li><span><b>Baja ordenada</b> de lo que ya no se usa.</span></li>
+        </ol>
+      </section>
+
+      <section id="calendario" aria-labelledby="t-calendario">
+        <div class="sec-head">
+          <p class="eyebrow">08 · Calendario</p>
+          <h2 id="t-calendario">Tienda nueva el 1 de diciembre, con cambio a mes completo</h2>
+          <p class="muted">Si prefieren cerrar diciembre con la agencia, el mismo plan corre y la salida pasa al lunes 4 de enero.</p>
+        </div>
+        <ol class="timeline">
+          <li><span class="when">Semana del 5 oct</span><span class="what"><b>Selección de módulos, presupuesto, accesos y respaldo completo</b> de mayrea.com.ar y de Momo: base de datos, fotos y configuración.</span></li>
+          <li><span class="when">Semana del 12 oct</span><span class="what"><b>Tres propuestas de diseño.</b> Eligen una o mezclan lo mejor de cada una.</span></li>
+          <li><span class="when">19 oct al 20 nov</span><span class="what"><b>Desarrollo en el ambiente de pruebas,</b> con revisiones de 10 a 15 minutos cada uno o dos días. Integración con Águila y módulos de lanzamiento.</span></li>
+          <li><span class="when">23 al 27 nov</span><span class="what"><b>Migración de prueba completa,</b> compras reales de prueba y capacitación del equipo.</span></li>
+          <li class="key"><span class="when">Lun 30 nov, noche</span><span class="what"><b>Corte.</b> Modo mantenimiento, respaldo final, migración de lo que entró en el medio, cambio del sitio y cambio de todas las contraseñas.</span></li>
+          <li class="key"><span class="when">Mar 1 dic</span><span class="what"><b>Tienda nueva en línea.</b></span></li>
+          <li><span class="when">Dic a feb</span><span class="what"><b>Módulos de después del lanzamiento,</b> uno por uno, sin frenar la tienda.</span></li>
+        </ol>
+      </section>
+
+      <section id="trabajo" aria-labelledby="t-trabajo">
+        <div class="sec-head">
+          <p class="eyebrow">09 · Forma de trabajo</p>
+          <h2 id="t-trabajo">Viendo todo antes de que llegue al cliente</h2>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <h3>Cómo trabajamos</h3>
+            <ul class="plain">
+              <li>Un ambiente de pruebas con su propio link: ven y prueban cada avance antes de que salga.</li>
+              <li>Revisiones cortas de 10 a 15 minutos cada uno o dos días.</li>
+              <li>Tickets con respuesta en el día.</li>
+              <li>Todo configurable desde el backoffice: un banner, un precio o un link lo cambian ustedes.</li>
+              <li>Horario compatible con España: arrancamos a las 6 de la mañana de Argentina.</li>
+              <li>Si las respuestas llegan en el día, los tiempos se cumplen.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Lo que necesitamos de Mayrea</h3>
+            <ul class="plain">
+              <li>Logo en vector, paleta de colores y tipografías, si las tienen.</li>
+              <li>Accesos a WordPress, Hostinger, NIC Argentina, Mercado Pago, Mercado Libre, Meta, Google y EnvíaloSimple.</li>
+              <li>Conexión con Águila, que coordinamos con Joaquín.</li>
+              <li>El contacto comercial de Getnet, si eligen V4.</li>
+              <li>Quiénes van a usar el backoffice y qué tiene que poder hacer cada uno.</li>
+              <li>Una persona que responda en el día. En la reunión quedó que sos vos.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="preguntas" aria-labelledby="t-preguntas">
+        <div class="sec-head">
+          <p class="eyebrow">10 · Para resolver juntos</p>
+          <h2 id="t-preguntas">Preguntas que ajustan el presupuesto</h2>
+        </div>
+        <ol class="plain">
+          <li><b>Mercado Libre:</b> ¿cómo se actualizan hoy el precio y el stock de las publicaciones, y cuántas publicaciones activas hay?</li>
+          <li><b>¿El precio en Mercado Libre es el mismo que en la web</b> o lleva un recargo propio?</li>
+          <li><b>¿Qué transportistas usan hoy</b> para el interior?</li>
+          <li><b>¿La firma de Momo acepta</b> que su tienda viva en la misma plataforma, con su dominio y su identidad?</li>
+          <li><b>Con Getnet,</b> ¿hay un acuerdo firmado o por ahora solo el contacto comercial?</li>
+          <li><b>¿Quieren ofrecer retiro en el showroom de Lanús?</b></li>
+        </ol>
+      </section>
+
+      <section id="condiciones" aria-labelledby="t-condiciones">
+        <div class="sec-head">
+          <p class="eyebrow">11 · Cómo seguimos</p>
+          <h2 id="t-condiciones">De esta selección al presupuesto</h2>
+        </div>
+        <dl class="cond">
+          <div><dt>Sin precios, a propósito</dt><dd>Primero eligen qué quieren, con total libertad. Con esa selección y las respuestas de la sección 10 armamos el presupuesto.</dd></div>
+          <div><dt>Mantenimiento mensual</dt><dd>El soporte después del lanzamiento se cobra como un abono mensual, detallado en el presupuesto.</dd></div>
+          <div><dt>Forma de pago</dt><dd>Se define en el presupuesto. Los módulos de después del lanzamiento se pagan al entregarse.</dd></div>
+          <div><dt>No incluye</dt><dd>Los servicios de terceros de la sección 06, la gestión de campañas en Meta y Google, la inversión en publicidad y la fotografía de estudio.</dd></div>
+        </dl>
+      </section>
+
+      <footer>
+        <span>Gonzalo Di Dio Leal · WhatsApp <span class="mono">+54 9 11 3193-0330</span> · gonzalodidioleal@gmail.com</span>
+        <span>Pre-presupuesto para Mayrea · 30 de septiembre de 2026</span>
+      </footer>
+    </main>
+
+    <aside class="sum" id="sum" aria-label="Resumen de tu selección">
+      <div class="sum-bar">
+        <div><small>Tu selección</small><strong id="barCount"></strong></div>
+        <button class="btn" type="button" id="toggleSum" aria-expanded="false" aria-controls="sumCard">Ver detalle</button>
+      </div>
+      <div class="sum-card" id="sumCard">
+        <div class="sum-head">
+          <p class="sum-pack" id="sumPack"></p>
+          <h2>Tu selección</h2>
+        </div>
+        <div class="counter">
+          <span class="lbl">Módulos elegidos</span>
+          <span class="big" id="sCount"></span>
+          <span class="empty" id="sEmpty">Todavía no elegiste ninguno. Tildá los que te interesan o empezá por un paquete.</span>
+        </div>
+        <div class="lines">
+          <div class="line"><span>Para el lanzamiento</span><b id="sLaunch"></b></div>
+          <div class="line"><span>Después del lanzamiento</span><b id="sPost"></b></div>
+          <div class="line"><span>Incluido siempre</span><b>Tienda completa</b></div>
+          <div class="line"><span>Soporte</span><b>Abono mensual</b></div>
+        </div>
+        <div class="chips" id="sChips" aria-label="Códigos elegidos"></div>
+        <div class="actions">
+          <a class="btn wa" id="waLink" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Enviar mi selección por WhatsApp</a>
+          <button class="btn" type="button" id="copyBtn">Copiar mi selección</button>
+          <button class="btn" type="button" id="clearBtn">Empezar de cero</button>
+        </div>
+        <p class="wa-note">Se abre WhatsApp con tu selección ya escrita para Gonzalo, <span class="mono">+54 9 11 3193-0330</span>. Revisala y tocá enviar.</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <textarea class="fallback" id="fallback" hidden readonly aria-label="Tu selección para copiar"></textarea>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<button class="backjump" id="backJump" type="button" hidden>
+  <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M8 3.5L2.5 9 8 14.5M3 9h12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="backLbl">Volver a donde estabas</span>
+</button>
+
+<script>
+(function(){
+"use strict";
+
+/* Número de WhatsApp de Gonzalo, solo dígitos: 54 país, 9 celular, 11 área y el número. */
+const WHATSAPP = "5491131930330";
+
+/* Registro en el panel de Margon: cuando la página vive en margonsoftware.com, cada envío
+   también se guarda como solicitud en /admin (Ventas), con el mismo formato que el configurador. */
+const REGISTRO = {
+  url: "/api/presupuesto",
+  origen: "propuesta-mayrea",
+  nombre: "Mayrea · Juan Martín Del Boca",
+  email: "comunicacion@mayrea.com.ar",
+  telefono: "1140967040",
+};
+function registroActivo(){
+  const h = location.hostname;
+  return h === "localhost" || h === "127.0.0.1" || h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app");
+}
+
+const GROUPS = [
+  {id:"V", t:"Vender más", i:"Lo que convierte una visita en una venta."},
+  {id:"I", t:"Integraciones", i:"Que los sistemas hablen entre ellos y nadie copie datos a mano."},
+  {id:"M", t:"Marketing y clientes", i:"Conocer a cada cliente y hablarle en el momento justo, sin hacerlo a mano."},
+  {id:"A", t:"Inteligencia artificial para el catálogo", i:"El trabajo repetitivo sobre 6.065 productos, resuelto en horas y no en meses."},
+  {id:"C", t:"Control y operación", i:"Enterarse primero, decidir con datos y no depender de la palabra de nadie."},
+  {id:"X", t:"Otra marca", i:"Una sola plataforma, dos tiendas."},
+];
+
+/* f: L = para el lanzamiento, P = después del lanzamiento */
+const MODS = [
+  {c:"V1",g:"V",n:"Buscador por vehículo",f:"L",rec:1,
+   d:"El cliente elige marca, modelo y año de su camión, camioneta o 4x4 y ve solo lo que le sirve. Incluye la herramienta para cargar compatibilidades en lote.",
+   w:"El que compra al por menor no sabe el código de la pieza: sabe qué vehículo tiene."},
+  {c:"V2",g:"V",n:"Asistente con IA las 24 horas",f:"P",ia:1,
+   d:"Un chat que entiende “tengo un Scania R450 del 2019 y se me rompió el espejo derecho”, busca en el catálogo y responde envíos, pagos y estado del pedido. Cuando hace falta, pasa la charla a WhatsApp con una persona.",
+   w:"Atiende de noche y los fines de semana, cuando hoy la consulta se pierde.",nota:"Consumo de IA aparte."},
+  {c:"V3",g:"V",n:"Búsqueda por foto",f:"P",ia:1,
+   d:"El cliente sube una foto de la pieza rota y el sistema le sugiere los productos que se parecen.",
+   w:"Para el que no sabe ni cómo se llama la pieza que necesita.",nota:"Consumo de IA aparte."},
+  {c:"V4",g:"V",n:"Getnet: tarjetas y cuotas",f:"L",rec:1,
+   d:"Tarjetas de crédito y débito directo en el sitio, cuotas sin interés con Santander en fechas de promoción y planes de cuotas para pymes, además de Mercado Pago.",
+   w:"Getnet ya los contactó, y es la forma de dejar de estar atrás en cuotas."},
+  {c:"V5",g:"V",n:"Cuotas a la vista",f:"L",rec:1,
+   d:"Precio en cuotas en cada producto y en los listados, y una calculadora con todas las opciones en la ficha.",
+   w:"Hoy las cuotas no aparecen hasta el checkout, y en Argentina la cuota es motivo de compra."},
+  {c:"V6",g:"V",n:"Promociones a medida",f:"L",rec:1,
+   d:"2x1, 3x2, descuento por cantidad o por medio de pago, cupones, combos y envío gratis desde un monto. Cada promo con fecha y hora de inicio y de fin.",
+   w:"Armar una promo deja de ser un pedido a otra empresa."},
+  {c:"V7",g:"V",n:"Modo evento",f:"L",rec:1,
+   d:"Para Hot Sale, CyberMonday o Black Friday: página del evento, cuenta regresiva, y precios y banners que se encienden y se apagan solos a la hora exacta.",
+   w:"El banner de las 7 de la mañana sale a las 7 de la mañana, sin nadie despierto."},
+  {c:"V8",g:"V",n:"Carrito abandonado",f:"P",
+   d:"Si alguien deja productos en el carrito, recibe un recordatorio por mail a la hora y otro al día siguiente, con cupón opcional.",
+   w:"Recupera ventas que hoy se pierden en silencio.",nota:"Suma WhatsApp si elegís I5."},
+  {c:"V9",g:"V",n:"Avisame cuando vuelva",f:"P",
+   d:"En un producto sin stock, el cliente deja su mail y el sistema le avisa solo cuando entra. También puede pedir aviso si baja de precio.",
+   w:"Cada “no hay stock” pasa a ser una venta pendiente y no una perdida."},
+  {c:"V10",g:"V",n:"Reseñas verificadas",f:"P",
+   d:"Opiniones solo de quien compró, pedidas automáticamente después de la entrega, con moderación desde el backoffice.",
+   w:"Un desconocido le cree más a otro comprador que a cualquier cartel."},
+  {c:"V11",g:"V",n:"Relacionados y combos",f:"P",
+   d:"“Los que llevaron esto también compraron”, y kits armados, como óptica con lámpara o tanque con tapa.",
+   w:"Sube el ticket promedio sin regalar descuentos."},
+  {c:"V12",g:"V",n:"Envío calculado en el producto",f:"L",
+   d:"El cliente pone su código postal en la ficha y ve cuánto le sale el envío antes de ir al carrito.",
+   w:"Nadie carga todos sus datos para enterarse del envío al final."},
+  {c:"V13",g:"V",n:"WhatsApp desde el producto",f:"L",rec:1,
+   d:"Botón de consulta que abre WhatsApp con el nombre y el código del producto ya escritos.",
+   w:"El vendedor sabe de qué le hablan desde el primer mensaje."},
+  {c:"V14",g:"V",n:"Compras con factura A",f:"L",
+   d:"Registro con CUIT y condición fiscal para talleres, transportistas y flotas chicas que compran al por menor pero necesitan factura A.",
+   w:"Muchos de los que compran un repuesto suelto son empresas."},
+
+  {c:"I1",g:"I",n:"Mercado Libre integrado",f:"L",rec:1,
+   d:"Precio y stock de las publicaciones salen del sistema y se actualizan solos, con un recargo propio para Mercado Libre si lo quieren. Los pedidos de Mercado Libre entran a Águila y al backoffice. Se publica y se edita desde el mismo lugar.",
+   w:"Es su canal minorista número uno: que nunca venda algo sin stock ni con el precio viejo."},
+  {c:"I2",g:"I",n:"Preguntas de Mercado Libre con IA",f:"P",rec:1,ia:1,req:["I1"],
+   d:"Cada pregunta llega al backoffice con una respuesta sugerida que usa el catálogo y las compatibilidades. Una persona la revisa y la manda con un clic.",
+   w:"En repuestos la pregunta de siempre es “¿le sirve a mi modelo?”. Contestar rápido es vender.",nota:"Consumo de IA aparte."},
+  {c:"I3",g:"I",n:"Transportistas",f:"L",
+   d:"Conexión con hasta dos transportistas, por ejemplo Andreani, OCA o Correo Argentino: cotización real, etiqueta impresa desde el pedido y número de seguimiento automático.",
+   w:"Se termina copiar direcciones a mano en la web del correo."},
+  {c:"I4",g:"I",n:"Seguimiento del pedido",f:"L",rec:1,
+   d:"Página de estado para el cliente y avisos por mail en cada paso: confirmado, preparado, despachado y entregado.",
+   w:"Menos mensajes preguntando dónde está el pedido."},
+  {c:"I5",g:"I",n:"WhatsApp Business oficial",f:"P",
+   d:"La API oficial de Meta desde el número de la empresa: avisos de pedido, recordatorios y campañas a grupos de clientes.",
+   w:"Es el canal que el cliente argentino abre primero.",nota:"Meta cobra por mensaje enviado."},
+  {c:"I6",g:"I",n:"Factura electrónica automática",f:"L",
+   d:"Cada venta de la web se factura sola desde Águila, con factura A o B según el cliente, y la factura le llega por mail.",
+   w:"Nadie factura a mano las ventas de la web."},
+  {c:"I7",g:"I",n:"EnvíaloSimple conectado",f:"L",rec:1,
+   d:"Suscriptores, clientes y compradores pasan solos a sus listas de EnvíaloSimple, separados por lo que compraron.",
+   w:"Lo que nunca pudieron vincular con la web actual."},
+  {c:"I8",g:"I",n:"Catálogo para anuncios",f:"P",rec:1,
+   d:"Catálogo automático para anuncios dinámicos en Facebook e Instagram y para Google Shopping, siempre con precio y stock reales.",
+   w:"Cada anuncio muestra el producto exacto que la persona miró.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+  {c:"I9",g:"I",n:"Ventas medidas por anuncio",f:"P",
+   d:"API de Conversiones de Meta y conversiones mejoradas de Google: cada venta queda atribuida al anuncio que la trajo, medida desde el servidor.",
+   w:"Saber qué anuncio vende y cuál solo gasta.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+
+  {c:"M1",g:"M",n:"CRM de clientes",f:"P",rec:1,
+   d:"Ficha de cada cliente con sus compras, vehículos, consultas y campañas recibidas. Grupos automáticos por marca de vehículo, rubro, última compra y cuánto gasta.",
+   w:"La base de clientes deja de ser una lista de mails."},
+  {c:"M2",g:"M",n:"Suscripción con 5% en la primera compra",f:"L",rec:1,
+   d:"Ventana de suscripción con un cupón único automático para la primera compra.",
+   w:"Convierte visitas anónimas en contactos para campañas.",nota:"Con I7, los contactos pasan solos a EnvíaloSimple."},
+  {c:"M3",g:"M",n:"Leads de Meta al CRM",f:"P",req:["M1"],
+   d:"Los formularios de los anuncios de Facebook e Instagram entran solos al CRM, con aviso al equipo para contactarlos.",
+   w:"Ningún interesado queda olvidado en una planilla.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+  {c:"M4",g:"M",n:"Automatizaciones de marketing",f:"P",req:["M1"],
+   d:"Reglas que trabajan solas: si alguien mostró interés en un producto y ese producto entra en promo, le llega un mail o un WhatsApp. También recompra a los meses, cumpleaños y reactivación de clientes que dejaron de comprar.",
+   w:"El ejemplo de la reunión: veinte interesados en un producto, sale un 2x1 y les llega solo."},
+  {c:"M5",g:"M",n:"Calendario de marketing",f:"P",rec:1,
+   d:"Banners, promos, mails y WhatsApp programados en un solo calendario, con vista previa de cómo se va a ver el sitio en cualquier fecha futura.",
+   w:"Ver el sitio del Hot Sale antes del Hot Sale, y comprobar que cada link lleva a donde tiene que llevar."},
+  {c:"M6",g:"M",n:"Tablero de publicidad",f:"P",
+   d:"Inversión, ventas y retorno de cada campaña de Meta y Google en el backoffice.",
+   w:"Los resultados de la publicidad quedan en la empresa, maneje quien maneje las campañas.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+  {c:"M7",g:"M",n:"Programa de puntos",f:"P",
+   d:"Puntos por cada compra, canjeables por descuentos en la próxima.",
+   w:"Para que el que compró una vez vuelva a comprar."},
+
+  {c:"A1",g:"A",n:"Descripciones con IA",f:"L",rec:1,ia:1,
+   d:"Genera descripciones, títulos para buscadores y fichas técnicas a partir de los datos de Águila. El equipo revisa y aprueba en lote.",
+   w:"Cargan unos 19 productos por día y 1 de cada 10 no tiene descripción.",nota:"Consumo de IA aparte."},
+  {c:"A2",g:"A",n:"Fotos con IA",f:"P",ia:1,
+   d:"Quita el fondo, deja un fondo blanco parejo, recorta y optimiza. En lote, para todo el catálogo.",
+   w:"Una tienda con fotos parejas se ve de otra categoría, y es lo que mejor funciona en marketplaces y anuncios.",nota:"Consumo de IA aparte."},
+  {c:"A3",g:"A",n:"Compatibilidades con IA",f:"L",rec:1,ia:1,req:["V1"],
+   d:"Lee el título, el código y la descripción de cada pieza y propone con qué vehículos es compatible. Una persona confirma.",
+   w:"Carga el buscador por vehículo en días, no en meses.",nota:"Consumo de IA aparte."},
+
+  {c:"C1",g:"C",n:"Tablero del dueño",f:"L",rec:1,
+   d:"Ventas del día por canal, web y Mercado Libre, ticket promedio, conversión y comparación con la semana y el mes anteriores. Pensado para el celular.",
+   w:"Desde España, el negocio entero en una pantalla. Y la respuesta a si el diseño funciona."},
+  {c:"C2",g:"C",n:"Reportes y búsquedas sin resultado",f:"L",rec:1,
+   d:"Stock bajo, más y menos vendidos, productos sin movimiento, rentabilidad, y la lista de lo que la gente busca en el sitio y no encuentra.",
+   w:"Lo que buscan y no tienen es una lista de compras que les escribe el cliente."},
+  {c:"C3",g:"C",n:"Alertas automáticas",f:"L",rec:1,
+   d:"Aviso por mail o WhatsApp si hay stock bajo, un pago rechazado, un pedido demorado o si falla una sincronización con Águila o con Mercado Libre.",
+   w:"Se enteran ustedes primero, no el cliente."},
+  {c:"C4",g:"C",n:"Resumen diario",f:"L",rec:1,
+   d:"Todas las mañanas, un mensaje con las ventas de ayer, lo pendiente y las alertas.",
+   w:"Arrancar el día sabiendo cómo está todo, sin entrar a ningún lado.",nota:"Por WhatsApp si elegís I5; si no, por mail."},
+  {c:"C5",g:"C",n:"Registro de cambios",f:"L",rec:1,
+   d:"Quién cambió qué y cuándo: precios, banners, links y productos. Con un botón para deshacer.",
+   w:"Se termina el “lo cambié y funcionaba”: queda escrito."},
+  {c:"C6",g:"C",n:"Monitoreo activo",f:"L",rec:1,
+   d:"Cada 10 minutos, un sistema automático recorre una compra como si fuera un cliente: busca un producto, lo abre, lo agrega al carrito y llega hasta la pantalla de pago, sin pagar. Si algún paso falla, les llega un aviso con el paso que falló y una captura de pantalla.",
+   w:"La respuesta directa a “un día funciona y otro no”."},
+  {c:"C7",g:"C",n:"Preparación de pedidos",f:"P",
+   d:"Lista de preparación para el depósito, orden de armado, control por escaneo del código y etiqueta de envío.",
+   w:"Menos errores de despacho con los pedidos de la web y de Mercado Libre juntos."},
+  {c:"C8",g:"C",n:"Cambios y devoluciones",f:"P",
+   d:"El cliente inicia el cambio desde su cuenta, el equipo lo aprueba y lo sigue hasta cerrarlo.",
+   w:"Ordena lo que hoy pasa por WhatsApp sin registro."},
+  {c:"C9",g:"C",n:"Backoffice en el celular",f:"P",
+   d:"El backoffice instalable como app en el teléfono, con aviso de cada venta y gestión de pedidos desde ahí.",
+   w:"Para quien no está en el depósito ni frente a una computadora."},
+
+  {c:"X1",g:"X",n:"Momo en la misma plataforma",f:"P",
+   d:"Momo Accesorios con su identidad y su dominio, pero con el mismo backoffice, el mismo Águila y los mismos reportes. Se migran sus 215 productos.",
+   w:"Un WordPress menos que pagar, mantener y cuidar."},
+];
+
+const PACKS = [
+  {id:"esencial", n:"Esencial", d:"La tienda completa, más lo que más se nota desde el primer día.",
+   mods:["V5","V13","I7","M2","C3","C6"]},
+  {id:"recomendado", n:"Recomendado", d:"Lo que resuelve cada cosa que nos contaron en la reunión.",
+   mods:["V1","V4","V5","V6","V7","V13","I1","I2","I4","I7","I8","M1","M2","M5","A1","A3","C1","C2","C3","C4","C5","C6"], rec:true},
+  {id:"completo", n:"Completo", d:"Todo lo que está en esta propuesta.",
+   mods:MODS.map(m=>m.c)},
+];
+
+const PAINS = [
+  ["El buscador un día funciona y otro no.","Buscador propio, sin plugins, y una prueba automática que recorre la compra de punta a punta cada 10 minutos.",["C6"]],
+  ["Hoy sincronizó bien el stock y mañana no. Hoy había foto y mañana no.","El sistema nuevo maneja todo el stock y las fotos desde su propio backoffice, sin plugins de por medio, y se relaciona con la información que ya está en Águila para no cargar nada dos veces. Si algo no coincide, llega una alerta.",["C3"]],
+  ["Para el Hot Sale necesito los banners a las 7 de la mañana.","Banners con fecha y hora, modo evento y vista previa del sitio en una fecha futura.",["V7","M5"]],
+  ["Pedíamos un cambio, nos decían que estaba hecho y no funcionaba.","Ambiente de pruebas para verlo antes, cambios que hacen ustedes mismos y registro de quién cambió qué.",["C5"]],
+  ["Estamos muy quedados con las cuotas.","Getnet sumado a Mercado Pago, y cuotas a la vista en cada producto.",["V4","V5"]],
+  ["Mercado Libre es lo más fuerte nuestro en minorista.","Precio y stock sincronizados desde el sistema, pedidos directo a Águila y preguntas contestadas con ayuda de IA.",["I1","I2"]],
+  ["Que los pedidos entren a Águila, como en mayorista.","Integración con Águila en los dos sentidos, incluida siempre.",[]],
+  ["Nunca pudimos vincular EnvíaloSimple con las suscripciones.","Sincronización automática y suscripción con 5% en la primera compra.",["I7","M2"]],
+  ["La agencia maneja Meta y Google.","El sistema se conecta con sus cuentas: catálogo para anuncios, ventas medidas por anuncio y resultados en el backoffice. Las campañas las sigue manejando quien ustedes elijan.",["I8","I9","M6"]],
+  ["No sé si el estilo actual funcionó.","Tablero y reportes que muestran qué se busca, qué se ve y qué se compra.",["C1","C2"]],
+  ["Tengo miedo de lo que puedan hacer cuando nos vayamos.","Respaldo ya, inventario de accesos, corte de noche a fin de mes y contraseñas nuevas. Incluido siempre.",[]],
+  ["Vivo en España y uso Mac.","Todo web, tablero pensado para el celular y resumen diario.",["C1","C4","C9"]],
+  ["Momo tiene su página aparte.","Momo en la misma plataforma, con su marca y su dominio.",["X1"]],
+];
+
+/* ===== utilidades ===== */
+const $ = id => document.getElementById(id);
+const byCode = Object.fromEntries(MODS.map(m=>[m.c,m]));
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const plural = (n, uno, varios) => n + " " + (n === 1 ? uno : varios);
+
+function counts(sel){
+  let L=0, P=0;
+  sel.forEach(c => { const m=byCode[c]; if(!m) return; if(m.f==="L") L++; else P++; });
+  return {total:L+P, L, P};
+}
+
+/* ===== estado ===== */
+const KEY = "mayrea-prepresupuesto-v3";
+const state = {sel:new Set()};
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({sel:[...state.sel]})); }catch(e){} }
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    state.sel = new Set((s.sel||[]).filter(c=>byCode[c]));
+  }catch(e){}
+}
+function applyPack(id){ const pk = PACKS.find(p=>p.id===id); if(pk) state.sel = new Set(pk.mods); }
+function currentPack(){
+  for(const pk of PACKS){
+    if(pk.mods.length===state.sel.size && pk.mods.every(c=>state.sel.has(c))) return pk;
+  }
+  return null;
+}
+
+/* dependencias */
+function addMod(c, notes){
+  if(state.sel.has(c)) return;
+  state.sel.add(c);
+  (byCode[c].req||[]).forEach(r => { if(!state.sel.has(r)){ addMod(r, notes); notes.push("Se sumó "+r+" porque "+c+" lo necesita."); } });
+}
+function removeMod(c, notes){
+  if(!state.sel.has(c)) return;
+  state.sel.delete(c);
+  MODS.forEach(m => { if((m.req||[]).includes(c) && state.sel.has(m.c)){ removeMod(m.c, notes); notes.push("Se quitó "+m.c+" porque necesita "+c+"."); } });
+}
+
+/* ===== render estático ===== */
+function renderPains(){
+  $("pains").innerHTML = PAINS.map(([said, how, codes]) =>
+    "<tr><td class=\"said\">"+esc(said)+"</td><td class=\"how-cell\">"+esc(how)+"</td><td class=\"codes\">"+
+    (codes.length ? codes.map(c=>"<a class=\"codelink\" href=\"#mod-"+c+"\">"+c+"</a>").join("") : "<span class=\"codelink is-base\">Base</span>")+"</td></tr>").join("");
+}
+function renderGroups(){
+  $("groups").innerHTML = GROUPS.map(g => {
+    const list = MODS.filter(m=>m.g===g.id);
+    const items = list.map(m => {
+      const tags = [];
+      if(m.rec) tags.push("<span class=\"tag rec\">Recomendado</span>");
+      tags.push("<span class=\"tag\">"+(m.f==="L"?"Para el lanzamiento":"Después del lanzamiento")+"</span>");
+      if(m.ia) tags.push("<span class=\"tag\">IA</span>");
+      (m.req||[]).forEach(r=>tags.push("<span class=\"tag req\">Necesita "+r+"</span>"));
+      return "<label class=\"mod\" id=\"mod-"+m.c+"\" for=\"cb-"+m.c+"\">"+
+        "<input type=\"checkbox\" id=\"cb-"+m.c+"\" data-code=\""+m.c+"\">"+
+        "<span class=\"code\">"+m.c+"</span>"+
+        "<span class=\"body\"><span class=\"name\">"+esc(m.n)+"</span>"+
+        "<span class=\"desc\">"+esc(m.d)+"</span>"+
+        "<span class=\"why\"><b>Para Mayrea</b>"+esc(m.w)+"</span>"+
+        (m.nota ? "<span class=\"note\">"+esc(m.nota)+"</span>" : "")+
+        "<span class=\"tags\">"+tags.join("")+"</span></span></label>";
+    }).join("");
+    return "<div class=\"group\"><div class=\"group-head\"><span class=\"letter\">"+g.id+"</span><h3>"+esc(g.t)+"</h3>"+
+      "<span class=\"count\">"+plural(list.length,"módulo","módulos")+"</span><p>"+esc(g.i)+"</p></div><div class=\"mods\">"+items+"</div></div>";
+  }).join("");
+}
+function renderPacks(){
+  $("packs").innerHTML = PACKS.map(pk => {
+    const k = counts(new Set(pk.mods));
+    return "<div class=\"pack"+(pk.rec?" rec":"")+"\" data-pack=\""+pk.id+"\">"+
+      (pk.rec?"<span class=\"flag\">Recomendado</span>":"")+
+      "<h3>"+esc(pk.n)+"</h3>"+
+      "<p class=\"desc\">"+esc(pk.d)+"</p>"+
+      "<p class=\"tot\">"+plural(k.total,"módulo","módulos")+"</p>"+
+      "<p class=\"det\">"+k.L+" para el lanzamiento y "+k.P+" para después, más todo lo incluido siempre.</p>"+
+      "<button class=\"btn"+(pk.rec?" primary":"")+"\" type=\"button\" data-apply=\""+pk.id+"\">Elegir "+esc(pk.n)+"</button></div>";
+  }).join("");
+}
+
+/* ===== el mensaje de WhatsApp ===== */
+function selectionText(){
+  const pk = currentPack();
+  const k = counts(state.sel);
+  const L = [];
+  L.push("*Pre-presupuesto Mayrea: mi selección*");
+  L.push("Punto de partida: " + (pk ? "paquete " + pk.n : (k.total ? "armado a medida" : "solo lo incluido siempre")));
+  if(k.total){
+    L.push("Módulos elegidos: " + k.total + " (" + k.L + " para el lanzamiento y " + k.P + " para después)");
+    GROUPS.forEach(g => {
+      const ms = MODS.filter(m => m.g===g.id && state.sel.has(m.c));
+      if(!ms.length) return;
+      L.push("");
+      L.push("*" + g.t + "*");
+      ms.forEach(m => L.push("• " + m.c + " " + m.n + " (" + (m.f==="L" ? "lanzamiento" : "después") + ")"));
+    });
+  } else {
+    L.push("Por ahora no elegí módulos adicionales.");
+  }
+  L.push("");
+  L.push("*Incluido siempre:* tienda completa, stock y fotos en el sistema relacionados con Águila, Mercado Pago, envíos, backoffice con roles, páginas legales, SEO, migración y transición segura desde la agencia.");
+  L.push("*Soporte:* mantenimiento mensual.");
+  return L.join("\n");
+}
+function waUrl(){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(selectionText()); }
+
+/* ===== render del estado ===== */
+function update(){
+  const pk = currentPack();
+  const k = counts(state.sel);
+  document.querySelectorAll("[data-code]").forEach(cb => { cb.checked = state.sel.has(cb.dataset.code); });
+  document.querySelectorAll(".pack").forEach(el => el.classList.toggle("on", !!pk && el.dataset.pack===pk.id));
+  $("sumPack").textContent = pk ? "Paquete " + pk.n : (k.total ? "Armado a medida" : "Sin módulos todavía");
+  $("sCount").textContent = k.total;
+  $("sCount").hidden = !k.total;
+  $("sEmpty").hidden = !!k.total;
+  $("barCount").textContent = plural(k.total,"módulo","módulos");
+  $("sLaunch").textContent = k.L;
+  $("sPost").textContent = k.P;
+  $("sChips").innerHTML = MODS.filter(m=>state.sel.has(m.c)).map(m=>"<a class=\"chip\" href=\"#mod-"+m.c+"\" title=\""+esc(m.n)+"\">"+m.c+"</a>").join("");
+  $("waLink").href = waUrl();
+  $("fallback").hidden = true;
+  save();
+}
+function say(msg){ $("status").textContent = msg; }
+
+const REG_KEY = "mayrea-prepresupuesto-registrado";
+function registrar(){
+  if(!registroActivo()) return;
+  const text = selectionText();
+  let ultimo = null; try{ ultimo = localStorage.getItem(REG_KEY); }catch(e){}
+  if(ultimo === text) return;
+  const body = {
+    nombre: REGISTRO.nombre, email: REGISTRO.email, telefono: REGISTRO.telefono, origen: REGISTRO.origen,
+    modulos: MODS.filter(m => state.sel.has(m.c)).map(m => ({ id: m.c, name: m.c + " " + m.n, price: 0 })),
+    total: 0, moneda: "USD", mensaje: text,
+  };
+  fetch(REGISTRO.url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), keepalive: true })
+    .then(r => { if(r.ok){ try{ localStorage.setItem(REG_KEY, text); }catch(e){} say("Tu selección también quedó registrada para Gonzalo."); } })
+    .catch(() => {});
+}
+
+/* ===== eventos ===== */
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.matches("[data-code]")){
+    const notes = [];
+    if(t.checked) addMod(t.dataset.code, notes); else removeMod(t.dataset.code, notes);
+    update(); say(notes.join(" "));
+  }
+});
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-apply]");
+  if(b){ applyPack(b.dataset.apply); update(); say("Elegiste el paquete " + PACKS.find(p=>p.id===b.dataset.apply).n + ". Podés sumar o sacar módulos."); }
+});
+$("waLink").addEventListener("click", registrar);
+$("clearBtn").addEventListener("click", () => { state.sel = new Set(); update(); say("Quedó solo lo incluido siempre."); });
+$("copyBtn").addEventListener("click", () => {
+  const text = selectionText();
+  const fb = $("fallback");
+  const showFallback = () => { fb.value = text; fb.hidden = false; fb.focus(); fb.select(); say("Seleccioná el texto y copialo para mandarlo."); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(() => say("Copiado. Pegalo en WhatsApp o en un mail a Gonzalo."), showFallback);
+  } else showFallback();
+});
+$("toggleSum").addEventListener("click", () => {
+  const s = $("sum"); const open = !s.classList.contains("open");
+  s.classList.toggle("open", open);
+  $("toggleSum").setAttribute("aria-expanded", String(open));
+  $("toggleSum").textContent = open ? "Ocultar" : "Ver detalle";
+});
+
+/* ===== volver a donde estabas ===== */
+const back = $("backJump"), backLbl = $("backLbl");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+const stack = [];
+let armed = false;
+function labelFor(el){
+  if(el.closest(".sum")) return "Volver a donde estabas";
+  const sec = el.closest("section");
+  const eb = sec && sec.querySelector(".eyebrow");
+  if(eb){
+    const t = eb.textContent.replace(/^[^·]*·\s*/, "").trim();
+    if(t) return "Volver a " + t.charAt(0).toLowerCase() + t.slice(1);
+  }
+  return "Volver a donde estabas";
+}
+function showBack(){
+  if(stack.length){ backLbl.textContent = stack[stack.length-1].label; back.hidden = false; }
+  else back.hidden = true;
+  armed = false;
+}
+function flash(el){ el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); }
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]');
+  if(!a) return;
+  const id = a.getAttribute("href").slice(1);
+  const target = id && document.getElementById(id);
+  if(!target) return;
+  e.preventDefault();
+  stack.push({y: window.scrollY, label: labelFor(a)});
+  if(stack.length > 5) stack.shift();
+  const sum = $("sum");
+  if(sum.classList.contains("open")){ sum.classList.remove("open"); $("toggleSum").setAttribute("aria-expanded","false"); $("toggleSum").textContent = "Ver detalle"; }
+  const far = Math.abs(target.getBoundingClientRect().top) > 2500;
+  target.scrollIntoView({behavior: (reduce.matches || far) ? "auto" : "smooth", block: target.classList.contains("mod") ? "center" : "start"});
+  if(target.classList.contains("mod")) flash(target);
+  showBack();
+});
+back.addEventListener("click", () => {
+  const s = stack.pop();
+  if(s) window.scrollTo({top: s.y, behavior: (reduce.matches || Math.abs(window.scrollY - s.y) > 2500) ? "auto" : "smooth"});
+  showBack();
+});
+window.addEventListener("scroll", () => {
+  if(!stack.length) return;
+  const d = Math.abs(window.scrollY - stack[stack.length-1].y);
+  if(d > 300) armed = true;
+  else if(armed && d < 80){ stack.pop(); showBack(); }
+}, {passive:true});
+
+/* ===== arranque ===== */
+renderPains(); renderGroups(); renderPacks();
+load();
+update();
+window.__sel = { applyPack, update, selectionText, waUrl, counts: () => counts(state.sel) };
+})();
+</script>
+</body>
+</html>
