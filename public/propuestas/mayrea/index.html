@@ -164,6 +164,18 @@ ol.steps b{color:var(--ink);font-weight:600}
 .cond dd{margin:0;color:var(--ink-2);font-size:15px}
 footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 
+/* campos */
+.check{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-weight:600;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--page)}
+.check:has(input:checked){border-color:var(--accent-line);background:var(--accent-tint)}
+.check:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.check input{flex:0 0 19px;width:19px;height:19px;margin:3px 0 0;accent-color:var(--btn);cursor:pointer}
+.field{display:grid;gap:6px}
+.field label{font-weight:600}
+.field .hint{font-size:13.5px;color:var(--ink-3);line-height:1.45}
+textarea.input{width:100%;min-height:128px;font:400 15px/1.5 var(--sans);padding:12px 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--paper);color:var(--ink);resize:vertical}
+textarea.input::placeholder{color:var(--ink-3)}
+textarea.input:focus-visible{outline:3px solid var(--accent-line);outline-offset:1px;border-color:var(--accent)}
+
 /* resumen */
 .sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);min-width:0}
 .sum-card{display:grid;gap:16px;padding:24px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
@@ -291,7 +303,11 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
   .mod .note{font-size:7.8pt}
   .tags{gap:3px;margin-top:2px}
   .tag{font-size:6.2pt;padding:2px 5px}
-  .mod input{appearance:none;-webkit-appearance:none;width:10px;height:10px;margin:3px 0 0;border:1.2px solid #687182;border-radius:2px;background:#fff}
+  .mod input,.check input{appearance:none;-webkit-appearance:none;flex:0 0 10px;width:10px;height:10px;margin:3px 0 0;border:1.2px solid #687182;border-radius:2px;background:#fff}
+  .check{padding:6px 9px;font-size:9pt;background:#fff!important;border-color:var(--line)!important}
+  .field label{font-size:9pt} .field .hint{font-size:8pt}
+  textarea.input{min-height:70px;font-size:8.6pt;border-radius:6px}
+  textarea.input::placeholder{color:transparent}
   .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .card{padding:12px 14px;gap:6px;border-radius:8px}
   .card .kicker{font-size:6.8pt}
@@ -417,11 +433,20 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
               <li>Actualizaciones de seguridad y corrección de errores.</li>
             </ul>
           </div>
-          <div class="card notice">
+          <div class="card">
             <p class="kicker">Meta Ads y Google Ads</p>
-            <h3>Conectamos, no gestionamos</h3>
-            <p class="muted">El sistema se conecta con sus cuentas de Meta y de Google: catálogo para anuncios, ventas medidas por anuncio, leads al CRM y resultados en el backoffice, según los módulos que elijan.</p>
-            <p class="muted"><b>La gestión de las campañas no está incluida.</b> La sigue manejando la persona o el equipo que ustedes elijan.</p>
+            <h3>¿Quieren que también nos ocupemos de la publicidad?</h3>
+            <p class="muted">El sistema se conecta con sus cuentas de Meta y de Google en cualquier caso: catálogo para anuncios, ventas medidas por anuncio y resultados en el backoffice, según los módulos que elijan. La gestión de las campañas es opcional.</p>
+            <label class="check" for="adsWant">
+              <input type="checkbox" id="adsWant">
+              <span>Sí, me interesa que se ocupen de las campañas de Meta y Google.</span>
+            </label>
+            <div class="field">
+              <label for="adsText">Contanos cómo manejan la publicidad hoy y qué les gustaría lograr</label>
+              <p class="hint">Quién lleva las campañas, en qué plataformas invierten, qué les funciona, qué no, y qué les gustaría que cambie.</p>
+              <textarea class="input" id="adsText" maxlength="600" rows="5" placeholder="Por ejemplo: hoy las campañas las maneja la agencia, invertimos en Meta y en Google, y no tenemos claro qué anuncio trae ventas. Nos gustaría..."></textarea>
+              <p class="hint only-screen">Va incluido en el mensaje que nos mandás. Con eso evaluamos la mejor forma de hacerlo y lo sumamos al presupuesto como un ítem aparte.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -441,7 +466,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
               <li><b>WhatsApp Business oficial:</b> Meta cobra por mensaje enviado, solo si eligen I5.</li>
               <li><b>Mercado Pago y Getnet:</b> la comisión por venta que ya negocian.</li>
               <li><b>EnvíaloSimple y dominios:</b> lo que ya pagan hoy.</li>
-              <li><b>Publicidad:</b> la inversión en anuncios y su gestión.</li>
+              <li><b>Publicidad:</b> la inversión en anuncios, que se paga directo a Meta y a Google.</li>
             </ul>
           </div>
           <div class="card">
@@ -545,7 +570,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <div><dt>Sin precios, a propósito</dt><dd>Primero eligen qué quieren, con total libertad. Con esa selección y las respuestas de la sección 10 armamos el presupuesto.</dd></div>
           <div><dt>Mantenimiento mensual</dt><dd>El soporte después del lanzamiento se cobra como un abono mensual, detallado en el presupuesto.</dd></div>
           <div><dt>Forma de pago</dt><dd>Se define en el presupuesto. Los módulos de después del lanzamiento se pagan al entregarse.</dd></div>
-          <div><dt>No incluye</dt><dd>Los servicios de terceros de la sección 06, la gestión de campañas en Meta y Google, la inversión en publicidad y la fotografía de estudio.</dd></div>
+          <div><dt>No incluye</dt><dd>Los servicios de terceros de la sección 06, la inversión en publicidad y la fotografía de estudio. La gestión de campañas es opcional y se presupuesta aparte.</dd></div>
         </dl>
       </section>
 
@@ -575,6 +600,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <div class="line"><span>Después del lanzamiento</span><b id="sPost"></b></div>
           <div class="line"><span>Incluido siempre</span><b>Tienda completa</b></div>
           <div class="line"><span>Soporte</span><b>Abono mensual</b></div>
+          <div class="line"><span>Publicidad</span><b id="sAds"></b></div>
         </div>
         <div class="chips" id="sChips" aria-label="Códigos elegidos"></div>
         <div class="actions">
@@ -693,10 +719,10 @@ const MODS = [
    w:"Lo que nunca pudieron vincular con la web actual."},
   {c:"I8",g:"I",n:"Catálogo para anuncios",f:"P",rec:1,
    d:"Catálogo automático para anuncios dinámicos en Facebook e Instagram y para Google Shopping, siempre con precio y stock reales.",
-   w:"Cada anuncio muestra el producto exacto que la persona miró.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+   w:"Cada anuncio muestra el producto exacto que la persona miró.",nota:"Conecta sus cuentas. La gestión de las campañas es opcional, en la sección 05."},
   {c:"I9",g:"I",n:"Ventas medidas por anuncio",f:"P",
    d:"API de Conversiones de Meta y conversiones mejoradas de Google: cada venta queda atribuida al anuncio que la trajo, medida desde el servidor.",
-   w:"Saber qué anuncio vende y cuál solo gasta.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+   w:"Saber qué anuncio vende y cuál solo gasta.",nota:"Conecta sus cuentas. La gestión de las campañas es opcional, en la sección 05."},
 
   {c:"M1",g:"M",n:"CRM de clientes",f:"P",rec:1,
    d:"Ficha de cada cliente con sus compras, vehículos, consultas y campañas recibidas. Grupos automáticos por marca de vehículo, rubro, última compra y cuánto gasta.",
@@ -706,7 +732,7 @@ const MODS = [
    w:"Convierte visitas anónimas en contactos para campañas.",nota:"Con I7, los contactos pasan solos a EnvíaloSimple."},
   {c:"M3",g:"M",n:"Leads de Meta al CRM",f:"P",req:["M1"],
    d:"Los formularios de los anuncios de Facebook e Instagram entran solos al CRM, con aviso al equipo para contactarlos.",
-   w:"Ningún interesado queda olvidado en una planilla.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+   w:"Ningún interesado queda olvidado en una planilla.",nota:"Conecta sus cuentas. La gestión de las campañas es opcional, en la sección 05."},
   {c:"M4",g:"M",n:"Automatizaciones de marketing",f:"P",req:["M1"],
    d:"Reglas que trabajan solas: si alguien mostró interés en un producto y ese producto entra en promo, le llega un mail o un WhatsApp. También recompra a los meses, cumpleaños y reactivación de clientes que dejaron de comprar.",
    w:"El ejemplo de la reunión: veinte interesados en un producto, sale un 2x1 y les llega solo."},
@@ -715,7 +741,7 @@ const MODS = [
    w:"Ver el sitio del Hot Sale antes del Hot Sale, y comprobar que cada link lleva a donde tiene que llevar."},
   {c:"M6",g:"M",n:"Tablero de publicidad",f:"P",
    d:"Inversión, ventas y retorno de cada campaña de Meta y Google en el backoffice.",
-   w:"Los resultados de la publicidad quedan en la empresa, maneje quien maneje las campañas.",nota:"Conecta sus cuentas. No incluye la gestión de campañas."},
+   w:"Los resultados de la publicidad quedan en la empresa, maneje quien maneje las campañas.",nota:"Conecta sus cuentas. La gestión de las campañas es opcional, en la sección 05."},
   {c:"M7",g:"M",n:"Programa de puntos",f:"P",
    d:"Puntos por cada compra, canjeables por descuentos en la próxima.",
    w:"Para que el que compró una vez vuelva a comprar."},
@@ -781,7 +807,7 @@ const PAINS = [
   ["Mercado Libre es lo más fuerte nuestro en minorista.","Precio y stock sincronizados desde el sistema, pedidos directo a Águila y preguntas contestadas con ayuda de IA.",["I1","I2"]],
   ["Que los pedidos entren a Águila, como en mayorista.","Integración con Águila en los dos sentidos, incluida siempre.",[]],
   ["Nunca pudimos vincular EnvíaloSimple con las suscripciones.","Sincronización automática y suscripción con 5% en la primera compra.",["I7","M2"]],
-  ["La agencia maneja Meta y Google.","El sistema se conecta con sus cuentas: catálogo para anuncios, ventas medidas por anuncio y resultados en el backoffice. Las campañas las sigue manejando quien ustedes elijan.",["I8","I9","M6"]],
+  ["La agencia maneja Meta y Google.","El sistema se conecta con sus cuentas: catálogo para anuncios, ventas medidas por anuncio y resultados en el backoffice. Y si quieren, también nos ocupamos de las campañas.",["I8","I9","M6"]],
   ["No sé si el estilo actual funcionó.","Tablero y reportes que muestran qué se busca, qué se ve y qué se compra.",["C1","C2"]],
   ["Tengo miedo de lo que puedan hacer cuando nos vayamos.","Respaldo ya, inventario de accesos, corte de noche a fin de mes y contraseñas nuevas. Incluido siempre.",[]],
   ["Vivo en España y uso Mac.","Todo web, tablero pensado para el celular y resumen diario.",["C1","C4","C9"]],
@@ -802,14 +828,16 @@ function counts(sel){
 
 /* ===== estado ===== */
 const KEY = "mayrea-prepresupuesto-v3";
-const state = {sel:new Set()};
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify({sel:[...state.sel]})); }catch(e){} }
+const state = {sel:new Set(), ads:false, adsText:""};
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({sel:[...state.sel], ads:state.ads, adsText:state.adsText})); }catch(e){} }
 function load(){
   try{
     const raw = localStorage.getItem(KEY);
     if(!raw) return;
     const s = JSON.parse(raw);
     state.sel = new Set((s.sel||[]).filter(c=>byCode[c]));
+    state.ads = !!s.ads;
+    state.adsText = typeof s.adsText === "string" ? s.adsText.slice(0,600) : "";
   }catch(e){}
 }
 function applyPack(id){ const pk = PACKS.find(p=>p.id===id); if(pk) state.sel = new Set(pk.mods); }
@@ -893,6 +921,12 @@ function selectionText(){
     L.push("Por ahora no elegí módulos adicionales.");
   }
   L.push("");
+  L.push(state.ads
+    ? "*Publicidad en Meta y Google:* me interesa que se ocupen de las campañas."
+    : "*Publicidad en Meta y Google:* por ahora, solo conectar las cuentas.");
+  const adsNota = state.adsText.trim();
+  if(adsNota) L.push("Cómo la manejamos hoy y qué nos gustaría: " + adsNota);
+  L.push("");
   L.push("*Incluido siempre:* tienda completa, stock y fotos en el sistema relacionados con Águila, Mercado Pago, envíos, backoffice con roles, páginas legales, SEO, migración y transición segura desde la agencia.");
   L.push("*Soporte:* mantenimiento mensual.");
   return L.join("\n");
@@ -912,6 +946,9 @@ function update(){
   $("barCount").textContent = plural(k.total,"módulo","módulos");
   $("sLaunch").textContent = k.L;
   $("sPost").textContent = k.P;
+  $("adsWant").checked = state.ads;
+  if(document.activeElement !== $("adsText") && $("adsText").value !== state.adsText) $("adsText").value = state.adsText;
+  $("sAds").textContent = state.ads ? "Me interesa" : "Solo conectar";
   $("sChips").innerHTML = MODS.filter(m=>state.sel.has(m.c)).map(m=>"<a class=\"chip\" href=\"#mod-"+m.c+"\" title=\""+esc(m.n)+"\">"+m.c+"</a>").join("");
   $("waLink").href = waUrl();
   $("fallback").hidden = true;
@@ -942,14 +979,17 @@ document.addEventListener("change", e => {
     const notes = [];
     if(t.checked) addMod(t.dataset.code, notes); else removeMod(t.dataset.code, notes);
     update(); say(notes.join(" "));
+  } else if(t.id === "adsWant"){
+    state.ads = t.checked; update(); say("");
   }
 });
+$("adsText").addEventListener("input", e => { state.adsText = e.target.value.slice(0,600); update(); });
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-apply]");
   if(b){ applyPack(b.dataset.apply); update(); say("Elegiste el paquete " + PACKS.find(p=>p.id===b.dataset.apply).n + ". Podés sumar o sacar módulos."); }
 });
 $("waLink").addEventListener("click", registrar);
-$("clearBtn").addEventListener("click", () => { state.sel = new Set(); update(); say("Quedó solo lo incluido siempre."); });
+$("clearBtn").addEventListener("click", () => { state.sel = new Set(); state.ads = false; state.adsText = ""; $("adsText").value = ""; update(); say("Quedó solo lo incluido siempre."); });
 $("copyBtn").addEventListener("click", () => {
   const text = selectionText();
   const fb = $("fallback");
