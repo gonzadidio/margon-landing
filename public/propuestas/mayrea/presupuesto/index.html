@@ -101,6 +101,21 @@ tr.sub td{color:var(--ink-2);font-size:14.5px}
 .opt .ej b{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
 .opt .note{font-size:13.5px;color:var(--ink-3)}
 .opt .price{font:600 16.5px/1.35 var(--mono);white-space:nowrap;text-align:right}
+.opt .price .was{color:var(--ink-3);font-weight:500;margin-right:6px}
+
+/* formas de pago */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.plan{position:relative;display:grid;gap:8px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow);cursor:pointer;min-width:0;transition:border-color .15s,background .15s}
+.plan:has(input:checked){border-color:var(--accent);background:var(--accent-tint);box-shadow:inset 0 0 0 1px var(--accent),var(--shadow)}
+.plan:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.plan input{position:absolute;top:20px;right:20px;width:19px;height:19px;margin:0;accent-color:var(--btn);cursor:pointer}
+.plan-n{font-weight:600;font-size:17px;padding-right:30px}
+.plan-tag{font:600 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+.plan-tag.warn{color:var(--ink-3)}
+.plan-total{font:600 25px/1.15 var(--mono);letter-spacing:-.02em;margin-top:4px}
+.plan-pagos{display:grid;gap:7px;padding-top:12px;margin-top:4px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.pp{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.pp .num{color:var(--ink);font-size:13.5px}
 
 /* tarjetas */
 .cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -164,7 +179,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
   .sum-bar small{display:block;font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
   .sum:not(.open) .sum-card{display:none}
 }
-@media (max-width:900px){ .cover{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:900px){ .cover,.plans{grid-template-columns:minmax(0,1fr)} }
 @media (max-width:720px){
   .cols2,.cond,.checklist{grid-template-columns:minmax(0,1fr)}
   .timeline li{grid-template-columns:minmax(0,1fr)}
@@ -224,6 +239,11 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
   .cond{gap:8px} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
   footer{padding-top:10px;font-size:8.5pt}
   tr.sub td{font-size:8.6pt}
+  .plans{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .plan{padding:8px 10px;gap:3px;border-radius:6px;box-shadow:none;background:#fff!important;border-color:var(--line)!important}
+  .plan input{display:none}
+  .plan-n{font-size:9.8pt;padding:0} .plan-tag{font-size:6.6pt} .plan-total{font-size:13pt;margin:0}
+  .plan-pagos{font-size:8pt;gap:2px;padding-top:5px;margin-top:2px} .pp .num{font-size:8pt}
   .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .cond{grid-template-columns:repeat(2,minmax(0,1fr))}
   .card .muted,.card p:not(.big):not(.kicker){font-size:8.8pt!important}
@@ -250,14 +270,14 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
         <div class="cover-main">
           <p class="eyebrow">Presupuesto</p>
           <h1 id="t-cover">Nuevo ecommerce minorista para Mayrea</h1>
-          <p class="lede">Armado con tu selección: <b>21 módulos</b> más todo lo incluido siempre. Aparte, al final, están los tres módulos que consultaste, para sumarlos si querés.</p>
+          <p class="lede">Armado con tu selección: <b>21 módulos</b> más todo lo incluido siempre. Aparte, al final, están los tres módulos que consultaste, para sumarlos si querés. <b>Todo queda en línea el 1 de diciembre.</b></p>
         </div>
         <dl class="ficha">
           <div><dt>Cliente</dt><dd>Mayrea · Juan Martín Del Boca</dd></div>
           <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal</dd></div>
           <div><dt>Fecha</dt><dd>6 de octubre de 2026</dd></div>
           <div><dt>Validez</dt><dd>Hasta el 5 de noviembre de 2026</dd></div>
-          <div><dt>Lanzamiento propuesto</dt><dd>1 de diciembre de 2026</dd></div>
+          <div><dt>Todo en línea</dt><dd>1 de diciembre de 2026</dd></div>
         </dl>
       </section>
 
@@ -314,7 +334,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
         <div class="sec-head">
           <p class="eyebrow">04 · Opcionales</p>
           <h2 id="t-opcionales">Los tres módulos que consultaste</h2>
-          <p class="muted">No están en el total de tu selección. Tildalos para ver cómo queda la inversión si los sumás; también tienen la bonificación.</p>
+          <p class="muted">No están en el total de tu selección. Tildalos para ver cómo queda la inversión si los sumás. <b>Si sumás I1 e I2, el C9 va de regalo.</b></p>
         </div>
         <div class="opts" id="opts"></div>
       </section>
@@ -354,15 +374,11 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
       <section id="pago" aria-labelledby="t-pago">
         <div class="sec-head">
           <p class="eyebrow">06 · Forma de pago</p>
-          <h2 id="t-pago">En etapas, contra avance</h2>
+          <h2 id="t-pago">Pago único o hasta 3 cuotas sin interés</h2>
+          <p class="muted" id="planCap"></p>
         </div>
-        <div class="tbl">
-          <table class="resumen">
-            <thead><tr><th>Cuándo</th><th class="r">Tu selección</th><th class="r">Con los tres opcionales</th></tr></thead>
-            <tbody id="pagoBody"></tbody>
-          </table>
-        </div>
-        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos.</p>
+        <div class="plans" id="plans" role="radiogroup" aria-label="Forma de pago"></div>
+        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. El mantenimiento, USD 200 por mes, empieza cuando terminan los 30 días de garantía, con cualquier forma de pago.</p>
       </section>
 
       <section id="calendario" aria-labelledby="t-cal">
@@ -374,11 +390,10 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
         <ol class="timeline">
           <li><span class="when">Hasta el 9 oct</span><span class="what"><b>Aprobación, primer pago, accesos y respaldo completo</b> de mayrea.com.ar y de Momo.</span></li>
           <li><span class="when">Semana del 12 oct</span><span class="what"><b>Tres propuestas de diseño.</b> Eligen una o mezclan lo mejor de cada una.</span></li>
-          <li><span class="when">19 oct al 20 nov</span><span class="what"><b>Desarrollo en el ambiente de pruebas,</b> con revisiones cortas cada uno o dos días. Integración con Águila y módulos de lanzamiento.</span></li>
+          <li><span class="when">19 oct al 20 nov</span><span class="what"><b>Desarrollo en el ambiente de pruebas,</b> con revisiones cortas cada uno o dos días. Integración con Águila y todos los módulos.</span></li>
           <li><span class="when">23 al 27 nov</span><span class="what"><b>Migración de prueba,</b> compras reales de prueba y capacitación.</span></li>
           <li class="key"><span class="when">Lun 30 nov, noche</span><span class="what"><b>Corte:</b> mantenimiento, respaldo final, cambio del sitio y contraseñas nuevas.</span></li>
-          <li class="key"><span class="when">Mar 1 dic</span><span class="what"><b>Tienda nueva en línea.</b></span></li>
-          <li><span class="when">Dic a feb</span><span class="what"><b>Módulos de después del lanzamiento,</b> uno por uno, incluida Momo.</span></li>
+          <li class="key"><span class="when">Mar 1 dic</span><span class="what"><b>Tienda nueva en línea, con todos los módulos y Momo.</b></span></li>
         </ol>
       </section>
 
@@ -436,8 +451,8 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <span class="big" id="sTotal"></span>
         </div>
         <div class="split">
-          <div class="line"><span>Para el lanzamiento</span><span class="num" id="sLaunch"></span></div>
-          <div class="line"><span>Después del lanzamiento</span><span class="num" id="sPost"></span></div>
+          <div class="line"><span>Forma de pago</span><span id="sPlan" style="text-align:right"></span></div>
+          <div class="line" id="sPlanTotRow" hidden><span>Total con esta forma de pago</span><span class="num" id="sPlanTot"></span></div>
           <div class="line"><span>Primer pago, al aprobar</span><span class="num" id="sAdv"></span></div>
         </div>
         <div class="monthly line"><span>Mantenimiento</span><span class="num">USD 200 / mes</span></div>
@@ -459,47 +474,48 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 "use strict";
 
 const WHATSAPP = "5491131930330";
-const CONFIG = { base: 4200, paso: 100, bonificacion: [ {desde:8000, pct:15}, {desde:4000, pct:10} ], mantenimiento: 200 };
+const CONFIG = { base: 3800, paso: 100, bonificacion: [ {desde:0, pct:15} ], mantenimiento: 200, contadoPct: 5 };
 
 const GROUPS = {V:"Vender más", I:"Integraciones", M:"Marketing y clientes", C:"Control y operación", X:"Otra marca"};
 
-/* Los 21 módulos que eligió. f: L = para el lanzamiento, P = después */
+/* Los 21 módulos que eligió */
 const SEL = [
-  {c:"V1",g:"V",n:"Buscador por vehículo",p:900,f:"L",d:"Elegir marca, modelo y año y ver solo lo que le sirve."},
-  {c:"V2",g:"V",n:"Asistente con IA las 24 horas",p:900,f:"P",d:"Chat que busca en el catálogo y responde envíos, pagos y estado del pedido."},
-  {c:"V4",g:"V",n:"Getnet: tarjetas y cuotas",p:400,f:"L",d:"Tarjetas directo en el sitio y cuotas sin interés con Santander."},
-  {c:"V5",g:"V",n:"Cuotas a la vista",p:200,f:"L",d:"Precio en cuotas en cada producto y calculadora en la ficha."},
-  {c:"V6",g:"V",n:"Promociones a medida",p:600,f:"L",d:"2x1, descuentos, cupones, combos y envío gratis, con fecha de inicio y de fin."},
-  {c:"V7",g:"V",n:"Modo evento",p:400,f:"L",d:"Hot Sale y CyberMonday con precios y banners que se activan solos a la hora exacta."},
-  {c:"V8",g:"V",n:"Carrito abandonado",p:300,f:"P",d:"Recordatorio por mail a quien dejó productos en el carrito."},
-  {c:"V9",g:"V",n:"Avisame cuando vuelva",p:200,f:"P",d:"Aviso automático cuando un producto vuelve a tener stock."},
-  {c:"V10",g:"V",n:"Reseñas verificadas",p:400,f:"P",d:"Opiniones de compradores reales, pedidas después de la entrega."},
-  {c:"V12",g:"V",n:"Envío calculado en el producto",p:200,f:"L",d:"Costo de envío por código postal antes de llegar al carrito."},
-  {c:"V13",g:"V",n:"WhatsApp desde el producto",p:100,f:"L",d:"Consulta con el nombre y el código del producto ya escritos."},
-  {c:"V14",g:"V",n:"Compras con factura A",p:200,f:"L",d:"Registro con CUIT para empresas que compran al por menor."},
-  {c:"I3",g:"I",n:"Transportistas",p:600,f:"L",d:"Cotización, etiqueta y seguimiento con hasta dos transportistas."},
-  {c:"I6",g:"I",n:"Factura electrónica automática",p:400,f:"L",d:"Cada venta se factura desde Águila y la factura llega por mail."},
-  {c:"I7",g:"I",n:"EnvíaloSimple conectado",p:200,f:"L",d:"Suscriptores y compradores pasan solos a sus listas."},
-  {c:"I8",g:"I",n:"Catálogo para anuncios",p:400,f:"P",d:"Catálogo automático para Facebook, Instagram y Google Shopping."},
-  {c:"I9",g:"I",n:"Ventas medidas por anuncio",p:200,f:"P",d:"Cada venta queda atribuida al anuncio que la trajo."},
-  {c:"M6",g:"M",n:"Tablero de publicidad",p:400,f:"P",d:"Inversión, ventas y retorno de cada campaña en el backoffice."},
-  {c:"C4",g:"C",n:"Resumen diario",p:200,f:"L",d:"Cada mañana, por mail, las ventas de ayer, lo pendiente y las alertas."},
-  {c:"C8",g:"C",n:"Cambios y devoluciones",p:400,f:"P",d:"El cliente inicia el cambio online y el equipo lo sigue hasta cerrarlo."},
-  {c:"X1",g:"X",n:"Momo en la misma plataforma",p:1000,f:"P",d:"Momo con su marca y su dominio, en el mismo sistema. Se migran sus 215 productos."},
+  {c:"V1",g:"V",n:"Buscador por vehículo",p:400,d:"Elegir marca, modelo y año y ver solo lo que le sirve."},
+  {c:"V2",g:"V",n:"Asistente con IA las 24 horas",p:700,d:"Chat que busca en el catálogo y responde envíos, pagos y estado del pedido."},
+  {c:"V4",g:"V",n:"Getnet: tarjetas y cuotas",p:300,d:"Tarjetas directo en el sitio y cuotas sin interés con Santander."},
+  {c:"V5",g:"V",n:"Cuotas a la vista",p:100,d:"Precio en cuotas en cada producto y calculadora en la ficha."},
+  {c:"V6",g:"V",n:"Promociones a medida",p:400,d:"2x1, descuentos, cupones, combos y envío gratis, con fecha de inicio y de fin."},
+  {c:"V7",g:"V",n:"Modo evento",p:300,d:"Hot Sale y CyberMonday con precios y banners que se activan solos a la hora exacta."},
+  {c:"V8",g:"V",n:"Carrito abandonado",p:100,d:"Recordatorio por mail a quien dejó productos en el carrito."},
+  {c:"V9",g:"V",n:"Avisame cuando vuelva",p:100,d:"Aviso automático cuando un producto vuelve a tener stock."},
+  {c:"V10",g:"V",n:"Reseñas verificadas",p:200,d:"Opiniones de compradores reales, pedidas después de la entrega."},
+  {c:"V12",g:"V",n:"Envío calculado en el producto",p:200,d:"Costo de envío por código postal antes de llegar al carrito."},
+  {c:"V13",g:"V",n:"WhatsApp desde el producto",p:100,d:"Consulta con el nombre y el código del producto ya escritos."},
+  {c:"V14",g:"V",n:"Compras con factura A",p:100,d:"Registro con CUIT para empresas que compran al por menor."},
+  {c:"I3",g:"I",n:"Transportistas",p:400,d:"Cotización, etiqueta y seguimiento con hasta dos transportistas."},
+  {c:"I6",g:"I",n:"Factura electrónica automática",p:300,d:"Cada venta se factura desde Águila y la factura llega por mail."},
+  {c:"I7",g:"I",n:"EnvíaloSimple conectado",p:200,d:"Suscriptores y compradores pasan solos a sus listas."},
+  {c:"I8",g:"I",n:"Catálogo para anuncios",p:300,d:"Catálogo automático para Facebook, Instagram y Google Shopping."},
+  {c:"I9",g:"I",n:"Ventas medidas por anuncio",p:200,d:"Cada venta queda atribuida al anuncio que la trajo."},
+  {c:"M6",g:"M",n:"Tablero de publicidad",p:300,d:"Inversión, ventas y retorno de cada campaña en el backoffice."},
+  {c:"C4",g:"C",n:"Resumen diario",p:200,d:"Cada mañana, por mail, las ventas de ayer, lo pendiente y las alertas."},
+  {c:"C8",g:"C",n:"Cambios y devoluciones",p:300,d:"El cliente inicia el cambio online y el equipo lo sigue hasta cerrarlo."},
+  {c:"X1",g:"X",n:"Momo en la misma plataforma",p:900,d:"Momo con su marca y su dominio, en el mismo sistema. Se migran sus 215 productos."},
 ];
 
 /* Los tres que consultó */
 const OPTS = [
-  {c:"I1",n:"Mercado Libre integrado",p:1200,f:"L",
+  {c:"I1",n:"Mercado Libre integrado",p:1100,
    d:"El sistema se conecta a tu cuenta de Mercado Libre y mantiene todo sincronizado solo. Cambiás un precio una vez y se actualiza también ahí, con un recargo propio si querés cubrir la comisión. Las ventas de Mercado Libre entran solas al sistema y a Águila, sin cargarlas a mano.",
    e:"Si tenés 3 tanques y vendés 2 por la web, Mercado Libre pasa a mostrar 1 automáticamente. Nunca vendés algo que no tenés."},
-  {c:"I2",n:"Preguntas de Mercado Libre con IA",p:400,f:"P",req:"I1",
+  {c:"I2",n:"Preguntas de Mercado Libre con IA",p:400,req:"I1",
    d:"Las preguntas de los compradores te llegan al sistema con una respuesta ya redactada con los datos del producto. Alguien de tu equipo la revisa, la corrige si hace falta y la manda con un clic. Nunca se envía nada sin que una persona lo apruebe.",
    e:"Llega “¿le sirve a un Scania 2015?” y la respuesta ya está armada con la compatibilidad del producto. Se contesta en minutos y no en horas.",
    nota:"Necesita I1, que es el que conecta con Mercado Libre. Consumo de IA aparte."},
-  {c:"C9",n:"Backoffice en el celular",p:300,f:"P",
+  {c:"C9",n:"Backoffice en el celular",p:200,
    d:"El panel ya se puede usar desde el celular. Con este módulo se instala como una app, con su ícono en el teléfono, y te llega un aviso por cada venta o pedido demorado. No pasa por las tiendas de apps, así que no hay nada que publicar ni pagar, y se actualiza solo.",
-   e:"Entra una venta y te llega el aviso en el teléfono, estés donde estés. Abrís el pedido y lo gestionás ahí mismo."},
+   e:"Entra una venta y te llega el aviso en el teléfono, estés donde estés. Abrís el pedido y lo gestionás ahí mismo.",
+   nota:"De regalo si sumás I1 e I2."},
 ];
 
 const $ = id => document.getElementById(id);
@@ -508,20 +524,33 @@ const usd = n => "USD " + NF.format(n);
 const step = n => Math.round(n / CONFIG.paso) * CONFIG.paso;
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 
+/* C9 va de regalo cuando están I1 e I2 */
+const regaloC9 = optCodes => optCodes.has("I1") && optCodes.has("I2");
+const precioOpt = (o, optCodes) => (o.c === "C9" && regaloC9(optCodes)) ? 0 : o.p;
 function calc(optCodes){
-  const items = SEL.concat(OPTS.filter(o => optCodes.has(o.c)));
-  let L = 0, P = 0, selSum = 0, optSum = 0;
-  items.forEach(m => { if(m.f === "L") L += m.p; else P += m.p; });
+  let selSum = 0, optSum = 0;
   SEL.forEach(m => selSum += m.p);
-  OPTS.forEach(o => { if(optCodes.has(o.c)) optSum += o.p; });
-  const sub = L + P;
-  const tier = CONFIG.bonificacion.find(t => sub >= t.desde);
+  OPTS.forEach(o => { if(optCodes.has(o.c)) optSum += precioOpt(o, optCodes); });
+  const tier = CONFIG.bonificacion.find(t => selSum >= t.desde);
   const pct = tier ? tier.pct : 0;
-  const dL = step(L * pct / 100), dP = step(P * pct / 100);
-  const launch = CONFIG.base + L - dL, post = P - dP;
-  const a1 = step(launch * 0.40), a2 = step(launch * 0.30), a3 = launch - a1 - a2;
-  return { base: CONFIG.base, selSum, optSum, pct, disc: dL + dP, launch, post, total: launch + post, a1, a2, a3 };
+  const disc = step(selSum * pct / 100);
+  return { base: CONFIG.base, selSum, optSum, pct, disc, regalo: regaloC9(optCodes) && optCodes.has("C9"), total: CONFIG.base + selSum - disc + optSum };
 }
+
+/* Formas de pago. Cada una devuelve el total con esa forma, el primer pago y el detalle. */
+const cuotas = (T, fechas) => {
+  const n = fechas.length, c = step(T / n), pagos = fechas.map((f, i) => [f, usd(i < n - 1 ? c : T - c * (n - 1))]);
+  return { total: T, ajuste: 0, primero: c, pagos };
+};
+const PLANES = [
+  { id:"unico", n:"Pago único", tag: CONFIG.contadoPct + "% de descuento extra", calc: T => {
+      const d = step(T * CONFIG.contadoPct / 100);
+      return { total: T - d, ajuste: -d, primero: T - d, pagos: [["Al aprobar el presupuesto", usd(T - d)]] }; } },
+  { id:"dos", n:"2 cuotas", tag:"Sin interés", calc: T => cuotas(T, ["Al aprobar el presupuesto", "1 de diciembre, con la tienda en línea"]) },
+  { id:"tres", n:"3 cuotas", tag:"Sin interés", calc: T => cuotas(T, ["Al aprobar el presupuesto", "1 de noviembre", "1 de diciembre, con la tienda en línea"]) },
+];
+const PLAN_DEF = "tres";
+const planDe = (id, T) => { const pl = PLANES.find(x => x.id === id) || PLANES.find(x => x.id === PLAN_DEF); return Object.assign({ id: pl.id, n: pl.n, tag: pl.tag }, pl.calc(T)); };
 
 /* ===== render estático ===== */
 function renderItems(){
@@ -532,7 +561,6 @@ function renderItems(){
     html += "<p class=\"group-t\"><span class=\"letter\">" + g + "</span>" + esc(GROUPS[g]) + "</p>";
     html += "<table class=\"items\"><tbody>" + groups[g].map(m =>
       "<tr><td class=\"code\">" + m.c + "</td><td class=\"name\"><b>" + esc(m.n) + "</b><span>" + esc(m.d) + "</span></td>" +
-      "<td class=\"phase\"><span class=\"tag" + (m.f === "L" ? " l" : "") + "\">" + (m.f === "L" ? "Lanzamiento" : "Después") + "</span></td>" +
       "<td class=\"money\">" + usd(m.p) + "</td></tr>").join("") + "</tbody></table>";
   });
   const r = calc(new Set());
@@ -547,8 +575,8 @@ function renderOpts(){
     "<span class=\"code\">" + o.c + "</span><span class=\"body\"><span class=\"name\">" + esc(o.n) + "</span>" +
     "<span class=\"desc\">" + esc(o.d) + "</span><span class=\"ej\"><b>Por ejemplo</b>" + esc(o.e) + "</span>" +
     (o.nota ? "<span class=\"note\">" + esc(o.nota) + "</span>" : "") +
-    "<span class=\"tags\"><span class=\"tag" + (o.f === "L" ? " l" : "") + "\">" + (o.f === "L" ? "Para el lanzamiento" : "Después del lanzamiento") + "</span></span></span>" +
-    "<span class=\"price\">" + usd(o.p) + "</span></label>").join("");
+    "</span>" +
+    "<span class=\"price\" id=\"pr-" + o.c + "\">" + usd(o.p) + "</span></label>").join("");
 }
 function renderTables(){
   const a = calc(new Set()), b = calc(new Set(OPTS.map(o => o.c)));
@@ -556,26 +584,18 @@ function renderTables(){
   $("resumenBody").innerHTML =
     row("Incluido siempre", usd(a.base), usd(b.base)) +
     row("Módulos elegidos (21)", usd(a.selSum), usd(a.selSum)) +
-    row("Opcionales I1, I2 y C9", "", usd(b.optSum)) +
+    row("Opcionales I1 y I2, con C9 de regalo", "", usd(b.optSum)) +
     row("Bonificación " + a.pct + "%", "−" + usd(a.disc), "−" + usd(b.disc), "disc") +
     row("Inversión total", usd(a.total), usd(b.total), "total") +
-    row("Para el lanzamiento", usd(a.launch), usd(b.launch), "sub") +
-    row("Después del lanzamiento", usd(a.post), usd(b.post), "sub") +
     row("Mantenimiento mensual", usd(CONFIG.mantenimiento), usd(CONFIG.mantenimiento), "sub");
-  $("pagoBody").innerHTML =
-    row("Al aprobar el presupuesto (40% del lanzamiento)", usd(a.a1), usd(b.a1)) +
-    row("Al aprobar el diseño (30%)", usd(a.a2), usd(b.a2)) +
-    row("Contra el lanzamiento (el resto)", usd(a.a3), usd(b.a3)) +
-    row("Módulos de después del lanzamiento, al entregarse", usd(a.post), usd(b.post)) +
-    row("Mantenimiento, por mes, desde el fin de la garantía", usd(CONFIG.mantenimiento), usd(CONFIG.mantenimiento), "sub");
   $("basePrice").textContent = usd(CONFIG.base);
 }
 
 /* ===== estado ===== */
-const KEY = "mayrea-presupuesto-v1";
-let opts = new Set();
-try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.opts)) opts = new Set(s.opts.filter(c => OPTS.some(o => o.c === c))); } catch(e) {}
-function save(){ try { localStorage.setItem(KEY, JSON.stringify({opts:[...opts]})); } catch(e) {} }
+const KEY = "mayrea-presupuesto-v2";
+let opts = new Set(), plan = PLAN_DEF;
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.opts)) opts = new Set(s.opts.filter(c => OPTS.some(o => o.c === c))); if (s && PLANES.some(x => x.id === s.plan)) plan = s.plan; } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({opts:[...opts], plan})); } catch(e) {} }
 
 function texto(){
   const r = calc(opts);
@@ -583,9 +603,12 @@ function texto(){
   const L = [];
   L.push("*Presupuesto Mayrea: acepto*");
   L.push("Selección: 21 módulos más lo incluido siempre.");
-  L.push("Opcionales sumados: " + (elegidos.length ? elegidos.map(o => o.c + " " + o.n).join(", ") : "ninguno"));
-  L.push("Inversión total: " + usd(r.total) + " (" + usd(r.launch) + " para el lanzamiento y " + usd(r.post) + " después)");
-  L.push("Primer pago al aprobar: " + usd(r.a1));
+  L.push("Opcionales sumados: " + (elegidos.length ? elegidos.map(o => o.c + " " + o.n + (precioOpt(o, opts) === 0 ? " (de regalo)" : "")).join(", ") : "ninguno"));
+  const pl = planDe(plan, r.total);
+  L.push("Inversión total: " + usd(r.total) + ", todo en línea el 1 de diciembre");
+  L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
+  pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
+  if(pl.total !== r.total) L.push("Total con esta forma de pago: " + usd(pl.total));
   L.push("Mantenimiento: " + usd(CONFIG.mantenimiento) + " por mes");
   L.push("Gestión de campañas de Meta y Google: a cotizar aparte.");
   return L.join("\n");
@@ -596,21 +619,38 @@ function update(){
   $("sBase").textContent = usd(r.base);
   $("sSel").textContent = usd(r.selSum);
   $("sOptRow").hidden = !opts.size;
-  $("sOptLbl").textContent = "Opcionales (" + [...opts].join(", ") + ")";
+  $("sOptLbl").textContent = "Opcionales (" + OPTS.filter(o => opts.has(o.c)).map(o => o.c === "C9" && regaloC9(opts) ? "C9 de regalo" : o.c).join(", ") + ")";
+  const pr = $("pr-C9"); if(pr) pr.innerHTML = regaloC9(opts) ? "<s class=\"was\">" + usd(200) + "</s> De regalo" : usd(200);
   $("sOpt").textContent = usd(r.optSum);
   $("sDiscLbl").textContent = "Bonificación " + r.pct + "%";
   $("sDisc").textContent = "−" + usd(r.disc);
   $("sTotal").textContent = usd(r.total);
   $("barTotal").textContent = usd(r.total);
-  $("sLaunch").textContent = usd(r.launch);
-  $("sPost").textContent = usd(r.post);
-  $("sAdv").textContent = usd(r.a1);
+  const pl = planDe(plan, r.total);
+  $("sPlan").textContent = pl.n;
+  $("sPlanTotRow").hidden = pl.total === r.total;
+  $("sPlanTot").textContent = usd(pl.total);
+  $("sAdv").textContent = usd(pl.primero);
+  renderPlans(r.total);
   $("waAccept").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto());
   $("waAsk").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Gonzalo, tengo una consulta sobre el presupuesto de Mayrea: ");
   $("fallback").hidden = true;
   save();
 }
 const say = m => { $("status").textContent = m; };
+function renderPlans(T){
+  const enfocado = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.plan : null;
+  const extra = [...opts];
+  $("planCap").textContent = "Calculado sobre " + usd(T) + ": tu selección" + (extra.length ? " más " + extra.join(", ") : "") + ". Si tildás opcionales, los montos se actualizan.";
+  $("plans").innerHTML = PLANES.map(x => {
+    const pl = planDe(x.id, T);
+    return "<label class=\"plan\" for=\"pl-" + pl.id + "\"><input type=\"radio\" name=\"plan\" id=\"pl-" + pl.id + "\" value=\"" + pl.id + "\" data-plan=\"" + pl.id + "\"" + (pl.id === plan ? " checked" : "") + ">" +
+      "<span class=\"plan-n\">" + esc(pl.n) + "</span><span class=\"plan-tag" + (pl.ajuste > 0 ? " warn" : "") + "\">" + esc(pl.tag) + "</span>" +
+      "<span class=\"plan-total\">" + usd(pl.total) + "</span>" +
+      "<span class=\"plan-pagos\">" + pl.pagos.map(pg => "<span class=\"pp\"><span>" + esc(pg[0]) + "</span><span class=\"num\">" + esc(pg[1]) + "</span></span>").join("") + "</span></label>";
+  }).join("");
+  if(enfocado) { const el = document.getElementById("pl-" + enfocado); if(el) el.focus(); }
+}
 
 /* registro en el panel de Margon (solo en margonsoftware.com) */
 function registroActivo(){ const h = location.hostname; return h === "localhost" || h === "127.0.0.1" || h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app"); }
@@ -624,15 +664,17 @@ function registrar(){
   const items = SEL.concat(OPTS.filter(o => opts.has(o.c)));
   fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
     body: JSON.stringify({ nombre:"Mayrea · Juan Martín Del Boca", email:"comunicacion@mayrea.com.ar", telefono:"1140967040",
-      origen:"presupuesto-mayrea-aceptado", total:r.total, moneda:"USD", mensaje:t,
-      modulos:[{id:"BASE",name:"Incluido siempre",price:CONFIG.base}].concat(items.map(m => ({id:m.c, name:m.c + " " + m.n, price:m.p})), [{id:"BONIF",name:"Bonificación " + r.pct + "%",price:-r.disc}]) }) })
+      origen:"presupuesto-mayrea-aceptado", total:planDe(plan, r.total).total, moneda:"USD", mensaje:t,
+      modulos:[{id:"BASE",name:"Incluido siempre",price:CONFIG.base}].concat(items.map(m => { const pr = SEL.includes(m) ? m.p : precioOpt(m, opts); return {id:m.c, name:m.c + " " + m.n + (pr === 0 ? " (de regalo)" : ""), price:pr}; }), [{id:"BONIF",name:"Bonificación " + r.pct + "%",price:-r.disc}], (() => { const pl = planDe(plan, r.total); return pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []; })()) }) })
     .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Tu aceptación también quedó registrada para Gonzalo."); } })
     .catch(() => {});
 }
 
 /* eventos */
 document.addEventListener("change", e => {
-  const t = e.target; if(!t.matches("[data-opt]")) return;
+  const t = e.target;
+  if(t.matches("[data-plan]")){ plan = t.value; update(); say(""); return; }
+  if(!t.matches("[data-opt]")) return;
   const c = t.dataset.opt, msgs = [];
   if(t.checked){
     opts.add(c);
@@ -642,6 +684,8 @@ document.addEventListener("change", e => {
     opts.delete(c);
     OPTS.forEach(o => { if(o.req === c && opts.has(o.c)){ opts.delete(o.c); msgs.push("Se quitó " + o.c + " porque necesita " + c + "."); } });
   }
+  if(t.checked && regaloC9(opts) && !opts.has("C9")){ opts.add("C9"); msgs.push("Sumaste I1 e I2: el C9 va de regalo."); }
+  else if(!t.checked && opts.has("C9") && !regaloC9(opts) && c !== "C9") msgs.push("C9 deja de ser regalo y vuelve a USD 200.");
   update(); say(msgs.join(" "));
 });
 $("waAccept").addEventListener("click", registrar);
