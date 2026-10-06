@@ -102,6 +102,9 @@ tr.sub td{color:var(--ink-2);font-size:14.5px}
 .opt .note{font-size:13.5px;color:var(--ink-3)}
 .opt .price{font:600 16.5px/1.35 var(--mono);white-space:nowrap;text-align:right}
 .opt .price .was{color:var(--ink-3);font-weight:500;margin-right:6px}
+.opt.gift{grid-template-columns:46px minmax(0,1fr) auto;cursor:default;border-color:var(--accent-line);background:var(--accent-tint)}
+.opt.gift .price{color:var(--ok)}
+.gift-badge{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--ok-tint);color:var(--ok)}
 
 /* formas de pago */
 .plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
@@ -189,6 +192,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
   .wrap{padding-inline:16px}
   .opt{grid-template-columns:20px minmax(0,1fr) auto;grid-template-areas:"chk code price" "chk body body";padding:16px}
   .opt input{grid-area:chk} .opt .code{grid-area:code;justify-self:start;padding:6px 8px} .opt .body{grid-area:body} .opt .price{grid-area:price}
+  .opt.gift{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"code price" "body body"} .opt.gift .price{justify-self:end}
   .base{padding:20px}
   .brandline .kind{border-left:0;padding-left:0}
 }
@@ -226,6 +230,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
   .opt input{appearance:none;-webkit-appearance:none;width:10px;height:10px;border:1.2px solid #687182;border-radius:2px;background:#fff}
   .opt .name{font-size:9.8pt} .opt .desc,.opt .ej{font-size:8.6pt} .opt .ej b{display:inline;font-size:6.6pt;margin-right:5px} .opt .note{font-size:7.8pt} .opt .price{font-size:9.5pt}
   .opt .code{font-size:7.8pt;padding:3px 0}
+  .opt.gift{grid-template-columns:28px minmax(0,1fr) auto} .gift-badge{font-size:6.2pt;padding:2px 5px}
   .card{padding:10px 12px;gap:5px;border-radius:8px}
   .card .big{font-size:15pt}
   .base{padding:10px 12px;gap:8px;border-radius:8px}
@@ -270,7 +275,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
         <div class="cover-main">
           <p class="eyebrow">Presupuesto</p>
           <h1 id="t-cover">Nuevo ecommerce minorista para Mayrea</h1>
-          <p class="lede">Armado con tu selección: <b>21 módulos</b> más todo lo incluido siempre. Aparte, al final, están los tres módulos que consultaste, para sumarlos si querés. <b>Todo queda en línea el 1 de diciembre.</b></p>
+          <p class="lede">Armado con tu selección: <b>21 módulos</b> más todo lo incluido siempre y, <b>de regalo, los tres módulos que consultaste</b>. Todo queda en línea el 1 de diciembre.</p>
         </div>
         <dl class="ficha">
           <div><dt>Cliente</dt><dd>Mayrea · Juan Martín Del Boca</dd></div>
@@ -284,11 +289,11 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
       <section id="resumen" aria-labelledby="t-resumen">
         <div class="sec-head">
           <p class="eyebrow">01 · Resumen</p>
-          <h2 id="t-resumen">La inversión, con y sin los opcionales</h2>
+          <h2 id="t-resumen">La inversión</h2>
         </div>
         <div class="tbl">
           <table class="resumen">
-            <thead><tr><th>Concepto</th><th class="r">Tu selección</th><th class="r">Con los tres opcionales</th></tr></thead>
+            <thead><tr><th>Concepto</th><th class="r">Monto</th></tr></thead>
             <tbody id="resumenBody"></tbody>
           </table>
         </div>
@@ -332,9 +337,9 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 
       <section id="opcionales" aria-labelledby="t-opcionales">
         <div class="sec-head">
-          <p class="eyebrow">04 · Opcionales</p>
-          <h2 id="t-opcionales">Los tres módulos que consultaste</h2>
-          <p class="muted">No están en el total de tu selección. Tildalos para ver cómo queda la inversión si los sumás. <b>Si sumás I1 e I2, el C9 va de regalo.</b></p>
+          <p class="eyebrow">04 · De regalo</p>
+          <h2 id="t-opcionales">Los tres módulos que consultaste, de regalo</h2>
+          <p class="muted">Van incluidos sin costo, como regalo de bienvenida: <b id="giftValue"></b> que no se cobran. Quedan en línea el 1 de diciembre, junto con todo lo demás.</p>
         </div>
         <div class="opts" id="opts"></div>
       </section>
@@ -405,7 +410,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
         </div>
         <ul class="plain">
           <li><b>Servidor, base de datos y respaldos:</b> el servicio mensual del proveedor de nube.</li>
-          <li><b>Consumo de inteligencia artificial:</b> según el uso, para el asistente (V2) y, si lo suman, las preguntas de Mercado Libre (I2).</li>
+          <li><b>Consumo de inteligencia artificial:</b> según el uso, para el asistente (V2) y las preguntas de Mercado Libre (I2).</li>
           <li><b>Mercado Pago y Getnet:</b> la comisión por venta que ya negocian.</li>
           <li><b>EnvíaloSimple y dominios:</b> lo que ya pagan hoy.</li>
           <li><b>Publicidad:</b> la inversión en anuncios y la gestión de campañas, que se cotiza aparte.</li>
@@ -424,7 +429,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <div><dt>Cambios de alcance</dt><dd>Lo que se sume después de aprobado se presupuesta aparte, con la misma tabla de precios.</dd></div>
           <div><dt>Forma de trabajo</dt><dd>Ambiente de pruebas con su propio link, revisiones cortas cada uno o dos días y tickets con respuesta en el día.</dd></div>
         </dl>
-        <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, +54 9 11 3193-0330, indicando si sumás alguno de los opcionales (I1, I2, C9).</p>
+        <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, +54 9 11 3193-0330, indicando la forma de pago que elegís.</p>
       </section>
 
       <footer>
@@ -474,48 +479,47 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 "use strict";
 
 const WHATSAPP = "5491131930330";
-const CONFIG = { base: 3800, paso: 100, bonificacion: [ {desde:0, pct:15} ], mantenimiento: 200, contadoPct: 5 };
+const CONFIG = { base: 4200, paso: 100, bonificacion: [ {desde:0, pct:30} ], mantenimiento: 200, contadoPct: 5 };
 
 const GROUPS = {V:"Vender más", I:"Integraciones", M:"Marketing y clientes", C:"Control y operación", X:"Otra marca"};
 
 /* Los 21 módulos que eligió */
 const SEL = [
-  {c:"V1",g:"V",n:"Buscador por vehículo",p:400,d:"Elegir marca, modelo y año y ver solo lo que le sirve."},
-  {c:"V2",g:"V",n:"Asistente con IA las 24 horas",p:700,d:"Chat que busca en el catálogo y responde envíos, pagos y estado del pedido."},
-  {c:"V4",g:"V",n:"Getnet: tarjetas y cuotas",p:300,d:"Tarjetas directo en el sitio y cuotas sin interés con Santander."},
-  {c:"V5",g:"V",n:"Cuotas a la vista",p:100,d:"Precio en cuotas en cada producto y calculadora en la ficha."},
-  {c:"V6",g:"V",n:"Promociones a medida",p:400,d:"2x1, descuentos, cupones, combos y envío gratis, con fecha de inicio y de fin."},
-  {c:"V7",g:"V",n:"Modo evento",p:300,d:"Hot Sale y CyberMonday con precios y banners que se activan solos a la hora exacta."},
-  {c:"V8",g:"V",n:"Carrito abandonado",p:100,d:"Recordatorio por mail a quien dejó productos en el carrito."},
-  {c:"V9",g:"V",n:"Avisame cuando vuelva",p:100,d:"Aviso automático cuando un producto vuelve a tener stock."},
-  {c:"V10",g:"V",n:"Reseñas verificadas",p:200,d:"Opiniones de compradores reales, pedidas después de la entrega."},
+  {c:"V1",g:"V",n:"Buscador por vehículo",p:900,d:"Elegir marca, modelo y año y ver solo lo que le sirve."},
+  {c:"V2",g:"V",n:"Asistente con IA las 24 horas",p:900,d:"Chat que busca en el catálogo y responde envíos, pagos y estado del pedido."},
+  {c:"V4",g:"V",n:"Getnet: tarjetas y cuotas",p:400,d:"Tarjetas directo en el sitio y cuotas sin interés con Santander."},
+  {c:"V5",g:"V",n:"Cuotas a la vista",p:200,d:"Precio en cuotas en cada producto y calculadora en la ficha."},
+  {c:"V6",g:"V",n:"Promociones a medida",p:600,d:"2x1, descuentos, cupones, combos y envío gratis, con fecha de inicio y de fin."},
+  {c:"V7",g:"V",n:"Modo evento",p:400,d:"Hot Sale y CyberMonday con precios y banners que se activan solos a la hora exacta."},
+  {c:"V8",g:"V",n:"Carrito abandonado",p:300,d:"Recordatorio por mail a quien dejó productos en el carrito."},
+  {c:"V9",g:"V",n:"Avisame cuando vuelva",p:200,d:"Aviso automático cuando un producto vuelve a tener stock."},
+  {c:"V10",g:"V",n:"Reseñas verificadas",p:400,d:"Opiniones de compradores reales, pedidas después de la entrega."},
   {c:"V12",g:"V",n:"Envío calculado en el producto",p:200,d:"Costo de envío por código postal antes de llegar al carrito."},
   {c:"V13",g:"V",n:"WhatsApp desde el producto",p:100,d:"Consulta con el nombre y el código del producto ya escritos."},
-  {c:"V14",g:"V",n:"Compras con factura A",p:100,d:"Registro con CUIT para empresas que compran al por menor."},
-  {c:"I3",g:"I",n:"Transportistas",p:400,d:"Cotización, etiqueta y seguimiento con hasta dos transportistas."},
-  {c:"I6",g:"I",n:"Factura electrónica automática",p:300,d:"Cada venta se factura desde Águila y la factura llega por mail."},
+  {c:"V14",g:"V",n:"Compras con factura A",p:200,d:"Registro con CUIT para empresas que compran al por menor."},
+  {c:"I3",g:"I",n:"Transportistas",p:600,d:"Cotización, etiqueta y seguimiento con hasta dos transportistas."},
+  {c:"I6",g:"I",n:"Factura electrónica automática",p:400,d:"Cada venta se factura desde Águila y la factura llega por mail."},
   {c:"I7",g:"I",n:"EnvíaloSimple conectado",p:200,d:"Suscriptores y compradores pasan solos a sus listas."},
-  {c:"I8",g:"I",n:"Catálogo para anuncios",p:300,d:"Catálogo automático para Facebook, Instagram y Google Shopping."},
+  {c:"I8",g:"I",n:"Catálogo para anuncios",p:400,d:"Catálogo automático para Facebook, Instagram y Google Shopping."},
   {c:"I9",g:"I",n:"Ventas medidas por anuncio",p:200,d:"Cada venta queda atribuida al anuncio que la trajo."},
-  {c:"M6",g:"M",n:"Tablero de publicidad",p:300,d:"Inversión, ventas y retorno de cada campaña en el backoffice."},
+  {c:"M6",g:"M",n:"Tablero de publicidad",p:400,d:"Inversión, ventas y retorno de cada campaña en el backoffice."},
   {c:"C4",g:"C",n:"Resumen diario",p:200,d:"Cada mañana, por mail, las ventas de ayer, lo pendiente y las alertas."},
-  {c:"C8",g:"C",n:"Cambios y devoluciones",p:300,d:"El cliente inicia el cambio online y el equipo lo sigue hasta cerrarlo."},
-  {c:"X1",g:"X",n:"Momo en la misma plataforma",p:900,d:"Momo con su marca y su dominio, en el mismo sistema. Se migran sus 215 productos."},
+  {c:"C8",g:"C",n:"Cambios y devoluciones",p:400,d:"El cliente inicia el cambio online y el equipo lo sigue hasta cerrarlo."},
+  {c:"X1",g:"X",n:"Momo en la misma plataforma",p:1000,d:"Momo con su marca y su dominio, en el mismo sistema. Se migran sus 215 productos."},
 ];
 
-/* Los tres que consultó */
+/* Los tres que consultó: van de regalo. p es el precio de lista, solo para mostrar lo que vale el regalo. */
 const OPTS = [
-  {c:"I1",n:"Mercado Libre integrado",p:1100,
+  {c:"I1",n:"Mercado Libre integrado",p:1200,
    d:"El sistema se conecta a tu cuenta de Mercado Libre y mantiene todo sincronizado solo. Cambiás un precio una vez y se actualiza también ahí, con un recargo propio si querés cubrir la comisión. Las ventas de Mercado Libre entran solas al sistema y a Águila, sin cargarlas a mano.",
    e:"Si tenés 3 tanques y vendés 2 por la web, Mercado Libre pasa a mostrar 1 automáticamente. Nunca vendés algo que no tenés."},
   {c:"I2",n:"Preguntas de Mercado Libre con IA",p:400,req:"I1",
    d:"Las preguntas de los compradores te llegan al sistema con una respuesta ya redactada con los datos del producto. Alguien de tu equipo la revisa, la corrige si hace falta y la manda con un clic. Nunca se envía nada sin que una persona lo apruebe.",
    e:"Llega “¿le sirve a un Scania 2015?” y la respuesta ya está armada con la compatibilidad del producto. Se contesta en minutos y no en horas.",
-   nota:"Necesita I1, que es el que conecta con Mercado Libre. Consumo de IA aparte."},
-  {c:"C9",n:"Backoffice en el celular",p:200,
+   nota:"Consumo de IA aparte."},
+  {c:"C9",n:"Backoffice en el celular",p:300,
    d:"El panel ya se puede usar desde el celular. Con este módulo se instala como una app, con su ícono en el teléfono, y te llega un aviso por cada venta o pedido demorado. No pasa por las tiendas de apps, así que no hay nada que publicar ni pagar, y se actualiza solo.",
-   e:"Entra una venta y te llega el aviso en el teléfono, estés donde estés. Abrís el pedido y lo gestionás ahí mismo.",
-   nota:"De regalo si sumás I1 e I2."},
+   e:"Entra una venta y te llega el aviso en el teléfono, estés donde estés. Abrís el pedido y lo gestionás ahí mismo."},
 ];
 
 const $ = id => document.getElementById(id);
@@ -524,17 +528,14 @@ const usd = n => "USD " + NF.format(n);
 const step = n => Math.round(n / CONFIG.paso) * CONFIG.paso;
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 
-/* C9 va de regalo cuando están I1 e I2 */
-const regaloC9 = optCodes => optCodes.has("I1") && optCodes.has("I2");
-const precioOpt = (o, optCodes) => (o.c === "C9" && regaloC9(optCodes)) ? 0 : o.p;
-function calc(optCodes){
-  let selSum = 0, optSum = 0;
+function calc(){
+  let selSum = 0, regalo = 0;
   SEL.forEach(m => selSum += m.p);
-  OPTS.forEach(o => { if(optCodes.has(o.c)) optSum += precioOpt(o, optCodes); });
+  OPTS.forEach(o => regalo += o.p);
   const tier = CONFIG.bonificacion.find(t => selSum >= t.desde);
   const pct = tier ? tier.pct : 0;
-  const disc = step(selSum * pct / 100);
-  return { base: CONFIG.base, selSum, optSum, pct, disc, regalo: regaloC9(optCodes) && optCodes.has("C9"), total: CONFIG.base + selSum - disc + optSum };
+  const disc = step((CONFIG.base + selSum) * pct / 100);
+  return { base: CONFIG.base, selSum, regalo, pct, disc, total: CONFIG.base + selSum - disc };
 }
 
 /* Formas de pago. Cada una devuelve el total con esa forma, el primer pago y el detalle. */
@@ -571,40 +572,40 @@ function renderItems(){
 }
 function renderOpts(){
   $("opts").innerHTML = OPTS.map(o =>
-    "<label class=\"opt\" for=\"op-" + o.c + "\"><input type=\"checkbox\" id=\"op-" + o.c + "\" data-opt=\"" + o.c + "\">" +
+    "<div class=\"opt gift\">" +
     "<span class=\"code\">" + o.c + "</span><span class=\"body\"><span class=\"name\">" + esc(o.n) + "</span>" +
     "<span class=\"desc\">" + esc(o.d) + "</span><span class=\"ej\"><b>Por ejemplo</b>" + esc(o.e) + "</span>" +
     (o.nota ? "<span class=\"note\">" + esc(o.nota) + "</span>" : "") +
-    "</span>" +
-    "<span class=\"price\" id=\"pr-" + o.c + "\">" + usd(o.p) + "</span></label>").join("");
+    "<span><span class=\"gift-badge\">Incluido de regalo</span></span></span>" +
+    "<span class=\"price\"><s class=\"was\">" + usd(o.p) + "</s> De regalo</span></div>").join("");
 }
 function renderTables(){
-  const a = calc(new Set()), b = calc(new Set(OPTS.map(o => o.c)));
-  const row = (lbl, x, y, cls) => "<tr" + (cls ? " class=\"" + cls + "\"" : "") + "><td>" + lbl + "</td><td class=\"money\">" + x + "</td><td class=\"money\">" + y + "</td></tr>";
+  const r = calc();
+  const row = (lbl, x, cls) => "<tr" + (cls ? " class=\"" + cls + "\"" : "") + "><td>" + lbl + "</td><td class=\"money\">" + x + "</td></tr>";
   $("resumenBody").innerHTML =
-    row("Incluido siempre", usd(a.base), usd(b.base)) +
-    row("Módulos elegidos (21)", usd(a.selSum), usd(a.selSum)) +
-    row("Opcionales I1 y I2, con C9 de regalo", "", usd(b.optSum)) +
-    row("Bonificación " + a.pct + "%", "−" + usd(a.disc), "−" + usd(b.disc), "disc") +
-    row("Inversión total", usd(a.total), usd(b.total), "total") +
-    row("Mantenimiento mensual", usd(CONFIG.mantenimiento), usd(CONFIG.mantenimiento), "sub");
+    row("Incluido siempre", usd(r.base)) +
+    row("Módulos elegidos (21)", usd(r.selSum)) +
+    row("De regalo: I1, I2 y C9", "<s class=\"was\">" + usd(r.regalo) + "</s> USD 0", "disc") +
+    row("Bonificación por cantidad de módulos (" + r.pct + "%)", "−" + usd(r.disc), "disc") +
+    row("Inversión total", usd(r.total), "total") +
+    row("Mantenimiento mensual", usd(CONFIG.mantenimiento), "sub");
   $("basePrice").textContent = usd(CONFIG.base);
+  $("giftValue").textContent = usd(r.regalo);
 }
 
 /* ===== estado ===== */
-const KEY = "mayrea-presupuesto-v2";
-let opts = new Set(), plan = PLAN_DEF;
-try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.opts)) opts = new Set(s.opts.filter(c => OPTS.some(o => o.c === c))); if (s && PLANES.some(x => x.id === s.plan)) plan = s.plan; } catch(e) {}
-function save(){ try { localStorage.setItem(KEY, JSON.stringify({opts:[...opts], plan})); } catch(e) {} }
+const KEY = "mayrea-presupuesto-v3";
+let plan = PLAN_DEF;
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && PLANES.some(x => x.id === s.plan)) plan = s.plan; } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({plan})); } catch(e) {} }
 
 function texto(){
-  const r = calc(opts);
-  const elegidos = OPTS.filter(o => opts.has(o.c));
+  const r = calc(), pl = planDe(plan, r.total);
   const L = [];
   L.push("*Presupuesto Mayrea: acepto*");
   L.push("Selección: 21 módulos más lo incluido siempre.");
-  L.push("Opcionales sumados: " + (elegidos.length ? elegidos.map(o => o.c + " " + o.n + (precioOpt(o, opts) === 0 ? " (de regalo)" : "")).join(", ") : "ninguno"));
-  const pl = planDe(plan, r.total);
+  L.push("De regalo: " + OPTS.map(o => o.c + " " + o.n).join(", ") + ".");
+  L.push("Bonificación por cantidad de módulos: " + r.pct + "% (" + usd(r.disc) + ")");
   L.push("Inversión total: " + usd(r.total) + ", todo en línea el 1 de diciembre");
   L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
   pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
@@ -614,19 +615,16 @@ function texto(){
   return L.join("\n");
 }
 function update(){
-  const r = calc(opts);
-  document.querySelectorAll("[data-opt]").forEach(cb => { cb.checked = opts.has(cb.dataset.opt); });
+  const r = calc(), pl = planDe(plan, r.total);
   $("sBase").textContent = usd(r.base);
   $("sSel").textContent = usd(r.selSum);
-  $("sOptRow").hidden = !opts.size;
-  $("sOptLbl").textContent = "Opcionales (" + OPTS.filter(o => opts.has(o.c)).map(o => o.c === "C9" && regaloC9(opts) ? "C9 de regalo" : o.c).join(", ") + ")";
-  const pr = $("pr-C9"); if(pr) pr.innerHTML = regaloC9(opts) ? "<s class=\"was\">" + usd(200) + "</s> De regalo" : usd(200);
-  $("sOpt").textContent = usd(r.optSum);
-  $("sDiscLbl").textContent = "Bonificación " + r.pct + "%";
+  $("sOptRow").hidden = false;
+  $("sOptLbl").textContent = "De regalo (I1, I2, C9)";
+  $("sOpt").innerHTML = "<s class=\"was\">" + usd(r.regalo) + "</s> USD 0";
+  $("sDiscLbl").textContent = "Bonificación por cantidad (" + r.pct + "%)";
   $("sDisc").textContent = "−" + usd(r.disc);
   $("sTotal").textContent = usd(r.total);
   $("barTotal").textContent = usd(r.total);
-  const pl = planDe(plan, r.total);
   $("sPlan").textContent = pl.n;
   $("sPlanTotRow").hidden = pl.total === r.total;
   $("sPlanTot").textContent = usd(pl.total);
@@ -640,8 +638,7 @@ function update(){
 const say = m => { $("status").textContent = m; };
 function renderPlans(T){
   const enfocado = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.plan : null;
-  const extra = [...opts];
-  $("planCap").textContent = "Calculado sobre " + usd(T) + ": tu selección" + (extra.length ? " más " + extra.join(", ") : "") + ". Si tildás opcionales, los montos se actualizan.";
+  $("planCap").textContent = "Calculado sobre " + usd(T) + ", con los tres módulos de regalo incluidos.";
   $("plans").innerHTML = PLANES.map(x => {
     const pl = planDe(x.id, T);
     return "<label class=\"plan\" for=\"pl-" + pl.id + "\"><input type=\"radio\" name=\"plan\" id=\"pl-" + pl.id + "\" value=\"" + pl.id + "\" data-plan=\"" + pl.id + "\"" + (pl.id === plan ? " checked" : "") + ">" +
@@ -660,12 +657,11 @@ function registrar(){
   const t = texto();
   let ultimo = null; try { ultimo = localStorage.getItem(REG_KEY); } catch(e) {}
   if(ultimo === t) return;
-  const r = calc(opts);
-  const items = SEL.concat(OPTS.filter(o => opts.has(o.c)));
+  const r = calc();
   fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
     body: JSON.stringify({ nombre:"Mayrea · Juan Martín Del Boca", email:"comunicacion@mayrea.com.ar", telefono:"1140967040",
       origen:"presupuesto-mayrea-aceptado", total:planDe(plan, r.total).total, moneda:"USD", mensaje:t,
-      modulos:[{id:"BASE",name:"Incluido siempre",price:CONFIG.base}].concat(items.map(m => { const pr = SEL.includes(m) ? m.p : precioOpt(m, opts); return {id:m.c, name:m.c + " " + m.n + (pr === 0 ? " (de regalo)" : ""), price:pr}; }), [{id:"BONIF",name:"Bonificación " + r.pct + "%",price:-r.disc}], (() => { const pl = planDe(plan, r.total); return pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []; })()) }) })
+      modulos:[{id:"BASE",name:"Incluido siempre",price:CONFIG.base}].concat(SEL.map(m => ({id:m.c, name:m.c + " " + m.n, price:m.p})), OPTS.map(o => ({id:o.c, name:o.c + " " + o.n + " (de regalo)", price:0})), [{id:"BONIF",name:"Bonificación por cantidad de módulos (" + r.pct + "%)",price:-r.disc}], (() => { const pl = planDe(plan, r.total); return pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []; })()) }) })
     .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Tu aceptación también quedó registrada para Gonzalo."); } })
     .catch(() => {});
 }
@@ -673,20 +669,7 @@ function registrar(){
 /* eventos */
 document.addEventListener("change", e => {
   const t = e.target;
-  if(t.matches("[data-plan]")){ plan = t.value; update(); say(""); return; }
-  if(!t.matches("[data-opt]")) return;
-  const c = t.dataset.opt, msgs = [];
-  if(t.checked){
-    opts.add(c);
-    const o = OPTS.find(x => x.c === c);
-    if(o.req && !opts.has(o.req)){ opts.add(o.req); msgs.push("Se sumó " + o.req + " porque " + c + " lo necesita."); }
-  } else {
-    opts.delete(c);
-    OPTS.forEach(o => { if(o.req === c && opts.has(o.c)){ opts.delete(o.c); msgs.push("Se quitó " + o.c + " porque necesita " + c + "."); } });
-  }
-  if(t.checked && regaloC9(opts) && !opts.has("C9")){ opts.add("C9"); msgs.push("Sumaste I1 e I2: el C9 va de regalo."); }
-  else if(!t.checked && opts.has("C9") && !regaloC9(opts) && c !== "C9") msgs.push("C9 deja de ser regalo y vuelve a USD 200.");
-  update(); say(msgs.join(" "));
+  if(t.matches("[data-plan]")){ plan = t.value; update(); say(""); }
 });
 $("waAccept").addEventListener("click", registrar);
 $("copyBtn").addEventListener("click", () => {
