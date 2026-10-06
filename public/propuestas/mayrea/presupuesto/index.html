@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Presupuesto del nuevo ecommerce minorista de Mayrea.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Presupuesto Mayrea">
+<meta property="og:description" content="Presupuesto del nuevo ecommerce minorista, armado con tu selección.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Presupuesto Mayrea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Presupuesto formal en papel claro: el detalle a la izquierda y un resumen fijo a la derecha con el total y la aceptación. */
+:root{
+  --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
+  --line:#E2E5EA; --line-2:#C9CFD8; --accent:#E2621E; --accent-deep:#AE4810; --btn:#C2531A;
+  --accent-tint:#FFF3EB; --accent-line:#F3C3A5; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(32px,4.4vw,48px);font-weight:700;letter-spacing:-.022em}
+h2{font-size:clamp(23px,2.5vw,29px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:18.5px;font-weight:600}
+p{margin:0}
+a{color:var(--accent-deep)}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num{white-space:nowrap}
+.muted{color:var(--ink-2)}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.only-print{display:none}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:24px;padding-block:0 140px}
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
+.brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.client{font:700 17px/1 var(--sans);letter-spacing:.2em}
+.client i{font-style:normal;color:var(--accent)}
+.brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
+.author{font-size:14px;color:var(--ink-2)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:48px;align-items:start}
+main{min-width:0;display:grid;gap:64px}
+section{display:grid;gap:22px;min-width:0}
+.sec-head{display:grid;gap:10px;max-width:72ch}
+
+/* portada */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px 40px;align-items:start}
+.cover-main{display:grid;gap:16px;min-width:0}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
+.ficha div{display:grid;gap:2px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)}
+.ficha div:last-child{border-bottom:0;margin-bottom:0}
+.ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ficha dd{margin:0;font-weight:500;font-size:15.5px}
+
+/* tablas */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;vertical-align:top;padding:13px 18px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td,tfoot tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+td.r,th.r{text-align:right}
+td.money{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+tr.disc td{color:var(--ok)}
+tr.total td{font-weight:700;font-size:17px;background:var(--accent-tint)}
+tr.total td.money{font-size:18px}
+tr.sub td{color:var(--ink-2);font-size:14.5px}
+.resumen{min-width:520px}
+
+/* módulos elegidos */
+.group-t{display:flex;align-items:baseline;gap:10px;margin:0;padding:12px 18px;background:var(--tint);font-weight:600;border-bottom:1px solid var(--line)}
+.group-t .letter{font:600 12px/1 var(--mono);background:var(--ink);color:#fff;padding:5px 7px;border-radius:5px}
+.items{min-width:600px}
+.items td.code{width:58px;font:600 12.5px/1.6 var(--mono);color:var(--ink-2)}
+.items td.name b{display:block;font-weight:600}
+.items td.name span{font-size:14.5px;color:var(--ink-2)}
+.items td.phase{width:130px;white-space:nowrap}
+.items td.money{width:110px}
+.tag{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--tint);color:var(--ink-2)}
+.tag.l{background:var(--accent-tint);color:var(--accent-deep)}
+
+/* opcionales */
+.opts{display:grid;gap:12px}
+.opt{display:grid;grid-template-columns:20px 46px minmax(0,1fr) auto;gap:6px 16px;align-items:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;box-shadow:var(--shadow);transition:border-color .15s,background .15s}
+.opt:has(input:checked){border-color:var(--accent-line);background:var(--accent-tint)}
+.opt:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.opt input{width:19px;height:19px;margin:3px 0 0;accent-color:var(--btn);cursor:pointer}
+.opt .code{font:600 12.5px/1 var(--mono);text-align:center;padding:6px 0;border-radius:6px;background:var(--tint);color:var(--ink-2)}
+.opt .body{display:grid;gap:7px;min-width:0}
+.opt .name{font-weight:600;font-size:17px}
+.opt .desc{color:var(--ink-2);font-size:15px}
+.opt .ej{font-size:14.5px;padding-left:12px;border-left:2px solid var(--accent-line)}
+.opt .ej b{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.opt .note{font-size:13.5px;color:var(--ink-3)}
+.opt .price{font:600 16.5px/1.35 var(--mono);white-space:nowrap;text-align:right}
+
+/* tarjetas */
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);display:grid;gap:12px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.card .kicker{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.card .big{font:600 28px/1.1 var(--mono);letter-spacing:-.02em}
+.card .big small{font:500 14px var(--sans);color:var(--ink-3);letter-spacing:0}
+ul.plain,ol.plain{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink-2)}
+ul.plain b,ol.plain b{color:var(--ink)}
+.checklist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px}
+.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
+.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.checklist b{color:var(--ink)}
+.base{display:grid;gap:20px;padding:28px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.base-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.base-head .num{font-size:26px;font-weight:600}
+.timeline{list-style:none;margin:0;padding:6px 0 0;display:grid;border-left:2px solid var(--line);margin-left:8px}
+.timeline li{position:relative;display:grid;grid-template-columns:180px minmax(0,1fr);gap:4px 22px;padding:0 0 22px 26px}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2)}
+.timeline li.key::before{background:var(--accent);border-color:var(--accent)}
+.timeline .when{font:600 13.5px/1.5 var(--mono);color:var(--accent-deep)}
+.timeline .what{color:var(--ink-2)}
+.timeline .what b{color:var(--ink)}
+.cond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.cond div{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:4px}
+.cond dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.cond dd{margin:0;color:var(--ink-2);font-size:15px}
+footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* resumen fijo */
+.sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);min-width:0}
+.sum-card{display:grid;gap:14px;padding:24px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sum-card h2{font-size:22px}
+.lines{display:grid;gap:8px;font-size:14.5px}
+.line{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.line .num{font-size:14.5px}
+.line.disc{color:var(--ok)}
+.totalbox{display:grid;gap:4px;padding:16px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.totalbox .lbl{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.totalbox .big{font:600 32px/1.1 var(--mono);letter-spacing:-.02em}
+.split{display:grid;gap:6px;font-size:14px;color:var(--ink-2)}
+.monthly{padding-top:12px;border-top:1px solid var(--line);font-size:14.5px}
+.btn{appearance:none;font:600 15px/1.2 var(--sans);padding:12px 18px;border-radius:9px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;text-align:center}
+.btn:hover{background:var(--tint)}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#0E7640}
+.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.actions{display:grid;gap:8px}
+.wa-note{font-size:13px;color:var(--ink-3);line-height:1.45}
+.status{min-height:1.4em;font-size:13.5px;color:var(--ok)}
+.fallback{width:100%;min-height:130px;font:13px/1.45 var(--mono);padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--page);color:var(--ink)}
+.fallback[hidden]{display:none}
+.sum-bar{display:none}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .sum{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;max-height:84vh;overflow:auto;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(19,23,32,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+  .sum-card{border:0;box-shadow:none;padding:8px 0 4px}
+  .sum-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .sum-bar strong{display:block;font:600 20px/1.2 var(--mono)}
+  .sum-bar small{display:block;font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .sum:not(.open) .sum-card{display:none}
+}
+@media (max-width:900px){ .cover{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:720px){
+  .cols2,.cond,.checklist{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr)}
+  main{gap:52px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .opt{grid-template-columns:20px minmax(0,1fr) auto;grid-template-areas:"chk code price" "chk body body";padding:16px}
+  .opt input{grid-area:chk} .opt .code{grid-area:code;justify-self:start;padding:6px 8px} .opt .body{grid-area:body} .opt .price{grid-area:price}
+  .base{padding:20px}
+  .brandline .kind{border-left:0;padding-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@page{size:A4;margin:14mm 13mm}
+@media print{
+  html,body{background:#fff}
+  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .topbar{margin-bottom:14px;padding-block:0 8px}
+  .layout{display:block}
+  main{gap:18px}
+  section{gap:8px}
+  h1{font-size:22pt} h2{font-size:14.5pt} h3{font-size:11.5pt}
+  .eyebrow{font-size:7.2pt}
+  .lede{font-size:10.5pt}
+  .sum,.only-screen{display:none!important}
+  .only-print{display:block}
+  .cover{grid-template-columns:minmax(0,1fr) 190px;gap:16px}
+  .ficha{padding:10px 12px 2px;box-shadow:none}
+  .ficha div{padding-bottom:6px;margin-bottom:6px}
+  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
+  .tbl,.card,.base,.opt{box-shadow:none}
+  .tbl{overflow:visible;border-radius:6px}
+  .resumen,.items{min-width:0}
+  th,td{padding:4px 8px;font-size:8.6pt}
+  th{font-size:6.8pt}
+  tr.total td{font-size:10pt} tr.total td.money{font-size:10.5pt}
+  .items td.name span{font-size:8.2pt}
+  .items td.code{width:36px} .items td.phase{width:84px} .items td.money{width:70px}
+  .group-t{padding:5px 8px;font-size:9pt}
+  .tag{font-size:6.2pt;padding:2px 5px}
+  .opt{padding:8px 10px;gap:2px 9px;grid-template-columns:11px 28px minmax(0,1fr) auto;border-radius:6px;background:#fff!important}
+  .opt input{appearance:none;-webkit-appearance:none;width:10px;height:10px;border:1.2px solid #687182;border-radius:2px;background:#fff}
+  .opt .name{font-size:9.8pt} .opt .desc,.opt .ej{font-size:8.6pt} .opt .ej b{display:inline;font-size:6.6pt;margin-right:5px} .opt .note{font-size:7.8pt} .opt .price{font-size:9.5pt}
+  .opt .code{font-size:7.8pt;padding:3px 0}
+  .card{padding:10px 12px;gap:5px;border-radius:8px}
+  .card .big{font-size:15pt}
+  .base{padding:10px 12px;gap:8px;border-radius:8px}
+  .base-head{padding-bottom:6px} .base-head .num{font-size:14pt}
+  .checklist{gap:3px 18px} .checklist li{font-size:8.6pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
+  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
+  ul.plain,ol.plain{gap:3px;font-size:9pt}
+  .timeline li{grid-template-columns:110px minmax(0,1fr);padding:0 0 5px 16px}
+  .timeline li::before{width:10px;height:10px;left:-6px}
+  .timeline .when{font-size:8.2pt} .timeline .what{font-size:9pt}
+  .cond{gap:8px} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.5pt}
+  tr.sub td{font-size:8.6pt}
+  .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .cond{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card .muted,.card p:not(.big):not(.kicker){font-size:8.8pt!important}
+  .card ul.plain{font-size:8.8pt}
+  .checklist{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .timeline li{grid-template-columns:110px minmax(0,1fr)}
+  tr,.opt,.card,.cond div,.timeline li,.checklist li{break-inside:avoid}
+  .sec-head,h2,h3,.group-t{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brandline"><span class="client">MAYREA<i>.</i></span><span class="kind">Presupuesto · Ecommerce minorista</span></div>
+    <span class="author">Gonzalo Di Dio Leal</span>
+  </div>
+
+  <div class="layout">
+    <main id="main">
+
+      <section class="cover" aria-labelledby="t-cover">
+        <div class="cover-main">
+          <p class="eyebrow">Presupuesto</p>
+          <h1 id="t-cover">Nuevo ecommerce minorista para Mayrea</h1>
+          <p class="lede">Armado con tu selección: <b>21 módulos</b> más todo lo incluido siempre. Aparte, al final, están los tres módulos que consultaste, para sumarlos si querés.</p>
+        </div>
+        <dl class="ficha">
+          <div><dt>Cliente</dt><dd>Mayrea · Juan Martín Del Boca</dd></div>
+          <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal</dd></div>
+          <div><dt>Fecha</dt><dd>6 de octubre de 2026</dd></div>
+          <div><dt>Validez</dt><dd>Hasta el 5 de noviembre de 2026</dd></div>
+          <div><dt>Lanzamiento propuesto</dt><dd>1 de diciembre de 2026</dd></div>
+        </dl>
+      </section>
+
+      <section id="resumen" aria-labelledby="t-resumen">
+        <div class="sec-head">
+          <p class="eyebrow">01 · Resumen</p>
+          <h2 id="t-resumen">La inversión, con y sin los opcionales</h2>
+        </div>
+        <div class="tbl">
+          <table class="resumen">
+            <thead><tr><th>Concepto</th><th class="r">Tu selección</th><th class="r">Con los tres opcionales</th></tr></thead>
+            <tbody id="resumenBody"></tbody>
+          </table>
+        </div>
+        <p class="muted">Valores en dólares estadounidenses. El mantenimiento mensual va aparte y empieza cuando terminan los 30 días de garantía.</p>
+      </section>
+
+      <section id="incluido" aria-labelledby="t-incluido">
+        <div class="base">
+          <div class="base-head">
+            <div class="sec-head">
+              <p class="eyebrow">02 · Incluido siempre</p>
+              <h2 id="t-incluido">La tienda completa, lista para vender</h2>
+            </div>
+            <span class="num" id="basePrice"></span>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Tres propuestas de diseño</b> en la primera semana, con el logo y la paleta de Mayrea.</span></li>
+            <li><span><b>Tienda completa:</b> inicio, categorías, filtros, ficha con galería, carrito, checkout en una página y cuenta del cliente.</span></li>
+            <li><span><b>Buscador propio</b> por nombre, código de producto y código de fabricante, tolerante a errores de tipeo.</span></li>
+            <li><span><b>Stock, precios y fotos en el sistema, relacionados con Águila.</b> Los pedidos de la web entran a Águila.</span></li>
+            <li><span><b>Mercado Pago</b> bien configurado, con cuotas, y transferencia bancaria.</span></li>
+            <li><span><b>Envíos:</b> reparto propio en AMBA, envío al interior, retiro en el showroom y envío gratis desde el monto que definan.</span></li>
+            <li><span><b>Backoffice con usuarios, roles y permisos,</b> con banners y páginas programados por fecha y hora.</span></li>
+            <li><span><b>Páginas legales:</b> términos y condiciones, privacidad, botón de arrepentimiento, envíos, medios de pago y devoluciones.</span></li>
+            <li><span><b>SEO y medición:</b> sitemap, datos de producto para Google, redirección de las direcciones actuales, Analytics, Píxel de Meta y Tag Manager.</span></li>
+            <li><span><b>Migración desde WordPress</b> de clientes, pedidos y contenido, con respaldo completo al empezar y al terminar.</span></li>
+            <li><span><b>Ambiente de pruebas y de producción,</b> certificado de seguridad y copias de seguridad diarias.</span></li>
+            <li><span><b>Transición segura desde la agencia:</b> respaldo, inventario de accesos, corte de noche a fin de mes y contraseñas nuevas.</span></li>
+            <li><span><b>Dos semanas de pruebas,</b> capacitación del equipo, manual y 30 días de garantía de corrección sin cargo.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="seleccion" aria-labelledby="t-seleccion">
+        <div class="sec-head">
+          <p class="eyebrow">03 · Tu selección</p>
+          <h2 id="t-seleccion">Los 21 módulos que elegiste</h2>
+        </div>
+        <div class="tbl" id="itemsWrap"></div>
+      </section>
+
+      <section id="opcionales" aria-labelledby="t-opcionales">
+        <div class="sec-head">
+          <p class="eyebrow">04 · Opcionales</p>
+          <h2 id="t-opcionales">Los tres módulos que consultaste</h2>
+          <p class="muted">No están en el total de tu selección. Tildalos para ver cómo queda la inversión si los sumás; también tienen la bonificación.</p>
+        </div>
+        <div class="opts" id="opts"></div>
+      </section>
+
+      <section id="mantenimiento" aria-labelledby="t-mant">
+        <div class="sec-head">
+          <p class="eyebrow">05 · Después del lanzamiento</p>
+          <h2 id="t-mant">Mantenimiento y publicidad</h2>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <p class="kicker">Mantenimiento mensual</p>
+            <p class="big">USD 200 <small>por mes</small></p>
+            <ul class="plain">
+              <li>Tickets con respuesta en el día.</li>
+              <li>Monitoreo del sitio y copias de seguridad verificadas.</li>
+              <li>Actualizaciones de seguridad y corrección de errores.</li>
+              <li>Hasta 10 horas por mes de cambios o mejoras.</li>
+              <li>Una revisión mensual de los números de la tienda.</li>
+            </ul>
+            <p class="muted" style="font-size:14px">Empieza cuando terminan los 30 días de garantía posteriores al lanzamiento.</p>
+          </div>
+          <div class="card">
+            <p class="kicker">Meta Ads y Google Ads</p>
+            <h3>Gestión de campañas: a cotizar aparte</h3>
+            <p class="muted">Nos dijiste que te interesa que nos ocupemos de las campañas. La conexión técnica ya está en tu selección: catálogo para anuncios (I8), ventas medidas por anuncio (I9) y tablero de publicidad (M6).</p>
+            <p class="muted">Para cotizar la gestión necesitamos saber:</p>
+            <ul class="plain">
+              <li>Quién maneja las campañas hoy.</li>
+              <li>En qué plataformas invierten y cuánto por mes, aproximadamente.</li>
+              <li>Qué resultados buscan: más ventas en la web, en Mercado Libre, consultas por WhatsApp.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="pago" aria-labelledby="t-pago">
+        <div class="sec-head">
+          <p class="eyebrow">06 · Forma de pago</p>
+          <h2 id="t-pago">En etapas, contra avance</h2>
+        </div>
+        <div class="tbl">
+          <table class="resumen">
+            <thead><tr><th>Cuándo</th><th class="r">Tu selección</th><th class="r">Con los tres opcionales</th></tr></thead>
+            <tbody id="pagoBody"></tbody>
+          </table>
+        </div>
+        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos.</p>
+      </section>
+
+      <section id="calendario" aria-labelledby="t-cal">
+        <div class="sec-head">
+          <p class="eyebrow">07 · Calendario</p>
+          <h2 id="t-cal">Tienda nueva el 1 de diciembre</h2>
+          <p class="muted">Si el presupuesto se aprueba antes del viernes 9 de octubre. Si prefieren cerrar diciembre con la agencia, la salida pasa al lunes 4 de enero.</p>
+        </div>
+        <ol class="timeline">
+          <li><span class="when">Hasta el 9 oct</span><span class="what"><b>Aprobación, primer pago, accesos y respaldo completo</b> de mayrea.com.ar y de Momo.</span></li>
+          <li><span class="when">Semana del 12 oct</span><span class="what"><b>Tres propuestas de diseño.</b> Eligen una o mezclan lo mejor de cada una.</span></li>
+          <li><span class="when">19 oct al 20 nov</span><span class="what"><b>Desarrollo en el ambiente de pruebas,</b> con revisiones cortas cada uno o dos días. Integración con Águila y módulos de lanzamiento.</span></li>
+          <li><span class="when">23 al 27 nov</span><span class="what"><b>Migración de prueba,</b> compras reales de prueba y capacitación.</span></li>
+          <li class="key"><span class="when">Lun 30 nov, noche</span><span class="what"><b>Corte:</b> mantenimiento, respaldo final, cambio del sitio y contraseñas nuevas.</span></li>
+          <li class="key"><span class="when">Mar 1 dic</span><span class="what"><b>Tienda nueva en línea.</b></span></li>
+          <li><span class="when">Dic a feb</span><span class="what"><b>Módulos de después del lanzamiento,</b> uno por uno, incluida Momo.</span></li>
+        </ol>
+      </section>
+
+      <section id="fuera" aria-labelledby="t-fuera">
+        <div class="sec-head">
+          <p class="eyebrow">08 · Fuera del presupuesto</p>
+          <h2 id="t-fuera">Lo que se paga aparte</h2>
+          <p class="muted">Servicios que Mayrea paga directo a cada proveedor, o que se cotizan por separado.</p>
+        </div>
+        <ul class="plain">
+          <li><b>Servidor, base de datos y respaldos:</b> el servicio mensual del proveedor de nube.</li>
+          <li><b>Consumo de inteligencia artificial:</b> según el uso, para el asistente (V2) y, si lo suman, las preguntas de Mercado Libre (I2).</li>
+          <li><b>Mercado Pago y Getnet:</b> la comisión por venta que ya negocian.</li>
+          <li><b>EnvíaloSimple y dominios:</b> lo que ya pagan hoy.</li>
+          <li><b>Publicidad:</b> la inversión en anuncios y la gestión de campañas, que se cotiza aparte.</li>
+          <li><b>Fotografía de estudio.</b></li>
+        </ul>
+      </section>
+
+      <section id="condiciones" aria-labelledby="t-cond">
+        <div class="sec-head">
+          <p class="eyebrow">09 · Condiciones</p>
+          <h2 id="t-cond">Lo que conviene tener claro</h2>
+        </div>
+        <dl class="cond">
+          <div><dt>Validez</dt><dd>Este presupuesto vale hasta el 5 de noviembre de 2026.</dd></div>
+          <div><dt>Garantía</dt><dd>30 días de corrección de errores sin cargo desde el lanzamiento.</dd></div>
+          <div><dt>Cambios de alcance</dt><dd>Lo que se sume después de aprobado se presupuesta aparte, con la misma tabla de precios.</dd></div>
+          <div><dt>Forma de trabajo</dt><dd>Ambiente de pruebas con su propio link, revisiones cortas cada uno o dos días y tickets con respuesta en el día.</dd></div>
+        </dl>
+        <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, +54 9 11 3193-0330, indicando si sumás alguno de los opcionales (I1, I2, C9).</p>
+      </section>
+
+      <footer>
+        <span>Gonzalo Di Dio Leal · WhatsApp <span class="mono">+54 9 11 3193-0330</span> · gonzalodidioleal@gmail.com</span>
+        <span>Presupuesto para Mayrea · 6 de octubre de 2026</span>
+      </footer>
+    </main>
+
+    <aside class="sum" id="sum" aria-label="Total del presupuesto">
+      <div class="sum-bar">
+        <div><small>Total</small><strong id="barTotal"></strong></div>
+        <button class="btn" type="button" id="toggleSum" aria-expanded="false" aria-controls="sumCard">Ver detalle</button>
+      </div>
+      <div class="sum-card" id="sumCard">
+        <h2>Tu presupuesto</h2>
+        <div class="lines">
+          <div class="line"><span>Incluido siempre</span><span class="num" id="sBase"></span></div>
+          <div class="line"><span>21 módulos elegidos</span><span class="num" id="sSel"></span></div>
+          <div class="line" id="sOptRow" hidden><span id="sOptLbl"></span><span class="num" id="sOpt"></span></div>
+          <div class="line disc"><span id="sDiscLbl"></span><span class="num" id="sDisc"></span></div>
+        </div>
+        <div class="totalbox">
+          <span class="lbl">Inversión total</span>
+          <span class="big" id="sTotal"></span>
+        </div>
+        <div class="split">
+          <div class="line"><span>Para el lanzamiento</span><span class="num" id="sLaunch"></span></div>
+          <div class="line"><span>Después del lanzamiento</span><span class="num" id="sPost"></span></div>
+          <div class="line"><span>Primer pago, al aprobar</span><span class="num" id="sAdv"></span></div>
+        </div>
+        <div class="monthly line"><span>Mantenimiento</span><span class="num">USD 200 / mes</span></div>
+        <div class="actions">
+          <a class="btn wa" id="waAccept" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Aceptar el presupuesto por WhatsApp</a>
+          <a class="btn" id="waAsk" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Tengo una consulta</a>
+          <button class="btn" type="button" id="copyBtn">Copiar el resumen</button>
+        </div>
+        <p class="wa-note">Se abre WhatsApp con el resumen ya escrito para Gonzalo, <span class="mono">+54 9 11 3193-0330</span>. Revisalo y tocá enviar.</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <textarea class="fallback" id="fallback" hidden readonly aria-label="Resumen para copiar"></textarea>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const WHATSAPP = "5491131930330";
+const CONFIG = { base: 4200, paso: 100, bonificacion: [ {desde:8000, pct:15}, {desde:4000, pct:10} ], mantenimiento: 200 };
+
+const GROUPS = {V:"Vender más", I:"Integraciones", M:"Marketing y clientes", C:"Control y operación", X:"Otra marca"};
+
+/* Los 21 módulos que eligió. f: L = para el lanzamiento, P = después */
+const SEL = [
+  {c:"V1",g:"V",n:"Buscador por vehículo",p:900,f:"L",d:"Elegir marca, modelo y año y ver solo lo que le sirve."},
+  {c:"V2",g:"V",n:"Asistente con IA las 24 horas",p:900,f:"P",d:"Chat que busca en el catálogo y responde envíos, pagos y estado del pedido."},
+  {c:"V4",g:"V",n:"Getnet: tarjetas y cuotas",p:400,f:"L",d:"Tarjetas directo en el sitio y cuotas sin interés con Santander."},
+  {c:"V5",g:"V",n:"Cuotas a la vista",p:200,f:"L",d:"Precio en cuotas en cada producto y calculadora en la ficha."},
+  {c:"V6",g:"V",n:"Promociones a medida",p:600,f:"L",d:"2x1, descuentos, cupones, combos y envío gratis, con fecha de inicio y de fin."},
+  {c:"V7",g:"V",n:"Modo evento",p:400,f:"L",d:"Hot Sale y CyberMonday con precios y banners que se activan solos a la hora exacta."},
+  {c:"V8",g:"V",n:"Carrito abandonado",p:300,f:"P",d:"Recordatorio por mail a quien dejó productos en el carrito."},
+  {c:"V9",g:"V",n:"Avisame cuando vuelva",p:200,f:"P",d:"Aviso automático cuando un producto vuelve a tener stock."},
+  {c:"V10",g:"V",n:"Reseñas verificadas",p:400,f:"P",d:"Opiniones de compradores reales, pedidas después de la entrega."},
+  {c:"V12",g:"V",n:"Envío calculado en el producto",p:200,f:"L",d:"Costo de envío por código postal antes de llegar al carrito."},
+  {c:"V13",g:"V",n:"WhatsApp desde el producto",p:100,f:"L",d:"Consulta con el nombre y el código del producto ya escritos."},
+  {c:"V14",g:"V",n:"Compras con factura A",p:200,f:"L",d:"Registro con CUIT para empresas que compran al por menor."},
+  {c:"I3",g:"I",n:"Transportistas",p:600,f:"L",d:"Cotización, etiqueta y seguimiento con hasta dos transportistas."},
+  {c:"I6",g:"I",n:"Factura electrónica automática",p:400,f:"L",d:"Cada venta se factura desde Águila y la factura llega por mail."},
+  {c:"I7",g:"I",n:"EnvíaloSimple conectado",p:200,f:"L",d:"Suscriptores y compradores pasan solos a sus listas."},
+  {c:"I8",g:"I",n:"Catálogo para anuncios",p:400,f:"P",d:"Catálogo automático para Facebook, Instagram y Google Shopping."},
+  {c:"I9",g:"I",n:"Ventas medidas por anuncio",p:200,f:"P",d:"Cada venta queda atribuida al anuncio que la trajo."},
+  {c:"M6",g:"M",n:"Tablero de publicidad",p:400,f:"P",d:"Inversión, ventas y retorno de cada campaña en el backoffice."},
+  {c:"C4",g:"C",n:"Resumen diario",p:200,f:"L",d:"Cada mañana, por mail, las ventas de ayer, lo pendiente y las alertas."},
+  {c:"C8",g:"C",n:"Cambios y devoluciones",p:400,f:"P",d:"El cliente inicia el cambio online y el equipo lo sigue hasta cerrarlo."},
+  {c:"X1",g:"X",n:"Momo en la misma plataforma",p:1000,f:"P",d:"Momo con su marca y su dominio, en el mismo sistema. Se migran sus 215 productos."},
+];
+
+/* Los tres que consultó */
+const OPTS = [
+  {c:"I1",n:"Mercado Libre integrado",p:1200,f:"L",
+   d:"El sistema se conecta a tu cuenta de Mercado Libre y mantiene todo sincronizado solo. Cambiás un precio una vez y se actualiza también ahí, con un recargo propio si querés cubrir la comisión. Las ventas de Mercado Libre entran solas al sistema y a Águila, sin cargarlas a mano.",
+   e:"Si tenés 3 tanques y vendés 2 por la web, Mercado Libre pasa a mostrar 1 automáticamente. Nunca vendés algo que no tenés."},
+  {c:"I2",n:"Preguntas de Mercado Libre con IA",p:400,f:"P",req:"I1",
+   d:"Las preguntas de los compradores te llegan al sistema con una respuesta ya redactada con los datos del producto. Alguien de tu equipo la revisa, la corrige si hace falta y la manda con un clic. Nunca se envía nada sin que una persona lo apruebe.",
+   e:"Llega “¿le sirve a un Scania 2015?” y la respuesta ya está armada con la compatibilidad del producto. Se contesta en minutos y no en horas.",
+   nota:"Necesita I1, que es el que conecta con Mercado Libre. Consumo de IA aparte."},
+  {c:"C9",n:"Backoffice en el celular",p:300,f:"P",
+   d:"El panel ya se puede usar desde el celular. Con este módulo se instala como una app, con su ícono en el teléfono, y te llega un aviso por cada venta o pedido demorado. No pasa por las tiendas de apps, así que no hay nada que publicar ni pagar, y se actualiza solo.",
+   e:"Entra una venta y te llega el aviso en el teléfono, estés donde estés. Abrís el pedido y lo gestionás ahí mismo."},
+];
+
+const $ = id => document.getElementById(id);
+const NF = new Intl.NumberFormat("es-AR");
+const usd = n => "USD " + NF.format(n);
+const step = n => Math.round(n / CONFIG.paso) * CONFIG.paso;
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+
+function calc(optCodes){
+  const items = SEL.concat(OPTS.filter(o => optCodes.has(o.c)));
+  let L = 0, P = 0, selSum = 0, optSum = 0;
+  items.forEach(m => { if(m.f === "L") L += m.p; else P += m.p; });
+  SEL.forEach(m => selSum += m.p);
+  OPTS.forEach(o => { if(optCodes.has(o.c)) optSum += o.p; });
+  const sub = L + P;
+  const tier = CONFIG.bonificacion.find(t => sub >= t.desde);
+  const pct = tier ? tier.pct : 0;
+  const dL = step(L * pct / 100), dP = step(P * pct / 100);
+  const launch = CONFIG.base + L - dL, post = P - dP;
+  const a1 = step(launch * 0.40), a2 = step(launch * 0.30), a3 = launch - a1 - a2;
+  return { base: CONFIG.base, selSum, optSum, pct, disc: dL + dP, launch, post, total: launch + post, a1, a2, a3 };
+}
+
+/* ===== render estático ===== */
+function renderItems(){
+  const groups = {};
+  SEL.forEach(m => (groups[m.g] = groups[m.g] || []).push(m));
+  let html = "";
+  Object.keys(groups).forEach(g => {
+    html += "<p class=\"group-t\"><span class=\"letter\">" + g + "</span>" + esc(GROUPS[g]) + "</p>";
+    html += "<table class=\"items\"><tbody>" + groups[g].map(m =>
+      "<tr><td class=\"code\">" + m.c + "</td><td class=\"name\"><b>" + esc(m.n) + "</b><span>" + esc(m.d) + "</span></td>" +
+      "<td class=\"phase\"><span class=\"tag" + (m.f === "L" ? " l" : "") + "\">" + (m.f === "L" ? "Lanzamiento" : "Después") + "</span></td>" +
+      "<td class=\"money\">" + usd(m.p) + "</td></tr>").join("") + "</tbody></table>";
+  });
+  const r = calc(new Set());
+  html += "<table class=\"items\"><tfoot>" +
+    "<tr class=\"sub\"><td colspan=\"3\">Subtotal de los 21 módulos</td><td class=\"money\">" + usd(r.selSum) + "</td></tr>" +
+    "</tfoot></table>";
+  $("itemsWrap").innerHTML = html;
+}
+function renderOpts(){
+  $("opts").innerHTML = OPTS.map(o =>
+    "<label class=\"opt\" for=\"op-" + o.c + "\"><input type=\"checkbox\" id=\"op-" + o.c + "\" data-opt=\"" + o.c + "\">" +
+    "<span class=\"code\">" + o.c + "</span><span class=\"body\"><span class=\"name\">" + esc(o.n) + "</span>" +
+    "<span class=\"desc\">" + esc(o.d) + "</span><span class=\"ej\"><b>Por ejemplo</b>" + esc(o.e) + "</span>" +
+    (o.nota ? "<span class=\"note\">" + esc(o.nota) + "</span>" : "") +
+    "<span class=\"tags\"><span class=\"tag" + (o.f === "L" ? " l" : "") + "\">" + (o.f === "L" ? "Para el lanzamiento" : "Después del lanzamiento") + "</span></span></span>" +
+    "<span class=\"price\">" + usd(o.p) + "</span></label>").join("");
+}
+function renderTables(){
+  const a = calc(new Set()), b = calc(new Set(OPTS.map(o => o.c)));
+  const row = (lbl, x, y, cls) => "<tr" + (cls ? " class=\"" + cls + "\"" : "") + "><td>" + lbl + "</td><td class=\"money\">" + x + "</td><td class=\"money\">" + y + "</td></tr>";
+  $("resumenBody").innerHTML =
+    row("Incluido siempre", usd(a.base), usd(b.base)) +
+    row("Módulos elegidos (21)", usd(a.selSum), usd(a.selSum)) +
+    row("Opcionales I1, I2 y C9", "", usd(b.optSum)) +
+    row("Bonificación " + a.pct + "%", "−" + usd(a.disc), "−" + usd(b.disc), "disc") +
+    row("Inversión total", usd(a.total), usd(b.total), "total") +
+    row("Para el lanzamiento", usd(a.launch), usd(b.launch), "sub") +
+    row("Después del lanzamiento", usd(a.post), usd(b.post), "sub") +
+    row("Mantenimiento mensual", usd(CONFIG.mantenimiento), usd(CONFIG.mantenimiento), "sub");
+  $("pagoBody").innerHTML =
+    row("Al aprobar el presupuesto (40% del lanzamiento)", usd(a.a1), usd(b.a1)) +
+    row("Al aprobar el diseño (30%)", usd(a.a2), usd(b.a2)) +
+    row("Contra el lanzamiento (el resto)", usd(a.a3), usd(b.a3)) +
+    row("Módulos de después del lanzamiento, al entregarse", usd(a.post), usd(b.post)) +
+    row("Mantenimiento, por mes, desde el fin de la garantía", usd(CONFIG.mantenimiento), usd(CONFIG.mantenimiento), "sub");
+  $("basePrice").textContent = usd(CONFIG.base);
+}
+
+/* ===== estado ===== */
+const KEY = "mayrea-presupuesto-v1";
+let opts = new Set();
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.opts)) opts = new Set(s.opts.filter(c => OPTS.some(o => o.c === c))); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({opts:[...opts]})); } catch(e) {} }
+
+function texto(){
+  const r = calc(opts);
+  const elegidos = OPTS.filter(o => opts.has(o.c));
+  const L = [];
+  L.push("*Presupuesto Mayrea: acepto*");
+  L.push("Selección: 21 módulos más lo incluido siempre.");
+  L.push("Opcionales sumados: " + (elegidos.length ? elegidos.map(o => o.c + " " + o.n).join(", ") : "ninguno"));
+  L.push("Inversión total: " + usd(r.total) + " (" + usd(r.launch) + " para el lanzamiento y " + usd(r.post) + " después)");
+  L.push("Primer pago al aprobar: " + usd(r.a1));
+  L.push("Mantenimiento: " + usd(CONFIG.mantenimiento) + " por mes");
+  L.push("Gestión de campañas de Meta y Google: a cotizar aparte.");
+  return L.join("\n");
+}
+function update(){
+  const r = calc(opts);
+  document.querySelectorAll("[data-opt]").forEach(cb => { cb.checked = opts.has(cb.dataset.opt); });
+  $("sBase").textContent = usd(r.base);
+  $("sSel").textContent = usd(r.selSum);
+  $("sOptRow").hidden = !opts.size;
+  $("sOptLbl").textContent = "Opcionales (" + [...opts].join(", ") + ")";
+  $("sOpt").textContent = usd(r.optSum);
+  $("sDiscLbl").textContent = "Bonificación " + r.pct + "%";
+  $("sDisc").textContent = "−" + usd(r.disc);
+  $("sTotal").textContent = usd(r.total);
+  $("barTotal").textContent = usd(r.total);
+  $("sLaunch").textContent = usd(r.launch);
+  $("sPost").textContent = usd(r.post);
+  $("sAdv").textContent = usd(r.a1);
+  $("waAccept").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto());
+  $("waAsk").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Gonzalo, tengo una consulta sobre el presupuesto de Mayrea: ");
+  $("fallback").hidden = true;
+  save();
+}
+const say = m => { $("status").textContent = m; };
+
+/* registro en el panel de Margon (solo en margonsoftware.com) */
+function registroActivo(){ const h = location.hostname; return h === "localhost" || h === "127.0.0.1" || h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app"); }
+const REG_KEY = "mayrea-presupuesto-aceptado";
+function registrar(){
+  if(!registroActivo()) return;
+  const t = texto();
+  let ultimo = null; try { ultimo = localStorage.getItem(REG_KEY); } catch(e) {}
+  if(ultimo === t) return;
+  const r = calc(opts);
+  const items = SEL.concat(OPTS.filter(o => opts.has(o.c)));
+  fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
+    body: JSON.stringify({ nombre:"Mayrea · Juan Martín Del Boca", email:"comunicacion@mayrea.com.ar", telefono:"1140967040",
+      origen:"presupuesto-mayrea-aceptado", total:r.total, moneda:"USD", mensaje:t,
+      modulos:[{id:"BASE",name:"Incluido siempre",price:CONFIG.base}].concat(items.map(m => ({id:m.c, name:m.c + " " + m.n, price:m.p})), [{id:"BONIF",name:"Bonificación " + r.pct + "%",price:-r.disc}]) }) })
+    .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Tu aceptación también quedó registrada para Gonzalo."); } })
+    .catch(() => {});
+}
+
+/* eventos */
+document.addEventListener("change", e => {
+  const t = e.target; if(!t.matches("[data-opt]")) return;
+  const c = t.dataset.opt, msgs = [];
+  if(t.checked){
+    opts.add(c);
+    const o = OPTS.find(x => x.c === c);
+    if(o.req && !opts.has(o.req)){ opts.add(o.req); msgs.push("Se sumó " + o.req + " porque " + c + " lo necesita."); }
+  } else {
+    opts.delete(c);
+    OPTS.forEach(o => { if(o.req === c && opts.has(o.c)){ opts.delete(o.c); msgs.push("Se quitó " + o.c + " porque necesita " + c + "."); } });
+  }
+  update(); say(msgs.join(" "));
+});
+$("waAccept").addEventListener("click", registrar);
+$("copyBtn").addEventListener("click", () => {
+  const t = texto(), fb = $("fallback");
+  const show = () => { fb.value = t; fb.hidden = false; fb.focus(); fb.select(); say("Seleccioná el texto y copialo."); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => say("Copiado."), show); else show();
+});
+$("toggleSum").addEventListener("click", () => {
+  const s = $("sum"), open = !s.classList.contains("open");
+  s.classList.toggle("open", open);
+  $("toggleSum").setAttribute("aria-expanded", String(open));
+  $("toggleSum").textContent = open ? "Ocultar" : "Ver detalle";
+});
+
+renderItems(); renderOpts(); renderTables(); update();
+window.__p = { calc, texto };
+})();
+</script>
+</body>
+</html>
