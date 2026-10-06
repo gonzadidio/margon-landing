@@ -450,6 +450,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <div class="line"><span>21 módulos elegidos</span><span class="num" id="sSel"></span></div>
           <div class="line" id="sOptRow" hidden><span id="sOptLbl"></span><span class="num" id="sOpt"></span></div>
           <div class="line disc"><span id="sDiscLbl"></span><span class="num" id="sDisc"></span></div>
+          <div class="line disc"><span>Bonificación de bienvenida</span><span class="num" id="sWelcome"></span></div>
         </div>
         <div class="totalbox">
           <span class="lbl">Inversión total</span>
@@ -479,7 +480,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 "use strict";
 
 const WHATSAPP = "5491131930330";
-const CONFIG = { base: 4200, paso: 100, bonificacion: [ {desde:0, pct:30} ], mantenimiento: 200, contadoPct: 5 };
+const CONFIG = { base: 4200, paso: 100, bonificacion: [ {desde:0, pct:30} ], bienvenida: 1500, mantenimiento: 200, contadoPct: 5 };
 
 const GROUPS = {V:"Vender más", I:"Integraciones", M:"Marketing y clientes", C:"Control y operación", X:"Otra marca"};
 
@@ -535,7 +536,7 @@ function calc(){
   const tier = CONFIG.bonificacion.find(t => selSum >= t.desde);
   const pct = tier ? tier.pct : 0;
   const disc = step((CONFIG.base + selSum) * pct / 100);
-  return { base: CONFIG.base, selSum, regalo, pct, disc, total: CONFIG.base + selSum - disc };
+  return { base: CONFIG.base, selSum, regalo, pct, disc, bienvenida: CONFIG.bienvenida, total: CONFIG.base + selSum - disc - CONFIG.bienvenida };
 }
 
 /* Formas de pago. Cada una devuelve el total con esa forma, el primer pago y el detalle. */
@@ -587,6 +588,7 @@ function renderTables(){
     row("Módulos elegidos (21)", usd(r.selSum)) +
     row("De regalo: I1, I2 y C9", "<s class=\"was\">" + usd(r.regalo) + "</s> USD 0", "disc") +
     row("Bonificación por cantidad de módulos (" + r.pct + "%)", "−" + usd(r.disc), "disc") +
+    row("Bonificación de bienvenida", "−" + usd(r.bienvenida), "disc") +
     row("Inversión total", usd(r.total), "total") +
     row("Mantenimiento mensual", usd(CONFIG.mantenimiento), "sub");
   $("basePrice").textContent = usd(CONFIG.base);
@@ -606,6 +608,7 @@ function texto(){
   L.push("Selección: 21 módulos más lo incluido siempre.");
   L.push("De regalo: " + OPTS.map(o => o.c + " " + o.n).join(", ") + ".");
   L.push("Bonificación por cantidad de módulos: " + r.pct + "% (" + usd(r.disc) + ")");
+  L.push("Bonificación de bienvenida: " + usd(r.bienvenida));
   L.push("Inversión total: " + usd(r.total) + ", todo en línea el 1 de diciembre");
   L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
   pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
@@ -623,6 +626,7 @@ function update(){
   $("sOpt").innerHTML = "<s class=\"was\">" + usd(r.regalo) + "</s> USD 0";
   $("sDiscLbl").textContent = "Bonificación por cantidad (" + r.pct + "%)";
   $("sDisc").textContent = "−" + usd(r.disc);
+  $("sWelcome").textContent = "−" + usd(r.bienvenida);
   $("sTotal").textContent = usd(r.total);
   $("barTotal").textContent = usd(r.total);
   $("sPlan").textContent = pl.n;
@@ -661,7 +665,7 @@ function registrar(){
   fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
     body: JSON.stringify({ nombre:"Mayrea · Juan Martín Del Boca", email:"comunicacion@mayrea.com.ar", telefono:"1140967040",
       origen:"presupuesto-mayrea-aceptado", total:planDe(plan, r.total).total, moneda:"USD", mensaje:t,
-      modulos:[{id:"BASE",name:"Incluido siempre",price:CONFIG.base}].concat(SEL.map(m => ({id:m.c, name:m.c + " " + m.n, price:m.p})), OPTS.map(o => ({id:o.c, name:o.c + " " + o.n + " (de regalo)", price:0})), [{id:"BONIF",name:"Bonificación por cantidad de módulos (" + r.pct + "%)",price:-r.disc}], (() => { const pl = planDe(plan, r.total); return pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []; })()) }) })
+      modulos:[{id:"BASE",name:"Incluido siempre",price:CONFIG.base}].concat(SEL.map(m => ({id:m.c, name:m.c + " " + m.n, price:m.p})), OPTS.map(o => ({id:o.c, name:o.c + " " + o.n + " (de regalo)", price:0})), [{id:"BONIF",name:"Bonificación por cantidad de módulos (" + r.pct + "%)",price:-r.disc}, {id:"BIENV",name:"Bonificación de bienvenida",price:-r.bienvenida}], (() => { const pl = planDe(plan, r.total); return pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []; })()) }) })
     .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Tu aceptación también quedó registrada para Gonzalo."); } })
     .catch(() => {});
 }
