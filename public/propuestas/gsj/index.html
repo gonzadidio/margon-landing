@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Propuesta y presupuesto para los proyectos Gotas y Oftalmología de Grupo GSJ.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Propuesta Grupo GSJ">
+<meta property="og:description" content="Venta online con QR por médico, factura en Águila y pago con Mercado Pago. Abono mensual, sin costo de desarrollo.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Propuesta Grupo GSJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Propuesta formal en papel claro: el detalle a la izquierda y un resumen fijo a la derecha con la opción elegida. */
+:root{
+  --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
+  --line:#E2E5EA; --line-2:#C9CFD8; --accent:#0E7C86; --accent-deep:#0A5F67; --btn:#0B6E77;
+  --accent-tint:#E9F6F7; --accent-line:#A9D8DC; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(32px,4.4vw,48px);font-weight:700;letter-spacing:-.022em}
+h2{font-size:clamp(23px,2.5vw,29px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:18.5px;font-weight:600}
+p{margin:0}
+a{color:var(--accent-deep)}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num{white-space:nowrap}
+.muted{color:var(--ink-2)}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.only-print{display:none}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:24px;padding-block:0 140px}
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
+.brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.client{font:700 17px/1 var(--sans);letter-spacing:.2em}
+.client i{font-style:normal;color:var(--accent)}
+.brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
+.author{font-size:14px;color:var(--ink-2)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:48px;align-items:start}
+main{min-width:0;display:grid;gap:64px}
+section{display:grid;gap:22px;min-width:0}
+.sec-head{display:grid;gap:10px;max-width:72ch}
+
+/* portada */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px 40px;align-items:start}
+.cover-main{display:grid;gap:16px;min-width:0}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
+.ficha div{display:grid;gap:2px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)}
+.ficha div:last-child{border-bottom:0;margin-bottom:0}
+.ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ficha dd{margin:0;font-weight:500;font-size:15.5px}
+
+/* dos proyectos */
+.projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);display:grid;gap:12px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.card .kicker{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.card.main{border-color:var(--accent-line)}
+.pill{justify-self:start;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--accent-tint);color:var(--accent-deep)}
+.pill.soft{background:var(--tint);color:var(--ink-2)}
+
+/* flujo */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:f}
+.flow li{counter-increment:f;position:relative;padding:18px 18px 18px 58px;background:var(--paper);border:1px solid var(--line);border-radius:12px;min-width:0}
+.flow li::before{content:counter(f);position:absolute;left:16px;top:16px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font:600 13px/28px var(--mono);text-align:center}
+.flow b{display:block;margin-bottom:2px}
+.flow span{color:var(--ink-2);font-size:14.5px}
+
+/* checklist */
+.base{display:grid;gap:20px;padding:28px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.base-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.checklist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px}
+.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
+.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.checklist b{color:var(--ink)}
+
+/* opciones de cobro */
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.plan{position:relative;display:grid;gap:10px;align-content:start;padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow);cursor:pointer;min-width:0;transition:border-color .15s,background .15s}
+.plan:has(input:checked){border-color:var(--accent);background:var(--accent-tint);box-shadow:inset 0 0 0 1px var(--accent),var(--shadow)}
+.plan:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.plan input{position:absolute;top:22px;right:22px;width:19px;height:19px;margin:0;accent-color:var(--btn);cursor:pointer}
+.plan-n{font-weight:700;font-size:18px;padding-right:30px}
+.plan-tag{font:600 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+.plan-rows{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.pr{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.pr span:first-child{color:var(--ink-2);font-size:14.5px}
+.pr .num{font-weight:600;font-size:16px}
+.pr.big .num{font-size:24px;letter-spacing:-.02em}
+.plan p{font-size:14px;color:var(--ink-2)}
+
+/* oftalmología */
+.addon{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:6px 16px;align-items:start;padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--paper);cursor:pointer;box-shadow:var(--shadow)}
+.addon:has(input:checked){border-color:var(--accent-line);background:var(--accent-tint)}
+.addon:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.addon input{width:19px;height:19px;margin:3px 0 0;accent-color:var(--btn);cursor:pointer}
+.addon .body{display:grid;gap:10px;min-width:0}
+.addon .name{font-weight:700;font-size:18px}
+.addon .price{display:grid;justify-items:end;gap:2px;text-align:right}
+.addon .price .num{font-weight:600;font-size:18px}
+.addon .price small{font-size:12.5px;color:var(--ink-3)}
+.addon .price s{color:var(--ink-3);font-family:var(--mono);font-size:13.5px}
+ul.plain,ol.plain{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink-2)}
+ul.plain b,ol.plain b{color:var(--ink)}
+
+/* tablas */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;vertical-align:top;padding:13px 18px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+td.money{font-family:var(--mono);white-space:nowrap;text-align:right}
+th.r{text-align:right}
+td b{display:block;font-weight:600}
+td span{font-size:14.5px;color:var(--ink-2)}
+.wide{min-width:560px}
+
+/* comparación */
+.vs td:first-child{font-weight:600;width:28%}
+.vs td{font-size:15px;color:var(--ink-2)}
+.vs td.us{color:var(--ink)}
+
+.timeline{list-style:none;margin:0;padding:6px 0 0;display:grid;border-left:2px solid var(--line);margin-left:8px}
+.timeline li{position:relative;display:grid;grid-template-columns:170px minmax(0,1fr);gap:4px 22px;padding:0 0 22px 26px}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2)}
+.timeline li.key::before{background:var(--accent);border-color:var(--accent)}
+.timeline .when{font:600 13.5px/1.5 var(--mono);color:var(--accent-deep)}
+.timeline .what{color:var(--ink-2)}
+.timeline .what b{color:var(--ink)}
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.cond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.cond div{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:4px}
+.cond dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.cond dd{margin:0;color:var(--ink-2);font-size:15px}
+footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* resumen fijo */
+.sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);min-width:0}
+.sum-card{display:grid;gap:14px;padding:24px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sum-card h2{font-size:22px}
+.lines{display:grid;gap:8px;font-size:14.5px}
+.line{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.line .num{font-size:14.5px}
+.totalbox{display:grid;gap:8px;padding:16px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.totalbox .lbl{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.totalbox .big{font:600 28px/1.1 var(--mono);letter-spacing:-.02em}
+.totalbox .line{font-size:14px}
+.note{font-size:13px;color:var(--ink-3);line-height:1.45}
+.btn{appearance:none;font:600 15px/1.2 var(--sans);padding:12px 18px;border-radius:9px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;text-align:center}
+.btn:hover{background:var(--tint)}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#0E7640}
+.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.actions{display:grid;gap:8px}
+.status{min-height:1.4em;font-size:13.5px;color:var(--ok)}
+.fallback{width:100%;min-height:130px;font:13px/1.45 var(--mono);padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--page);color:var(--ink)}
+.sum-bar{display:none}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .sum{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;max-height:84vh;overflow:auto;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(19,23,32,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+  .sum-card{border:0;box-shadow:none;padding:8px 0 4px}
+  .sum-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .sum-bar strong{display:block;font:600 18px/1.2 var(--mono)}
+  .sum-bar small{display:block;font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .sum:not(.open) .sum-card{display:none}
+}
+@media (max-width:900px){ .cover,.flow{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:720px){
+  .projects,.plans,.cols2,.cond,.checklist{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr)}
+  main{gap:52px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .addon{grid-template-columns:20px minmax(0,1fr);grid-template-areas:"chk price" "chk body";padding:18px}
+  .addon input{grid-area:chk} .addon .body{grid-area:body} .addon .price{grid-area:price;justify-items:start;text-align:left}
+  .base{padding:20px}
+  .brandline .kind{border-left:0;padding-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@page{size:A4;margin:14mm 13mm}
+@media print{
+  html,body{background:#fff}
+  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .topbar{margin-bottom:14px;padding-block:0 8px}
+  .layout{display:block}
+  main{gap:10px}
+  section{gap:6px}
+  h1{font-size:22pt} h2{font-size:14.5pt} h3{font-size:11.5pt}
+  .eyebrow{font-size:7.2pt}
+  .lede{font-size:10.5pt}
+  .sum,.only-screen{display:none!important}
+  .only-print{display:block}
+  .cover{grid-template-columns:minmax(0,1fr) 190px;gap:16px}
+  .ficha{padding:10px 12px 2px;box-shadow:none}
+  .ficha div{padding-bottom:6px;margin-bottom:6px}
+  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
+  .projects,.plans,.cols2,.cond,.checklist{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flow{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .flow li{padding:7px 8px 7px 32px;border-radius:6px} .flow li::before{width:18px;height:18px;font-size:8pt;line-height:18px;left:8px;top:8px}
+  .flow span{font-size:8.4pt}
+  .card,.base,.plan,.addon,.tbl{box-shadow:none}
+  .card{padding:10px 12px;gap:5px;border-radius:8px}
+  .base{padding:10px 12px;gap:8px;border-radius:8px} .base-head{padding-bottom:6px}
+  .checklist{gap:3px 18px} .checklist li{font-size:8.6pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
+  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
+  .plan{padding:9px 11px;gap:5px;border-radius:8px;background:#fff!important}
+  .plan input{display:none}
+  .plan-n{font-size:10.5pt;padding:0} .plan-tag{font-size:6.6pt} .pr span:first-child{font-size:8.6pt} .pr .num{font-size:9.5pt} .pr.big .num{font-size:13pt} .plan p{font-size:8.4pt}
+  .addon{padding:9px 11px;gap:3px 9px;grid-template-columns:minmax(0,1fr) auto;border-radius:8px;background:#fff!important}
+  .addon input{display:none}
+  .addon .name{font-size:10.5pt} .addon .price .num{font-size:10pt}
+  ul.plain,ol.plain{gap:3px;font-size:9pt}
+  .tbl{overflow:visible;border-radius:6px} .wide{min-width:0}
+  th,td{padding:4px 8px;font-size:8.6pt} th{font-size:6.8pt} td span{font-size:8.2pt}
+  .vs td{font-size:8.6pt}
+  .timeline li{grid-template-columns:110px minmax(0,1fr);padding:0 0 5px 16px}
+  .timeline li::before{width:10px;height:10px;left:-6px}
+  .timeline .when{font-size:8.2pt} .timeline .what{font-size:9pt}
+  .cond{gap:8px} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.5pt}
+  tr,.card,.plan,.cond div,.timeline li,.checklist li,.flow li{break-inside:avoid}
+  .sec-head,h2,h3{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brandline"><span class="client">GRUPO GSJ<i>.</i></span><span class="kind">Propuesta · Venta online</span></div>
+    <span class="author">Gonzalo Di Dio Leal · Joaquín Baum</span>
+  </div>
+
+  <div class="layout">
+    <main id="main">
+
+      <section class="cover" aria-labelledby="t-cover">
+        <div class="cover-main">
+          <p class="eyebrow">Propuesta y presupuesto</p>
+          <h1 id="t-cover">Venta online para Gotas y Oftalmología</h1>
+          <p class="lede">Lo que charlamos el 7 de octubre, ordenado en dos proyectos. Gotas arranca con lo justo para vender, sin costo de desarrollo, y crece si funciona. Oftalmología suma el pago al portal de clientes de AguilaSoft.</p>
+        </div>
+        <dl class="ficha">
+          <div><dt>Cliente</dt><dd>Grupo GSJ · Javier M.</dd></div>
+          <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal y Joaquín Baum</dd></div>
+          <div><dt>Fecha</dt><dd>7 de octubre de 2026</dd></div>
+          <div><dt>Validez</dt><dd>Hasta el 6 de noviembre de 2026</dd></div>
+          <div><dt>Gotas en línea</dt><dd>2 semanas después del okey</dd></div>
+          <div><dt>Oftalmología en línea</dt><dd>1 de noviembre de 2026</dd></div>
+        </dl>
+      </section>
+
+      <section id="proyectos" aria-labelledby="t-proyectos">
+        <div class="sec-head">
+          <p class="eyebrow">01 · Lo que entendimos</p>
+          <h2 id="t-proyectos">Dos proyectos, dos urgencias</h2>
+        </div>
+        <div class="projects">
+          <div class="card main">
+            <span class="pill">Urgente</span>
+            <h3>Proyecto Gotas</h3>
+            <p class="muted">La línea nueva del distribuidor italiano, vendida directo al paciente. El médico entrega una receta impresa con un QR propio y tilda uno o más de los cuatro productos. El paciente escanea, elige los mismos productos, paga, y la venta queda en Águila con el médico como vendedor.</p>
+          </div>
+          <div class="card">
+            <span class="pill soft">En paralelo</span>
+            <h3>Proyecto Oftalmología</h3>
+            <p class="muted">Los clientes de siempre compran desde el portal de clientes de AguilaSoft, con todo el catálogo, precio y stock de Águila. Lo que falta es que puedan pagar ahí mismo, que la factura salga sola y que logística sepa qué entregar.</p>
+          </div>
+        </div>
+        <ol class="flow" aria-label="El recorrido del paciente en Gotas">
+          <li><b>El médico</b><span>completa la receta impresa, tilda los productos y la firma.</span></li>
+          <li><b>El paciente escanea</b><span>el QR con el celular, sin instalar nada. El sistema ya sabe qué médico es.</span></li>
+          <li><b>Elige</b><span>entre los cuatro productos, con los mismos nombres y en el mismo orden que la receta.</span></li>
+          <li><b>Carga sus datos</b><span>para la factura y el envío, y paga con Mercado Pago.</span></li>
+          <li><b>Águila factura</b><span>en el punto de venta del ecommerce, con el médico como vendedor, y baja el stock.</span></li>
+          <li><b>Logística despacha</b><span>con la etiqueta del correo ya generada, y el paciente recibe el seguimiento.</span></li>
+        </ol>
+      </section>
+
+      <section id="gotas" aria-labelledby="t-gotas">
+        <div class="base">
+          <div class="base-head">
+            <div class="sec-head">
+              <p class="eyebrow">02 · Gotas</p>
+              <h2 id="t-gotas">Lo justo para vender, completo y funcionando</h2>
+            </div>
+            <span class="pill">Un auto con cuatro ruedas</span>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Médicos con su QR:</b> se da de alta un médico y el sistema genera su QR solo, listo para mandar a la imprenta. Si se da de baja, su QR deja de funcionar.</span></li>
+            <li><span><b>Página para el paciente,</b> pensada para el celular: los cuatro productos numerados igual que en la receta, con foto, y una confirmación de lo elegido antes de pagar.</span></li>
+            <li><span><b>Datos para facturar y enviar:</b> nombre, DNI, mail, teléfono y domicilio, sin crear una cuenta.</span></li>
+            <li><span><b>Pago con Mercado Pago:</b> tarjetas de crédito y débito, Visa, Mastercard y las demás, y dinero en cuenta. Sin convenios propios con las tarjetas.</span></li>
+            <li><span><b>Venta en Águila:</b> con el pago aprobado, Águila emite la factura en el punto de venta propio del ecommerce, con el médico como vendedor, baja el stock y la factura le llega al paciente por mail.</span></li>
+            <li><span><b>Envío con un correo,</b> Andreani o Correo Argentino: cotización al comprar, etiqueta generada y número de seguimiento para el paciente.</span></li>
+            <li><span><b>Aviso de cada venta</b> por mail a logística, con la etiqueta para imprimir, embalar y llevar al correo.</span></li>
+            <li><span><b>Ventas por médico:</b> un listado con qué vendió cada médico, cuándo y cuánto, descargable en Excel.</span></li>
+            <li><span><b>Backoffice simple</b> para médicos, los cuatro productos y las ventas, con usuarios para cada persona que lo use.</span></li>
+            <li><span><b>Términos, privacidad y botón de arrepentimiento,</b> servidor seguro y copias de seguridad diarias.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="cobro" aria-labelledby="t-cobro">
+        <div class="sec-head">
+          <p class="eyebrow">03 · Gotas · Cómo se paga</p>
+          <h2 id="t-cobro">Un abono mensual, sin costo de desarrollo</h2>
+          <p class="muted">El desarrollo va por nuestra cuenta. Si las gotas no se venden, GSJ no quedó con una inversión hecha.</p>
+        </div>
+        <div class="plans" style="grid-template-columns:minmax(0,1fr);max-width:480px">
+          <div class="plan" style="cursor:default">
+            <span class="plan-n">Proyecto Gotas</span>
+            <span class="plan-tag">Sin costo de desarrollo</span>
+            <span class="plan-rows">
+              <span class="pr"><span>Desarrollo</span><span class="num">$ 0</span></span>
+              <span class="pr big"><span>Abono mensual</span><span class="num" id="gotasMes"></span></span>
+              <span class="pr"><span>Permanencia mínima</span><span class="num">6 meses</span></span>
+            </span>
+            <p>Empieza a cobrarse con Gotas en línea.</p>
+          </div>
+        </div>
+        <p class="muted">El abono incluye el servidor, las altas y bajas que no puedan hacer ustedes, la corrección de errores y la atención con respuesta en el día. Mercado Pago cobra su comisión por venta, directo a GSJ.</p>
+      </section>
+
+      <section id="oftalmologia" aria-labelledby="t-oftalmo">
+        <div class="sec-head">
+          <p class="eyebrow">04 · Oftalmología</p>
+          <h2 id="t-oftalmo">El portal de clientes de AguilaSoft, con pago</h2>
+          <p class="muted">Los clientes usan el portal de clientes de AguilaSoft, y le agregamos el pago para que paguen ahí mismo. Usa la misma conexión con Mercado Pago y con Águila que Gotas, y se suma con su propio abono mensual, también sin costo de desarrollo.</p>
+        </div>
+        <label class="addon" for="ofta">
+          <input type="checkbox" id="ofta" data-ofta>
+          <span class="body">
+            <span class="name">Sumar Oftalmología</span>
+            <ul class="plain">
+              <li><b>Pago con Mercado Pago dentro del portal de clientes de AguilaSoft,</b> al confirmar el pedido, sin salir del portal.</li>
+              <li><b>Factura automática</b> en Águila, en su propio punto de venta, que le llega al cliente desde el portal.</li>
+              <li><b>Catálogo desde Águila:</b> se publica el producto que tiene precio en la lista que definan para la web, por ejemplo la lista 5.</li>
+              <li><b>Stock en línea:</b> si Águila tiene cero, el portal no lo deja agregar al carrito.</li>
+              <li><b>Fotos por código:</b> ventas sube cada foto con el código de Águila como nombre, a una carpeta compartida, y el portal la toma sola.</li>
+              <li><b>Para logística propia:</b> aviso de cada venta y el listado de lo vendido el día anterior, para el reparto.</li>
+            </ul>
+          </span>
+          <span class="price"><span class="num" id="oftaPrice"></span><small id="oftaNote">por mes, sin costo de desarrollo</small></span>
+        </label>
+      </section>
+
+      <section id="tiendanube" aria-labelledby="t-tn">
+        <div class="sec-head">
+          <p class="eyebrow">05 · Por qué un sistema propio</p>
+          <h2 id="t-tn">Tiendanube no sabe qué médico recetó</h2>
+          <p class="muted">Tiendanube y WooCommerce sirven para una tienda común, pero el QR por médico no es una tienda común.</p>
+        </div>
+        <div class="tbl">
+          <table class="vs wide">
+            <thead><tr><th></th><th>Tiendanube</th><th>Sistema propio</th></tr></thead>
+            <tbody>
+              <tr><td>Saber qué médico vendió</td><td>No lo resuelve: haría falta otro sistema en el medio, y pagar los dos.</td><td class="us">Viene en el QR y queda en cada venta.</td></tr>
+              <tr><td>Factura en Águila</td><td>Hay que desarrollar la conexión igual.</td><td class="us">Incluida.</td></tr>
+              <tr><td>Comisión por venta</td><td>Del 0,7% al 2%, además de Mercado Pago, y el plan mensual.</td><td class="us">Ninguna: solo la de Mercado Pago.</td></tr>
+              <tr><td>Costo de desarrollo</td><td>Bajo, más la conexión con Águila.</td><td class="us">Cero: se paga el abono mensual.</td></tr>
+              <tr><td>Cuando crezca</td><td>Hay que migrar.</td><td class="us">Se le suma lo que haga falta.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="calendario" aria-labelledby="t-cal">
+        <div class="sec-head">
+          <p class="eyebrow">06 · Calendario</p>
+          <h2 id="t-cal">Gotas en dos semanas, Oftalmología el 1 de noviembre</h2>
+          <p class="muted">Las fechas corren desde el okey. Por ejemplo, con el okey el viernes 9 de octubre, Gotas sale el viernes 23. Para tener Oftalmología el 1 de noviembre, el okey tiene que llegar hasta el viernes 16 de octubre.</p>
+        </div>
+        <ol class="timeline">
+          <li><span class="when">El okey</span><span class="what"><b>Aprobación,</b> cuenta de Mercado Pago, accesos a Águila, lista de médicos y los cuatro productos.</span></li>
+          <li class="key"><span class="when">Días 1 a 3</span><span class="what"><b>QR de todos los médicos,</b> listos para la imprenta, que trabaja en paralelo.</span></li>
+          <li><span class="when">Semanas 1 y 2</span><span class="what"><b>Desarrollo de Gotas</b> en un ambiente de pruebas, con revisiones cortas, y compras reales de prueba con Mercado Pago, factura en Águila y envío.</span></li>
+          <li class="key"><span class="when">Día 14</span><span class="what"><b>Gotas en línea.</b> Empieza el abono de Gotas.</span></li>
+          <li><span class="when">Hasta fin de octubre</span><span class="what"><b>Pago en el portal de clientes de AguilaSoft:</b> Mercado Pago, factura en Águila, catálogo, stock y fotos, con compras de prueba.</span></li>
+          <li class="key"><span class="when">Dom 1 nov</span><span class="what"><b>Oftalmología en línea.</b> Empieza su abono.</span></li>
+        </ol>
+      </section>
+
+      <section id="necesitamos" aria-labelledby="t-nec">
+        <div class="sec-head">
+          <p class="eyebrow">07 · Lo que necesitamos de GSJ</p>
+          <h2 id="t-nec">Para arrancar</h2>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <h3>Gotas</h3>
+            <ul class="plain">
+              <li>Una cuenta de Mercado Pago de la empresa, con el mismo CUIT con el que factura.</li>
+              <li>Un punto de venta nuevo en Águila para el ecommerce.</li>
+              <li>La lista de médicos: nombre, matrícula y un mail.</li>
+              <li>Los cuatro productos: código de Águila, nombre exacto y orden de la receta, y una foto.</li>
+              <li>La cuenta con Andreani o Correo Argentino, o la elegimos juntos.</li>
+              <li>Quién paga el envío: el paciente al comprar, o incluido en el precio.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Oftalmología</h3>
+            <ul class="plain">
+              <li>Otro punto de venta en Águila para el portal.</li>
+              <li>La lista de precios que va a usar la web.</li>
+              <li>Las fotos con el código de Águila como nombre, en una carpeta compartida.</li>
+              <li>Quién de logística recibe los avisos y el listado diario.</li>
+            </ul>
+            <h3>A confirmar por GSJ</h3>
+            <ul class="plain">
+              <li>Que las gotas se pueden vender online directo al paciente con la habilitación que tienen.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="condiciones" aria-labelledby="t-cond">
+        <div class="sec-head">
+          <p class="eyebrow">08 · Condiciones</p>
+          <h2 id="t-cond">Lo que conviene tener claro</h2>
+        </div>
+        <dl class="cond">
+          <div><dt>Validez</dt><dd>Este presupuesto vale hasta el 6 de noviembre de 2026.</dd></div>
+          <div><dt>Garantía</dt><dd>30 días de corrección de errores sin cargo desde la puesta en línea.</dd></div>
+          <div><dt>Cambios de alcance</dt><dd>Lo que se sume después de aprobado se presupuesta aparte.</dd></div>
+          <div><dt>Moneda</dt><dd>Los abonos se cobran en pesos.</dd></div>
+        </dl>
+        <p class="only-print muted">Para aceptar, respondé por WhatsApp a Joaquín, +54 9 11 5099-3011, indicando si suman Oftalmología.</p>
+      </section>
+
+      <footer>
+        <span>Joaquín Baum · WhatsApp <span class="mono">+54 9 11 5099-3011</span> · Gonzalo Di Dio Leal · gonzalodidioleal@gmail.com</span>
+        <span>Propuesta para Grupo GSJ · 7 de octubre de 2026</span>
+      </footer>
+    </main>
+
+    <aside class="sum" id="sum" aria-label="Resumen de la propuesta">
+      <div class="sum-bar">
+        <div><small id="barLbl">Abono mensual</small><strong id="barTotal"></strong></div>
+        <button class="btn" type="button" id="toggleSum" aria-expanded="false" aria-controls="sumCard">Ver detalle</button>
+      </div>
+      <div class="sum-card" id="sumCard">
+        <h2>Tu elección</h2>
+        <div class="lines">
+          <div class="line"><span>Gotas</span><b id="sPlan"></b></div>
+          <div class="line"><span>Oftalmología</span><b id="sOfta"></b></div>
+        </div>
+        <div class="totalbox">
+          <span class="lbl">Abono mensual</span>
+          <span class="big" id="sMes"></span>
+          <div class="line"><span>Costo de desarrollo</span><span class="num">$ 0</span></div>
+        </div>
+        <p class="note" id="sNota"></p>
+        <div class="actions">
+          <a class="btn wa" id="waAccept" href="https://wa.me/5491150993011" target="_blank" rel="noopener">Aceptar por WhatsApp</a>
+          <a class="btn" id="waAsk" href="https://wa.me/5491150993011" target="_blank" rel="noopener">Tengo una consulta</a>
+          <button class="btn" type="button" id="copyBtn">Copiar el resumen</button>
+        </div>
+        <p class="note">Se abre WhatsApp con el resumen ya escrito para Joaquín, <span class="mono">+54 9 11 5099-3011</span>. Revisalo y tocá enviar.</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <textarea class="fallback" id="fallback" hidden readonly aria-label="Resumen para copiar"></textarea>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const WHATSAPP = "5491150993011";
+/* Abonos mensuales en pesos, sin costo de desarrollo. */
+const P = { gotas: 300000, ofta: 300000, permanencia: 6 };
+const $ = id => document.getElementById(id);
+const NF = new Intl.NumberFormat("es-AR");
+const ars = n => "$ " + NF.format(n);
+
+const KEY = "gsj-propuesta-v2";
+let state = { ofta:true };
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if(s) state.ofta = !!s.ofta; } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+
+function calc(){
+  const mes = P.gotas + (state.ofta ? P.ofta : 0);
+  return { mes };
+}
+function texto(){
+  const r = calc(), L = [];
+  L.push("*Propuesta GSJ: acepto*");
+  L.push("Gotas: " + ars(P.gotas) + " por mes, sin costo de desarrollo, permanencia mínima de " + P.permanencia + " meses");
+  L.push("Oftalmología: " + (state.ofta ? "sí, " + ars(P.ofta) + " por mes, sin costo de desarrollo" : "por ahora no"));
+  L.push("Abono mensual total: " + ars(r.mes));
+  return L.join("\n");
+}
+function update(){
+  const r = calc();
+  $("ofta").checked = state.ofta;
+  $("gotasMes").textContent = ars(P.gotas) + " / mes";
+  $("oftaPrice").textContent = ars(P.ofta);
+  $("sPlan").textContent = ars(P.gotas) + " / mes";
+  $("sOfta").textContent = state.ofta ? ars(P.ofta) + " / mes" : "No";
+  $("sMes").textContent = ars(r.mes);
+  $("barTotal").textContent = ars(r.mes) + " / mes";
+  $("sNota").textContent = "Sin costo de desarrollo. El abono empieza con Gotas en línea, con una permanencia mínima de " + P.permanencia + " meses." + (state.ofta ? " Oftalmología empieza a cobrarse cuando sale en línea." : "");
+  $("waAccept").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto());
+  $("waAsk").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Joaquín, tengo una consulta sobre la propuesta de GSJ: ");
+  $("fallback").hidden = true;
+  save();
+}
+const say = m => { $("status").textContent = m; };
+
+/* registro en el panel de Margon (solo en margonsoftware.com) */
+function registroActivo(){ const h = location.hostname; return h === "localhost" || h === "127.0.0.1" || h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app"); }
+const REG_KEY = "gsj-propuesta-aceptada";
+function registrar(){
+  if(!registroActivo()) return;
+  const t = texto();
+  let ultimo = null; try { ultimo = localStorage.getItem(REG_KEY); } catch(e) {}
+  if(ultimo === t) return;
+  const r = calc();
+  const modulos = [{ id:"GOTAS", name:"Gotas: abono mensual sin costo de desarrollo", price:P.gotas }];
+  if(state.ofta) modulos.push({ id:"OFTA", name:"Oftalmología: pago en el portal de clientes de AguilaSoft, abono mensual", price:P.ofta });
+  fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
+    body: JSON.stringify({ nombre:"Grupo GSJ · Javier M.", email:"", telefono:"", origen:"propuesta-gsj-aceptada",
+      total:r.mes, moneda:"ARS", mensaje:t, modulos }) })
+    .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Tu aceptación también quedó registrada."); } })
+    .catch(() => {});
+}
+
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.matches("[data-ofta]")){ state.ofta = t.checked; update(); say(""); }
+});
+$("waAccept").addEventListener("click", registrar);
+$("copyBtn").addEventListener("click", () => {
+  const t = texto(), fb = $("fallback");
+  const show = () => { fb.value = t; fb.hidden = false; fb.focus(); fb.select(); say("Seleccioná el texto y copialo."); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => say("Copiado."), show); else show();
+});
+$("toggleSum").addEventListener("click", () => {
+  const s = $("sum"), open = !s.classList.contains("open");
+  s.classList.toggle("open", open);
+  $("toggleSum").setAttribute("aria-expanded", String(open));
+  $("toggleSum").textContent = open ? "Ocultar" : "Ver detalle";
+});
+
+update();
+window.__p = { calc, texto };
+})();
+</script>
+</body>
+</html>
