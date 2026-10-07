@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Presupuesto de la tienda online mayorista de Distribuidora Gaslas.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Presupuesto Gaslas">
+<meta property="og:description" content="Tienda online mayorista con combos, envíos por correo y reparto propio. Arranque en USD 1.500.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Presupuesto Gaslas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Presupuesto formal en papel claro: el detalle a la izquierda y un resumen fijo a la derecha con el total y la aceptación. */
+:root{
+  --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
+  --line:#E2E5EA; --line-2:#C9CFD8; --accent:#1F4FD1; --accent-deep:#1A3F9E; --btn:#1D47BE;
+  --accent-tint:#EEF3FF; --accent-line:#BCCDF4; --sun:#F2B705; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(32px,4.4vw,48px);font-weight:700;letter-spacing:-.022em}
+h2{font-size:clamp(23px,2.5vw,29px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:18.5px;font-weight:600}
+p{margin:0}
+a{color:var(--accent-deep)}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num{white-space:nowrap}
+.muted{color:var(--ink-2)}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.only-print{display:none}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:24px;padding-block:0 140px}
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
+.brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.client{font:700 17px/1 var(--sans);letter-spacing:.2em}
+.client i{font-style:normal;color:var(--sun)}
+.brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
+.author{font-size:14px;color:var(--ink-2)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:48px;align-items:start}
+main{min-width:0;display:grid;gap:64px}
+section{display:grid;gap:22px;min-width:0}
+.sec-head{display:grid;gap:10px;max-width:72ch}
+
+/* portada */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px 40px;align-items:start}
+.cover-main{display:grid;gap:16px;min-width:0}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
+.ficha div{display:grid;gap:2px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)}
+.ficha div:last-child{border-bottom:0;margin-bottom:0}
+.ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ficha dd{margin:0;font-weight:500;font-size:15.5px;overflow-wrap:anywhere}
+
+/* tablas */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;vertical-align:top;padding:13px 18px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td,tfoot tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+td.r,th.r{text-align:right}
+td.money{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+td small{display:block;font-size:14px;color:var(--ink-2)}
+tr.total td{font-weight:700;font-size:17px;background:var(--accent-tint)}
+tr.total td.money{font-size:18px}
+tr.sub td{color:var(--ink-2);font-size:14.5px}
+.resumen{min-width:480px}
+
+/* módulos */
+.group-t{display:flex;align-items:baseline;gap:10px;margin:0;padding:12px 18px;background:var(--tint);font-weight:600;border-bottom:1px solid var(--line)}
+.group-t .letter{font:600 12px/1 var(--mono);background:var(--ink);color:#fff;padding:5px 7px;border-radius:5px}
+.items{min-width:560px}
+.items td.code{width:58px;font:600 12.5px/1.6 var(--mono);color:var(--ink-2)}
+.items td.name b{display:block;font-weight:600}
+.items td.name span{font-size:14.5px;color:var(--ink-2)}
+.items td.why{width:34%;font-size:14px;color:var(--ink-2);border-left:1px solid var(--line)}
+.items td.why b{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.new{display:inline-block;margin-left:6px;font:600 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:999px;background:#FFF6D6;color:#7A5A00;vertical-align:2px}
+
+/* para más adelante */
+.later{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lt{display:grid;grid-template-columns:46px minmax(0,1fr);gap:6px 14px;align-items:start;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow);min-width:0}
+.lt.talked{border-color:var(--accent-line);background:var(--accent-tint)}
+.lt .code{font:600 12.5px/1 var(--mono);text-align:center;padding:6px 0;border-radius:6px;background:var(--tint);color:var(--ink-2)}
+.lt.talked .code{background:#fff}
+.lt .body{display:grid;gap:6px;min-width:0}
+.lt .name{font-weight:600;font-size:16.5px}
+.lt .desc{color:var(--ink-2);font-size:14.5px}
+.lt .note{font-size:13.5px;color:var(--ink-3)}
+.talk-badge{justify-self:start;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:#fff;color:var(--accent-deep);border:1px solid var(--accent-line)}
+
+/* formas de pago */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.plan{position:relative;display:grid;gap:8px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow);cursor:pointer;min-width:0;transition:border-color .15s,background .15s}
+.plan:has(input:checked){border-color:var(--accent);background:var(--accent-tint);box-shadow:inset 0 0 0 1px var(--accent),var(--shadow)}
+.plan:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.plan input{position:absolute;top:20px;right:20px;width:19px;height:19px;margin:0;accent-color:var(--btn);cursor:pointer}
+.plan-n{font-weight:600;font-size:17px;padding-right:30px}
+.plan-tag{font:600 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+.plan-total{font:600 25px/1.15 var(--mono);letter-spacing:-.02em;margin-top:4px}
+.plan-pagos{display:grid;gap:7px;padding-top:12px;margin-top:4px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.pp{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.pp .num{color:var(--ink);font-size:13.5px}
+
+/* tarjetas */
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);display:grid;gap:12px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.card .kicker{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.card .big{font:600 28px/1.1 var(--mono);letter-spacing:-.02em}
+.card .big small{font:500 14px var(--sans);color:var(--ink-3);letter-spacing:0}
+ul.plain,ol.plain{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink-2)}
+ul.plain b,ol.plain b{color:var(--ink)}
+.checklist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px}
+.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
+.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.checklist b{color:var(--ink)}
+.base{display:grid;gap:20px;padding:28px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.base-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.demo{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding:18px 22px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.demo p{color:var(--ink-2);font-size:15px;max-width:60ch}
+.demo p b{color:var(--ink)}
+.timeline{list-style:none;margin:0;padding:6px 0 0;display:grid;border-left:2px solid var(--line);margin-left:8px}
+.timeline li{position:relative;display:grid;grid-template-columns:180px minmax(0,1fr);gap:4px 22px;padding:0 0 22px 26px}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2)}
+.timeline li.key::before{background:var(--accent);border-color:var(--accent)}
+.timeline .when{font:600 13.5px/1.5 var(--mono);color:var(--accent-deep)}
+.timeline .what{color:var(--ink-2)}
+.timeline .what b{color:var(--ink)}
+.cond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.cond div{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:4px}
+.cond dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.cond dd{margin:0;color:var(--ink-2);font-size:15px}
+footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* resumen fijo */
+.sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);min-width:0}
+.sum-card{display:grid;gap:14px;padding:24px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sum-card h2{font-size:22px}
+.lines{display:grid;gap:8px;font-size:14.5px}
+.line{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.line .num{font-size:14.5px}
+.totalbox{display:grid;gap:4px;padding:16px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.totalbox .lbl{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.totalbox .big{font:600 32px/1.1 var(--mono);letter-spacing:-.02em}
+.split{display:grid;gap:6px;font-size:14px;color:var(--ink-2)}
+.monthly{padding-top:12px;border-top:1px solid var(--line);font-size:14.5px}
+.btn{appearance:none;font:600 15px/1.2 var(--sans);padding:12px 18px;border-radius:9px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;text-align:center}
+.btn:hover{background:var(--tint)}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#0E7640}
+.btn.primary{background:var(--btn);border-color:var(--btn);color:#fff}
+.btn.primary:hover{background:var(--accent-deep)}
+.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.actions{display:grid;gap:8px}
+.wa-note{font-size:13px;color:var(--ink-3);line-height:1.45}
+.status{min-height:1.4em;font-size:13.5px;color:var(--ok)}
+.fallback{width:100%;min-height:130px;font:13px/1.45 var(--mono);padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--page);color:var(--ink)}
+.fallback[hidden]{display:none}
+.sum-bar{display:none}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .sum{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;max-height:84vh;overflow:auto;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(19,23,32,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+  .sum-card{border:0;box-shadow:none;padding:8px 0 4px}
+  .sum-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .sum-bar strong{display:block;font:600 20px/1.2 var(--mono)}
+  .sum-bar small{display:block;font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .sum:not(.open) .sum-card{display:none}
+}
+@media (max-width:900px){ .cover,.plans{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:720px){
+  .cols2,.cond,.checklist,.later{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr)}
+  main{gap:52px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .base{padding:20px}
+  .brandline .kind{border-left:0;padding-left:0}
+  .items td.why{display:none}
+  .items,.resumen{min-width:0}
+  th,td{padding:12px 14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@page{size:A4;margin:14mm 13mm}
+@media print{
+  html,body{background:#fff}
+  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .topbar{margin-bottom:14px;padding-block:0 8px}
+  .layout{display:block}
+  main{gap:18px}
+  section{gap:8px}
+  h1{font-size:22pt} h2{font-size:14.5pt} h3{font-size:11.5pt}
+  .eyebrow{font-size:7.2pt}
+  .lede{font-size:10.5pt}
+  .sum,.only-screen{display:none!important}
+  .only-print{display:block}
+  .cover{grid-template-columns:minmax(0,1fr) 190px;gap:16px}
+  .ficha{padding:10px 12px 2px;box-shadow:none}
+  .ficha div{padding-bottom:6px;margin-bottom:6px}
+  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
+  .tbl,.card,.base,.lt{box-shadow:none}
+  .tbl{overflow:visible;border-radius:6px}
+  .resumen,.items{min-width:0}
+  th,td{padding:4px 8px;font-size:8.6pt}
+  th{font-size:6.8pt}
+  td small{font-size:8pt}
+  tr.total td{font-size:10pt} tr.total td.money{font-size:10.5pt}
+  .items td.name span,.items td.why{font-size:8.2pt}
+  .items td.code{width:36px}
+  .group-t{padding:5px 8px;font-size:9pt}
+  .later{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .lt{padding:7px 9px;gap:2px 8px;grid-template-columns:28px minmax(0,1fr);border-radius:6px}
+  .lt .name{font-size:9.6pt} .lt .desc{font-size:8.4pt} .lt .note{font-size:7.8pt} .lt .code{font-size:7.6pt;padding:3px 0}
+  .talk-badge{font-size:6.2pt;padding:2px 5px}
+  .card{padding:10px 12px;gap:5px;border-radius:8px}
+  .card .big{font-size:15pt}
+  .base{padding:10px 12px;gap:8px;border-radius:8px}
+  .base-head{padding-bottom:6px}
+  .demo{padding:8px 10px;border-radius:6px} .demo p{font-size:8.8pt}
+  .checklist{gap:3px 18px;grid-template-columns:repeat(2,minmax(0,1fr))} .checklist li{font-size:8.6pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
+  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
+  ul.plain,ol.plain{gap:3px;font-size:9pt}
+  .timeline li{grid-template-columns:110px minmax(0,1fr);padding:0 0 5px 16px}
+  .timeline li::before{width:10px;height:10px;left:-6px}
+  .timeline .when{font-size:8.2pt} .timeline .what{font-size:9pt}
+  .cond{gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.5pt}
+  tr.sub td{font-size:8.6pt}
+  .plans{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .plan{padding:8px 10px;gap:3px;border-radius:6px;box-shadow:none;background:#fff!important;border-color:var(--line)!important}
+  .plan input{display:none}
+  .plan-n{font-size:9.8pt;padding:0} .plan-tag{font-size:6.6pt} .plan-total{font-size:13pt;margin:0}
+  .plan-pagos{font-size:8pt;gap:2px;padding-top:5px;margin-top:2px} .pp .num{font-size:8pt}
+  .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card .muted,.card p:not(.big):not(.kicker){font-size:8.8pt!important}
+  .card ul.plain{font-size:8.8pt}
+  tr,.lt,.card,.cond div,.timeline li,.checklist li{break-inside:avoid}
+  .sec-head,h2,h3,.group-t{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brandline"><span class="client">GASLAS<i>.</i></span><span class="kind">Presupuesto · Tienda online mayorista</span></div>
+    <span class="author">Gonzalo Di Dio Leal</span>
+  </div>
+
+  <div class="layout">
+    <main id="main">
+
+      <section class="cover" aria-labelledby="t-cover">
+        <div class="cover-main">
+          <p class="eyebrow">Presupuesto</p>
+          <h1 id="t-cover">Tienda online mayorista para Distribuidora Gaslas</h1>
+          <p class="lede">Con lo que hablamos en la reunión: <b>los combos que se viralizan, a un toque de comprarlos</b>, con envío por correo a cualquier casa, el camión para los comercios de la zona y Mercado Pago con cuotas. Un arranque de <b>9 módulos</b> más todo lo incluido siempre, para llegar a las fiestas vendiendo online.</p>
+        </div>
+        <dl class="ficha">
+          <div><dt>Cliente</dt><dd>Distribuidora Gaslas · Nicolás Catino</dd></div>
+          <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal</dd></div>
+          <div><dt>Fecha</dt><dd>7 de octubre de 2026</dd></div>
+          <div><dt>Validez</dt><dd>Hasta el 6 de noviembre de 2026</dd></div>
+          <div><dt>Tienda abierta a todos</dt><dd>Lunes 23 de noviembre de 2026</dd></div>
+        </dl>
+      </section>
+
+      <section id="resumen" aria-labelledby="t-resumen">
+        <div class="sec-head">
+          <p class="eyebrow">01 · Resumen</p>
+          <h2 id="t-resumen">La inversión</h2>
+        </div>
+        <div class="tbl">
+          <table class="resumen">
+            <thead><tr><th>Concepto</th><th class="r">Monto</th></tr></thead>
+            <tbody id="resumenBody"></tbody>
+          </table>
+        </div>
+        <p class="muted">La tienda se cotiza en dólares estadounidenses; se puede pagar en pesos al tipo de cambio que acordemos. El mantenimiento mensual se cobra en pesos, incluye el servidor y empieza cuando terminan los 30 días de garantía.</p>
+      </section>
+
+      <section id="incluido" aria-labelledby="t-incluido">
+        <div class="base">
+          <div class="base-head">
+            <div class="sec-head">
+              <p class="eyebrow">02 · Incluido siempre</p>
+              <h2 id="t-incluido">La tienda completa, lista para tomar pedidos</h2>
+            </div>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Diseño con la marca Gaslas,</b> sobre las tres propuestas de la demo: eligen una o mezclan lo mejor de cada una.</span></li>
+            <li><span><b>Tienda online mayorista:</b> inicio, rubros, marcas, filtros, ficha con precio por bulto y por unidad, carrito, compra simple y cuenta del cliente con su historial.</span></li>
+            <li><span><b>Pedidos las 24 horas,</b> todos los días, con pedido mínimo configurable.</span></li>
+            <li><span><b>Buscador propio</b> por nombre, marca y código, tolerante a errores de tipeo.</span></li>
+            <li><span><b>Productos, stock y precios en el backoffice,</b> con actualización de precios en lote desde Excel o por porcentaje, por marca o por rubro.</span></li>
+            <li><span><b>Mercado Pago con cuotas y transferencia.</b> Efectivo al recibir o al retirar, si lo quieren ofrecer.</span></li>
+            <li><span><b>Reparto propio por zonas,</b> retiro en el depósito de San Justo y envío gratis desde el monto que definan.</span></li>
+            <li><span><b>Backoffice con usuarios, roles y permisos,</b> y banners con fecha y hora de publicación.</span></li>
+            <li><span><b>Precios como pide la ley:</b> precio por kilo o litro y precio sin impuestos nacionales en cada producto.</span></li>
+            <li><span><b>Páginas legales:</b> términos y condiciones, privacidad, botón de arrepentimiento, envíos y medios de pago.</span></li>
+            <li><span><b>Google y redes:</b> ficha del negocio en Google, sitemap, Google Analytics, Píxel de Meta y link para la bio de Instagram.</span></li>
+            <li><span><b>Carga inicial del catálogo</b> desde su listado de productos, con las fotos que tengan.</span></li>
+            <li><span><b>Ambiente de pruebas y de producción,</b> certificado de seguridad y copias de seguridad diarias.</span></li>
+            <li><span><b>Prueba con comercios de confianza,</b> capacitación del equipo, manual de uso y 30 días de garantía de corrección sin cargo.</span></li>
+          </ul>
+          <div class="demo only-screen">
+            <p><b>Ya la pueden recorrer.</b> La demo muestra la tienda con todos los módulos de la propuesta, incluso los de más adelante. Este presupuesto cubre lo incluido siempre y los 9 módulos de abajo.</p>
+            <a class="btn primary" href="https://gaslas-web-production.up.railway.app" target="_blank" rel="noopener">Abrir la demo</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="seleccion" aria-labelledby="t-seleccion">
+        <div class="sec-head">
+          <p class="eyebrow">03 · Módulos de arranque</p>
+          <h2 id="t-seleccion">Los 9 módulos con los que sale la tienda</h2>
+          <p class="muted">Lo justo para vender por bulto desde el primer día y para que el que llega desde un reel compre el combo y lo reciba en su casa.</p>
+        </div>
+        <div class="tbl" id="itemsWrap"></div>
+      </section>
+
+      <section id="despues" aria-labelledby="t-despues">
+        <div class="sec-head">
+          <p class="eyebrow">04 · Para sumar después</p>
+          <h2 id="t-despues">Lo que charlamos para más adelante</h2>
+          <p class="muted">No están en este presupuesto. Se suman uno por uno cuando la tienda esté andando, sin frenarla, y se cotizan en el momento de sumarlos. Los marcados son los que salieron en la reunión.</p>
+        </div>
+        <div class="later" id="later"></div>
+      </section>
+
+      <section id="mantenimiento" aria-labelledby="t-mant">
+        <div class="sec-head">
+          <p class="eyebrow">05 · Después del lanzamiento</p>
+          <h2 id="t-mant">Mantenimiento, con el servidor incluido</h2>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <p class="kicker">Mantenimiento mensual</p>
+            <p class="big"><span id="mantBig"></span> <small>por mes</small></p>
+            <ul class="plain">
+              <li><b>Servidor, base de datos y copias de seguridad incluidos.</b> No pagan nada aparte por el hosting.</li>
+              <li>Tickets con respuesta en el día.</li>
+              <li>Monitoreo del sitio y copias de seguridad verificadas.</li>
+              <li>Actualizaciones de seguridad y corrección de errores.</li>
+              <li>Hasta 4 horas por mes de cambios o mejoras.</li>
+            </ul>
+            <p class="muted" style="font-size:14px">Empieza cuando terminan los 30 días de garantía posteriores al lanzamiento. Hasta entonces, el servidor corre por nuestra cuenta.</p>
+          </div>
+          <div class="card">
+            <p class="kicker">Envíos por correo</p>
+            <h3>El costo de cada envío lo define el correo</h3>
+            <p class="muted">La tienda cotiza cada envío por peso con la cuenta de Gaslas en Andreani o Moova, y el cliente lo ve antes de pagar. Para un combo de 20 a 25 kg conviene decidir juntos:</p>
+            <ul class="plain">
+              <li>Si el envío lo paga el cliente, lo comparten o lo bonifican desde cierto monto.</li>
+              <li>Con qué correo abrir la cuenta: cotizamos los dos con sus combos reales.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="pago" aria-labelledby="t-pago">
+        <div class="sec-head">
+          <p class="eyebrow">06 · Forma de pago</p>
+          <h2 id="t-pago">Pago único o hasta 4 cuotas sin interés</h2>
+          <p class="muted" id="planCap"></p>
+        </div>
+        <div class="plans" id="plans" role="radiogroup" aria-label="Forma de pago"></div>
+        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. El mantenimiento empieza cuando terminan los 30 días de garantía, con cualquier forma de pago.</p>
+      </section>
+
+      <section id="calendario" aria-labelledby="t-cal">
+        <div class="sec-head">
+          <p class="eyebrow">07 · Calendario</p>
+          <h2 id="t-cal">Vendiendo online antes de las fiestas</h2>
+          <p class="muted">Si el presupuesto se aprueba hasta el viernes 16 de octubre. La tienda suma un canal: el teléfono, el mostrador y el reparto siguen igual que hoy.</p>
+        </div>
+        <ol class="timeline">
+          <li><span class="when">Hasta el 16 oct</span><span class="what"><b>Aprobación y primer pago.</b> Nos pasan el listado de productos con precios y bultos, el logo y las zonas y días de reparto.</span></li>
+          <li><span class="when">Semana del 19 oct</span><span class="what"><b>Diseño final</b> sobre las tres propuestas de la demo, con la marca Gaslas.</span></li>
+          <li><span class="when">19 oct al 13 nov</span><span class="what"><b>Desarrollo en el ambiente de pruebas,</b> con revisiones de 10 a 15 minutos cada uno o dos días, y carga del catálogo. Apertura de la cuenta del correo y de Mercado Pago.</span></li>
+          <li><span class="when">16 al 20 nov</span><span class="what"><b>Prueba con 5 a 10 comercios de confianza</b> y capacitación del equipo.</span></li>
+          <li class="key"><span class="when">Lun 23 nov</span><span class="what"><b>Tienda abierta a todos</b> y lanzamiento con un reel, con la preventa de fiestas y los combos en línea.</span></li>
+        </ol>
+      </section>
+
+      <section id="fuera" aria-labelledby="t-fuera">
+        <div class="sec-head">
+          <p class="eyebrow">08 · Fuera del presupuesto</p>
+          <h2 id="t-fuera">Lo que se paga aparte</h2>
+          <p class="muted">Servicios que Gaslas paga directo a cada proveedor. El servidor no está en esta lista: va incluido en el mantenimiento.</p>
+        </div>
+        <ul class="plain">
+          <li><b>Dominio:</b> el pago anual a NIC Argentina, de bajo costo, a nombre de Gaslas. <b>gaslas.com.ar</b> figura libre: conviene registrarlo cuanto antes.</li>
+          <li><b>Mercado Pago:</b> la comisión por venta, que depende de en cuántos días quieran la plata (de 1,49% a 35 días a 6,29% al instante, más IVA). La transferencia no tiene costo.</li>
+          <li><b>Envíos por correo:</b> la tarifa de Andreani o Moova por cada envío, según el peso.</li>
+          <li><b>Publicidad:</b> la inversión en anuncios de Meta y Google, si la hacen.</li>
+          <li><b>Fotografía de estudio,</b> si la quieren. Arrancamos con las fotos que tengan y las de cada proveedor.</li>
+        </ul>
+      </section>
+
+      <section id="condiciones" aria-labelledby="t-cond">
+        <div class="sec-head">
+          <p class="eyebrow">09 · Condiciones</p>
+          <h2 id="t-cond">Lo que conviene tener claro</h2>
+        </div>
+        <dl class="cond">
+          <div><dt>Validez</dt><dd>Este presupuesto vale hasta el 6 de noviembre de 2026.</dd></div>
+          <div><dt>Garantía</dt><dd>30 días de corrección de errores sin cargo desde el lanzamiento.</dd></div>
+          <div><dt>Es de ustedes</dt><dd>La tienda, el dominio, los datos de sus clientes y sus cuentas de Mercado Pago y del correo quedan a nombre de Gaslas.</dd></div>
+          <div><dt>Forma de trabajo</dt><dd>Ambiente de pruebas con su propio link, revisiones cortas cada uno o dos días y tickets con respuesta en el día. Si las respuestas llegan en el día, los tiempos se cumplen.</dd></div>
+        </dl>
+        <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, +54 9 11 3193-0330, indicando la forma de pago que elegís.</p>
+      </section>
+
+      <footer>
+        <span>Gonzalo Di Dio Leal · WhatsApp <span class="mono">+54 9 11 3193-0330</span> · gonzalodidioleal@gmail.com</span>
+        <span>Presupuesto para Distribuidora Gaslas · 7 de octubre de 2026</span>
+      </footer>
+    </main>
+
+    <aside class="sum" id="sum" aria-label="Total del presupuesto">
+      <div class="sum-bar">
+        <div><small>Total</small><strong id="barTotal"></strong></div>
+        <button class="btn" type="button" id="toggleSum" aria-expanded="false" aria-controls="sumCard">Ver detalle</button>
+      </div>
+      <div class="sum-card" id="sumCard">
+        <h2>Tu presupuesto</h2>
+        <div class="lines">
+          <div class="line"><span>Tienda completa</span><span>Incluida</span></div>
+          <div class="line"><span>9 módulos de arranque</span><span>Incluidos</span></div>
+        </div>
+        <div class="totalbox">
+          <span class="lbl">Inversión total</span>
+          <span class="big" id="sTotal"></span>
+        </div>
+        <div class="split">
+          <div class="line"><span>Forma de pago</span><span id="sPlan" style="text-align:right"></span></div>
+          <div class="line" id="sPlanTotRow" hidden><span>Total con esta forma de pago</span><span class="num" id="sPlanTot"></span></div>
+          <div class="line"><span>Primer pago, al aprobar</span><span class="num" id="sAdv"></span></div>
+        </div>
+        <div class="monthly line"><span>Mantenimiento con servidor</span><span class="num" id="sMant"></span></div>
+        <div class="actions">
+          <a class="btn wa" id="waAccept" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Aceptar el presupuesto por WhatsApp</a>
+          <a class="btn" id="waAsk" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Tengo una consulta</a>
+          <button class="btn" type="button" id="copyBtn">Copiar el resumen</button>
+        </div>
+        <p class="wa-note">Se abre WhatsApp con el resumen ya escrito para Gonzalo, <span class="mono">+54 9 11 3193-0330</span>. Revisalo y tocá enviar.</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <textarea class="fallback" id="fallback" hidden readonly aria-label="Resumen para copiar"></textarea>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const WHATSAPP = "5491131930330";
+/* total en USD; mantenimiento en pesos, con el servidor incluido */
+const CONFIG = { total: 1500, paso: 25, mantenimientoArs: 200000, contadoPct: 5 };
+
+const GROUPS = {V:"Vender más", L:"Logística y envíos", C:"Control"};
+
+/* Los 9 módulos de arranque */
+const SEL = [
+  {c:"V1",g:"V",n:"Listas de precios por tipo de cliente",d:"El consumidor final y el comercio entran y ven cada uno su lista. Se cambian en lote desde el backoffice.",w:"El que se lleva un pallet no paga lo mismo que el que se lleva dos bultos."},
+  {c:"V2",g:"V",n:"Escalas por cantidad y precio por pallet",d:"Mejor precio a partir de cierta cantidad de bultos y el precio por pallet a la vista.",w:"Hoy el pallet es «consultar»: con esto lo ven y lo compran solos."},
+  {c:"V3",g:"V",n:"Combos",d:"El carro lleno y el combito del mes armados desde el backoffice, con el stock calculado y un link propio para la bio y los reels.",w:"El que ve el reel toca el link y lo compra, sin pedirlo por mensaje."},
+  {c:"V4",g:"V",n:"Preventas con seña",d:"Reserva con seña, cupo y fecha de entrega. Se cierra sola cuando se llena el cupo o llega la fecha.",w:"La preventa de pan dulce de las fiestas, sin anotar a mano."},
+  {c:"V9",g:"V",n:"WhatsApp desde el producto",d:"Botón de consulta que abre WhatsApp con el producto y la presentación ya escritos.",w:"El que duda pregunta en un toque y no se va."},
+  {c:"V10",g:"V",n:"Alta de comercios con CUIT",d:"Registro con CUIT y condición fiscal. Ustedes aprueban el alta y le asignan la lista de precios.",w:"Los precios mayoristas los ve quien ustedes decidan."},
+  {c:"L1",g:"L",n:"Zonas, días de reparto y horario de corte",d:"Cada zona con sus días y su pedido mínimo. El cliente ve cuándo le llega y lo que falta para que salga en el camión.",w:"El camión sale lleno y solo a las zonas que les conviene."},
+  {c:"L6",g:"L",n:"Envíos por correo a domicilio",nuevo:true,d:"Para los combos y los pedidos chicos: el envío se cotiza por peso con Andreani o Moova, se imprime la etiqueta y el cliente recibe el número de seguimiento.",w:"Lo que pidieron en la reunión: el combo llega a Lanús sin cargar la camioneta."},
+  {c:"C5",g:"C",n:"Alertas automáticas",d:"Aviso si hay stock bajo, un pago rechazado, un pedido trabado o un error en la tienda.",w:"Se enteran ustedes primero, no el cliente."},
+];
+
+/* Para más adelante: t = salió en la reunión */
+const LATER = [
+  {c:"M3",t:1,n:"Ofertas a sus clientes",d:"Mandar las ofertas de la semana a todos sus clientes o a un grupo, por mail o por WhatsApp, con los datos de los que ya compraron.",nota:"Por WhatsApp necesita I3."},
+  {c:"I3",t:1,n:"WhatsApp Business oficial",d:"Confirmación de pedido, aviso de reparto y ofertas desde el número de Gaslas.",nota:"Meta cobra por mensaje enviado, también las respuestas, desde octubre de 2026. Siguen gratis por 72 horas las conversaciones que llegan desde un anuncio."},
+  {c:"A2",t:1,n:"Pedidos por WhatsApp con IA",d:"El vendedor de las 24 horas: el cliente escribe «5 bultos de fideos y 2 de aceite» y el pedido se arma solo para que lo confirme.",nota:"Necesita I3. Consumo de IA aparte."},
+  {c:"I2",t:1,n:"Factura electrónica automática",d:"Cada pedido se factura solo, A o B según el cliente, con el CAE de ARCA, y la factura le llega por mail.",nota:"Con el certificado de ARCA a nombre de Gaslas."},
+  {c:"V5",n:"Repetir pedido y pedido rápido",d:"El comercio repite su último pedido con un clic o pega su lista como la escribe en WhatsApp."},
+  {c:"V11",n:"Cuenta corriente para comercios",d:"Los clientes de confianza compran a pagar en 7, 15 o 30 días, con un límite por cliente."},
+  {c:"L2",n:"Hoja de ruta del día",d:"Los pedidos del día agrupados por zona, con totales a cobrar e impresión para el chofer."},
+  {c:"I4",n:"Catálogo para anuncios",d:"Los productos y combos en los anuncios de Instagram y Facebook, con precio y stock reales.",nota:"En Argentina Instagram no permite comprar dentro de la app: el anuncio lleva al combo en la tienda."},
+];
+
+const $ = id => document.getElementById(id);
+const NF = new Intl.NumberFormat("es-AR");
+const usd = n => "USD " + NF.format(n);
+const ars = n => "$ " + NF.format(n);
+const step = n => Math.round(n / CONFIG.paso) * CONFIG.paso;
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+
+/* Formas de pago. Cada una devuelve el total con esa forma, el primer pago y el detalle. */
+const cuotas = (T, fechas) => {
+  const n = fechas.length, c = step(T / n), pagos = fechas.map((f, i) => [f, usd(i < n - 1 ? c : T - c * (n - 1))]);
+  return { total: T, ajuste: 0, primero: c, pagos };
+};
+const PLANES = [
+  { id:"unico", n:"Pago único", tag: CONFIG.contadoPct + "% de descuento", calc: T => {
+      const d = step(T * CONFIG.contadoPct / 100);
+      return { total: T - d, ajuste: -d, primero: T - d, pagos: [["Al aprobar el presupuesto", usd(T - d)]] }; } },
+  { id:"tres", n:"3 cuotas", tag:"Sin interés", calc: T => cuotas(T, ["Al aprobar el presupuesto", "6 de noviembre, en pleno desarrollo", "23 de noviembre, con la tienda abierta"]) },
+  { id:"cuatro", n:"4 cuotas", tag:"Sin interés", calc: T => cuotas(T, ["Al aprobar el presupuesto", "6 de noviembre, en pleno desarrollo", "23 de noviembre, con la tienda abierta", "23 de diciembre, después de las ventas de fiestas"]) },
+];
+const PLAN_DEF = "tres";
+const planDe = (id, T) => { const pl = PLANES.find(x => x.id === id) || PLANES.find(x => x.id === PLAN_DEF); return Object.assign({ id: pl.id, n: pl.n, tag: pl.tag }, pl.calc(T)); };
+
+/* ===== render estático ===== */
+function renderItems(){
+  const groups = {};
+  SEL.forEach(m => (groups[m.g] = groups[m.g] || []).push(m));
+  let html = "";
+  Object.keys(groups).forEach(g => {
+    html += "<p class=\"group-t\"><span class=\"letter\">" + g + "</span>" + esc(GROUPS[g]) + "</p>";
+    html += "<table class=\"items\"><tbody>" + groups[g].map(m =>
+      "<tr><td class=\"code\">" + m.c + "</td><td class=\"name\"><b>" + esc(m.n) + (m.nuevo ? "<span class=\"new\">Nuevo</span>" : "") + "</b><span>" + esc(m.d) + "</span></td>" +
+      "<td class=\"why\"><b>Para Gaslas</b>" + esc(m.w) + "</td></tr>").join("") + "</tbody></table>";
+  });
+  $("itemsWrap").innerHTML = html;
+}
+function renderLater(){
+  $("later").innerHTML = LATER.map(o =>
+    "<div class=\"lt" + (o.t ? " talked" : "") + "\"><span class=\"code\">" + o.c + "</span><span class=\"body\">" +
+    (o.t ? "<span class=\"talk-badge\">Lo hablamos</span>" : "") +
+    "<span class=\"name\">" + esc(o.n) + "</span><span class=\"desc\">" + esc(o.d) + "</span>" +
+    (o.nota ? "<span class=\"note\">" + esc(o.nota) + "</span>" : "") + "</span></div>").join("");
+}
+function renderTables(){
+  const row = (lbl, x, cls) => "<tr" + (cls ? " class=\"" + cls + "\"" : "") + "><td>" + lbl + "</td><td class=\"money\">" + x + "</td></tr>";
+  $("resumenBody").innerHTML =
+    row("Tienda online completa<small>Todo lo incluido siempre, más los 9 módulos de arranque</small>", usd(CONFIG.total)) +
+    row("Inversión total", usd(CONFIG.total), "total") +
+    row("Mantenimiento mensual, con servidor incluido", ars(CONFIG.mantenimientoArs), "sub");
+  $("mantBig").textContent = ars(CONFIG.mantenimientoArs);
+  $("sMant").textContent = ars(CONFIG.mantenimientoArs) + " / mes";
+}
+
+/* ===== estado ===== */
+const KEY = "gaslas-presupuesto-v1";
+let plan = PLAN_DEF;
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && PLANES.some(x => x.id === s.plan)) plan = s.plan; } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({plan})); } catch(e) {} }
+
+function texto(){
+  const pl = planDe(plan, CONFIG.total);
+  const L = [];
+  L.push("*Presupuesto Gaslas: acepto*");
+  L.push("Tienda online completa con lo incluido siempre y 9 módulos de arranque: " + SEL.map(m => m.c).join(", ") + ".");
+  L.push("Inversión total: " + usd(CONFIG.total) + ", tienda abierta el 23 de noviembre");
+  L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
+  pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
+  if(pl.total !== CONFIG.total) L.push("Total con esta forma de pago: " + usd(pl.total));
+  L.push("Mantenimiento con servidor incluido: " + ars(CONFIG.mantenimientoArs) + " por mes, desde el fin de la garantía");
+  return L.join("\n");
+}
+function update(){
+  const pl = planDe(plan, CONFIG.total);
+  $("sTotal").textContent = usd(CONFIG.total);
+  $("barTotal").textContent = usd(CONFIG.total);
+  $("sPlan").textContent = pl.n;
+  $("sPlanTotRow").hidden = pl.total === CONFIG.total;
+  $("sPlanTot").textContent = usd(pl.total);
+  $("sAdv").textContent = usd(pl.primero);
+  renderPlans(CONFIG.total);
+  $("waAccept").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto());
+  $("waAsk").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Gonzalo, tengo una consulta sobre el presupuesto de Gaslas: ");
+  $("fallback").hidden = true;
+  save();
+}
+const say = m => { $("status").textContent = m; };
+function renderPlans(T){
+  const enfocado = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.plan : null;
+  $("planCap").textContent = "Calculado sobre " + usd(T) + ".";
+  $("plans").innerHTML = PLANES.map(x => {
+    const pl = planDe(x.id, T);
+    return "<label class=\"plan\" for=\"pl-" + pl.id + "\"><input type=\"radio\" name=\"plan\" id=\"pl-" + pl.id + "\" value=\"" + pl.id + "\" data-plan=\"" + pl.id + "\"" + (pl.id === plan ? " checked" : "") + ">" +
+      "<span class=\"plan-n\">" + esc(pl.n) + "</span><span class=\"plan-tag\">" + esc(pl.tag) + "</span>" +
+      "<span class=\"plan-total\">" + usd(pl.total) + "</span>" +
+      "<span class=\"plan-pagos\">" + pl.pagos.map(pg => "<span class=\"pp\"><span>" + esc(pg[0]) + "</span><span class=\"num\">" + esc(pg[1]) + "</span></span>").join("") + "</span></label>";
+  }).join("");
+  if(enfocado) { const el = document.getElementById("pl-" + enfocado); if(el) el.focus(); }
+}
+
+/* registro en el panel de Margon (solo en margonsoftware.com) */
+function registroActivo(){ const h = location.hostname; return h === "localhost" || h === "127.0.0.1" || h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app"); }
+const REG_KEY = "gaslas-presupuesto-aceptado";
+function registrar(){
+  if(!registroActivo()) return;
+  const t = texto();
+  let ultimo = null; try { ultimo = localStorage.getItem(REG_KEY); } catch(e) {}
+  if(ultimo === t) return;
+  const pl = planDe(plan, CONFIG.total);
+  fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
+    body: JSON.stringify({ nombre:"Distribuidora Gaslas · Nicolás Catino", email:"", telefono:"1122858173",
+      origen:"presupuesto-gaslas-aceptado", total:pl.total, moneda:"USD", mensaje:t,
+      modulos:[{id:"ARRANQUE",name:"Tienda completa y 9 módulos de arranque",price:CONFIG.total}].concat(SEL.map(m => ({id:m.c, name:m.c + " " + m.n, price:0})), pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []) }) })
+    .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Tu aceptación también quedó registrada para Gonzalo."); } })
+    .catch(() => {});
+}
+
+/* eventos */
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.matches("[data-plan]")){ plan = t.value; update(); say(""); }
+});
+$("waAccept").addEventListener("click", registrar);
+$("copyBtn").addEventListener("click", () => {
+  const t = texto(), fb = $("fallback");
+  const show = () => { fb.value = t; fb.hidden = false; fb.focus(); fb.select(); say("Seleccioná el texto y copialo."); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => say("Copiado."), show); else show();
+});
+$("toggleSum").addEventListener("click", () => {
+  const s = $("sum"), open = !s.classList.contains("open");
+  s.classList.toggle("open", open);
+  $("toggleSum").setAttribute("aria-expanded", String(open));
+  $("toggleSum").textContent = open ? "Ocultar" : "Ver detalle";
+});
+
+renderItems(); renderLater(); renderTables(); update();
+window.__p = { texto, planDe };
+})();
+</script>
+</body>
+</html>
