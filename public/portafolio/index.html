@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portafolio · Margon Software</title>
+<meta name="description" content="Sistemas de gestión, portales, tiendas online y sitios web hechos por Margon Software: qué hace cada uno, para qué sirve y qué problema le resolvimos a cada cliente.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.margonsoftware.com/portafolio/">
+<meta property="og:title" content="Portafolio · Margon Software">
+<meta property="og:description" content="Qué hace cada sistema, para qué sirve y qué problema le resolvimos a cada cliente. Con capturas.">
+<meta property="og:image" content="https://www.margonsoftware.com/portafolio/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0f0d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* Portafolio de Margon: una banda oscura con la marca y, abajo, papel claro
+   para leer cómodo, imprimir o guardar en PDF. Cada caso: rubro, problema,
+   qué hace y capturas que se abren en grande. */
+:root{
+  --night:#0a0f0d; --night-2:#111916; --night-line:#1f2a26; --night-ink:#e7ece9; --night-ink-2:#9aa8a1;
+  --page:#f4f6f5; --paper:#fff; --tint:#eef2f0; --ink:#0d1512; --ink-2:#45514c; --ink-3:#6b7771;
+  --line:#dde4e0; --line-2:#c7d1cc;
+  --accent:#047857; --accent-2:#059669; --accent-tint:#e8f6ef; --accent-line:#b3e2cb;
+  --lime:#a3e635; --mint:#34d399; --cyan:#22d3ee;
+  --warn:#9a5b07; --warn-tint:#fdf3e2;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(13,21,18,.05),0 10px 30px rgba(13,21,18,.08);
+  --radius:14px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3,h4{margin:0;line-height:1.12;text-wrap:balance}
+p{margin:0}
+ul{margin:0}
+a{color:var(--accent)}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
+.mono{font-family:var(--mono)}
+.eyebrow{font:600 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+/* barra superior */
+.bar{position:sticky;top:0;z-index:20;background:rgba(10,15,13,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--night-line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--night-ink);text-decoration:none;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.brand img{width:30px;height:30px}
+.brand small{font:500 12px/1 var(--mono);color:var(--night-ink-2);letter-spacing:.08em;margin-left:4px}
+.bar nav{display:flex;align-items:center;gap:6px}
+.bar nav a{color:var(--night-ink-2);text-decoration:none;font-size:14px;padding:7px 10px;border-radius:8px}
+.bar nav a:hover{color:var(--night-ink);background:var(--night-2)}
+.bar nav a.cta{color:#06130d;background:var(--mint);font-weight:600}
+.bar nav a.cta:hover{background:var(--lime);color:#06130d}
+
+/* portada */
+.hero{background:radial-gradient(900px 500px at 85% -10%,rgba(16,185,129,.22),transparent 60%),radial-gradient(700px 400px at 0% 120%,rgba(34,211,238,.10),transparent 60%),var(--night);color:var(--night-ink);padding:72px 0 56px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:end}
+.hero .eyebrow{color:var(--mint)}
+.hero h1{font-size:clamp(36px,5.4vw,64px);font-weight:800;letter-spacing:-.03em;margin:14px 0 18px}
+.hero h1 em{font-style:normal;color:var(--lime)}
+.hero .lede{font-size:18.5px;color:var(--night-ink-2);max-width:56ch}
+.hero .lede b{color:var(--night-ink);font-weight:600}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;transition:background .15s,border-color .15s,color .15s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.primary{background:var(--mint);color:#06130d}
+.btn.primary:hover{background:var(--lime)}
+.btn.ghost{border-color:#2c3a34;color:var(--night-ink)}
+.btn.ghost:hover{border-color:var(--mint);color:#fff}
+.facts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.facts li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start;padding:16px 18px;border:1px solid var(--night-line);border-radius:12px;background:rgba(17,25,22,.7)}
+.facts .n{font:600 22px/1.1 var(--mono);color:var(--lime)}
+.facts b{display:block;font-weight:600;color:var(--night-ink)}
+.facts span{font-size:14.5px;color:var(--night-ink-2)}
+
+/* índice */
+.index{background:var(--night-2);border-top:1px solid var(--night-line);color:var(--night-ink)}
+.index .wrap{padding-block:26px 30px}
+.index h2{font:600 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--night-ink-2);margin-bottom:14px}
+.index-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 28px}
+.index-col h3{font-size:14px;font-weight:600;color:var(--mint);margin-bottom:8px}
+.index-col ul{list-style:none;padding:0;display:grid;gap:4px}
+.index-col a{color:var(--night-ink);text-decoration:none;font-size:15px;display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px dashed transparent}
+.index-col a:hover{border-bottom-color:var(--mint)}
+.index-col a span{color:var(--night-ink-2);font-size:13px;white-space:nowrap}
+
+/* secciones */
+main{padding:64px 0 40px}
+.section{display:grid;gap:28px;margin-bottom:84px}
+.sec-head{display:grid;gap:10px;max-width:760px}
+.sec-head h2{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-.025em}
+.sec-head p{color:var(--ink-2);font-size:17.5px}
+
+/* caso */
+.case{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:76px}
+.case-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 24px;align-items:start;padding:30px 32px 0}
+.case-kicker{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.case h3{font-size:clamp(26px,3vw,34px);font-weight:800;letter-spacing:-.025em;margin:10px 0 10px}
+.case .lede{font-size:18px;color:var(--ink-2);max-width:62ch}
+.status{display:inline-flex;align-items:center;gap:7px;font:600 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;border-radius:999px;background:var(--accent-tint);color:var(--accent);white-space:nowrap}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.status.demo{background:var(--tint);color:var(--ink-2)}
+.status.soon{background:var(--warn-tint);color:var(--warn)}
+.status.own{background:#eef4ff;color:#2952a3}
+.case-link{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:14.5px;text-decoration:none;color:var(--accent);padding:9px 14px;border:1px solid var(--accent-line);border-radius:10px;white-space:nowrap;align-self:start}
+.case-link:hover{background:var(--accent-tint)}
+.case-link svg{width:16px;height:16px}
+
+/* galería */
+.gallery{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px;padding:26px 32px 0;align-items:start}
+.gallery.single{grid-template-columns:minmax(0,1fr)}
+.gallery.phone-side{grid-template-columns:minmax(0,1fr) minmax(0,230px)}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:14px 32px 0}
+.extras:has(> .shot:only-child){grid-template-columns:minmax(0,1fr)}
+.gallery .side{display:grid;gap:14px;align-content:start}
+.gallery .side.phones{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.gallery .side.phones.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.shot{margin:0;display:grid;gap:8px;min-width:0;align-content:start}
+.shot figcaption{font-size:13.5px;color:var(--ink-3);line-height:1.4}
+.frame{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line-2);background:var(--tint);cursor:zoom-in;padding:0;display:block;width:100%;text-align:left;font:inherit}
+.frame::before{content:"";display:block;height:22px;background:linear-gradient(var(--tint),var(--tint)) padding-box;border-bottom:1px solid var(--line)}
+.frame::after{content:"";position:absolute;top:8px;left:10px;width:7px;height:7px;border-radius:50%;background:#d6dcd9;box-shadow:12px 0 0 #d6dcd9,24px 0 0 #d6dcd9}
+.frame img{width:100%;height:auto}
+.frame:hover{border-color:var(--accent-line)}
+.frame:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.frame.phone{border-radius:26px;border:6px solid #141b18;background:#141b18}
+.frame.phone::before,.frame.phone::after{display:none}
+.frame.phone img{aspect-ratio:9/19.5;object-fit:cover;object-position:top;border-radius:19px}
+.frame.mock{border:0;background:none}
+.frame.mock::before,.frame.mock::after{display:none}
+.frame.mock img{aspect-ratio:auto}
+
+/* problema / solución */
+.case-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px;padding:26px 32px 30px}
+.box{border-radius:var(--radius);padding:22px 24px;display:grid;gap:12px;align-content:start}
+.box.problem{background:var(--warn-tint);border:1px solid #f1dcb6}
+.box.solution{background:var(--tint);border:1px solid var(--line)}
+.box h4{font:600 12px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.box.problem h4{color:var(--warn)}
+.box.solution h4{color:var(--accent)}
+.box ul{list-style:none;padding:0;display:grid;gap:9px}
+.box li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15.5px;line-height:1.5}
+.box li b{color:var(--ink);font-weight:600}
+.box.problem li::before{content:"";width:8px;height:8px;margin:8px 0 0 4px;border-radius:2px;background:#e3a64a;transform:rotate(45deg)}
+.box.solution li::before{content:"";width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--accent-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%23047857' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.case-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:16px 32px;border-top:1px solid var(--line);background:#fafbfb}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:500 12px/1 var(--mono);padding:6px 9px;border-radius:7px;background:var(--tint);color:var(--ink-2);border:1px solid var(--line)}
+.note{font-size:13.5px;color:var(--ink-3)}
+.note b{color:var(--ink-2);font-weight:600}
+
+/* otros proyectos */
+.more{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.mini{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:grid;align-content:start}
+.mini .frame{border:0;border-bottom:1px solid var(--line);border-radius:0}
+.mini .frame::before,.mini .frame::after{display:none}
+.mini .frame img{aspect-ratio:16/9;object-fit:cover;object-position:top}
+.mini-body{padding:16px 18px 18px;display:grid;gap:6px}
+.mini-body .eyebrow{font-size:11px}
+.mini h3{font-size:18px;font-weight:700}
+.mini p{font-size:14.5px;color:var(--ink-2)}
+
+/* cómo trabajamos */
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;counter-reset:s}
+.steps li{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 22px;display:grid;gap:8px;align-content:start;box-shadow:var(--shadow)}
+.steps .n{font:600 13px/1 var(--mono);color:var(--accent);letter-spacing:.08em}
+.steps h3{font-size:18.5px;font-weight:700}
+.steps p{font-size:15px;color:var(--ink-2)}
+.promises{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px;list-style:none;padding:24px 28px;margin:0;background:var(--night);border-radius:var(--radius);color:var(--night-ink-2)}
+.promises li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:12px;font-size:15.5px}
+.promises li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:rgba(52,211,153,.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2334d399' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.promises b{color:var(--night-ink);font-weight:600}
+
+.privacy{display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;padding:18px 22px;border:1px dashed var(--line-2);border-radius:var(--radius);background:var(--paper);color:var(--ink-2);font-size:15px}
+.privacy svg{width:24px;height:24px;color:var(--accent)}
+.privacy b{color:var(--ink)}
+
+/* contacto */
+.contact{background:radial-gradient(800px 400px at 100% 0%,rgba(16,185,129,.18),transparent 60%),var(--night);color:var(--night-ink);padding:64px 0}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.contact h2{font-size:clamp(28px,3.6vw,42px);font-weight:800;letter-spacing:-.025em;margin:12px 0 14px}
+.contact p{color:var(--night-ink-2);font-size:17px;max-width:48ch}
+.links{display:grid;gap:10px;list-style:none;margin:0;padding:0}
+.links a{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 18px;border:1px solid var(--night-line);border-radius:12px;background:rgba(17,25,22,.8);text-decoration:none;color:var(--night-ink);transition:border-color .15s}
+.links a:hover{border-color:var(--mint)}
+.links .ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:#16221d;color:var(--mint)}
+.links .ic svg{width:20px;height:20px}
+.links b{display:block;font-weight:600}
+.links span{font-size:14px;color:var(--night-ink-2)}
+.links .go{color:var(--night-ink-2);font-size:18px}
+footer{background:var(--night);border-top:1px solid var(--night-line);color:var(--night-ink-2);font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;padding-block:18px}
+footer a{color:var(--night-ink-2)}
+
+/* visor de capturas */
+dialog.viewer{border:0;padding:0;background:transparent;max-width:min(1400px,96vw);max-height:94vh;width:100%;overflow:visible}
+dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
+.viewer figure{margin:0;display:grid;gap:10px;justify-items:center}
+.viewer img{max-width:100%;max-height:84vh;width:auto;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.5);background:#fff}
+.viewer figcaption{color:#dfe7e3;font-size:15px;text-align:center;max-width:80ch}
+.viewer button{position:fixed;border:1px solid rgba(255,255,255,.2);background:rgba(10,15,13,.75);color:#fff;border-radius:999px;width:46px;height:46px;font-size:22px;cursor:pointer;display:grid;place-items:center}
+.viewer button:hover{background:#10241b;border-color:var(--mint)}
+.viewer .close{top:18px;right:18px}
+.viewer .prev{left:18px;top:50%;transform:translateY(-50%)}
+.viewer .next{right:18px;top:50%;transform:translateY(-50%)}
+
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .index-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery,.gallery.phone-side{grid-template-columns:minmax(0,1fr)}
+  .gallery.phone-side .shot:has(.phone){max-width:260px;justify-self:center}
+  .gallery .side:not(.phones){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .case-body{grid-template-columns:minmax(0,1fr)}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .more{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .contact-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .wrap{padding-inline:16px}
+  .bar nav a:not(.cta){display:none}
+  .brand small{display:none}
+  .hero{padding:48px 0 40px}
+  .index-grid{grid-template-columns:minmax(0,1fr)}
+  .case{border-radius:16px}
+  .case-top{grid-template-columns:minmax(0,1fr);padding:22px 18px 0}
+  .gallery{padding:20px 18px 0}
+  .extras{grid-template-columns:minmax(0,1fr);padding:14px 18px 0}
+  .gallery .side:not(.phones){grid-template-columns:minmax(0,1fr)}
+  .gallery .side.phones.three{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .frame.phone{border-width:4px;border-radius:18px}
+  .frame.phone img{border-radius:14px}
+  .case-body{padding:20px 18px 22px}
+  .box{padding:18px}
+  .case-foot{padding:14px 18px}
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .more{grid-template-columns:minmax(0,1fr)}
+  .promises{grid-template-columns:minmax(0,1fr);padding:20px}
+  .viewer .prev,.viewer .next{top:auto;bottom:16px;transform:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{
+  .bar,.hero-actions,dialog,.case-link svg{display:none!important}
+  body{background:#fff}
+  .hero,.contact,.index,footer,.promises{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .case,.mini,.steps li{box-shadow:none;break-inside:avoid}
+  main{padding-top:24px}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="https://www.margonsoftware.com/"><img src="img/logo.webp" alt="" width="30" height="30">Margon Software <small>PORTAFOLIO</small></a>
+    <nav aria-label="Secciones">
+      <a href="#gestion">Gestión</a>
+      <a href="#plataformas">Plataformas</a>
+      <a href="#tiendas">Tiendas</a>
+      <a href="#sitios">Sitios</a>
+      <a href="#como-trabajamos">Cómo trabajamos</a>
+      <a class="cta" href="https://wa.me/541131930330?text=Hola%20Gonzalo%2C%20vi%20el%20portafolio%20de%20Margon%20y%20quiero%20consultar%20por%20un%20proyecto." target="_blank" rel="noopener">Hablemos</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Margon Software · Portafolio 2026</p>
+      <h1>Software hecho a medida para <em>problemas concretos</em></h1>
+      <p class="lede">Sistemas de gestión, portales para clientes, tiendas online y sitios web que hicimos para empresas de Argentina. De cada uno te contamos <b>qué hace, para qué sirve y qué problema le resolvimos al cliente</b>, con capturas del sistema funcionando.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#gestion">Ver los proyectos</a>
+        <a class="btn ghost" href="#como-trabajamos">Cómo trabajamos</a>
+      </div>
+    </div>
+    <ul class="facts">
+      <li><span class="n">01</span><div><b>Partimos del problema, no de una plantilla</b><span>Cada sistema nació de algo que al cliente le costaba tiempo o plata todos los días.</span></div></li>
+      <li><span class="n">02</span><div><b>Diseño propio para cada marca</b><span>Aunque dos clientes usen la misma base, ninguno se parece al otro.</span></div></li>
+      <li><span class="n">03</span><div><b>Ustedes manejan su sistema</b><span>Paneles pensados para no depender de nadie en el día a día.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<nav class="index" aria-label="Índice de proyectos">
+  <div class="wrap">
+    <h2>Índice</h2>
+    <div class="index-grid">
+      <div class="index-col">
+        <h3>Sistemas de gestión</h3>
+        <ul>
+          <li><a href="#orbex">ORBEX <span>CRM inmobiliario</span></a></li>
+          <li><a href="#aduana">Seal &amp; Cía <span>Aduana y logística</span></a></li>
+          <li><a href="#coraje">Coraje <span>Distribuidora</span></a></li>
+        </ul>
+      </div>
+      <div class="index-col">
+        <h3>Portales y plataformas</h3>
+        <ul>
+          <li><a href="#aguilasoft">AguilaSoft <span>Portal B2B · ERP</span></a></li>
+          <li><a href="#comextracker">ComexTracker <span>Comercio exterior</span></a></li>
+          <li><a href="#cuaderno">Cuaderno <span>Colegios</span></a></li>
+          <li><a href="#trade-hub">Trade Hub <span>Consumo masivo</span></a></li>
+        </ul>
+      </div>
+      <div class="index-col">
+        <h3>Tiendas online</h3>
+        <ul>
+          <li><a href="#gaslas">Gaslas <span>Mayorista</span></a></li>
+          <li><a href="#kabodhi">Kabodhi <span>Bienestar</span></a></li>
+          <li><a href="#nuve">Nüve <span>Perfumería</span></a></li>
+        </ul>
+      </div>
+      <div class="index-col">
+        <h3>Sitios web y más</h3>
+        <ul>
+          <li><a href="#concesionarias">Concesionarias <span>Sitio + panel</span></a></li>
+          <li><a href="#otros">Otros desarrollos <span>Apps y SaaS</span></a></li>
+          <li><a href="#como-trabajamos">Cómo trabajamos <span>Metodología</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div class="privacy" style="margin-bottom:56px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.6-7 10-4-1.4-7-5.4-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+    <p><b>Sobre las capturas:</b> todas salen de entornos de demostración con datos ficticios o de la parte pública de cada sitio. Los datos reales de nuestros clientes no salen de sus sistemas, y por eso de algunos sistemas internos mostramos solo lo que se puede mostrar.</p>
+  </div>
+
+  <!-- ============ GESTIÓN ============ -->
+  <section class="section" id="gestion">
+    <div class="sec-head">
+      <p class="eyebrow">Sistemas de gestión a medida</p>
+      <h2>Cuando las planillas, los cuadernos y los mails ya no alcanzan</h2>
+      <p>Sistemas hechos alrededor de cómo trabaja cada empresa: lo que antes estaba repartido en planillas, carpetas y cadenas de WhatsApp, en un solo lugar.</p>
+    </div>
+
+    <!-- ORBEX -->
+    <article class="case" id="orbex">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Desarrolladora de lotes · CRM comercial y administrativo</span><span class="status">En producción</span></div>
+          <h3>ORBEX Desarrollos</h3>
+          <p class="lede">Cada operación seguida desde el primer contacto hasta la última cuota, en un sistema propio que usa todo el equipo: gerencia, administración, supervisores y vendedores.</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure class="shot"><button class="frame" type="button"><img src="img/orbex-leads.webp" alt="Bandeja de leads de ORBEX" loading="lazy" width="1600" height="760"></button><figcaption>Los leads de las campañas entran solos, con su origen y su estado.</figcaption></figure>
+        <div class="side">
+          <figure class="shot"><button class="frame" type="button"><img src="img/orbex-reparto.webp" alt="Reparto de leads por equipo" loading="lazy" width="1600" height="706"></button><figcaption>Reparto automático entre equipos comerciales.</figcaption></figure>
+          <figure class="shot"><button class="frame" type="button"><img src="img/orbex-firma.webp" alt="Calendario de firmas con escribanía" loading="lazy" width="1432" height="787"></button><figcaption>Firmas coordinadas con la escribanía.</figcaption></figure>
+          <figure class="shot"><button class="frame" type="button"><img src="img/orbex-cobranzas.webp" alt="Panel de cobranzas y cuotas" loading="lazy" width="1600" height="855"></button><figcaption>Cuotas, vencimientos y cobranza del mes.</figcaption></figure>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>Los leads de Facebook e Instagram llegaban dispersos y sin seguimiento.</span></li>
+            <li><span>Los equipos comerciales se cruzaban con los mismos interesados.</span></li>
+            <li><span>Después de la venta, la reserva, la documentación, la firma y las cuotas vivían en planillas, carpetas y cadenas de mails, sin forma de saber en qué instancia estaba cada operación.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace el sistema</h4>
+          <ul>
+            <li><span><b>Captura automática:</b> cada lead de las campañas de Meta entra directo al sistema. Nada se carga a mano.</span></li>
+            <li><span><b>Reparto y embudo:</b> cada lead va al equipo que corresponde y se sigue por etapas: quién lo tiene, en qué estado está y qué falta para cerrarlo.</span></li>
+            <li><span><b>Expediente de cada venta:</b> al reservar se abre con su documentación; la firma se pide desde la operación y queda registrada.</span></li>
+            <li><span><b>Cuotas y cobranza:</b> vencimientos, comprobantes y quién está al día, en un panel.</span></li>
+            <li><span><b>Y además:</b> comisiones, finanzas con proyección de caja, bandeja de WhatsApp Business y un marketplace de lotes con un asistente de IA que atiende las 24 horas con precios y disponibilidad en vivo.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">Meta Lead Ads</span><span class="tag">WhatsApp Business</span><span class="tag">Asistente con IA</span><span class="tag">Web + celular</span></div>
+        <p class="note">Capturas con datos de prueba.</p>
+      </div>
+    </article>
+
+    <!-- SEAL -->
+    <article class="case" id="aduana">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Agencia de aduanas con depósito y flota · Sistema de operaciones y sitio web</span><span class="status">En producción</span></div>
+          <h3>Seal &amp; Cía</h3>
+          <p class="lede">Unas dieciséis planillas de Excel que se llenaban todos los días, reemplazadas por un solo sistema que se usa en la oficina, en el depósito y en la calle desde el celular.</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure class="shot"><button class="frame" type="button"><img src="img/seal-home.webp" alt="Sitio institucional de la agencia de aduanas" loading="lazy" width="1440" height="900"></button><figcaption>El sitio nuevo: un video del puerto que avanza a medida que bajás.</figcaption></figure>
+        <div class="side">
+          <figure class="shot"><button class="frame" type="button"><img src="img/seal-deposito.webp" alt="Sección del depósito propio" loading="lazy" width="1440" height="800"></button><figcaption>Servicios, depósito y flota, con un formulario de cotización.</figcaption></figure>
+          <div class="privacy" style="grid-template-columns:24px minmax(0,1fr);font-size:14.5px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            <p>Del sistema interno no mostramos capturas: trabaja solo con los datos reales de la empresa y de sus clientes. Lo mostramos en vivo en una reunión.</p>
+          </div>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>Los datos se cruzaban a mano entre planillas.</span></li>
+            <li><span>Los gastos de caja chica no estaban atados al despacho, y había gastos adelantados que nunca se le facturaban al cliente.</span></li>
+            <li><span>El almacenaje del depósito se calculaba a mano y de forma aproximada.</span></li>
+            <li><span>No se veía cuánto dejaba cada camión, y las facturas se armaban a mano.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace el sistema</h4>
+          <ul>
+            <li><span><b>Despachos y agenda:</b> cada operación con su búsqueda, y la agenda semanal del equipo en la calle.</span></li>
+            <li><span><b>Caja chica por despachante,</b> vinculada a cada despacho para que ningún gasto quede sin facturar.</span></li>
+            <li><span><b>Depósito:</b> stock por movimientos, reglas de cobro por cliente y prefacturas mensuales solas.</span></li>
+            <li><span><b>Transporte:</b> viajes, tarifario con precio sugerido y resultado por camión.</span></li>
+            <li><span><b>Facturación</b> lista para importar en el sistema contable, y un resumen diario que llega al celular a las 7:30.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">App instalable</span><span class="tag">Notificaciones</span><span class="tag">Exportación a Tango</span><span class="tag">Sitio institucional</span></div>
+      </div>
+    </article>
+
+    <!-- CORAJE -->
+    <article class="case" id="coraje">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Distribuidora de artículos de limpieza · Sistema de gestión</span><span class="status">En producción</span></div>
+          <h3>Coraje</h3>
+          <p class="lede">El cuaderno de papel pasado a una app que el dueño usa sin haber usado nunca un sistema. Responde las cuatro preguntas de todos los días: cuánto tengo, cuánto vendí, quién me debe y a quién le debo.</p>
+        </div>
+      </div>
+      <div class="gallery phone-side">
+        <figure class="shot"><button class="frame" type="button"><img src="img/coraje-panel.webp" alt="Panel del día de Coraje" loading="lazy" width="1280" height="860"></button><figcaption>El inicio: los cuatro números del día, las entregas y quién debe.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/coraje-mobile.webp" alt="Coraje en el celular" loading="lazy" width="780" height="1688"></button><figcaption>Lo mismo, en el celular.</figcaption></figure>
+      </div>
+      <div class="extras">
+        <figure class="shot"><button class="frame" type="button"><img src="img/coraje-clientes.webp" alt="Clientes con semáforo de deuda" loading="lazy" width="1280" height="860"></button><figcaption>Clientes con semáforo de deuda.</figcaption></figure>
+        <figure class="shot"><button class="frame" type="button"><img src="img/coraje-seguimiento.webp" alt="Seguimiento de quién compra qué" loading="lazy" width="1280" height="860"></button><figcaption>Quién dejó de comprar y qué se vende más.</figcaption></figure>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>El dueño quería el control de todo sin tener que aprender un sistema complicado.</span></li>
+            <li><span>Las deudas de los clientes se perdían en el cuaderno.</span></li>
+            <li><span>La misma mercadería se podía vender dos veces.</span></li>
+            <li><span>Los gastos del reparto llegaban tarde y no se sabía cuánto quedaba a fin de mes.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace el sistema</h4>
+          <ul>
+            <li><span><b>Pedidos de punta a punta:</b> pendiente, entregado y cobrado, con el precio y el costo congelados en cada renglón.</span></li>
+            <li><span><b>Saldos que no fallan:</b> la deuda de cada cliente se calcula de sus movimientos, nunca se anota a mano.</span></li>
+            <li><span><b>Stock con historial</b> y la mercadería ya prometida separada, con aviso de poco stock.</span></li>
+            <li><span><b>Compras, proveedores y cheques</b> con sus vencimientos; gastos, sueldos y retiros para saber cuánto quedó.</span></li>
+            <li><span><b>El repartidor</b> ve solo sus entregas del día, por zona, y manda el remito por WhatsApp.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">App instalable</span><span class="tag">Ingreso con PIN</span><span class="tag">Remitos por WhatsApp</span><span class="tag">Importación desde Excel</span></div>
+        <p class="note">Capturas del entorno de demostración, con datos ficticios.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ PLATAFORMAS ============ -->
+  <section class="section" id="plataformas">
+    <div class="sec-head">
+      <p class="eyebrow">Portales y plataformas</p>
+      <h2>Que el cliente encuentre solo lo que hoy pregunta por teléfono</h2>
+      <p>Portales de autogestión y plataformas que usan muchas empresas a la vez: cada una con su marca, sus reglas y sus datos.</p>
+    </div>
+
+    <!-- AGUILASOFT -->
+    <article class="case" id="aguilasoft">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Software de gestión para distribuidoras · Portal B2B y ERP web</span><span class="status">En producción</span></div>
+          <h3>AguilaSoft</h3>
+          <p class="lede">El portal donde los clientes de cada distribuidora entran solos, a cualquier hora, a ver su saldo, sus precios, el stock y sus pedidos, leídos en el momento del sistema de gestión Águila.</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure class="shot"><button class="frame mock" type="button"><img src="img/aguila-mockup.webp" alt="Portal de clientes de AguilaSoft en computadora y celular" loading="lazy" width="1536" height="1024"></button><figcaption>El portal en la computadora y en el celular.</figcaption></figure>
+        <div class="side phones three">
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-catalogo.webp" alt="Catálogo con el precio del cliente" loading="lazy" width="780" height="1691"></button><figcaption>Catálogo con su precio.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-cuenta.webp" alt="Cuenta corriente" loading="lazy" width="780" height="1691"></button><figcaption>Cuenta corriente.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-pedidos.webp" alt="Pedidos y su estado" loading="lazy" width="780" height="1691"></button><figcaption>Pedidos y su estado.</figcaption></figure>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>Todo el día entraban los mismos llamados: cuánto debo, mandame la lista, ¿tenés stock?, ¿en qué anda mi pedido?</span></li>
+            <li><span>Los pedidos que llegaban por teléfono o WhatsApp se volvían a tipear en el sistema.</span></li>
+            <li><span>El sistema de escritorio no se podía usar fuera de la oficina.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace el sistema</h4>
+          <ul>
+            <li><span><b>Su precio, no una lista genérica:</b> cada cliente ve su lista y su descuento ya aplicados.</span></li>
+            <li><span><b>Cuenta corriente clara:</b> lo vencido y lo que vence pronto, con resumen en PDF o Excel.</span></li>
+            <li><span><b>Pedidos que entran directo al sistema</b> y se siguen por etapa, con un botón para repetir uno anterior.</span></li>
+            <li><span><b>Lee en vivo, sin tocar la base:</b> nada de datos de ayer ni sincronizaciones nocturnas.</span></li>
+            <li><span><b>Águila Web:</b> el sistema de escritorio llevado al navegador módulo por módulo, sobre la misma base, con factura electrónica de ARCA.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">Integración con Águila</span><span class="tag">Multiempresa</span><span class="tag">Factura electrónica</span><span class="tag">Web + celular</span></div>
+        <p class="note">Capturas con una distribuidora de ejemplo.</p>
+      </div>
+    </article>
+
+    <!-- COMEXTRACKER -->
+    <article class="case" id="comextracker">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Despachantes de aduana y sus clientes · Plataforma SaaS</span><span class="status">En producción</span></div>
+          <h3>ComexTracker</h3>
+          <p class="lede">Cada operación de comercio exterior con su estado a la vista del despachante y del importador, con avisos antes de que se venza un plazo.</p>
+        </div>
+        <a class="case-link" href="https://comextracker.com" target="_blank" rel="noopener">comextracker.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      </div>
+      <div class="gallery phone-side">
+        <figure class="shot"><button class="frame" type="button"><img src="img/comex-demo.webp" alt="Resumen de operaciones de ComexTracker" loading="lazy" width="1536" height="1024"></button><figcaption>El resumen del estudio: qué avanza y qué necesita atención hoy.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/comex-mobile.webp" alt="ComexTracker en el celular" loading="lazy" width="390" height="844"></button><figcaption>En el celular, como app.</figcaption></figure>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>Los importadores llamaban todo el tiempo para preguntar en qué estaba su carga.</span></li>
+            <li><span>Pasarse del plazo para oficializar un despacho significa una multa, y los plazos se seguían de memoria.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace el sistema</h4>
+          <ul>
+            <li><span><b>Línea de avance en cinco etapas:</b> apertura, embarque, cotización, oficialización y liberada.</span></li>
+            <li><span><b>Cada importador entra</b> y ve solo sus operaciones, con mensajes con el despachante.</span></li>
+            <li><span><b>Alertas automáticas</b> de vencimientos y cambios de estado, por mail, en el celular y en la app.</span></li>
+            <li><span><b>Calendario de arribos,</b> carátula en PDF, informes y exportación.</span></li>
+            <li><span><b>Un subdominio por estudio,</b> con sus propias reglas.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">SaaS multiempresa</span><span class="tag">Alertas por mail y push</span><span class="tag">App instalable</span></div>
+        <p class="note">Capturas del estudio de demostración, con datos ficticios.</p>
+      </div>
+    </article>
+
+    <!-- CUADERNO -->
+    <article class="case" id="cuaderno">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Colegios privados · Plataforma de gestión escolar</span><span class="status own">Producto propio</span></div>
+          <h3>Cuaderno</h3>
+          <p class="lede">La gestión del colegio en una sola plataforma: asistencia, notas, comunicación con las familias y cobranza, con una app para cada rol.</p>
+        </div>
+        <a class="case-link" href="https://cuaderno.app/demo" target="_blank" rel="noopener">Probar la demo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      </div>
+      <div class="gallery phone-side">
+        <figure class="shot"><button class="frame" type="button"><img src="img/cuaderno-directivo.webp" alt="Panel ejecutivo del directivo" loading="lazy" width="1440" height="900"></button><figcaption>El panel de dirección: el colegio entero de un vistazo.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/cuaderno-familia.webp" alt="App de las familias" loading="lazy" width="780" height="1438"></button><figcaption>La app de las familias.</figcaption></figure>
+      </div>
+      <div class="extras">
+        <figure class="shot"><button class="frame" type="button"><img src="img/cuaderno-asistencia.webp" alt="Toma de asistencia con QR" loading="lazy" width="1440" height="900"></button><figcaption>Asistencia con QR.</figcaption></figure>
+        <figure class="shot"><button class="frame" type="button"><img src="img/cuaderno-cobranza.webp" alt="Cobranza de cuotas" loading="lazy" width="1440" height="900"></button><figcaption>Cuotas y cobro con Mercado Pago.</figcaption></figure>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema: un lunes en el colegio</h4>
+          <ul>
+            <li><span>Padres que llaman para saber si su hijo llegó.</span></li>
+            <li><span>El mismo aviso mandado a ochenta grupos de WhatsApp.</span></li>
+            <li><span>Cuotas atrasadas reclamadas una por una por teléfono.</span></li>
+            <li><span>Dos semanas de logística para cada boletín, y las copias de seguridad en un pendrive.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace el sistema</h4>
+          <ul>
+            <li><span><b>Asistencia por QR</b> en segundos, con aviso automático a la familia por WhatsApp.</span></li>
+            <li><span><b>Notas y boletines en PDF,</b> con informes que redacta la IA y revisa el docente.</span></li>
+            <li><span><b>Circulares con confirmación de lectura,</b> mensajes y calendario.</span></li>
+            <li><span><b>Cuotas, becas y cobro online,</b> más sueldos y contabilidad interna.</span></li>
+            <li><span><b>Una vista para cada rol:</b> dirección, administración, preceptores, docentes, familias y alumnos.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">WhatsApp automático</span><span class="tag">IA</span><span class="tag">Mercado Pago</span><span class="tag">App para familias</span></div>
+        <p class="note">La demo es pública y se recorre sin registrarse.</p>
+      </div>
+    </article>
+
+    <!-- TRADE HUB -->
+    <article class="case" id="trade-hub">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Fabricantes de consumo masivo · Plataforma de trade marketing</span><span class="status demo">Demo</span></div>
+          <h3>Trade Hub</h3>
+          <p class="lede">Incentivos y ejecución en el punto de venta para miles de comercios del canal tradicional, con los distribuidores a la vista. Una demo navegable armada para una presentación comercial.</p>
+        </div>
+      </div>
+      <div class="gallery single">
+        <figure class="shot"><button class="frame" type="button"><img src="img/trade-tablero.webp" alt="Tablero del canal tradicional" loading="lazy" width="1440" height="900"></button><figcaption>Tablero del canal: cobertura, ventas por marca y por zona, campañas y distribuidores.</figcaption></figure>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>Sin canal propio para hablarle directo a miles de comercios.</span></li>
+            <li><span>Promociones y precios de cientos de productos manejados en Excel.</span></li>
+            <li><span>Sin forma de saber qué pasa en la góndola de cada comercio.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace la plataforma</h4>
+          <ul>
+            <li><span><b>Constructor de campañas e incentivos,</b> con vista previa en el celular y públicos por zona o por lista.</span></li>
+            <li><span><b>Carga masiva desde Excel</b> con validación renglón por renglón y reporte de errores.</span></li>
+            <li><span><b>Aprobación de fotos de góndola</b> y canje de puntos.</span></li>
+            <li><span><b>Vista de distribuidores</b> e integración con el sistema de gestión.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">Carga desde Excel</span><span class="tag">Tema claro y oscuro</span><span class="tag">Responsive</span></div>
+        <p class="note">Marca y datos ficticios.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ TIENDAS ============ -->
+  <section class="section" id="tiendas">
+    <div class="sec-head">
+      <p class="eyebrow">Tiendas online</p>
+      <h2>Tiendas propias, con la cara de cada marca</h2>
+      <p>Catálogo, carrito, Mercado Pago, envíos y un panel para manejar todo. Ni una plantilla: cada tienda se diseña desde cero para su producto y su cliente.</p>
+    </div>
+
+    <!-- GASLAS -->
+    <article class="case" id="gaslas">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Distribuidora mayorista de alimentos · Tienda online mayorista</span><span class="status soon">Lista para lanzar</span></div>
+          <h3>Gaslas</h3>
+          <p class="lede">Venta por bulto a consumidores y a comercios, con el precio mayorista visible solo para los clientes aprobados y el reparto propio calculado por zona.</p>
+        </div>
+      </div>
+      <div class="gallery phone-side">
+        <figure class="shot"><button class="frame" type="button"><img src="img/gaslas-home.webp" alt="Inicio de la tienda mayorista" loading="lazy" width="1440" height="900"></button><figcaption>El inicio: combos, rubros y buscador.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/gaslas-mobile.webp" alt="La tienda en el celular" loading="lazy" width="780" height="1688"></button><figcaption>En el celular.</figcaption></figure>
+      </div>
+      <div class="extras">
+        <figure class="shot"><button class="frame" type="button"><img src="img/gaslas-catalogo.webp" alt="Combos y productos" loading="lazy" width="1440" height="900"></button><figcaption>Combos, formas de entrega y lo que más sale.</figcaption></figure>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>No tenían web, catálogo ni lista de precios online, y las redes se llenaban de "pasame la lista".</span></li>
+            <li><span>Los pedidos llegaban como listas sueltas por WhatsApp.</span></li>
+            <li><span>Productos, combos y precios estaban dispersos en las redes.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace la tienda</h4>
+          <ul>
+            <li><span><b>Precios por cantidad</b> (bulto y pallet) y listas de precios por cliente.</span></li>
+            <li><span><b>Precio de comercio</b> solo para clientes aprobados por CUIT.</span></li>
+            <li><span><b>Envíos:</b> camión propio por zona con mínimo y horario de corte, correo o retiro.</span></li>
+            <li><span><b>Pedido rápido</b> pegando una lista de texto, y un botón para repetir el último pedido.</span></li>
+            <li><span><b>Mercado Pago</b> y descuento por transferencia; panel para pedidos, precios en masa, combos y campañas.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">Mercado Pago</span><span class="tag">Precios mayoristas</span><span class="tag">Envíos por zona</span><span class="tag">Importación desde Excel</span></div>
+        <p class="note">Capturas con productos de ejemplo.</p>
+      </div>
+    </article>
+
+    <!-- KABODHI -->
+    <article class="case" id="kabodhi">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Adaptógenos, aromas y velas · Tienda online</span><span class="status">En producción</span></div>
+          <h3>Kabodhi</h3>
+          <p class="lede">Una tienda de bienestar que se siente como su producto: natural, cálida y simple de recorrer, con los beneficios de compra siempre a la vista.</p>
+        </div>
+        <a class="case-link" href="https://kabodhi.online/" target="_blank" rel="noopener">kabodhi.online <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      </div>
+      <div class="gallery phone-side">
+        <figure class="shot"><button class="frame" type="button"><img src="img/kabodhi-home.webp" alt="Productos destacados de Kabodhi" loading="lazy" width="1440" height="900"></button><figcaption>Cada producto con su beneficio y su ilustración.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/kabodhi-mobile.webp" alt="Kabodhi en el celular" loading="lazy" width="390" height="844"></button><figcaption>En el celular.</figcaption></figure>
+      </div>
+      <div class="extras">
+        <figure class="shot"><button class="frame" type="button"><img src="img/kabodhi-productos.webp" alt="Catálogo de Kabodhi" loading="lazy" width="1440" height="760"></button><figcaption>Catálogo por categoría, con buscador.</figcaption></figure>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El desafío</h4>
+          <ul>
+            <li><span>Vender online con una tienda propia que transmita la identidad de la marca, y no un catálogo genérico.</span></li>
+            <li><span>Productos con variantes (fragancias) y combos que tenían que ser fáciles de elegir.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace la tienda</h4>
+          <ul>
+            <li><span><b>Catálogo por categoría</b> —adaptógenos, aromas, velas y combos— con buscador y orden.</span></li>
+            <li><span><b>Elección de fragancia</b> dentro de cada producto, y combos con precio propio.</span></li>
+            <li><span><b>Beneficios a la vista:</b> descuento por transferencia, cuotas sin interés y envío gratis desde un monto.</span></li>
+            <li><span><b>Carrito y contacto directo</b> por WhatsApp desde cualquier página.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">Tienda propia</span><span class="tag">Variantes y combos</span><span class="tag">WhatsApp</span></div>
+      </div>
+    </article>
+
+    <!-- NÜVE -->
+    <article class="case" id="nuve">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Perfumería · Tienda online</span><span class="status">En producción</span></div>
+          <h3>Nüve</h3>
+          <p class="lede">Una perfumería online con estética de lujo: más de cien fragancias originales, fáciles de encontrar por género, marca o notas.</p>
+        </div>
+        <a class="case-link" href="https://nuvearg.com/" target="_blank" rel="noopener">nuvearg.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      </div>
+      <div class="gallery phone-side">
+        <figure class="shot"><button class="frame" type="button"><img src="img/nuve-home.webp" alt="Inicio de Nüve" loading="lazy" width="1440" height="900"></button><figcaption>El inicio, con los más vendidos.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/nuve-mobile.webp" alt="Nüve en el celular" loading="lazy" width="390" height="844"></button><figcaption>En el celular.</figcaption></figure>
+      </div>
+      <div class="extras">
+        <figure class="shot"><button class="frame" type="button"><img src="img/nuve-productos.webp" alt="Catálogo de fragancias" loading="lazy" width="1440" height="900"></button><figcaption>Catálogo con filtros y buscador.</figcaption></figure>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El desafío</h4>
+          <ul>
+            <li><span>Un catálogo grande de fragancias donde el cliente tiene que encontrar rápido la suya.</span></li>
+            <li><span>Transmitir confianza: originales, compra segura y asesoramiento real.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace la tienda</h4>
+          <ul>
+            <li><span><b>Filtros por género y testers,</b> buscador y orden.</span></li>
+            <li><span><b>Ranking de más vendidos</b> en el inicio y notas olfativas en cada ficha.</span></li>
+            <li><span><b>Cuotas sin interés y envíos a domicilio,</b> comunicados en toda la tienda.</span></li>
+            <li><span><b>Asesoramiento por WhatsApp</b> con un toque.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">Tienda propia</span><span class="tag">Catálogo grande</span><span class="tag">WhatsApp</span></div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ SITIOS ============ -->
+  <section class="section" id="sitios">
+    <div class="sec-head">
+      <p class="eyebrow">Sitios web con panel</p>
+      <h2>Una base probada, una identidad distinta para cada cliente</h2>
+      <p>Cuando varios clientes necesitan lo mismo, reutilizamos lo que funciona y cambiamos todo lo que se ve. Más rápido y más barato, sin que se parezcan.</p>
+    </div>
+
+    <article class="case" id="concesionarias">
+      <div class="case-top">
+        <div>
+          <div class="case-kicker"><span class="eyebrow">Concesionarias de autos · Sitio web y panel de gestión</span><span class="status">Punto Bella Vista en producción</span></div>
+          <h3>Punto Bella Vista y otras tres agencias</h3>
+          <p class="lede">La misma plataforma para cuatro concesionarias, con cuatro identidades que no se parecen entre sí: catálogo, turnos, toma de usados y un panel para cargar los autos desde el celular.</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure class="shot"><button class="frame mock" type="button"><img src="img/pbv-mockup.webp" alt="Sitio de Punto Bella Vista en computadora y celular" loading="lazy" width="1536" height="1024"></button><figcaption>Punto Bella Vista: claro, con un solo rojo.</figcaption></figure>
+        <div class="side">
+          <figure class="shot"><button class="frame" type="button"><img src="img/mv-home.webp" alt="Variante oscura y tricolor" loading="lazy" width="1440" height="900"></button><figcaption>Otra agencia: oscura, tricolor y condensada.</figcaption></figure>
+          <figure class="shot"><button class="frame" type="button"><img src="img/od-home.webp" alt="Variante verde menta" loading="lazy" width="1440" height="900"></button><figcaption>Otra: verde menta, itálicas y bordes redondeados.</figcaption></figure>
+          <figure class="shot"><button class="frame" type="button"><img src="img/mc-home.webp" alt="Variante monocroma" loading="lazy" width="1440" height="900"></button><figcaption>Y otra: monocroma, sin color de acento.</figcaption></figure>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="box problem">
+          <h4>El problema</h4>
+          <ul>
+            <li><span>Los compradores llegan desde Instagram, en el celular, y quieren ver stock, precio y hablar rápido.</span></li>
+            <li><span>Preguntan siempre por permutas y financiación.</span></li>
+            <li><span>Los vendedores necesitan cargar autos en el momento, desde el celular.</span></li>
+          </ul>
+        </div>
+        <div class="box solution">
+          <h4>Qué hace el sistema</h4>
+          <ul>
+            <li><span><b>Catálogo con filtros</b> y ficha de cada unidad con fotos y precio en pesos o dólares.</span></li>
+            <li><span><b>Turnos para ver un auto,</b> validados con el horario del local.</span></li>
+            <li><span><b>"Vendé tu auto":</b> el cliente carga los datos de su usado para la permuta.</span></li>
+            <li><span><b>Todo termina en WhatsApp</b> con el mensaje ya armado.</span></li>
+            <li><span><b>Panel:</b> stock y fotos desde el celular (se optimizan solas), destacados, vendidos y reservados, consultas y visitas.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-foot">
+        <div class="tags"><span class="tag">Catálogo</span><span class="tag">Turnos online</span><span class="tag">Panel desde el celular</span><span class="tag">WhatsApp</span></div>
+        <p class="note">Las tres variantes se muestran con autos de ejemplo.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ OTROS ============ -->
+  <section class="section" id="otros">
+    <div class="sec-head">
+      <p class="eyebrow">Otros desarrollos</p>
+      <h2>Más proyectos</h2>
+      <p>Plataformas, apps y tiendas de otros rubros.</p>
+    </div>
+    <div class="more">
+      <article class="mini"><button class="frame" type="button"><img src="img/handprox.webp" alt="HandProX" loading="lazy" width="1600" height="759"></button><div class="mini-body"><span class="eyebrow">SaaS deportivo</span><h3>HandProX</h3><p>Gestión y análisis de handball: estadísticas en vivo partido a partido, equipos, jugadores y ligas.</p></div></article>
+      <article class="mini"><button class="frame" type="button"><img src="img/padelleague.webp" alt="PadelLeague" loading="lazy" width="1600" height="756"></button><div class="mini-body"><span class="eyebrow">SaaS deportivo</span><h3>PadelLeague</h3><p>Torneos de pádel con fixture automático, ranking en tiempo real y cobro de inscripciones online.</p></div></article>
+      <article class="mini"><button class="frame" type="button"><img src="img/bar-admin.webp" alt="Panel del bar" loading="lazy" width="1600" height="762"></button><div class="mini-body"><span class="eyebrow">Gastronomía</span><h3>Bar · app y panel</h3><p>App para los clientes con pedidos desde la mesa, reservas con QR y beneficios VIP, y un panel con las métricas del local en vivo.</p></div></article>
+      <article class="mini"><button class="frame" type="button"><img src="img/pintureria.webp" alt="Pinturería" loading="lazy" width="1600" height="760"></button><div class="mini-body"><span class="eyebrow">E-commerce</span><h3>Pinturería</h3><p>Tienda de pinturas con un asistente de IA que calcula cuánta pintura comprar según los metros y la superficie.</p></div></article>
+      <article class="mini"><button class="frame" type="button"><img src="img/fleur.webp" alt="Fleur &amp; Co" loading="lazy" width="1600" height="761"></button><div class="mini-body"><span class="eyebrow">E-commerce</span><h3>Fleur &amp; Co</h3><p>Tienda de flores artificiales con variantes, carrito, Mercado Pago y panel de stock y pedidos.</p></div></article>
+      <article class="mini"><button class="frame" type="button"><img src="img/celebria.webp" alt="Celebria" loading="lazy" width="1600" height="757"></button><div class="mini-body"><span class="eyebrow">Invitaciones digitales</span><h3>Celebria</h3><p>Invitaciones interactivas con editor en tiempo real y confirmación de asistencia de los invitados.</p></div></article>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO TRABAJAMOS ============ -->
+  <section class="section" id="como-trabajamos">
+    <div class="sec-head">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2>La misma forma de trabajar en cada proyecto</h2>
+      <p>Del primer mensaje al sistema funcionando, en pasos cortos y a la vista. Ustedes ven el avance real cada pocos días, no una presentación al final.</p>
+    </div>
+    <ol class="steps">
+      <li><span class="n">PASO 1</span><h3>Escuchamos</h3><p>Una charla para entender cómo trabajan hoy, qué les cuesta tiempo o plata y qué quieren lograr. De ahí sale la lista de problemas a resolver.</p></li>
+      <li><span class="n">PASO 2</span><h3>Propuesta por módulos</h3><p>Cada problema con su respuesta. Lo esencial viene siempre incluido y el resto lo eligen ustedes, módulo por módulo, con su precio a la vista.</p></li>
+      <li><span class="n">PASO 3</span><h3>Diseño con su marca</h3><p>En la primera semana, propuestas de diseño con su logo y su paleta. Eligen una o combinan lo mejor de cada una.</p></li>
+      <li><span class="n">PASO 4</span><h3>Desarrollo a la vista</h3><p>Construimos en un ambiente de pruebas, con revisiones de 10 a 15 minutos cada uno o dos días. Lo que ya funciona no se toca mientras tanto.</p></li>
+      <li><span class="n">PASO 5</span><h3>Pruebas, migración y capacitación</h3><p>Pasamos sus datos actuales, hacemos pruebas reales de punta a punta y capacitamos al equipo, con un manual de uso.</p></li>
+      <li><span class="n">PASO 6</span><h3>Lanzamiento y acompañamiento</h3><p>Un cambio planificado y sin sorpresas, garantía de corrección sin cargo y soporte mensual para lo que venga después.</p></li>
+    </ol>
+    <ul class="promises">
+      <li><span><b>Sus cuentas y sus datos, a su nombre.</b> Dominio, Meta, Google y Mercado Pago quedan siempre del cliente.</span></li>
+      <li><span><b>Un panel para no depender de nadie</b> en el día a día: precios, productos, banners y usuarios.</span></li>
+      <li><span><b>Copias de seguridad automáticas</b> y ambiente de pruebas separado del real.</span></li>
+      <li><span><b>Un solo interlocutor</b> que conoce el proyecto de punta a punta.</span></li>
+    </ul>
+  </section>
+
+</main>
+
+<section class="contact" id="contacto">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="eyebrow" style="color:var(--mint)">Contacto</p>
+      <h2>¿Charlamos sobre su proyecto?</h2>
+      <p>Si algo de esto se parece a lo que necesitan, escribinos. Te mostramos cualquiera de estos sistemas en vivo en una llamada corta.</p>
+    </div>
+    <ul class="links">
+      <li><a href="https://wa.me/541131930330?text=Hola%20Gonzalo%2C%20vi%20el%20portafolio%20de%20Margon%20y%20quiero%20consultar%20por%20un%20proyecto." target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2z"/></svg></span><span><b>WhatsApp</b><span>+54 9 11 3193-0330 · Gonzalo</span></span><span class="go">→</span></a></li>
+      <li><a href="https://www.margonsoftware.com/" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><span><b>Web</b><span>margonsoftware.com</span></span><span class="go">→</span></a></li>
+      <li><a href="https://www.instagram.com/margon.software/" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><span><b>Instagram</b><span>@margon.software</span></span><span class="go">→</span></a></li>
+      <li><a href="mailto:gonzalodidioleal@gmail.com"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span><b>Mail</b><span>gonzalodidioleal@gmail.com</span></span><span class="go">→</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Margon Software · Buenos Aires, Argentina</span>
+    <span><a href="https://www.margonsoftware.com/">margonsoftware.com</a> · <a href="https://www.instagram.com/margon.software/">@margon.software</a></span>
+  </div>
+</footer>
+
+<dialog class="viewer" aria-label="Captura ampliada">
+  <figure><figcaption></figcaption></figure>
+  <button class="close" type="button" aria-label="Cerrar">×</button>
+  <button class="prev" type="button" aria-label="Anterior">‹</button>
+  <button class="next" type="button" aria-label="Siguiente">›</button>
+</dialog>
+
+<script>
+// Visor: un clic en cualquier captura la abre en grande; las flechas recorren
+// las capturas del mismo proyecto.
+(() => {
+  const dlg = document.querySelector('dialog.viewer');
+  if (!dlg || !dlg.showModal) return;
+  const img = document.createElement('img');
+  dlg.querySelector('figure').prepend(img);
+  const cap = dlg.querySelector('figcaption');
+  let group = [], i = 0;
+  const show = () => {
+    const b = group[i], src = b.querySelector('img');
+    img.src = src.currentSrc || src.src;
+    img.alt = src.alt;
+    const fc = b.closest('figure')?.querySelector('figcaption') || b.parentElement.querySelector('h3');
+    cap.textContent = fc ? fc.textContent : src.alt;
+    dlg.querySelector('.prev').hidden = dlg.querySelector('.next').hidden = group.length < 2;
+  };
+  document.querySelectorAll('button.frame').forEach((b) => {
+    b.setAttribute('aria-label', 'Ampliar: ' + b.querySelector('img').alt);
+    b.addEventListener('click', () => {
+      const scope = b.closest('.case') || b.closest('.more');
+      group = [...scope.querySelectorAll('button.frame')];
+      i = group.indexOf(b);
+      show();
+      dlg.showModal();
+    });
+  });
+  const step = (d) => { i = (i + d + group.length) % group.length; show(); };
+  dlg.querySelector('.close').addEventListener('click', () => dlg.close());
+  dlg.querySelector('.prev').addEventListener('click', () => step(-1));
+  dlg.querySelector('.next').addEventListener('click', () => step(1));
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') step(1);
+    if (e.key === 'ArrowLeft') step(-1);
+  });
+})();
+</script>
+</body>
+</html>
