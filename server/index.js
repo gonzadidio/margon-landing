@@ -7,6 +7,7 @@ import { pool, initDb } from './db.js'
 import { login } from './auth.js'
 import admin from './routes/admin.js'
 import portal from './routes/portal.js'
+import casa from './routes/casa.js'
 import { iniciarResumenDiario } from './digest.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -34,9 +35,10 @@ app.post('/api/presupuesto', async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
-// ---------- Portal de clientes (token propio) y panel admin ----------
-// El portal va antes: el router admin exige el token de admin en todo.
+// ---------- Portal de clientes, casa (tokens propios) y panel admin ----------
+// Van antes del admin: el router admin exige el token de admin en todo.
 app.use('/api/portal', portal)
+app.use('/api/casa', casa)
 app.use('/api', admin)
 
 // Error handler de la API

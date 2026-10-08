@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { useDynamicFavicon } from './hooks/useDynamicFavicon'
 import Background from './components/Background'
 import Navbar from './components/Navbar'
@@ -19,7 +19,12 @@ import PortalApp from './portal/PortalApp'
 import { LanguageProvider } from './i18n'
 import { getPresupuestoConfig, defaultConfig } from './config/presupuestos'
 
+// Sección privada de la casa (Lote 137): se carga aparte para no sumar peso al sitio.
+const CasaApp = lazy(() => import('./casa/CasaApp'))
+
 const path = window.location.pathname
+// Plan de la casa de Gonza y Martina: /casa (no se enlaza desde la web pública)
+const isCasa = path.startsWith('/casa')
 // Zona interna oculta: /admin (no se enlaza desde la web pública)
 const isAdmin = path.startsWith('/admin')
 // Portal de clientes: /portal
@@ -39,6 +44,7 @@ const publico = (vista) => <LanguageProvider>{vista}</LanguageProvider>
 export default function App() {
   if (isAdmin) return <AdminApp />
   if (isPortal) return <PortalApp />
+  if (isCasa) return <Suspense fallback={null}><CasaApp /></Suspense>
 
   if (projectMatch) {
     const slug = decodeURIComponent(projectMatch[1])

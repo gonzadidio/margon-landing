@@ -298,5 +298,76 @@ export async function initDb() {
     );
   `)
 
+  // ---------- Casa (Lote 137, Open Pilar) ----------
+  // Sección privada /casa: plan de ahorro de Gonza y Martina. No se cruza con
+  // nada de Margon. Los usuarios se crean con server/scripts/casa-usuario.js.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS casa_usuarios (
+      id             SERIAL PRIMARY KEY,
+      usuario        TEXT NOT NULL UNIQUE,
+      nombre         TEXT NOT NULL,
+      password_hash  TEXT NOT NULL,
+      last_login     TIMESTAMPTZ,
+      created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+  // Parámetros del plan (precio del lote, cuotas, m², USD/m², cotización...).
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS casa_config (
+      id          INTEGER PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+      datos       JSONB NOT NULL DEFAULT '{}',
+      updated_by  INTEGER REFERENCES casa_usuarios(id) ON DELETE SET NULL,
+      updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+  // Todo lo que se pagó. cuota_n marca las cuotas del plan del lote (1..60).
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS casa_movimientos (
+      id          SERIAL PRIMARY KEY,
+      concepto    TEXT NOT NULL,
+      monto       NUMERIC(14,2) NOT NULL,
+      moneda      TEXT NOT NULL DEFAULT 'USD',
+      categoria   TEXT NOT NULL DEFAULT 'Otro',
+      fecha       DATE,
+      quien       TEXT NOT NULL DEFAULT 'Ambos',
+      nota        TEXT,
+      cuota_n     INTEGER UNIQUE,
+      creado_por  INTEGER REFERENCES casa_usuarios(id) ON DELETE SET NULL,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+  // Ingresos y gastos fijos mensuales de cada uno.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS casa_flujo (
+      id          SERIAL PRIMARY KEY,
+      tipo        TEXT NOT NULL,            -- 'ingreso' | 'gasto'
+      quien       TEXT NOT NULL,            -- 'Gonza' | 'Martina' | 'Ambos'
+      concepto    TEXT NOT NULL,
+      monto       NUMERIC(14,2) NOT NULL,
+      moneda      TEXT NOT NULL DEFAULT 'USD',
+      creado_por  INTEGER REFERENCES casa_usuarios(id) ON DELETE SET NULL,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+  // Gastos en cuotas (tarjeta, préstamos): cuántas son y el mes de la primera.
+  await pool.query(`ALTER TABLE casa_flujo ADD COLUMN IF NOT EXISTS cuotas_total INTEGER`)
+  await pool.query(`ALTER TABLE casa_flujo ADD COLUMN IF NOT EXISTS cuota_desde DATE`)
+  // Plata que va a entrar (cuotas de desarrollos de Margon, etc.): suma al ahorro
+  // proyectado en el mes en que vence. fecha null = sin fecha acordada.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS casa_por_cobrar (
+      id          SERIAL PRIMARY KEY,
+      origen      TEXT NOT NULL DEFAULT 'Margon',
+      concepto    TEXT NOT NULL,
+      monto       NUMERIC(14,2) NOT NULL,
+      moneda      TEXT NOT NULL DEFAULT 'USD',
+      fecha       DATE,
+      cobrado     BOOLEAN NOT NULL DEFAULT false,
+      cobrado_at  TIMESTAMPTZ,
+      creado_por  INTEGER REFERENCES casa_usuarios(id) ON DELETE SET NULL,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
   console.log('[db] tablas listas')
 }
