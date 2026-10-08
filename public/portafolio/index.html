@@ -117,12 +117,14 @@ main{padding:64px 0 40px}
 /* galería */
 .gallery{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px;padding:26px 32px 0;align-items:start}
 .gallery.single{grid-template-columns:minmax(0,1fr)}
-.gallery.phone-side{grid-template-columns:minmax(0,1fr) minmax(0,230px)}
+.gallery.phone-side{grid-template-columns:minmax(0,1fr) minmax(0,250px);align-items:stretch}
+.gallery.phone-side.wide{grid-template-columns:minmax(0,1fr) minmax(0,290px)}
+.gallery.phone-side.two{grid-template-columns:minmax(0,1fr) minmax(0,210px) minmax(0,210px)}
+.gallery.phone-side > .shot:has(.phone){display:flex;flex-direction:column}
+.gallery.phone-side .frame.phone{flex:1;aspect-ratio:auto;min-height:340px}
 .extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:14px 32px 0}
 .extras:has(> .shot:only-child){grid-template-columns:minmax(0,1fr)}
 .gallery .side{display:grid;gap:14px;align-content:start}
-.gallery .side.phones{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
-.gallery .side.phones.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .shot{margin:0;display:grid;gap:8px;min-width:0;align-content:start}
 .shot figcaption{font-size:13.5px;color:var(--ink-3);line-height:1.4}
 .frame{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line-2);background:var(--tint);cursor:zoom-in;padding:0;display:block;width:100%;text-align:left;font:inherit}
@@ -131,9 +133,10 @@ main{padding:64px 0 40px}
 .frame img{width:100%;height:auto}
 .frame:hover{border-color:var(--accent-line)}
 .frame:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
-.frame.phone{border-radius:26px;border:6px solid #141b18;background:#141b18}
+.frame.phone{position:relative;aspect-ratio:9/19.5;border-radius:28px;border:7px solid #141b18;background:#141b18;box-shadow:0 0 0 1px #2a332f,0 14px 30px rgba(13,21,18,.16)}
 .frame.phone::before,.frame.phone::after{display:none}
-.frame.phone img{aspect-ratio:9/19.5;object-fit:cover;object-position:top;border-radius:19px}
+.frame.phone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;border-radius:21px}
+.shot:has(.phone) figcaption{text-align:center}
 .frame.mock{border:0;background:none}
 .frame.mock::before,.frame.mock::after{display:none}
 .frame.mock img{aspect-ratio:auto}
@@ -215,8 +218,14 @@ dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
 @media (max-width:980px){
   .hero-grid{grid-template-columns:minmax(0,1fr)}
   .index-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .gallery,.gallery.phone-side{grid-template-columns:minmax(0,1fr)}
-  .gallery.phone-side .shot:has(.phone){max-width:260px;justify-self:center}
+  .gallery,.gallery.phone-side,.gallery.phone-side.wide{grid-template-columns:minmax(0,1fr)}
+  .gallery.phone-side > .shot:has(.phone){width:min(250px,70%);justify-self:center}
+  .gallery.phone-side .frame.phone{flex:none;aspect-ratio:9/19.5;min-height:0}
+  .gallery.phone-side.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery.phone-side.wide > .shot:has(.phone){width:min(280px,76%)}
+  .gallery.phone-side.wide .frame.phone{aspect-ratio:728/1328}
+  .gallery.phone-side.two > .shot:not(:has(.phone)){grid-column:1/-1}
+  .gallery.phone-side.two > .shot:has(.phone){width:100%;max-width:230px}
   .gallery .side:not(.phones){grid-template-columns:repeat(2,minmax(0,1fr))}
   .case-body{grid-template-columns:minmax(0,1fr)}
   .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -234,9 +243,8 @@ dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
   .gallery{padding:20px 18px 0}
   .extras{grid-template-columns:minmax(0,1fr);padding:14px 18px 0}
   .gallery .side:not(.phones){grid-template-columns:minmax(0,1fr)}
-  .gallery .side.phones.three{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-  .frame.phone{border-width:4px;border-radius:18px}
-  .frame.phone img{border-radius:14px}
+  .frame.phone{border-width:5px;border-radius:22px}
+  .frame.phone img{border-radius:17px}
   .case-body{padding:20px 18px 22px}
   .box{padding:18px}
   .case-foot{padding:14px 18px}
@@ -496,13 +504,10 @@ dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
           <p class="lede">El portal donde los clientes de cada distribuidora entran solos, a cualquier hora, a ver su saldo, sus precios, el stock y sus pedidos, leídos en el momento del sistema de gestión Águila.</p>
         </div>
       </div>
-      <div class="gallery">
+      <div class="gallery phone-side two">
         <figure class="shot"><button class="frame mock" type="button"><img src="img/aguila-mockup.webp" alt="Portal de clientes de AguilaSoft en computadora y celular" loading="lazy" width="1536" height="1024"></button><figcaption>El portal en la computadora y en el celular.</figcaption></figure>
-        <div class="side phones three">
-          <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-catalogo.webp" alt="Catálogo con el precio del cliente" loading="lazy" width="780" height="1691"></button><figcaption>Catálogo con su precio.</figcaption></figure>
-          <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-cuenta.webp" alt="Cuenta corriente" loading="lazy" width="780" height="1691"></button><figcaption>Cuenta corriente.</figcaption></figure>
-          <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-pedidos.webp" alt="Pedidos y su estado" loading="lazy" width="780" height="1691"></button><figcaption>Pedidos y su estado.</figcaption></figure>
-        </div>
+        <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-cuenta.webp" alt="Cuenta corriente del cliente" loading="lazy" width="780" height="1688"></button><figcaption>Su saldo y sus movimientos.</figcaption></figure>
+        <figure class="shot"><button class="frame phone" type="button"><img src="img/aguila-pedidos.webp" alt="Pedidos y su estado" loading="lazy" width="780" height="1688"></button><figcaption>Sus pedidos, y repetir el último.</figcaption></figure>
       </div>
       <div class="case-body">
         <div class="box problem">
@@ -540,9 +545,8 @@ dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
         </div>
         <a class="case-link" href="https://comextracker.com" target="_blank" rel="noopener">comextracker.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
       </div>
-      <div class="gallery phone-side">
+      <div class="gallery single">
         <figure class="shot"><button class="frame" type="button"><img src="img/comex-demo.webp" alt="Resumen de operaciones de ComexTracker" loading="lazy" width="1536" height="1024"></button><figcaption>El resumen del estudio: qué avanza y qué necesita atención hoy.</figcaption></figure>
-          <figure class="shot"><button class="frame phone" type="button"><img src="img/comex-mobile.webp" alt="ComexTracker en el celular" loading="lazy" width="390" height="844"></button><figcaption>En el celular, como app.</figcaption></figure>
       </div>
       <div class="case-body">
         <div class="box problem">
@@ -579,9 +583,9 @@ dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
         </div>
         <a class="case-link" href="https://cuaderno.app/demo" target="_blank" rel="noopener">Probar la demo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
       </div>
-      <div class="gallery phone-side">
+      <div class="gallery phone-side wide">
         <figure class="shot"><button class="frame" type="button"><img src="img/cuaderno-directivo.webp" alt="Panel ejecutivo del directivo" loading="lazy" width="1440" height="900"></button><figcaption>El panel de dirección: el colegio entero de un vistazo.</figcaption></figure>
-          <figure class="shot"><button class="frame phone" type="button"><img src="img/cuaderno-familia.webp" alt="App de las familias" loading="lazy" width="780" height="1438"></button><figcaption>La app de las familias.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/cuaderno-familia.webp" alt="App de las familias" loading="lazy" width="728" height="1328"></button><figcaption>La app de las familias.</figcaption></figure>
       </div>
       <div class="extras">
         <figure class="shot"><button class="frame" type="button"><img src="img/cuaderno-asistencia.webp" alt="Toma de asistencia con QR" loading="lazy" width="1440" height="900"></button><figcaption>Asistencia con QR.</figcaption></figure>
@@ -714,7 +718,7 @@ dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
       </div>
       <div class="gallery phone-side">
         <figure class="shot"><button class="frame" type="button"><img src="img/kabodhi-home.webp" alt="Productos destacados de Kabodhi" loading="lazy" width="1440" height="900"></button><figcaption>Cada producto con su beneficio y su ilustración.</figcaption></figure>
-          <figure class="shot"><button class="frame phone" type="button"><img src="img/kabodhi-mobile.webp" alt="Kabodhi en el celular" loading="lazy" width="390" height="844"></button><figcaption>En el celular.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/kabodhi-mobile.webp" alt="Kabodhi en el celular" loading="lazy" width="780" height="1688"></button><figcaption>En el celular.</figcaption></figure>
       </div>
       <div class="extras">
         <figure class="shot"><button class="frame" type="button"><img src="img/kabodhi-productos.webp" alt="Catálogo de Kabodhi" loading="lazy" width="1440" height="760"></button><figcaption>Catálogo por categoría, con buscador.</figcaption></figure>
@@ -754,7 +758,7 @@ dialog.viewer::backdrop{background:rgba(5,9,7,.88)}
       </div>
       <div class="gallery phone-side">
         <figure class="shot"><button class="frame" type="button"><img src="img/nuve-home.webp" alt="Inicio de Nüve" loading="lazy" width="1440" height="900"></button><figcaption>El inicio, con los más vendidos.</figcaption></figure>
-          <figure class="shot"><button class="frame phone" type="button"><img src="img/nuve-mobile.webp" alt="Nüve en el celular" loading="lazy" width="390" height="844"></button><figcaption>En el celular.</figcaption></figure>
+          <figure class="shot"><button class="frame phone" type="button"><img src="img/nuve-mobile.webp" alt="Nüve en el celular" loading="lazy" width="780" height="1688"></button><figcaption>En el celular.</figcaption></figure>
       </div>
       <div class="extras">
         <figure class="shot"><button class="frame" type="button"><img src="img/nuve-productos.webp" alt="Catálogo de fragancias" loading="lazy" width="1440" height="900"></button><figcaption>Catálogo con filtros y buscador.</figcaption></figure>
