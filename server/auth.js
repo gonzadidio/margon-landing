@@ -20,7 +20,10 @@ export function verifyToken(req, res, next) {
   const token = header.startsWith('Bearer ') ? header.slice(7) : null
   if (!token) return res.status(401).json({ error: 'No autorizado' })
   try {
-    jwt.verify(token, JWT_SECRET)
+    // Todos los tokens (admin, portal, casa) se firman con el mismo secreto:
+    // sin este chequeo, un token de cliente entraba a toda la API del admin.
+    const payload = jwt.verify(token, JWT_SECRET)
+    if (payload.role !== 'admin') return res.status(401).json({ error: 'No autorizado' })
     next()
   } catch {
     res.status(401).json({ error: 'Sesión inválida o expirada' })
@@ -63,6 +66,26 @@ export function verifyClientToken(req, res, next) {
     const payload = jwt.verify(token, JWT_SECRET)
     if (payload.role !== 'client') return res.status(401).json({ error: 'No autorizado' })
     req.clienteId = payload.cid
+    next()
+  } catch {
+    res.status(401).json({ error: 'Sesión inválida o expirada' })
+  }
+}
+
+// ---------- Casa (Lote 137) ----------
+// Sección privada de Gonza y Martina. Rol propio: no entra ni al admin ni al portal.
+export function signCasaToken(usuarioId) {
+  return jwt.sign({ role: 'casa', uid: usuarioId }, JWT_SECRET, { expiresIn: '60d' })
+}
+
+export function verifyCasaToken(req, res, next) {
+  const header = req.headers.authorization || ''
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null
+  if (!token) return res.status(401).json({ error: 'No autorizado' })
+  try {
+    const payload = jwt.verify(token, JWT_SECRET)
+    if (payload.role !== 'casa') return res.status(401).json({ error: 'No autorizado' })
+    req.casaUid = payload.uid
     next()
   } catch {
     res.status(401).json({ error: 'Sesión inválida o expirada' })
