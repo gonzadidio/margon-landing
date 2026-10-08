@@ -4,57 +4,69 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Cómo se manejan las campañas de Meta y Google con la tienda nueva de Mayrea.">
+<meta name="description" content="Todo lo que se puede hacer con Meta, Google y Mercado Libre para Mayrea, y cómo se trabaja en el día a día.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Publicidad Mayrea">
-<meta property="og:description" content="Cómo se manejan las campañas de Meta y Google en el día a día, semana a semana y mes a mes.">
+<meta property="og:description" content="Todo lo que se puede hacer con Meta, Google y Mercado Libre, y cómo se trabaja semana a semana.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <title>Publicidad Mayrea</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
-/* Explicativo para el equipo de redes: mismo papel claro que el presupuesto, en una sola columna. */
+/* Explicativo para Juan Martín y el equipo de redes: mismo papel claro que el presupuesto, en una sola columna. */
 :root{
   --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
   --line:#E2E5EA; --line-2:#C9CFD8; --accent:#E2621E; --accent-deep:#AE4810;
   --accent-tint:#FFF3EB; --accent-line:#F3C3A5; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --meta:#1F5FD1; --meta-tint:#EAF1FD; --google:#1E7F45; --google-tint:#E8F5ED; --ml:#8A6A00; --ml-tint:#FFF6D6;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
   --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
   color-scheme:light;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 html,body{overflow-x:clip}
 body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
 h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
 h1{font-size:clamp(32px,4.4vw,48px);font-weight:700;letter-spacing:-.022em}
 h2{font-size:clamp(23px,2.5vw,29px);font-weight:700;letter-spacing:-.015em}
-h3{font-size:18.5px;font-weight:600}
+h3{font-size:18px;font-weight:600}
 p{margin:0}
 a{color:var(--accent-deep)}
 .mono{font-family:var(--mono)}
 .muted{color:var(--ink-2)}
 .eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
-.wrap{max-width:1080px;margin:0 auto;padding-inline:24px;padding-block:0 80px}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:24px;padding-block:0 80px}
 .topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
 .brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .client{font:700 17px/1 var(--sans);letter-spacing:.2em}
 .client i{font-style:normal;color:var(--accent)}
 .brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
 .author{font-size:14px;color:var(--ink-2)}
-main{display:grid;gap:64px;min-width:0}
-section{display:grid;gap:22px;min-width:0}
-.sec-head{display:grid;gap:10px;max-width:72ch}
+main{display:grid;gap:68px;min-width:0}
+section{display:grid;gap:22px;min-width:0;scroll-margin-top:20px}
+.sec-head{display:grid;gap:10px;max-width:74ch}
 
 .cover{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px 40px;align-items:start}
 .cover-main{display:grid;gap:16px;min-width:0}
-.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:62ch}
 .ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
 .ficha div{display:grid;gap:2px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)}
 .ficha div:last-child{border-bottom:0;margin-bottom:0}
 .ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .ficha dd{margin:0;font-weight:500;font-size:15.5px}
+
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{font:500 14px/1 var(--sans);text-decoration:none;color:var(--ink-2);padding:9px 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line)}
+.toc a:hover{border-color:var(--accent-line);color:var(--accent-deep)}
+
+/* lo que nos contaste */
+.pains{display:grid;gap:12px}
+.pain{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:8px 28px;padding:18px 22px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+.pain q{font-weight:600;quotes:"“" "”"}
+.pain p{color:var(--ink-2);font-size:15px}
 
 .cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -67,26 +79,56 @@ section{display:grid;gap:22px;min-width:0}
 .who.opt{background:var(--accent-tint);color:var(--accent-deep);border:1px solid var(--accent-line)}
 ul.plain{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink-2)}
 ul.plain b{color:var(--ink)}
-.checklist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
-.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
-.checklist b{color:var(--ink)}
 
-/* ritmo de trabajo */
+/* menú de opciones */
+.plat-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.plat{display:inline-flex;align-items:center;gap:8px;font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:7px 11px;border-radius:8px}
+.plat.meta{background:var(--meta-tint);color:var(--meta)}
+.plat.google{background:var(--google-tint);color:var(--google)}
+.plat.ml{background:var(--ml-tint);color:var(--ml)}
+.menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.item{display:grid;gap:9px;align-content:start;padding:20px 22px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow);min-width:0;border-top:3px solid var(--line-2)}
+.item.meta{border-top-color:var(--meta)}
+.item.google{border-top-color:var(--google)}
+.item.ml{border-top-color:#E0B100}
+.item .tags{display:flex;flex-wrap:wrap;gap:6px}
+.t{font:600 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:999px;background:var(--tint);color:var(--ink-2)}
+.t.go{background:var(--ok-tint);color:var(--ok)}
+.t.star{background:var(--accent-tint);color:var(--accent-deep)}
+.item p{color:var(--ink-2);font-size:15px}
+.ej{font-size:14.5px;padding:2px 0 2px 12px;border-left:2px solid var(--accent-line);color:var(--ink)}
+.ej b{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.uses{font-size:13px;color:var(--ink-3)}
+
+/* medición */
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.metric{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:6px;align-content:start}
+.metric strong{font-size:16px}
+.metric span{font-size:14px;color:var(--ink-2)}
+
+/* ritmo */
 .rhythm{display:grid;gap:14px}
 .beat{display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 28px;padding:22px 24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}
 .beat .when{display:grid;gap:8px;align-content:start}
 .beat .when strong{font-size:19px}
-.beat .what{display:grid;gap:8px}
 
-.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
-table{border-collapse:collapse;width:100%;min-width:620px}
-th,td{text-align:left;vertical-align:top;padding:13px 18px;border-bottom:1px solid var(--line)}
-tbody tr:last-child td{border-bottom:0}
-th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
-td:first-child{font-weight:600;width:34%}
-td{color:var(--ink-2);font-size:15px}
-td.y{color:var(--ok);font-weight:600}
+/* calendario */
+.timeline{list-style:none;margin:0;padding:6px 0 0;display:grid;border-left:2px solid var(--line);margin-left:8px}
+.timeline li{position:relative;display:grid;grid-template-columns:190px minmax(0,1fr);gap:4px 22px;padding:0 0 20px 26px}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2)}
+.timeline li.key::before{background:var(--accent);border-color:var(--accent)}
+.timeline .when{font:600 13.5px/1.5 var(--mono);color:var(--accent-deep)}
+.timeline .what{color:var(--ink-2)}
+.timeline .what b{color:var(--ink)}
+
+/* niveles */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tier{display:grid;gap:12px;align-content:start;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow);min-width:0}
+.tier.rec{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent),var(--shadow)}
+.tier .price{font:600 17px/1.3 var(--mono)}
+.tier .for{font-size:14.5px;color:var(--ink-2);padding-top:10px;border-top:1px solid var(--line)}
+.addon{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;align-items:start;padding:18px 22px;border:1px dashed var(--line-2);border-radius:12px;background:var(--paper)}
+.addon p{color:var(--ink-2);font-size:15px}
 
 .note{padding:18px 20px;border-radius:12px;background:var(--ok-tint);color:var(--ink);font-size:15.5px;border:1px solid #CFE8D9}
 .cta{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;justify-content:space-between;padding:24px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
@@ -94,50 +136,60 @@ td.y{color:var(--ok);font-weight:600}
 .btn:hover{background:var(--tint)}
 .btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
 .btn.wa:hover{background:#0E7640}
-.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.btn:focus-visible,.toc a:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
 footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 
-@media (max-width:900px){ .cover,.cols3{grid-template-columns:minmax(0,1fr)} }
-@media (max-width:720px){
-  .cols2,.beat{grid-template-columns:minmax(0,1fr)}
-  main{gap:52px}
+@media (max-width:960px){ .cover,.cols3,.tiers{grid-template-columns:minmax(0,1fr)} .metrics{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:760px){
+  .cols2,.menu,.beat,.pain{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr)}
+  main{gap:56px}
 }
 @media (max-width:600px){
   .wrap{padding-inline:16px}
   .brandline .kind{border-left:0;padding-left:0}
-  .card,.beat,.cta{padding:20px}
+  .card,.beat,.cta,.tier,.item{padding:18px}
+  .metrics{grid-template-columns:minmax(0,1fr)}
 }
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
-@page{size:A4;margin:14mm 13mm}
+@page{size:A4;margin:13mm 12mm}
 @media print{
   html,body{background:#fff}
-  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:9.4pt;line-height:1.38;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .wrap{max-width:none;padding:0}
-  .topbar{margin-bottom:14px;padding-block:0 8px}
-  main{gap:18px} section{gap:8px}
-  h1{font-size:22pt} h2{font-size:14.5pt} h3{font-size:11pt}
-  .eyebrow{font-size:7.2pt} .lede{font-size:10.5pt}
-  .cover{grid-template-columns:minmax(0,1fr) 180px;gap:16px}
-  .ficha{padding:10px 12px 2px;box-shadow:none}
-  .ficha div{padding-bottom:6px;margin-bottom:6px}
-  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
-  .cols3{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-  .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .card,.beat,.tbl,.cta{box-shadow:none}
-  .card{padding:10px 12px;gap:5px;border-radius:8px}
-  .beat{grid-template-columns:130px minmax(0,1fr);padding:10px 12px;gap:4px 14px;border-radius:8px}
-  .beat .when strong{font-size:11pt}
-  ul.plain{gap:3px;font-size:9pt} .checklist{gap:3px} .checklist li{font-size:9pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
-  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
-  .who{font-size:6.4pt;padding:2px 5px} .step{width:18px;height:18px;font-size:7pt}
-  table{min-width:0} th,td{padding:4px 8px;font-size:8.6pt} th{font-size:6.8pt}
-  .tbl{overflow:visible;border-radius:6px}
-  .note{padding:8px 11px;font-size:9pt}
-  .cta{display:none}
-  footer{padding-top:10px;font-size:8.5pt}
-  tr,.card,.beat{break-inside:avoid}
-  .sec-head,h2,h3{break-after:avoid}
+  .topbar{margin-bottom:12px;padding-block:0 8px}
+  main{gap:16px} section{gap:7px}
+  h1{font-size:21pt} h2{font-size:14pt} h3{font-size:10.5pt}
+  .eyebrow{font-size:7pt} .lede{font-size:10.2pt}
+  .toc,.cta{display:none}
+  .cover{grid-template-columns:minmax(0,1fr) 175px;gap:16px}
+  .ficha{padding:9px 11px 2px;box-shadow:none}
+  .ficha div{padding-bottom:5px;margin-bottom:5px}
+  .ficha dt{font-size:6.6pt} .ficha dd{font-size:8.8pt}
+  .card,.beat,.item,.tier,.pain,.metric{box-shadow:none}
+  .pain{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);padding:6px 10px;gap:2px 14px;border-radius:6px} .pain p{font-size:8.6pt}
+  .cols3,.tiers{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .cols2,.menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .metric{padding:7px 9px;border-radius:6px} .metric strong{font-size:9pt} .metric span{font-size:8.2pt}
+  .card,.tier{padding:9px 11px;gap:5px;border-radius:8px}
+  .item{padding:8px 10px;gap:4px;border-radius:7px;border-top-width:2px}
+  .item p,.ej{font-size:8.5pt} .ej b{display:inline;font-size:6.4pt;margin-right:5px} .uses{font-size:7.6pt}
+  .t,.who{font-size:6.2pt;padding:2px 5px} .plat{font-size:7pt;padding:3px 7px} .step{width:18px;height:18px;font-size:7pt}
+  .beat{grid-template-columns:120px minmax(0,1fr);padding:8px 11px;gap:3px 12px;border-radius:7px}
+  .beat .when strong{font-size:10.5pt}
+  ul.plain{gap:2px;font-size:8.8pt}
+  .timeline li{grid-template-columns:120px minmax(0,1fr);padding:0 0 5px 16px}
+  .timeline li::before{width:10px;height:10px;left:-6px}
+  .timeline .when{font-size:8pt} .timeline .what{font-size:8.8pt}
+  .tier .price{font-size:10pt} .tier .for{font-size:8.4pt;padding-top:5px}
+  .addon{padding:7px 10px;border-radius:6px} .addon p{font-size:8.6pt}
+  .note{padding:7px 10px;font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.2pt}
+  .item,.card,.beat,.tier,.pain,.metric,.timeline li,.addon{break-inside:avoid}
+  .sec-head,h2,h3,.plat-head{break-after:avoid}
   a{color:inherit;text-decoration:none}
 }
 </style>
@@ -145,16 +197,26 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 <body>
 <div class="wrap">
   <div class="topbar">
-    <div class="brandline"><span class="client">MAYREA<i>.</i></span><span class="kind">Publicidad · Meta y Google</span></div>
+    <div class="brandline"><span class="client">MAYREA<i>.</i></span><span class="kind">Publicidad · Meta, Google y Mercado Libre</span></div>
     <span class="author">Gonzalo Di Dio Leal</span>
   </div>
 
   <main>
     <section class="cover" aria-labelledby="t-cover">
       <div class="cover-main">
-        <p class="eyebrow">Para el equipo de redes</p>
-        <h1 id="t-cover">Cómo se maneja la publicidad con la tienda nueva</h1>
-        <p class="lede">Qué hace la tienda sola, qué hace cada equipo y cómo se trabaja en el día a día, semana a semana y mes a mes con Meta y Google.</p>
+        <p class="eyebrow">Para Juan Martín y el equipo de redes</p>
+        <h1 id="t-cover">Todo lo que la publicidad puede hacer por Mayrea</h1>
+        <p class="lede">Con la tienda nueva, cada peso que se invierte en Meta y en Google se puede seguir hasta la venta. Acá está todo lo que se puede hacer, pensado para lo que venden y para quién les compra, y cómo se trabaja en el día a día.</p>
+        <nav class="toc" aria-label="Contenido">
+          <a href="#contaste">Lo que nos contaste</a>
+          <a href="#meta">Meta</a>
+          <a href="#google">Google</a>
+          <a href="#ml">Mercado Libre</a>
+          <a href="#medicion">Qué van a ver</a>
+          <a href="#ritmo">El día a día</a>
+          <a href="#plan">Primeros 90 días</a>
+          <a href="#opciones">Formas de trabajar</a>
+        </nav>
       </div>
       <dl class="ficha">
         <div><dt>Cliente</dt><dd>Mayrea · Juan Martín Del Boca</dd></div>
@@ -164,9 +226,24 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
       </dl>
     </section>
 
+    <section id="contaste" aria-labelledby="t-contaste">
+      <div class="sec-head">
+        <p class="eyebrow">01 · Lo que nos contaste</p>
+        <h2 id="t-contaste">De lo que charlamos a lo que hace la publicidad</h2>
+      </div>
+      <div class="pains">
+        <div class="pain"><q>La agencia maneja Meta y Google.</q><p>Las cuentas, el catálogo y los resultados pasan a estar a nombre de Mayrea. Maneje quien maneje las campañas, los números quedan en la empresa.</p></div>
+        <div class="pain"><q>No sé si el estilo actual funcionó.</q><p>Cada venta queda atada al anuncio que la trajo. Se deja de opinar y se mira qué anuncio vende y cuál solo gasta.</p></div>
+        <div class="pain"><q>El que compra no sabe el código de la pieza, sabe qué vehículo tiene.</q><p>Anuncios y búsquedas armados por vehículo: el dueño de una Hilux ve accesorios para Hilux, y el que busca en Google "estribos Amarok" encuentra los de Mayrea.</p></div>
+        <div class="pain"><q>Mercado Libre es lo más fuerte nuestro en minorista.</q><p>Mercado Libre también tiene publicidad propia. Se puede sumar a la misma revisión semanal, con el mismo criterio que la web.</p></div>
+        <div class="pain"><q>Para el Hot Sale necesito los banners a las 7 de la mañana.</q><p>Las campañas de fechas clave se preparan con anticipación y salen a la misma hora que la tienda cambia, con el mismo mensaje en todos lados.</p></div>
+        <div class="pain"><q>Vivo en España.</q><p>Los resultados de la publicidad aparecen en el tablero del backoffice y en el resumen diario. Se ven desde el celular, sin pedirle un informe a nadie.</p></div>
+      </div>
+    </section>
+
     <section aria-labelledby="t-reparto">
       <div class="sec-head">
-        <p class="eyebrow">01 · Quién hace qué</p>
+        <p class="eyebrow">02 · Quién hace qué</p>
         <h2 id="t-reparto">El trabajo se reparte en tres partes</h2>
         <p class="muted">Lo técnico ya está en el presupuesto. El contenido lo sigue haciendo su equipo. La gestión de las campañas la puede llevar su equipo o nosotros.</p>
       </div>
@@ -176,8 +253,8 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <h3>La tienda</h3>
           <span class="who auto">Automático · ya incluido</span>
           <ul class="plain">
-            <li><b>Catálogo para anuncios (I8):</b> arma solo el catálogo para Facebook, Instagram y Google Shopping, con precio y stock reales. Si algo se agota, deja de anunciarse.</li>
-            <li><b>Ventas medidas por anuncio (I9):</b> cada venta queda registrada con el anuncio que la trajo.</li>
+            <li><b>Catálogo para anuncios (I8):</b> arma solo el catálogo para Facebook, Instagram y Google, con precio y stock reales. Si algo se agota, deja de anunciarse.</li>
+            <li><b>Ventas medidas por anuncio (I9):</b> cada venta queda registrada con el anuncio que la trajo, medida desde el servidor.</li>
             <li><b>Tablero de publicidad (M6):</b> inversión, ventas y retorno de cada campaña, en el backoffice.</li>
           </ul>
         </div>
@@ -196,119 +273,317 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <h3>La gestión de las campañas</h3>
           <span class="who opt">Su equipo o nosotros</span>
           <ul class="plain">
-            <li>Armar las campañas y los públicos.</li>
-            <li>Repartir el presupuesto entre Meta y Google.</li>
-            <li>Revisar resultados y ajustar: más plata a lo que vende, pausa a lo que solo gasta.</li>
+            <li>Elegir qué campañas hacer de las que siguen abajo.</li>
+            <li>Repartir el presupuesto entre plataformas.</li>
+            <li>Revisar cada semana: más plata a lo que vende, pausa a lo que solo gasta.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section aria-labelledby="t-campanas">
+    <section id="meta" aria-labelledby="t-meta">
       <div class="sec-head">
-        <p class="eyebrow">02 · Las campañas</p>
-        <h2 id="t-campanas">Qué campañas hacemos en cada plataforma</h2>
+        <div class="plat-head"><span class="plat meta">Meta</span><p class="eyebrow">03 · Facebook, Instagram y WhatsApp</p></div>
+        <h2 id="t-meta">Todo lo que se puede hacer en Meta</h2>
+        <p class="muted">Meta sirve para que los conozca gente nueva y para traer de vuelta a quien ya miró algo. Estas son las opciones; no hace falta usarlas todas desde el primer día.</p>
       </div>
-      <div class="cols2">
-        <div class="card">
-          <p class="kicker">Meta · Facebook e Instagram</p>
-          <ul class="checklist">
-            <li><span><b>Recordatorio con el catálogo:</b> a quien miró un producto y no compró le aparece ese mismo producto, con su precio del día.</span></li>
-            <li><span><b>Gente nueva:</b> campañas con los creativos del equipo para llegar a quien todavía no conoce Mayrea.</span></li>
-            <li><span><b>Fechas clave:</b> Hot Sale, Día del Padre, Navidad y las promos propias, coordinadas con el calendario de la tienda.</span></li>
-          </ul>
-        </div>
-        <div class="card">
-          <p class="kicker">Google</p>
-          <ul class="checklist">
-            <li><span><b>Shopping:</b> los productos aparecen con foto y precio cuando alguien busca lo que venden.</span></li>
-            <li><span><b>Búsqueda por marca:</b> que quien busca "Mayrea" llegue a la tienda y no a otro vendedor.</span></li>
-            <li><span><b>Búsqueda por producto:</b> para las líneas que más venden y dejan mejor margen.</span></li>
-          </ul>
-        </div>
+      <div class="menu">
+        <article class="item meta">
+          <div class="tags"><span class="t star">Imprescindible</span><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Recordatorio con el catálogo</h3>
+          <p>A quien miró un producto en la web y no compró, le aparece ese mismo producto en Instagram y Facebook, con el precio y las cuotas del día.</p>
+          <p class="ej"><b>En Mayrea</b>Alguien miró la barra antivuelco para Ranger un domingo a la noche. El lunes la ve en sus historias, con el precio en 6 cuotas.</p>
+          <p class="uses">Usa el catálogo (I8). Es la campaña que más rápido devuelve lo invertido.</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t star">Imprescindible</span><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Campañas de ventas automáticas</h3>
+          <p>Meta busca sola a la gente con más chances de comprar, combinando el catálogo y los creativos del equipo. Aprende de cada venta que le informa la tienda.</p>
+          <p class="ej"><b>En Mayrea</b>Meta encuentra que los que compran cubre caja son dueños de camionetas de 30 a 55 años del interior, y les muestra más a ellos.</p>
+          <p class="uses">Funciona mejor cuanto mejor medidas están las ventas (I9).</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Públicos por vehículo</h3>
+          <p>Campañas separadas por marca y modelo, cada una con los productos que le sirven a ese vehículo.</p>
+          <p class="ej"><b>En Mayrea</b>Una campaña para Hilux, otra para Amarok y otra para camiones, cada una con su catálogo filtrado y su creativo.</p>
+          <p class="uses">Usa las compatibilidades del buscador por vehículo (V1).</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t">Segundo mes</span></div>
+          <h3>Gente parecida a los que ya compran</h3>
+          <p>Con la lista de compradores, Meta encuentra personas con el mismo perfil que todavía no conocen la marca.</p>
+          <p class="ej"><b>En Mayrea</b>Gente parecida a los que gastaron más de $300.000 en el último año.</p>
+          <p class="uses">La lista sale de la tienda, sin armar planillas.</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Anuncios que abren WhatsApp</h3>
+          <p>Para productos donde la gente duda si le sirve: el anuncio abre una conversación con un vendedor, con el producto ya escrito.</p>
+          <p class="ej"><b>En Mayrea</b>Kits de suspensión o productos de instalación: "¿Le va a mi camioneta?" se responde en el chat y se cierra la venta.</p>
+          <p class="uses">Combina con el botón de WhatsApp en el producto (V13).</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t">Opcional</span></div>
+          <h3>Formulario para talleres y revendedores</h3>
+          <p>Un anuncio con formulario para quien quiere comprar por cantidad. Los datos llegan al equipo mayorista para que los contacte.</p>
+          <p class="ej"><b>En Mayrea</b>Talleres y gomerías de todo el país que piden la lista mayorista desde Instagram.</p>
+          <p class="uses">Suma clientes al canal mayorista que ya les funciona.</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Videos y Reels que venden</h3>
+          <p>Instalación, antes y después, pruebas en ruta y unboxing. Es el formato que más rinde hoy en Instagram, y lo hace el equipo de redes.</p>
+          <p class="ej"><b>En Mayrea</b>"Así queda una Hilux con este paragolpe": 20 segundos, con el producto etiquetado para comprar.</p>
+          <p class="uses">Se prueban varios por semana y se deja el que mejor vende.</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t">Fechas clave</span></div>
+          <h3>Campañas de evento</h3>
+          <p>Hot Sale, CyberMonday, Black Friday, Día del Padre y vacaciones, con cuenta regresiva y el mismo mensaje que la tienda.</p>
+          <p class="ej"><b>En Mayrea</b>Una semana antes del Hot Sale, aviso a los que ya miraron. El día del evento, ofertas a todo el público.</p>
+          <p class="uses">Coordinado con el modo evento (V7) y las promociones (V6).</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t">Opcional</span></div>
+          <h3>Las reseñas en los anuncios</h3>
+          <p>Las opiniones verificadas de los clientes se usan como prueba en los anuncios: generan confianza en productos caros.</p>
+          <p class="ej"><b>En Mayrea</b>"Lo instalé en mi Frontier y quedó perfecto. ★★★★★", junto a la foto del producto.</p>
+          <p class="uses">Usa las reseñas verificadas (V10).</p>
+        </article>
+        <article class="item meta">
+          <div class="tags"><span class="t">Con Momo</span></div>
+          <h3>Momo con sus propias campañas</h3>
+          <p>Momo tiene su propio catálogo y sus propios públicos, con su identidad. Se mide por separado, aunque viva en el mismo backoffice.</p>
+          <p class="ej"><b>En Mayrea</b>Saber cuánto vende Momo por cada peso invertido, separado de Mayrea.</p>
+          <p class="uses">Usa Momo en la misma plataforma (X1).</p>
+        </article>
       </div>
     </section>
 
-    <section aria-labelledby="t-ritmo">
+    <section id="google" aria-labelledby="t-google">
       <div class="sec-head">
-        <p class="eyebrow">03 · El ritmo</p>
+        <div class="plat-head"><span class="plat google">Google</span><p class="eyebrow">04 · Búsqueda, Shopping, YouTube y Maps</p></div>
+        <h2 id="t-google">Todo lo que se puede hacer en Google</h2>
+        <p class="muted">Google es para la gente que ya está buscando lo que venden. Es la venta con más intención: el cliente sabe lo que quiere y solo tiene que encontrarlos a ustedes.</p>
+      </div>
+      <div class="menu">
+        <article class="item google">
+          <div class="tags"><span class="t star">Imprescindible</span><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Shopping: productos con foto y precio</h3>
+          <p>Cuando alguien busca un producto, aparecen los de Mayrea arriba de todo, con foto, precio y envío. El catálogo lo manda la tienda sola.</p>
+          <p class="ej"><b>En Mayrea</b>Alguien busca "cubre caja Hilux" y ve el de Mayrea con su precio, antes que los resultados comunes.</p>
+          <p class="uses">Usa el catálogo (I8) y el envío calculado en el producto (V12).</p>
+        </article>
+        <article class="item google">
+          <div class="tags"><span class="t star">Imprescindible</span><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Campañas de máximo rendimiento</h3>
+          <p>Una sola campaña que muestra los productos en Búsqueda, Shopping, YouTube, Gmail y sitios asociados, y que va donde aparecen las ventas.</p>
+          <p class="ej"><b>En Mayrea</b>Separadas por línea: accesorios 4x4, camiones y Momo, cada una con su presupuesto y su objetivo.</p>
+          <p class="uses">Aprende de las ventas medidas (I9).</p>
+        </article>
+        <article class="item google">
+          <div class="tags"><span class="t star">Imprescindible</span><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Protección de la marca</h3>
+          <p>Que quien busca "Mayrea" llegue a la tienda y no a un competidor o a otro vendedor de Mercado Libre. Es barato y evita perder ventas que ya eran suyas.</p>
+          <p class="ej"><b>En Mayrea</b>Si alguien busca "Mayrea" o "Momo Accesorios", el primer resultado es la tienda oficial.</p>
+        </article>
+        <article class="item google">
+          <div class="tags"><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Búsquedas por producto y vehículo</h3>
+          <p>Anuncios de texto para las búsquedas exactas que hace la gente: producto más marca, modelo y año.</p>
+          <p class="ej"><b>En Mayrea</b>"estribos Amarok 2022", "paragolpe trasero Ranger" o "barra LED camión". Cada búsqueda lleva directo al producto, con el vehículo ya elegido.</p>
+          <p class="uses">Usa el buscador por vehículo (V1).</p>
+        </article>
+        <article class="item google">
+          <div class="tags"><span class="t">Segundo mes</span></div>
+          <h3>YouTube</h3>
+          <p>Los videos de instalación y de pruebas en ruta, mostrados a quien mira contenido de 4x4, camionetas y viajes.</p>
+          <p class="ej"><b>En Mayrea</b>Un video de 30 segundos antes de un review de la nueva Hilux, con el producto para comprar abajo.</p>
+          <p class="uses">Reutiliza los videos del equipo de redes.</p>
+        </article>
+        <article class="item google">
+          <div class="tags"><span class="t">Segundo mes</span></div>
+          <h3>Recordatorio en Google y YouTube</h3>
+          <p>Igual que en Meta: a quien miró y no compró, le aparece el producto mientras navega o mira videos.</p>
+          <p class="ej"><b>En Mayrea</b>El que dejó el carrito abandonado ve el producto en YouTube esa misma semana, además del mail de recordatorio (V8).</p>
+        </article>
+        <article class="item google">
+          <div class="tags"><span class="t">Sin costo</span><span class="t go">Desde el lanzamiento</span></div>
+          <h3>Fichas gratuitas en Shopping</h3>
+          <p>Además de los anuncios, Google muestra los productos sin cobrar en la pestaña Shopping. Sale del mismo catálogo.</p>
+          <p class="ej"><b>En Mayrea</b>Todo el catálogo visible en Google Shopping desde el día uno, sin invertir un peso.</p>
+        </article>
+        <article class="item google">
+          <div class="tags"><span class="t">Sin costo</span></div>
+          <h3>El showroom de Lanús en Google Maps</h3>
+          <p>El perfil de empresa con horarios, fotos, reseñas y "cómo llegar". Con buenas reseñas, aparecen cuando buscan "accesorios 4x4 cerca".</p>
+          <p class="ej"><b>En Mayrea</b>Quien busca en el celular "accesorios camionetas Lanús" encuentra el showroom con sus reseñas y la ruta.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="ml" aria-labelledby="t-ml">
+      <div class="sec-head">
+        <div class="plat-head"><span class="plat ml">Mercado Libre</span><p class="eyebrow">05 · Donde ya más venden</p></div>
+        <h2 id="t-ml">Y Mercado Libre también se publicita</h2>
+        <p class="muted">Como Mercado Libre es lo más fuerte en minorista, conviene manejar su publicidad con el mismo criterio que la web, en la misma revisión semanal.</p>
+      </div>
+      <div class="menu">
+        <article class="item ml">
+          <div class="tags"><span class="t star">Recomendado</span></div>
+          <h3>Publicaciones destacadas</h3>
+          <p>Las publicaciones de Mayrea aparecen primero en las búsquedas de Mercado Libre, y se paga solo cuando hacen clic.</p>
+          <p class="ej"><b>En Mayrea</b>Destacar los productos con mejor margen y más stock, no los que ya se venden solos.</p>
+          <p class="uses">El stock y el precio vienen sincronizados (I1).</p>
+        </article>
+        <article class="item ml">
+          <div class="tags"><span class="t">Una sola mirada</span></div>
+          <h3>Web o Mercado Libre: dónde conviene invertir</h3>
+          <p>Con las ventas de los dos canales en el mismo sistema, se ve qué producto conviene empujar en la web y cuál en Mercado Libre, según la comisión y el margen.</p>
+          <p class="ej"><b>En Mayrea</b>Un producto caro deja más margen vendido en la web con anuncios de Google que en Mercado Libre con la comisión.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="medicion" aria-labelledby="t-medicion">
+      <div class="sec-head">
+        <p class="eyebrow">06 · Qué van a ver</p>
+        <h2 id="t-medicion">Los números, en el backoffice y en el celular</h2>
+        <p class="muted">El tablero de publicidad (M6) junta Meta y Google con las ventas reales de la tienda. No son los números que informa cada plataforma por su cuenta: son los pedidos que efectivamente entraron.</p>
+      </div>
+      <div class="metrics">
+        <div class="metric"><strong>Inversión</strong><span>Cuánto se gastó por plataforma, campaña y día.</span></div>
+        <div class="metric"><strong>Ventas</strong><span>Pedidos y facturación que trajo cada campaña.</span></div>
+        <div class="metric"><strong>Costo por venta</strong><span>Cuánto cuesta traer cada pedido.</span></div>
+        <div class="metric"><strong>Retorno</strong><span>Cuántos pesos vuelven por cada peso invertido.</span></div>
+        <div class="metric"><strong>Productos</strong><span>Qué productos venden los anuncios y cuáles solo se miran.</span></div>
+        <div class="metric"><strong>Clientes nuevos</strong><span>Cuántas ventas son de gente que nunca había comprado.</span></div>
+        <div class="metric"><strong>Creativos</strong><span>Qué video o imagen vende más, para pedir más de ese estilo.</span></div>
+        <div class="metric"><strong>Resumen diario</strong><span>La inversión y las ventas de ayer, cada mañana (C4).</span></div>
+      </div>
+      <p class="note">Todos ven lo mismo: Juan Martín, el equipo de redes y quien maneje las campañas. Y si un día cambian de agencia, el historial queda en Mayrea.</p>
+    </section>
+
+    <section id="ritmo" aria-labelledby="t-ritmo">
+      <div class="sec-head">
+        <p class="eyebrow">07 · El ritmo</p>
         <h2 id="t-ritmo">El día a día, semana a semana y mes a mes</h2>
       </div>
       <div class="rhythm">
         <div class="beat">
           <div class="when"><span class="who auto">Solo</span><strong>Todos los días</strong></div>
-          <div class="what">
-            <ul class="plain">
-              <li>El catálogo se actualiza con los precios y el stock de la tienda.</li>
-              <li>Lo que se agota deja de anunciarse, y vuelve cuando entra stock.</li>
-              <li>Cada venta se mide y suma al tablero. Nadie tiene que cargar nada.</li>
-            </ul>
-          </div>
+          <ul class="plain">
+            <li>El catálogo se actualiza con los precios y el stock de la tienda, en Meta, Google y Mercado Libre.</li>
+            <li>Lo que se agota deja de anunciarse, y vuelve cuando entra stock.</li>
+            <li>Cada venta se mide y suma al tablero. Nadie tiene que cargar nada.</li>
+          </ul>
         </div>
         <div class="beat">
-          <div class="when"><span class="who">15 minutos</span><strong>Cada semana</strong></div>
-          <div class="what">
-            <ul class="plain">
-              <li>Revisión de las campañas: se pausa lo que gasta sin vender y se le da más presupuesto a lo que vende.</li>
-              <li>Se piden al equipo de redes <b>2 o 3 creativos nuevos</b>, porque los anuncios se gastan con el uso.</li>
-              <li>Se coordinan las promos de la semana siguiente, para que el anuncio y la tienda digan lo mismo.</li>
-            </ul>
-          </div>
+          <div class="when"><span class="who">30 minutos</span><strong>Cada semana</strong></div>
+          <ul class="plain">
+            <li>Revisión de las campañas: se pausa lo que gasta sin vender y se le da más presupuesto a lo que vende.</li>
+            <li>Se piden al equipo de redes <b>2 o 3 creativos nuevos</b>, porque los anuncios se gastan con el uso.</li>
+            <li>Se suman al catálogo los productos nuevos y se ajusta lo que se destaca en Mercado Libre.</li>
+            <li>Se coordinan las promos de la semana siguiente, para que el anuncio y la tienda digan lo mismo.</li>
+          </ul>
         </div>
         <div class="beat">
-          <div class="when"><span class="who">30 minutos</span><strong>Cada mes</strong></div>
-          <div class="what">
-            <ul class="plain">
-              <li>Reunión con los números: cuánto se invirtió, cuánto se vendió y cuánto costó cada venta, por campaña.</li>
-              <li>Qué productos y qué creativos funcionaron mejor.</li>
-              <li>Plan del mes siguiente: fechas, promos y cuánto invertir en cada plataforma.</li>
-            </ul>
-          </div>
+          <div class="when"><span class="who">45 minutos</span><strong>Cada mes</strong></div>
+          <ul class="plain">
+            <li>Reunión con los números: cuánto se invirtió, cuánto se vendió y cuánto costó cada venta, por campaña y por plataforma.</li>
+            <li>Qué productos, qué vehículos y qué creativos funcionaron mejor.</li>
+            <li>Plan del mes siguiente: fechas, promos, campañas nuevas para probar y cuánto invertir en cada plataforma.</li>
+          </ul>
         </div>
       </div>
-      <p class="note">Los números salen del tablero de la tienda, no de una planilla armada a mano. Todos ven lo mismo: Juan Martín, el equipo de redes y quien maneje las campañas.</p>
     </section>
 
-    <section aria-labelledby="t-formas">
+    <section id="plan" aria-labelledby="t-plan">
       <div class="sec-head">
-        <p class="eyebrow">04 · Dos formas de hacerlo</p>
-        <h2 id="t-formas">Quién lleva las campañas lo eligen ustedes</h2>
-        <p class="muted">En las dos, las cuentas de Meta y Google siguen a nombre de Mayrea y los resultados quedan en la empresa.</p>
+        <p class="eyebrow">08 · Primeros 90 días</p>
+        <h2 id="t-plan">Cómo arrancaríamos, de noviembre a febrero</h2>
+        <p class="muted">Primero lo que vende seguro, después lo que trae gente nueva, y al final se escala lo que funcionó.</p>
       </div>
-      <div class="tbl">
-        <table>
-          <thead><tr><th>Tarea</th><th>A · Las lleva su equipo</th><th>B · Las llevamos nosotros</th></tr></thead>
-          <tbody>
-            <tr><td>Catálogo, medición y tablero</td><td class="y">Nosotros, ya incluido</td><td class="y">Nosotros, ya incluido</td></tr>
-            <tr><td>Contenido y creativos</td><td>Equipo de redes</td><td>Equipo de redes</td></tr>
-            <tr><td>Armar las campañas y los públicos</td><td>Su equipo o agencia</td><td>Nosotros</td></tr>
-            <tr><td>Revisión semanal y ajustes</td><td>Su equipo o agencia</td><td>Nosotros, con aviso al equipo de qué creativos pedir</td></tr>
-            <tr><td>Reunión mensual de números</td><td>Su equipo, con el tablero</td><td>Nosotros, con Juan Martín y el equipo</td></tr>
-            <tr><td>Costo</td><td>Sin costo extra</td><td>Abono mensual, a cotizar aparte</td></tr>
-          </tbody>
-        </table>
+      <ol class="timeline">
+        <li><span class="when">Noviembre</span><span class="what"><b>Ordenar las cuentas.</b> Revisión de lo que hoy maneja la agencia, traspaso de las cuentas a nombre de Mayrea, catálogo en Meta y en Google, y medición de ventas lista antes de abrir.</span></li>
+        <li class="key"><span class="when">Diciembre</span><span class="what"><b>Lanzamiento.</b> Recordatorio con el catálogo, protección de la marca, Shopping y máximo rendimiento. Campaña de Navidad y de vacaciones: preparar la camioneta para viajar.</span></li>
+        <li><span class="when">Enero</span><span class="what"><b>Gente nueva.</b> Públicos por vehículo, gente parecida a los compradores, búsquedas por producto y vehículo. Pruebas de 3 o 4 creativos por semana.</span></li>
+        <li><span class="when">Febrero</span><span class="what"><b>Escalar.</b> Más presupuesto a lo que dio mejor retorno, YouTube con los mejores videos y primer informe de tres meses.</span></li>
+        <li class="key"><span class="when">Marzo en adelante</span><span class="what"><b>Fechas del año:</b> Hot Sale en mayo, Día del Padre en junio, CyberMonday y Black Friday en noviembre, y otra vez Navidad y vacaciones.</span></li>
+      </ol>
+    </section>
+
+    <section id="opciones" aria-labelledby="t-opciones">
+      <div class="sec-head">
+        <p class="eyebrow">09 · Formas de trabajar</p>
+        <h2 id="t-opciones">Tres niveles, según cuánto quieran delegar</h2>
+        <p class="muted">En los tres, las cuentas siguen a nombre de Mayrea, el equipo de redes hace el contenido y la medición ya está incluida en el presupuesto.</p>
       </div>
+      <div class="tiers">
+        <div class="tier">
+          <span class="who">Nivel 1</span>
+          <h3>Lo técnico, y su equipo maneja</h3>
+          <p class="price">Sin costo extra</p>
+          <ul class="plain">
+            <li>Catálogo, medición y tablero conectados.</li>
+            <li>Capacitación a quien maneje las campañas para usar el tablero.</li>
+            <li>Las campañas las sigue llevando su equipo o su agencia.</li>
+          </ul>
+          <p class="for">Para quien ya tiene alguien de confianza que maneja la publicidad.</p>
+        </div>
+        <div class="tier">
+          <span class="who">Nivel 2</span>
+          <h3>Acompañamiento</h3>
+          <p class="price">Abono mensual · a cotizar</p>
+          <ul class="plain">
+            <li>Todo lo del nivel 1.</li>
+            <li>Revisión mensual de las campañas con recomendaciones concretas: qué pausar, qué probar y dónde invertir.</li>
+            <li>Armado inicial de las campañas imprescindibles.</li>
+            <li>Reunión mensual con los números.</li>
+          </ul>
+          <p class="for">Para quien quiere que su equipo maneje, pero con alguien que mire los números de afuera.</p>
+        </div>
+        <div class="tier rec">
+          <span class="who opt">Recomendado</span>
+          <h3>Gestión completa</h3>
+          <p class="price">Abono mensual · a cotizar</p>
+          <ul class="plain">
+            <li>Todo lo del nivel 2.</li>
+            <li>Armado y manejo de las campañas de Meta y Google que elijamos juntos de este menú.</li>
+            <li>Revisión semanal y ajustes, con el pedido de creativos al equipo de redes.</li>
+            <li>Plan de fechas clave con anticipación.</li>
+          </ul>
+          <p class="for">Para que Juan Martín vea los resultados desde España, sin perseguir a nadie.</p>
+        </div>
+      </div>
+      <div class="addon">
+        <span class="plat ml">Adicional</span>
+        <p><b style="color:var(--ink)">Publicidad en Mercado Libre.</b> Se suma a los niveles 2 o 3 para manejar las publicaciones destacadas con el mismo criterio que la web.</p>
+      </div>
+      <p class="muted">La inversión en anuncios se paga directo a cada plataforma, con la tarjeta de Mayrea. Nosotros no intermediamos esa plata.</p>
     </section>
 
     <section aria-labelledby="t-necesitamos">
       <div class="sec-head">
-        <p class="eyebrow">05 · Para cotizar la opción B</p>
+        <p class="eyebrow">10 · Para cotizar</p>
         <h2 id="t-necesitamos">Lo que necesitamos saber</h2>
       </div>
       <div class="cols2">
         <div class="card">
-          <p class="kicker">Tres preguntas</p>
+          <p class="kicker">Cuatro preguntas</p>
           <ul class="plain">
-            <li>¿Quién maneja hoy las campañas?</li>
-            <li>¿Cuánto invierten por mes, más o menos, y en qué plataformas?</li>
-            <li>¿Qué buscan? Más ventas en la web, en Mercado Libre o más consultas por WhatsApp.</li>
+            <li>¿Quién maneja hoy las campañas, y con qué resultados?</li>
+            <li>¿Cuánto invierten por mes, más o menos, en Meta, Google y Mercado Libre?</li>
+            <li>¿Qué buscan primero? Más ventas en la web, en Mercado Libre, más consultas por WhatsApp o más clientes mayoristas.</li>
+            <li>¿Qué nivel les interesa? Puede arrancar en uno y cambiar después.</li>
           </ul>
         </div>
         <div class="card">
-          <p class="kicker">Accesos, en cualquiera de las dos</p>
+          <p class="kicker">Accesos, en cualquier nivel</p>
           <ul class="plain">
             <li>Meta Business con el catálogo y el píxel, a nombre de Mayrea.</li>
-            <li>Google Ads y Google Merchant Center, a nombre de Mayrea.</li>
+            <li>Google Ads, Merchant Center y el perfil de empresa del showroom, a nombre de Mayrea.</li>
             <li>Se comparten como socio o con un usuario propio, nunca pasando contraseñas.</li>
           </ul>
         </div>
