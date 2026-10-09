@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Propuesta para manejar el sitio web de Grupo GSJ: dos caminos y un abono mensual.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sitio web Grupo GSJ">
+<meta property="og:description" content="Tomamos el sitio que tienen o lo rehacemos, con mantenimiento, hosting y cambios de contenido en un abono mensual.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Sitio web Grupo GSJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Propuesta del sitio web: mismo papel claro y color que la propuesta de Gotas y Oftalmología, en una columna, con un cuestionario que se manda por WhatsApp. */
+:root{
+  --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
+  --line:#E2E5EA; --line-2:#C9CFD8; --accent:#0E7C86; --accent-deep:#0A5F67; --btn:#0B6E77;
+  --accent-tint:#E9F6F7; --accent-line:#A9D8DC; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(32px,4.4vw,48px);font-weight:700;letter-spacing:-.022em}
+h2{font-size:clamp(23px,2.5vw,29px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:18.5px;font-weight:600}
+p{margin:0}
+a{color:var(--accent-deep)}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num{white-space:nowrap}
+.muted{color:var(--ink-2)}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.only-print{display:none}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px;padding-block:0 80px}
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
+.brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.client{font:700 17px/1 var(--sans);letter-spacing:.2em}
+.client i{font-style:normal;color:var(--accent)}
+.brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
+.author{font-size:14px;color:var(--ink-2)}
+main{display:grid;gap:64px;min-width:0}
+section{display:grid;gap:22px;min-width:0;scroll-margin-top:20px}
+.sec-head{display:grid;gap:10px;max-width:72ch}
+
+.cover{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px 40px;align-items:start}
+.cover-main{display:grid;gap:16px;min-width:0}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
+.ficha div{display:grid;gap:2px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)}
+.ficha div:last-child{border-bottom:0;margin-bottom:0}
+.ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ficha dd{margin:0;font-weight:500;font-size:15.5px}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;gap:6px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+.steps li::before{content:counter(s);font:600 12px/1 var(--mono);display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff}
+.steps b{font-size:16.5px}
+.steps span{color:var(--ink-2);font-size:15px}
+
+.paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.path{display:grid;gap:14px;align-content:start;padding:26px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow);min-width:0}
+.path.b{border-color:var(--accent-line);background:linear-gradient(var(--accent-tint),var(--paper) 140px)}
+.pill{display:inline-block;justify-self:start;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:var(--accent);color:#fff}
+.pill.soft{background:var(--tint);color:var(--ink-2)}
+.price{display:grid;gap:2px;padding:14px 16px;border-radius:10px;background:var(--tint)}
+.path.b .price{background:var(--paper);border:1px solid var(--accent-line)}
+.price .lbl{font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.price .big{font:600 26px/1.15 var(--mono);letter-spacing:-.02em}
+.price .big small{font:500 14px var(--sans);letter-spacing:0;color:var(--ink-3)}
+.price .sub{font-size:14px;color:var(--ink-2)}
+.checklist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
+.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.checklist b{color:var(--ink)}
+.fit{font-size:14.5px;color:var(--ink-2);padding-top:12px;border-top:1px solid var(--line)}
+.fit b{color:var(--ink)}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:600px}
+th,td{text-align:left;vertical-align:top;padding:13px 18px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+td{color:var(--ink-2);font-size:15px}
+td:first-child{font-weight:600;color:var(--ink);width:32%}
+td.y{color:var(--ok);font-weight:600}
+
+/* cuestionario */
+.form{display:grid;gap:14px}
+.q{display:grid;gap:12px;padding:22px 24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow);min-width:0;margin:0}
+.q .qt{padding:0;font-weight:600;font-size:17px;display:flex;gap:10px;align-items:baseline}
+.q .qt .n{font:600 12px/1 var(--mono);color:var(--accent-deep)}
+.q .hint{font-size:14px;color:var(--ink-3);margin-top:-4px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.opt{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;align-items:start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:15px;color:var(--ink-2);transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--line-2)}
+.opt:has(input:checked){border-color:var(--accent-line);background:var(--accent-tint);color:var(--ink)}
+.opt:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.opt input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--btn);cursor:pointer}
+.opt b{color:var(--ink);font-weight:600}
+.field{width:100%;font:400 15.5px/1.4 var(--sans);padding:12px 14px;border-radius:10px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink)}
+.field:focus{outline:3px solid var(--accent-line);outline-offset:1px;border-color:var(--accent)}
+textarea.field{min-height:110px;resize:vertical}
+.send{display:grid;gap:14px;padding:24px;border-radius:14px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{appearance:none;font:600 15px/1.2 var(--sans);padding:12px 18px;border-radius:9px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;text-align:center}
+.btn:hover{background:var(--tint)}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#0E7640}
+.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.wa-note{font-size:13.5px;color:var(--ink-2)}
+.status{min-height:1.4em;font-size:13.5px;color:var(--ok)}
+.fallback{width:100%;min-height:150px;font:13px/1.45 var(--mono);padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+
+.cond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.cond div{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:4px}
+.cond dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.cond dd{margin:0;color:var(--ink-2);font-size:15px}
+footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width:900px){ .cover,.steps{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:760px){
+  .paths,.opts,.cond{grid-template-columns:minmax(0,1fr)}
+  main{gap:52px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .brandline .kind{border-left:0;padding-left:0}
+  .path,.q,.send{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important} html{scroll-behavior:auto}}
+
+@page{size:A4;margin:14mm 13mm}
+@media print{
+  html,body{background:#fff}
+  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .topbar{margin-bottom:14px;padding-block:0 8px}
+  main{gap:18px} section{gap:8px}
+  h1{font-size:22pt} h2{font-size:14.5pt} h3{font-size:11.5pt}
+  .eyebrow{font-size:7.2pt} .lede{font-size:10.5pt}
+  .only-screen,.send{display:none!important}
+  .only-print{display:block}
+  .cover{grid-template-columns:minmax(0,1fr) 180px;gap:16px}
+  .ficha{padding:10px 12px 2px;box-shadow:none}
+  .ficha div{padding-bottom:6px;margin-bottom:6px}
+  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
+  .steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .steps li{padding:8px 10px;box-shadow:none;border-radius:7px} .steps li::before{width:18px;height:18px;font-size:7pt} .steps b{font-size:9.6pt} .steps span{font-size:8.6pt}
+  .paths{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .path{padding:10px 12px;gap:6px;box-shadow:none;border-radius:8px}
+  .path.b{background:#fff}
+  .pill{font-size:6.4pt;padding:2px 6px}
+  .price{padding:6px 9px} .price .big{font-size:14pt} .price .lbl{font-size:6.6pt} .price .sub{font-size:8.2pt}
+  .checklist{gap:3px} .checklist li{font-size:8.8pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
+  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
+  .fit{font-size:8.4pt;padding-top:5px}
+  .tbl{overflow:visible;border-radius:6px;box-shadow:none}
+  table{min-width:0} th,td{padding:4px 8px;font-size:8.6pt} th{font-size:6.8pt}
+  .q{padding:8px 11px;gap:5px;box-shadow:none;border-radius:7px}
+  .q .qt{font-size:9.6pt} .q .hint{font-size:8pt;margin:0}
+  .opts{grid-template-columns:repeat(2,minmax(0,1fr));gap:3px}
+  .opt{padding:3px 6px;font-size:8.4pt;grid-template-columns:11px minmax(0,1fr);gap:6px;border-radius:5px;background:#fff!important}
+  .opt input{appearance:none;-webkit-appearance:none;width:10px;height:10px;border:1.2px solid #687182;border-radius:2px;background:#fff;margin-top:2px}
+  .opt input:checked{background:var(--accent);border-color:var(--accent)}
+  .field{padding:5px 8px;font-size:8.6pt;border-radius:5px} textarea.field{min-height:60px}
+  .cond{gap:8px} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.5pt}
+  tr,.path,.q,.cond div,.steps li{break-inside:avoid}
+  .sec-head,h2,h3{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brandline"><span class="client">GRUPO GSJ<i>.</i></span><span class="kind">Propuesta · Sitio web</span></div>
+    <span class="author">Gonzalo Di Dio Leal · Joaquín Baum</span>
+  </div>
+
+  <main>
+    <section class="cover" aria-labelledby="t-cover">
+      <div class="cover-main">
+        <p class="eyebrow">Propuesta</p>
+        <h1 id="t-cover">Nos ocupamos del sitio web de GSJ</h1>
+        <p class="lede">Nos pidieron que les manejemos el sitio. Hay dos caminos: tomar el que tienen hoy o hacer uno nuevo. En los dos, el servidor, el mantenimiento y los cambios de contenido quedan a nuestro cargo, con un abono mensual en pesos.</p>
+        <p class="lede">Para darles el número final necesitamos entender qué esperan del sitio. Por eso al final hay unas preguntas cortas que se mandan por WhatsApp.</p>
+      </div>
+      <dl class="ficha">
+        <div><dt>Cliente</dt><dd>Grupo GSJ · Javier M.</dd></div>
+        <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal y Joaquín Baum</dd></div>
+        <div><dt>Fecha</dt><dd>9 de octubre de 2026</dd></div>
+        <div><dt>Validez</dt><dd>Hasta el 8 de noviembre de 2026</dd></div>
+        <div><dt>Acompaña a</dt><dd><a href="../">Propuesta de Gotas y Oftalmología</a></dd></div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="t-como">
+      <div class="sec-head">
+        <p class="eyebrow">01 · Cómo seguimos</p>
+        <h2 id="t-como">Tres pasos hasta el número final</h2>
+      </div>
+      <ol class="steps">
+        <li><b>Nos cuentan qué esperan</b><span>Responden las preguntas de la sección 04. Son diez minutos, y se mandan por WhatsApp con un botón.</span></li>
+        <li><b>Revisamos el sitio actual</b><span>Vemos en qué está hecho, dónde está alojado y en qué estado está, sin cargo.</span></li>
+        <li><b>Les confirmamos el camino y el abono</b><span>En 48 horas, con lo que incluye cada mes por escrito. Si dan el okey, arrancamos.</span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="t-caminos">
+      <div class="sec-head">
+        <p class="eyebrow">02 · Dos caminos</p>
+        <h2 id="t-caminos">Tomamos el sitio que tienen, o hacemos uno nuevo</h2>
+        <p class="muted">Los dos se pagan con un abono mensual. El valor final depende de lo que nos cuenten en las preguntas.</p>
+      </div>
+      <div class="paths">
+        <article class="path">
+          <span class="pill soft">Camino A</span>
+          <h3>Tomamos el sitio actual</h3>
+          <p class="muted">Nos hacemos cargo del sitio tal como está y lo mantenemos al día. No se rediseña: se cuida, se actualiza y se cambia lo que pidan.</p>
+          <div class="price">
+            <span class="lbl">Abono mensual</span>
+            <span class="big">desde $ 200.000 <small>por mes</small></span>
+            <span class="sub">Sin costo de arranque.</span>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Revisión inicial:</b> accesos, respaldo completo, seguridad y velocidad, con un informe de cómo está.</span></li>
+            <li><span><b>Servidor y dominio:</b> lo pasamos a nuestro servidor o lo cuidamos donde está, con certificado de seguridad y renovación del dominio.</span></li>
+            <li><span><b>Mantenimiento:</b> actualizaciones, monitoreo y copias de seguridad diarias.</span></li>
+            <li><span><b>Cambios de contenido:</b> textos, fotos, productos, novedades y banners que nos pidan.</span></li>
+          </ul>
+          <p class="fit"><b>Conviene si</b> el sitio de hoy les gusta y lo que falta es alguien que lo cuide y lo tenga al día.</p>
+        </article>
+        <article class="path b">
+          <span class="pill">Camino B</span>
+          <h3>Hacemos un sitio nuevo</h3>
+          <p class="muted">Un sitio nuevo con la marca de GSJ, hecho por nosotros y conectado con Gotas y con el portal de clientes de AguilaSoft. Como en Gotas, el desarrollo va por nuestra cuenta.</p>
+          <div class="price">
+            <span class="lbl">Abono mensual</span>
+            <span class="big">desde $ 300.000 <small>por mes</small></span>
+            <span class="sub">Sin costo de desarrollo. Permanencia mínima de 12 meses.</span>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Diseño nuevo</b> con su logo y sus colores, pensado primero para el celular.</span></li>
+            <li><span><b>Backoffice</b> para que cambien textos, fotos y novedades ustedes mismos, si quieren.</span></li>
+            <li><span><b>Conectado</b> con el portal de clientes de AguilaSoft y con la venta de Gotas.</span></li>
+            <li><span><b>Pasamos el contenido</b> del sitio actual, sin perder las direcciones que ya están en Google.</span></li>
+            <li><span><b>Todo lo del camino A</b>: servidor, dominio, mantenimiento y cambios de contenido.</span></li>
+          </ul>
+          <p class="fit"><b>Conviene si</b> el sitio actual está desactualizado, es difícil de cambiar o no se ve bien en el celular.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-incluye">
+      <div class="sec-head">
+        <p class="eyebrow">03 · Qué incluye el abono</p>
+        <h2 id="t-incluye">Mantenimiento, servidor y cambios, todos los meses</h2>
+      </div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Cada mes</th><th>Camino A</th><th>Camino B</th></tr></thead>
+          <tbody>
+            <tr><td>Servidor, dominio y certificado</td><td class="y">Incluido</td><td class="y">Incluido</td></tr>
+            <tr><td>Copias de seguridad diarias y monitoreo</td><td class="y">Incluido</td><td class="y">Incluido</td></tr>
+            <tr><td>Actualizaciones de seguridad y corrección de errores</td><td class="y">Incluido</td><td class="y">Incluido</td></tr>
+            <tr><td>Cambios de contenido</td><td>Hasta 6 horas por mes</td><td>Hasta 6 horas por mes, y lo que quieran hacer ustedes desde el backoffice</td></tr>
+            <tr><td>Atención</td><td>Por WhatsApp, con respuesta en el día</td><td>Por WhatsApp, con respuesta en el día</td></tr>
+            <tr><td>Informe mensual de visitas</td><td class="y">Incluido</td><td class="y">Incluido</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">Lo que no es contenido, como una sección nueva, un formulario nuevo o una integración, se presupuesta aparte antes de hacerlo.</p>
+    </section>
+
+    <section id="preguntas" aria-labelledby="t-preguntas">
+      <div class="sec-head">
+        <p class="eyebrow">04 · Contanos qué esperan</p>
+        <h2 id="t-preguntas">Preguntas para entender qué necesitan</h2>
+        <p class="muted">Marquen lo que corresponda y escriban lo que quieran. Al final, un botón arma el mensaje y lo abre en WhatsApp para Joaquín. Lo que completen queda guardado en este navegador.</p>
+      </div>
+      <form class="form" id="form" autocomplete="off">
+        <div class="q">
+          <label class="qt" for="f-url"><span class="n">1</span>¿Cuál es el sitio de hoy?</label>
+          <input class="field" id="f-url" name="url" type="text" inputmode="url" placeholder="Por ejemplo, www.gsj.com.ar">
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-1">
+          <p class="qt" id="q-1"><span class="n">2</span>¿Para qué quieren el sitio?</p>
+          <p class="hint">Marquen todo lo que aplique.</p>
+          <div class="opts" data-name="para">
+            <label class="opt"><input type="checkbox" value="Presentar la empresa y las marcas que distribuyen"><span>Presentar la empresa y las <b>marcas que distribuyen</b></span></label>
+            <label class="opt"><input type="checkbox" value="Catálogo de productos sin precios"><span><b>Catálogo de productos</b>, sin precios</span></label>
+            <label class="opt"><input type="checkbox" value="Que los clientes entren al portal para pedir"><span>Que los clientes <b>entren al portal</b> para pedir</span></label>
+            <label class="opt"><input type="checkbox" value="Vender directo al paciente, como Gotas"><span><b>Vender directo al paciente</b>, como Gotas</span></label>
+            <label class="opt"><input type="checkbox" value="Información para médicos: fichas técnicas, folletos y estudios"><span><b>Información para médicos</b>: fichas técnicas, folletos y estudios</span></label>
+            <label class="opt"><input type="checkbox" value="Recibir consultas y contactos de nuevos clientes"><span>Recibir <b>consultas</b> de nuevos clientes</span></label>
+            <label class="opt"><input type="checkbox" value="Novedades, congresos y capacitaciones"><span><b>Novedades</b>, congresos y capacitaciones</span></label>
+            <label class="opt"><input type="checkbox" value="Búsquedas de empleo"><span><b>Búsquedas de empleo</b></span></label>
+          </div>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-2">
+          <p class="qt" id="q-2"><span class="n">3</span>¿Qué no les gusta del sitio actual?</p>
+          <div class="opts" data-name="molesta">
+            <label class="opt"><input type="checkbox" value="Está desactualizado"><span>Está <b>desactualizado</b></span></label>
+            <label class="opt"><input type="checkbox" value="Es difícil o lento cambiar algo"><span>Es <b>difícil o lento</b> cambiar algo</span></label>
+            <label class="opt"><input type="checkbox" value="No se ve bien en el celular"><span>No se ve bien <b>en el celular</b></span></label>
+            <label class="opt"><input type="checkbox" value="Es lento para cargar"><span>Es <b>lento</b> para cargar</span></label>
+            <label class="opt"><input type="checkbox" value="No aparece en Google"><span>No aparece <b>en Google</b></span></label>
+            <label class="opt"><input type="checkbox" value="Dependemos de alguien que no responde"><span>Dependemos de alguien que <b>no responde</b></span></label>
+            <label class="opt"><input type="checkbox" value="El diseño no representa a la empresa"><span>El <b>diseño</b> no representa a la empresa</span></label>
+            <label class="opt"><input type="checkbox" value="Está bien, solo necesitamos que alguien lo cuide"><span>Está bien, solo necesitamos <b>que alguien lo cuide</b></span></label>
+          </div>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-3">
+          <p class="qt" id="q-3"><span class="n">4</span>¿Quién lo hizo y tienen los accesos?</p>
+          <p class="hint">Al servidor, al dominio y al administrador del sitio.</p>
+          <div class="opts" data-name="accesos" data-single>
+            <label class="opt"><input type="radio" name="accesos" value="Sí, tenemos todos los accesos"><span>Sí, <b>tenemos todos</b></span></label>
+            <label class="opt"><input type="radio" name="accesos" value="Los tiene quien lo hizo"><span>Los tiene <b>quien lo hizo</b></span></label>
+            <label class="opt"><input type="radio" name="accesos" value="Tenemos algunos"><span>Tenemos <b>algunos</b></span></label>
+            <label class="opt"><input type="radio" name="accesos" value="No sabemos"><span><b>No sabemos</b></span></label>
+          </div>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-4">
+          <p class="qt" id="q-4"><span class="n">5</span>¿Los mails de la empresa están en el mismo lugar que el sitio?</p>
+          <p class="hint">Lo preguntamos para que el correo no se corte nunca, tomemos el camino que tomemos.</p>
+          <div class="opts" data-name="mails" data-single>
+            <label class="opt"><input type="radio" name="mails" value="Sí, en el mismo hosting"><span><b>Sí</b>, en el mismo lugar</span></label>
+            <label class="opt"><input type="radio" name="mails" value="No, usamos Gmail o Outlook de empresa"><span><b>No</b>, usamos Gmail u Outlook de empresa</span></label>
+            <label class="opt"><input type="radio" name="mails" value="No sabemos"><span><b>No sabemos</b></span></label>
+          </div>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-5">
+          <p class="qt" id="q-5"><span class="n">6</span>¿Cada cuánto necesitan cambiar algo?</p>
+          <div class="opts" data-name="frecuencia" data-single>
+            <label class="opt"><input type="radio" name="frecuencia" value="Casi nunca, unas veces por año"><span><b>Casi nunca</b>, unas veces por año</span></label>
+            <label class="opt"><input type="radio" name="frecuencia" value="Algunas veces por mes"><span><b>Algunas veces</b> por mes</span></label>
+            <label class="opt"><input type="radio" name="frecuencia" value="Todas las semanas"><span><b>Todas las semanas</b></span></label>
+            <label class="opt"><input type="radio" name="frecuencia" value="No sabemos todavía"><span><b>No sabemos</b> todavía</span></label>
+          </div>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-6">
+          <p class="qt" id="q-6"><span class="n">7</span>¿Quieren hacer cambios ustedes mismos?</p>
+          <div class="opts" data-name="quien" data-single>
+            <label class="opt"><input type="radio" name="quien" value="Sí, queremos cambiar textos y fotos nosotros"><span><b>Sí</b>, textos y fotos los cambiamos nosotros</span></label>
+            <label class="opt"><input type="radio" name="quien" value="No, preferimos pedirlo por WhatsApp"><span><b>No</b>, preferimos pedirlo por WhatsApp</span></label>
+          </div>
+        </div>
+
+        <div class="q" role="group" aria-labelledby="q-7">
+          <p class="qt" id="q-7"><span class="n">8</span>¿Qué camino les interesa más?</p>
+          <div class="opts" data-name="camino" data-single>
+            <label class="opt"><input type="radio" name="camino" value="Camino A: tomar el sitio actual"><span><b>Camino A</b>: tomar el sitio actual</span></label>
+            <label class="opt"><input type="radio" name="camino" value="Camino B: un sitio nuevo"><span><b>Camino B</b>: un sitio nuevo</span></label>
+            <label class="opt"><input type="radio" name="camino" value="Que nos recomienden después de revisarlo"><span>Que nos <b>recomienden</b> después de revisarlo</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qt" for="f-ej"><span class="n">9</span>¿Algún sitio que les guste como ejemplo?</label>
+          <input class="field" id="f-ej" name="ejemplo" type="text" placeholder="De la competencia, de otro rubro, lo que sea">
+        </div>
+
+        <div class="q">
+          <label class="qt" for="f-mas"><span class="n">10</span>¿Algo más que quieran contarnos?</label>
+          <textarea class="field" id="f-mas" name="mas" placeholder="Qué esperan del sitio, para cuándo lo necesitan, quién va a ser el contacto"></textarea>
+        </div>
+
+        <div class="send">
+          <h3>Mandar las respuestas</h3>
+          <div class="btns">
+            <a class="btn wa" id="waSend" href="https://wa.me/5491150993011" target="_blank" rel="noopener">Enviar por WhatsApp a Joaquín</a>
+            <button class="btn" type="button" id="copyBtn">Copiar las respuestas</button>
+            <button class="btn" type="button" id="resetBtn">Empezar de cero</button>
+          </div>
+          <p class="wa-note">Se abre WhatsApp con las respuestas ya escritas para Joaquín, <span class="mono">+54 9 11 5099-3011</span>. Revísenlas y toquen enviar.</p>
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+          <textarea class="fallback" id="fallback" hidden readonly aria-label="Respuestas para copiar"></textarea>
+        </div>
+      </form>
+    </section>
+
+    <section aria-labelledby="t-cond">
+      <div class="sec-head">
+        <p class="eyebrow">05 · Condiciones</p>
+        <h2 id="t-cond">Lo que conviene tener claro</h2>
+      </div>
+      <dl class="cond">
+        <div><dt>Validez</dt><dd>Esta propuesta vale hasta el 8 de noviembre de 2026.</dd></div>
+        <div><dt>Moneda</dt><dd>Los abonos se cobran en pesos. El valor final se confirma por escrito después de las preguntas y la revisión del sitio.</dd></div>
+        <div><dt>Permanencia</dt><dd>Camino A sin permanencia mínima. Camino B, 12 meses, porque el desarrollo va por nuestra cuenta.</dd></div>
+        <div><dt>Titularidad</dt><dd>El dominio y el contenido son siempre de GSJ. Si un día se van, se llevan todo.</dd></div>
+      </dl>
+      <p class="only-print muted">Para responder, escriban por WhatsApp a Joaquín, +54 9 11 5099-3011.</p>
+    </section>
+
+    <footer>
+      <span>Joaquín Baum · WhatsApp <span class="mono">+54 9 11 5099-3011</span> · Gonzalo Di Dio Leal · gonzalodidioleal@gmail.com</span>
+      <span>Propuesta para Grupo GSJ · 9 de octubre de 2026</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+"use strict";
+const WHATSAPP = "5491150993011";
+const KEY = "gsj-sitio-web-v1";
+const $ = id => document.getElementById(id);
+const form = $("form");
+const groups = [...form.querySelectorAll(".opts")];
+const fields = [...form.querySelectorAll(".field")];
+const LABEL = { url:"Sitio de hoy", para:"Para qué quieren el sitio", molesta:"Qué no les gusta", accesos:"Accesos", mails:"Mails de la empresa", frecuencia:"Cada cuánto cambian algo", quien:"Cambios ellos mismos", camino:"Camino que les interesa", ejemplo:"Sitio de ejemplo", mas:"Algo más" };
+const ORDER = ["url","para","molesta","accesos","mails","frecuencia","quien","camino","ejemplo","mas"];
+
+function read(){
+  const s = {};
+  for (const g of groups) s[g.dataset.name] = [...g.querySelectorAll("input:checked")].map(i => i.value);
+  for (const f of fields) s[f.name] = f.value.trim();
+  return s;
+}
+function write(s){
+  for (const g of groups) for (const i of g.querySelectorAll("input")) i.checked = (s[g.dataset.name] || []).includes(i.value);
+  for (const f of fields) f.value = s[f.name] || "";
+}
+function texto(){
+  const s = read(), L = ["*Sitio web de GSJ: lo que esperamos*"];
+  for (const k of ORDER){
+    const v = s[k];
+    if (Array.isArray(v) ? !v.length : !v) continue;
+    if (Array.isArray(v) && v.length > 1) { L.push("", "*" + LABEL[k] + ":*"); for (const x of v) L.push("• " + x); }
+    else L.push("", "*" + LABEL[k] + ":* " + (Array.isArray(v) ? v[0] : v));
+  }
+  if (L.length === 1) L.push("", "Todavía no completamos las preguntas, pero queremos charlarlo.");
+  return L.join("\n");
+}
+function update(){
+  $("waSend").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto());
+  try { localStorage.setItem(KEY, JSON.stringify(read())); } catch(e) {}
+}
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) write(s); } catch(e) {}
+form.addEventListener("input", update);
+form.addEventListener("change", update);
+form.addEventListener("submit", e => e.preventDefault());
+$("copyBtn").addEventListener("click", async () => {
+  const t = texto();
+  try { await navigator.clipboard.writeText(t); $("status").textContent = "Listo, las respuestas quedaron copiadas."; $("fallback").hidden = true; }
+  catch(e) { const f = $("fallback"); f.value = t; f.hidden = false; f.select(); $("status").textContent = "Seleccioná el texto y copialo."; }
+});
+$("resetBtn").addEventListener("click", () => {
+  write({}); update(); $("status").textContent = "Listo, empezamos de cero.";
+});
+update();
+})();
+</script>
+</body>
+</html>
