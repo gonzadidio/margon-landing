@@ -430,10 +430,10 @@ textarea.input:focus-visible{outline:3px solid var(--accent-line);outline-offset
             <li><span><b>Transporte:</b> viajes de los camiones propios y de los fleteros, tarifario por zona y kilos, y resultado de cada camión.</span></li>
             <li><span><b>Depósito Barracas:</b> stock por cliente y partida, cargos de cada movimiento con el precio del tarifario y prefacturas del mes. Cuando el destino es SEAL Barracas, el sistema pregunta los cargos.</span></li>
             <li><span><b>Facturación unificada:</b> honorarios, gastos, fletes y depósito de cada cliente en un solo comprobante, que se baja en Excel con los códigos de Tango.</span></li>
-            <li><span><b>Honorarios por reglas:</b> por cliente, por tipo de despacho y por importación o exportación. Se calculan solos en cada operación.</span></li>
+            <li><span><b>Honorarios por reglas:</b> por cliente, por tipo de despacho y por importación o exportación, fijos o en % del FOB o del CIF. Se calculan solos en cada operación.</span></li>
             <li><span><b>Usuarios, roles y permisos</b> por sección: no la ve, la ve, carga y edita, o administra todo.</span></li>
             <li><span><b>Sus planillas adentro:</b> todo 2026 importado sin perder nada, con las diferencias que encontramos listas para revisar.</span></li>
-            <li><span><b>Servidor de pruebas y de producción,</b> certificado de seguridad y copias de seguridad diarias.</span></li>
+            <li><span><b>Servidor de pruebas y de producción,</b> certificado de seguridad y copias de seguridad todas las noches, que se pueden bajar desde Configuración.</span></li>
             <li><span><b>Puesta en marcha sin frenar el trabajo,</b> paso a paso en la sección 08.</span></li>
             <li><span><b>Capacitación por área,</b> manual de uso y 30 días de garantía de corrección sin cargo.</span></li>
           </ul>
@@ -686,8 +686,8 @@ const GROUPS = [
 
 /* f: D = ya en la demo, N = a desarrollar */
 const MODS = [
-  {c:"A1",g:"A",n:"Lectura de comprobantes con IA",f:"D",rec:1,ia:1,
-   d:"Se suben al legajo las facturas de terminales, depósitos fiscales, navieras y VEP, en PDF o foto. La IA saca proveedor, número, fecha, concepto e importe y los deja como gastos de la carpeta para confirmar. Avisa si el comprobante es de otro despacho y pasa los dólares a pesos.",
+  {c:"A1",g:"A",n:"Lectura de documentos con IA",f:"D",rec:1,ia:1,
+   d:"Apenas se sube un PDF o una foto al legajo, la IA dice qué es (factura comercial, BL, packing list, VEP, factura de terminal…), saca los datos de la carpeta (proveedor, factura, BL, contenedor, bultos, peso, mercadería, valor) y completa con un toque lo que falta de la operación. Las facturas de gastos quedan como gastos de la carpeta para confirmar: avisa si son de otro despacho y pasa los dólares a pesos.",
    w:"Lo que pidió Santi: tirar los PDF y que el sistema vaya tomando los gastos de cada carpeta.",nota:"Consumo de IA aparte: unos centavos de dólar por comprobante."},
   {c:"A2",g:"A",n:"Pre-liquidación por carpeta",f:"D",rec:1,
    d:"En cada operación, todo lo que hay para cobrarle al cliente: honorarios, gastos de la carpeta, gastos de caja y fletes, con lo ya facturado tachado. Avisa lo que falta antes de liquidar: gastos sin revisar, comprobantes sin leer, cargos de Barracas o un despacho todavía sin salida.",
@@ -695,16 +695,19 @@ const MODS = [
   {c:"A3",g:"A",n:"Prefacturas de Barracas automáticas",f:"D",rec:1,
    d:"A principio de cada mes el sistema arma la prefactura de cada cliente del depósito con el almacenaje real de cada día y los cargos de cada movimiento, y avisa a administración para revisarlas.",
    w:"Hoy el almacenaje de algunos clientes se calcula a mano y aproximado. Con los m³ reales de cada día no se escapa nada."},
-  {c:"A4",g:"A",n:"Honorarios en % del FOB",f:"D",
-   d:"Reglas de honorarios como porcentaje del FOB en dólares, con mínimo y máximo en pesos y el tipo de cambio que carga administración. El FOB llega solo de IntegraComex.",
+  {c:"A4",g:"A",n:"Honorarios en % del FOB o del CIF",f:"D",
+   d:"Reglas de honorarios como porcentaje del FOB o del CIF en dólares, con mínimo y máximo en pesos y el tipo de cambio que carga administración. Los valores llegan solos de IntegraComex.",
    w:"Para los clientes que no pagan un fijo por despacho."},
-  {c:"A5",g:"A",n:"Gasto cargado con la foto del ticket",f:"N",ia:1,
-   d:"El gestor saca la foto del ticket desde el celular y el sistema lee importe, concepto y número de despacho para cargarlo en su caja.",
+  {c:"A5",g:"A",n:"Gasto cargado con la foto del ticket",f:"D",ia:1,
+   d:"El gestor saca la foto del ticket desde el celular: la IA completa importe, fecha y concepto y encuentra el despacho. El ticket queda guardado en la caja y en el legajo. Si escribe el número de despacho o de carpeta, el sistema sugiere la operación.",
    w:"Los gestores cargan desde la calle en segundos, sin tipear.",nota:"Consumo de IA aparte."},
-  {c:"A6",g:"A",n:"Cotizador",f:"N",
+  {c:"A6",g:"A",n:"Cotizador",f:"D",
    d:"Cotización en PDF en un minuto, con honorarios, flete y depósito según las reglas y el tarifario del sistema. También puede responder lo que llega por el formulario de la web.",
    w:"La cotización llega antes del arribo, como promete la web."},
 
+  {c:"C0",g:"C",n:"Circuito con responsables",f:"D",rec:1,
+   d:"Cada operación tiene su paso (operación, supervisión, facturación, facturada) y quién la tiene. Se pasa al siguiente con un botón y una nota, se devuelve si falta algo, y quien la recibe se entera al celular. Antes de pasarla, el sistema muestra lo que falta revisar. Al emitir la factura queda facturada sola, y si se traba más de 3 días en un paso, se avisa.",
+   w:"Lo que pidió Wenchy: un estado de la operación que asigne pendientes y quién es el responsable en cada momento."},
   {c:"C1",g:"C",n:"Avisos personalizados al celular",f:"D",rec:1,
    d:"Cada persona recibe los suyos: cargas por arribar, arribadas sin salida, canal naranja o rojo, suspensivas por vencer, tareas atrasadas, gastos sin despacho y prefacturas en borrador. Cada uno elige cuáles y con cuánta anticipación.",
    w:"Lo que pidió Santi: un aviso por usuario con sus cargas por arribar, pendientes y cosas por vencer."},
@@ -727,7 +730,7 @@ const MODS = [
   {c:"L1",g:"L",n:"Legajo digital",f:"D",rec:1,
    d:"Cada carpeta guarda sus documentos: factura comercial, conocimiento, packing list, certificados, despacho firmado. Se arrastran los archivos, el tipo se adivina por el nombre y se ve qué falta de la apertura. Suma solo el PDF del despacho de IntegraComex.",
    w:"Lo que pidió Santi: legajos con toda la info de cada despacho, desde el número interno y la primera documentación."},
-  {c:"L2",g:"L",n:"Constancia de entrega en el celular",f:"N",
+  {c:"L2",g:"L",n:"Constancia de entrega en el celular",f:"D",
    d:"El chofer marca «entregado» con una foto y la firma de quien recibe. Queda la constancia en el legajo, se cierra el viaje y queda listo para facturar.",
    w:"El remito firmado deja de viajar en papel hasta la oficina."},
 
@@ -740,7 +743,7 @@ const MODS = [
   {c:"P3",g:"P",n:"Avisos automáticos a los clientes",f:"N",req:["P2"],
    d:"Un mail al cliente cuando su carga tiene canal, cuando se libera y cuando se entrega, con la constancia de entrega.",
    w:"Lo que promete la web: se avisa el mismo día si sale canal rojo."},
-  {c:"P4",g:"P",n:"Pedido de entrega desde el portal",f:"N",req:["P2"],
+  {c:"P4",g:"P",n:"Pedido de entrega desde el portal",f:"D",req:["P2"],
    d:"El cliente del depósito pide una entrega desde su portal y se crea sola la tarea en la agenda, con el remito.",
    w:"Las entregas de Barracas dejan de coordinarse por WhatsApp."},
 
@@ -761,7 +764,7 @@ const MODS = [
 
 const PACKS = [
   {id:"esencial", n:"Esencial", d:"El sistema completo, más lo que más se nota desde el primer día.",
-   mods:["A3","C1","C2","L1","I1"]},
+   mods:["A3","C0","C1","C2","L1","I1"]},
   {id:"recomendado", n:"Como en la demo", d:"Todo lo que ya pueden probar en la demo, más la factura directo en Tango.",
    mods:MODS.filter(m=>m.f==="D").map(m=>m.c).concat(["I2"]), rec:true},
   {id:"completo", n:"Completo", d:"Todo lo que está en esta propuesta.",
@@ -780,6 +783,7 @@ const PAINS = [
   ["Poder tirar todos los archivos en PDF para que vaya tomando los gastos de cada carpeta.","La IA lee cada comprobante y lo deja como gasto de la carpeta para confirmar.",["A1"]],
   ["Al tener IA integrada, podría ir haciendo cálculos y pre-liquidación de facturación.","Pre-liquidación de cada carpeta, con lo que falta revisar.",["A2"]],
   ["Desconozco por completo cómo funciona Tango, tendríamos que investigar si se puede conectar.","Hoy la factura sale en Excel con los códigos de Tango, incluido siempre. Con Delta o Nube, directo.",["I2"]],
+  ["Un estado de la operación que asigne pendientes y quién es el responsable en ese momento.","Circuito operador → supervisor → facturación, con avisos al celular y operaciones trabadas a la vista.",["C0","C1"]],
   ["Es inviable laburar así.","16 planillas en un solo sistema, con todo 2026 importado. Mientras convivan, el sistema las lee solo.",["I1","C3"]],
 ];
 
