@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { ArrowUpRight, Footprints, X } from 'lucide-react'
 import { Field, Kpi, NumInput, Pill } from './ui'
 import { escenarios, etiquetaMesLarga, pct, usd } from './calculos'
 
@@ -8,6 +8,9 @@ const FUENTES = [
   ['iProfesional: construir en dólares (ago-2026)', 'https://www.iprofesional.com/finanzas/461604-construir-o-remodelar-en-dolares-por-que-el-metro-cuadrado-marca-maximos-y-que-conviene'],
 ]
 
+// El diseñador 3D vive en Velada (otra app, con su propia contraseña): acá solo va el link.
+const CASA_3D_URL = import.meta.env.VITE_CASA_3D_URL || 'https://web-production-56e395.up.railway.app/casa'
+
 export default function Obra({ cfg, calc: c, cambiarCfg }) {
   const lista = escenarios(cfg, c)
   const n = (key, props = {}) => <NumInput id={`lt-${key}`} value={cfg[key]} onChange={(v) => cambiarCfg({ [key]: v })} {...props} />
@@ -15,6 +18,8 @@ export default function Obra({ cfg, calc: c, cambiarCfg }) {
 
   return (
     <>
+      <Diseno3D />
+
       <Deseos deseos={cfg.deseos || []} cambiar={(deseos) => cambiarCfg({ deseos })} />
 
       <section className="lt-section">
@@ -112,6 +117,36 @@ export default function Obra({ cfg, calc: c, cambiarCfg }) {
         </div>
       </section>
     </>
+  )
+}
+
+// Tarjeta que abre el diseñador 3D del lote en otra pestaña.
+function Diseno3D() {
+  return (
+    <section className="lt-3d" aria-labelledby="lt-3d-t">
+      <div className="lt-hero-ripple" aria-hidden="true" />
+      <div className="lt-3d-txt">
+        <span className="lt-eyebrow">Lote 137 en 3D</span>
+        <h2 id="lt-3d-t" className="lt-3d-h">Diseñala en 3D y recorrela</h2>
+        <p>Dibujamos las paredes sobre el terreno real, con sus retiros, sumamos la planta alta y después la caminamos por adentro como si ya estuviera hecha. Funciona también en el celu.</p>
+        <a className="lt-btn lt-3d-btn" href={CASA_3D_URL} target="_blank" rel="noopener noreferrer">
+          Abrir el diseño 3D <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+        <span className="lt-small lt-3d-nota"><Footprints size={14} aria-hidden="true" /> Se abre en otra pestaña y pide su propia contraseña.</span>
+      </div>
+      <svg className="lt-3d-art" viewBox="0 0 260 190" role="img" aria-label="Dibujo de una casa sobre el terreno">
+        <path d="M18 128 L130 72 L242 128 L130 184 Z" fill="#eef3e2" stroke="#c9d9a8" />
+        <path d="M58 128 L130 92 L202 128 L130 164 Z" fill="none" stroke="#3fa1ac" strokeDasharray="4 4" opacity=".55" />
+        <path d="M84 120 L84 86 L130 63 L130 97 Z" fill="#ffffff" stroke="#2b7a83" />
+        <path d="M130 97 L130 63 L176 86 L176 120 Z" fill="#e3f3f4" stroke="#2b7a83" />
+        <path d="M84 120 L130 97 L176 120 L130 143 Z" fill="#f6f1e7" stroke="#2b7a83" />
+        <path d="M78 89 L130 36 L182 89 L130 66 Z" fill="#3fa1ac" stroke="#2b7a83" />
+        <path d="M100 104 L100 91 L112 85 L112 98 Z" fill="#e3f3f4" stroke="#2b7a83" />
+        <path d="M146 104 L146 84 L158 90 L158 110 Z" fill="#ffffff" stroke="#2b7a83" />
+        <circle cx="212" cy="40" r="13" fill="#f3d9a0" className="lt-sol" />
+        <circle cx="46" cy="140" r="9" fill="#c9d9a8" /><circle cx="214" cy="146" r="11" fill="#c9d9a8" />
+      </svg>
+    </section>
   )
 }
 
