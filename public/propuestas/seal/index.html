@@ -400,6 +400,7 @@ textarea.input:focus-visible{outline:3px solid var(--accent-line);outline-offset
               <li><b>Depósito:</b> el stock de cada cliente y las prefacturas del mes.</li>
               <li><b>Facturación:</b> todo lo pendiente de cada cliente, junto.</li>
               <li><b>Tablero:</b> despachos, depósito, camiones y facturación del año.</li>
+              <li><b>Asistente</b> (botón de abajo a la derecha): preguntale «¿qué operaciones están trabadas?».</li>
             </ol>
           </div>
         </div>
@@ -435,6 +436,7 @@ textarea.input:focus-visible{outline:3px solid var(--accent-line);outline-offset
             <li><span><b>Sus planillas adentro:</b> todo 2026 importado sin perder nada, con las diferencias que encontramos listas para revisar.</span></li>
             <li><span><b>Servidor de pruebas y de producción,</b> certificado de seguridad y copias de seguridad todas las noches, que se pueden bajar desde Configuración.</span></li>
             <li><span><b>Puesta en marcha sin frenar el trabajo,</b> paso a paso en la sección 08.</span></li>
+            <li><span><b>Ayuda dentro del sistema</b> para cada rol (operador, supervisor, facturación, gestor, chofer, depósito, dirección), paso a paso.</span></li>
             <li><span><b>Capacitación por área,</b> manual de uso y 30 días de garantía de corrección sin cargo.</span></li>
           </ul>
         </div>
@@ -698,6 +700,9 @@ const MODS = [
   {c:"A4",g:"A",n:"Honorarios en % del FOB o del CIF",f:"D",
    d:"Reglas de honorarios como porcentaje del FOB o del CIF en dólares, con mínimo y máximo en pesos y el tipo de cambio que carga administración. Los valores llegan solos de IntegraComex.",
    w:"Para los clientes que no pagan un fijo por despacho."},
+  {c:"A0",g:"A",n:"Asistente con IA",f:"D",rec:1,ia:1,
+   d:"Un chat en todas las pantallas (botón abajo a la derecha) y en el inicio. Se le pide lo que sea en castellano: consulta operaciones, agenda, cajas, lo que falta facturar y el stock, y responde con links. Puede abrir carpetas, agendar tareas, cargar gastos y pasar operaciones: antes muestra qué va a hacer y lo hace sólo si se confirma. Usa los permisos de cada persona y explica cómo se hace cada cosa.",
+   w:"«¿Qué operaciones están trabadas?», «¿Cuánto falta facturarle a Toyota?», «Agendá un retiro mañana a las 10 en Terminal 4»: respondido en segundos, sin buscar en ningún lado.",nota:"Consumo de IA aparte: centavos de dólar por consulta."},
   {c:"A5",g:"A",n:"Gasto cargado con la foto del ticket",f:"D",ia:1,
    d:"El gestor saca la foto del ticket desde el celular: la IA completa importe, fecha y concepto y encuentra el despacho. El ticket queda guardado en la caja y en el legajo. Si escribe el número de despacho o de carpeta, el sistema sugiere la operación.",
    w:"Los gestores cargan desde la calle en segundos, sin tipear.",nota:"Consumo de IA aparte."},
@@ -784,6 +789,7 @@ const PAINS = [
   ["Al tener IA integrada, podría ir haciendo cálculos y pre-liquidación de facturación.","Pre-liquidación de cada carpeta, con lo que falta revisar.",["A2"]],
   ["Desconozco por completo cómo funciona Tango, tendríamos que investigar si se puede conectar.","Hoy la factura sale en Excel con los códigos de Tango, incluido siempre. Con Delta o Nube, directo.",["I2"]],
   ["Un estado de la operación que asigne pendientes y quién es el responsable en ese momento.","Circuito operador → supervisor → facturación, con avisos al celular y operaciones trabadas a la vista.",["C0","C1"]],
+  ["Al tener IA integrada, que nos ayude con todo.","Un asistente que consulta y carga cosas en el sistema con sólo pedírselo, siempre con confirmación.",["A0"]],
   ["Es inviable laburar así.","16 planillas en un solo sistema, con todo 2026 importado. Mientras convivan, el sistema las lee solo.",["I1","C3"]],
 ];
 
