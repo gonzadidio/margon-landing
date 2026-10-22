@@ -8,6 +8,7 @@ import { login } from './auth.js'
 import admin from './routes/admin.js'
 import portal from './routes/portal.js'
 import casa from './routes/casa.js'
+import tele from './routes/tele.js'
 import { iniciarResumenDiario } from './digest.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -39,6 +40,7 @@ app.post('/api/presupuesto', async (req, res, next) => {
 // Van antes del admin: el router admin exige el token de admin en todo.
 app.use('/api/portal', portal)
 app.use('/api/casa', casa)
+app.use('/api/tele', tele)
 app.use('/api', admin)
 
 // Error handler de la API

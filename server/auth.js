@@ -78,6 +78,26 @@ export function signCasaToken(usuarioId) {
   return jwt.sign({ role: 'casa', uid: usuarioId }, JWT_SECRET, { expiresIn: '60d' })
 }
 
+// ---------- Tele ----------
+// Mismos usuarios que /casa, pero un rol propio: el token de /tele no abre /casa ni al revés.
+export function signTeleToken(usuarioId) {
+  return jwt.sign({ role: 'tele', uid: usuarioId }, JWT_SECRET, { expiresIn: '90d' })
+}
+
+export function verifyTeleToken(req, res, next) {
+  const header = req.headers.authorization || ''
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null
+  if (!token) return res.status(401).json({ error: 'No autorizado' })
+  try {
+    const payload = jwt.verify(token, JWT_SECRET)
+    if (payload.role !== 'tele') return res.status(401).json({ error: 'No autorizado' })
+    req.teleUid = payload.uid
+    next()
+  } catch {
+    res.status(401).json({ error: 'Sesión inválida o expirada' })
+  }
+}
+
 export function verifyCasaToken(req, res, next) {
   const header = req.headers.authorization || ''
   const token = header.startsWith('Bearer ') ? header.slice(7) : null

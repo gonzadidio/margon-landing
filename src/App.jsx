@@ -21,10 +21,14 @@ import { getPresupuestoConfig, defaultConfig } from './config/presupuestos'
 
 // Sección privada de la casa (Lote 137): se carga aparte para no sumar peso al sitio.
 const CasaApp = lazy(() => import('./casa/CasaApp'))
+// Panel de la tele del living: idem, aparte.
+const TeleApp = lazy(() => import('./tele/TeleApp'))
 
 const path = window.location.pathname
 // Plan de la casa de Gonza y Martina: /casa (no se enlaza desde la web pública)
 const isCasa = path.startsWith('/casa')
+// Fotos y diseño de la tele: /tele (no se enlaza desde la web pública)
+const isTele = path.startsWith('/tele')
 // Zona interna oculta: /admin (no se enlaza desde la web pública)
 const isAdmin = path.startsWith('/admin')
 // Portal de clientes: /portal
@@ -45,6 +49,7 @@ export default function App() {
   if (isAdmin) return <AdminApp />
   if (isPortal) return <PortalApp />
   if (isCasa) return <Suspense fallback={null}><CasaApp /></Suspense>
+  if (isTele) return <Suspense fallback={null}><TeleApp /></Suspense>
 
   if (projectMatch) {
     const slug = decodeURIComponent(projectMatch[1])

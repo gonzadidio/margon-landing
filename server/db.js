@@ -1,4 +1,5 @@
 import pg from 'pg'
+import crypto from 'node:crypto'
 
 const { Pool } = pg
 
@@ -365,6 +366,47 @@ export async function initDb() {
       cobrado     BOOLEAN NOT NULL DEFAULT false,
       cobrado_at  TIMESTAMPTZ,
       creado_por  INTEGER REFERENCES casa_usuarios(id) ON DELETE SET NULL,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+
+  // ---------- Tele (/tele) ----------
+  // Panel de la Sansei del living: fotos, fondos y diseño de la pantalla de inicio.
+  // Entran los mismos usuarios de /casa. La tele se sincroniza sola con tv_token
+  // (lo genera initDb la primera vez y se carga en la tele una única vez).
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS tele_config (
+      id          INTEGER PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+      datos       JSONB NOT NULL DEFAULT '{}',
+      tv_token    TEXT NOT NULL,
+      tv_visto    TIMESTAMPTZ,              -- última vez que la tele preguntó
+      tv_estado   JSONB NOT NULL DEFAULT '{}', -- lo que la tele informa: versión, apps instaladas, memoria
+      updated_by  INTEGER REFERENCES casa_usuarios(id) ON DELETE SET NULL,
+      updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `)
+  await pool.query(
+    `INSERT INTO tele_config (id, tv_token) VALUES (1, $1) ON CONFLICT (id) DO NOTHING`,
+    [crypto.randomBytes(24).toString('hex')]
+  )
+  // Fotos del cuadro (tipo 'foto') y fondos de pantalla (tipo 'fondo'). Llegan ya
+  // achicadas desde el navegador; hash = sha1 de los bytes, para que la tele baje
+  // solo lo que cambió.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS tele_fotos (
+      id          SERIAL PRIMARY KEY,
+      tipo        TEXT NOT NULL,            -- 'foto' | 'fondo'
+      titulo      TEXT,                     -- fondos: nombre del lugar
+      lugar       TEXT,                     -- fondos: dónde queda
+      credito     TEXT,                     -- fondos: autor y licencia
+      mime        TEXT NOT NULL DEFAULT 'image/jpeg',
+      ancho       INTEGER,
+      alto        INTEGER,
+      tamano      INTEGER,
+      hash        TEXT NOT NULL,
+      datos       BYTEA NOT NULL,
+      orden       INTEGER NOT NULL DEFAULT 0,
+      subido_por  INTEGER REFERENCES casa_usuarios(id) ON DELETE SET NULL,
       created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
     );
   `)
