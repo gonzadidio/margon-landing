@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Presupuesto del sistema de gestión de SEAL & Cía: despachos, depósito, transporte, facturación y personal.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Presupuesto SEAL & Cía">
+<meta property="og:description" content="Un solo sistema para despachos, depósito Barracas, transporte, facturación y personal, conectado a IntegraComex.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Presupuesto SEAL &amp; Cía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Presupuesto formal en papel claro: el detalle a la izquierda y un resumen fijo a la derecha con el total y la aceptación. */
+:root{
+  --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
+  --line:#E2E5EA; --line-2:#C9CFD8; --accent:#1E579E; --accent-deep:#16407A; --btn:#1E579E;
+  --accent-tint:#EEF3FA; --accent-line:#BFD0E8; --sun:#F2B705; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(32px,4.4vw,48px);font-weight:700;letter-spacing:-.022em}
+h2{font-size:clamp(23px,2.5vw,29px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:18.5px;font-weight:600}
+p{margin:0}
+a{color:var(--accent-deep)}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num{white-space:nowrap}
+.muted{color:var(--ink-2)}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.only-print{display:none}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:24px;padding-block:0 140px}
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
+.brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.client{font:700 17px/1 var(--sans);letter-spacing:.2em}
+.client i{font-style:normal;color:var(--sun)}
+.brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
+.author{font-size:14px;color:var(--ink-2)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:48px;align-items:start}
+main{min-width:0;display:grid;gap:64px}
+section{display:grid;gap:22px;min-width:0}
+.sec-head{display:grid;gap:10px;max-width:72ch}
+
+/* portada */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px 40px;align-items:start}
+.cover-main{display:grid;gap:16px;min-width:0}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
+.ficha div{display:grid;gap:2px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)}
+.ficha div:last-child{border-bottom:0;margin-bottom:0}
+.ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ficha dd{margin:0;font-weight:500;font-size:15.5px;overflow-wrap:anywhere}
+
+/* tablas */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;vertical-align:top;padding:13px 18px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td,tfoot tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+td.r,th.r{text-align:right}
+td.money{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+td small{display:block;font-size:14px;color:var(--ink-2)}
+tr.total td{font-weight:700;font-size:17px;background:var(--accent-tint)}
+tr.total td.money{font-size:18px}
+tr.sub td{color:var(--ink-2);font-size:14.5px}
+.resumen{min-width:480px}
+
+/* módulos */
+.group-t{display:flex;align-items:baseline;gap:10px;margin:0;padding:12px 18px;background:var(--tint);font-weight:600;border-bottom:1px solid var(--line)}
+.group-t .letter{font:600 12px/1 var(--mono);background:var(--ink);color:#fff;padding:5px 7px;border-radius:5px}
+.items{min-width:560px}
+.items td.code{width:58px;font:600 12.5px/1.6 var(--mono);color:var(--ink-2)}
+.items td.name b{display:block;font-weight:600}
+.items td.name span{font-size:14.5px;color:var(--ink-2)}
+.items td.why{width:34%;font-size:14px;color:var(--ink-2);border-left:1px solid var(--line)}
+.items td.why b{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.new{display:inline-block;margin-left:6px;font:600 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:999px;background:#FFF6D6;color:#7A5A00;vertical-align:2px}
+
+/* para más adelante */
+.later{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lt{display:grid;grid-template-columns:46px minmax(0,1fr);gap:6px 14px;align-items:start;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow);min-width:0}
+.lt.talked{border-color:var(--accent-line);background:var(--accent-tint)}
+.lt .code{font:600 12.5px/1 var(--mono);text-align:center;padding:6px 0;border-radius:6px;background:var(--tint);color:var(--ink-2)}
+.lt.talked .code{background:#fff}
+.lt .body{display:grid;gap:6px;min-width:0}
+.lt .name{font-weight:600;font-size:16.5px}
+.lt .desc{color:var(--ink-2);font-size:14.5px}
+.lt .note{font-size:13.5px;color:var(--ink-3)}
+.talk-badge{justify-self:start;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:#fff;color:var(--accent-deep);border:1px solid var(--accent-line)}
+
+/* formas de pago */
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.plan{position:relative;display:grid;gap:8px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow);cursor:pointer;min-width:0;transition:border-color .15s,background .15s}
+.plan:has(input:checked){border-color:var(--accent);background:var(--accent-tint);box-shadow:inset 0 0 0 1px var(--accent),var(--shadow)}
+.plan:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.plan input{position:absolute;top:20px;right:20px;width:19px;height:19px;margin:0;accent-color:var(--btn);cursor:pointer}
+.plan-n{font-weight:600;font-size:17px;padding-right:30px}
+.plan-tag{font:600 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+.plan-total{font:600 25px/1.15 var(--mono);letter-spacing:-.02em;margin-top:4px}
+.plan-pagos{display:grid;gap:7px;padding-top:12px;margin-top:4px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.pp{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.pp .num{color:var(--ink);font-size:13.5px}
+
+/* tarjetas */
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);display:grid;gap:12px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.card .kicker{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.card .big{font:600 28px/1.1 var(--mono);letter-spacing:-.02em}
+.card .big small{font:500 14px var(--sans);color:var(--ink-3);letter-spacing:0}
+ul.plain,ol.plain{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink-2)}
+ul.plain b,ol.plain b{color:var(--ink)}
+.checklist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px}
+.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
+.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.checklist b{color:var(--ink)}
+.base{display:grid;gap:20px;padding:28px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.base-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.demo{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding:18px 22px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.demo p{color:var(--ink-2);font-size:15px;max-width:60ch}
+.demo p b{color:var(--ink)}
+.timeline{list-style:none;margin:0;padding:6px 0 0;display:grid;border-left:2px solid var(--line);margin-left:8px}
+.timeline li{position:relative;display:grid;grid-template-columns:180px minmax(0,1fr);gap:4px 22px;padding:0 0 22px 26px}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2)}
+.timeline li.key::before{background:var(--accent);border-color:var(--accent)}
+.timeline .when{font:600 13.5px/1.5 var(--mono);color:var(--accent-deep)}
+.timeline .what{color:var(--ink-2)}
+.timeline .what b{color:var(--ink)}
+.cond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.cond div{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:4px}
+.cond dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.cond dd{margin:0;color:var(--ink-2);font-size:15px}
+footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* resumen fijo */
+.sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);min-width:0}
+.sum-card{display:grid;gap:14px;padding:24px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sum-card h2{font-size:22px}
+.lines{display:grid;gap:8px;font-size:14.5px}
+.line{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.line .num{font-size:14.5px}
+.totalbox{display:grid;gap:4px;padding:16px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.totalbox .lbl{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.totalbox .big{font:600 32px/1.1 var(--mono);letter-spacing:-.02em}
+.split{display:grid;gap:6px;font-size:14px;color:var(--ink-2)}
+.monthly{padding-top:12px;border-top:1px solid var(--line);font-size:14.5px}
+.btn{appearance:none;font:600 15px/1.2 var(--sans);padding:12px 18px;border-radius:9px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;text-align:center}
+.btn:hover{background:var(--tint)}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#0E7640}
+.btn.primary{background:var(--btn);border-color:var(--btn);color:#fff}
+.btn.primary:hover{background:var(--accent-deep)}
+.demo .btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.actions{display:grid;gap:8px}
+.wa-note{font-size:13px;color:var(--ink-3);line-height:1.45}
+.status{min-height:1.4em;font-size:13.5px;color:var(--ok)}
+.fallback{width:100%;min-height:130px;font:13px/1.45 var(--mono);padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--page);color:var(--ink)}
+.fallback[hidden]{display:none}
+.sum-bar{display:none}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .sum{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;max-height:84vh;overflow:auto;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(19,23,32,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+  .sum-card{border:0;box-shadow:none;padding:8px 0 4px}
+  .sum-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .sum-bar strong{display:block;font:600 20px/1.2 var(--mono)}
+  .sum-bar small{display:block;font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .sum:not(.open) .sum-card{display:none}
+}
+@media (max-width:900px){ .cover,.plans{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:720px){
+  .cols2,.cond,.checklist,.later{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr)}
+  main{gap:52px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .base{padding:20px}
+  .brandline .kind{border-left:0;padding-left:0}
+  .items td.why{display:none}
+  .items,.resumen{min-width:0}
+  th,td{padding:12px 14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@page{size:A4;margin:14mm 13mm}
+@media print{
+  html,body{background:#fff}
+  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .topbar{margin-bottom:14px;padding-block:0 8px}
+  .layout{display:block}
+  main{gap:18px}
+  section{gap:8px}
+  h1{font-size:22pt} h2{font-size:14.5pt} h3{font-size:11.5pt}
+  .eyebrow{font-size:7.2pt}
+  .lede{font-size:10.5pt}
+  .sum,.only-screen{display:none!important}
+  .only-print{display:block}
+  .cover{grid-template-columns:minmax(0,1fr) 190px;gap:16px}
+  .ficha{padding:10px 12px 2px;box-shadow:none}
+  .ficha div{padding-bottom:6px;margin-bottom:6px}
+  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
+  .tbl,.card,.base,.lt{box-shadow:none}
+  .tbl{overflow:visible;border-radius:6px}
+  .resumen,.items{min-width:0}
+  th,td{padding:4px 8px;font-size:8.6pt}
+  th{font-size:6.8pt}
+  td small{font-size:8pt}
+  tr.total td{font-size:10pt} tr.total td.money{font-size:10.5pt}
+  .items td.name span,.items td.why{font-size:8.2pt}
+  .items td.code{width:36px}
+  .group-t{padding:5px 8px;font-size:9pt}
+  .later{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .lt{padding:7px 9px;gap:2px 8px;grid-template-columns:28px minmax(0,1fr);border-radius:6px}
+  .lt .name{font-size:9.6pt} .lt .desc{font-size:8.4pt} .lt .note{font-size:7.8pt} .lt .code{font-size:7.6pt;padding:3px 0}
+  .talk-badge{font-size:6.2pt;padding:2px 5px}
+  .card{padding:10px 12px;gap:5px;border-radius:8px}
+  .card .big{font-size:15pt}
+  .base{padding:10px 12px;gap:8px;border-radius:8px}
+  .base-head{padding-bottom:6px}
+  .demo{padding:8px 10px;border-radius:6px} .demo p{font-size:8.8pt}
+  .checklist{gap:3px 18px;grid-template-columns:repeat(2,minmax(0,1fr))} .checklist li{font-size:8.6pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
+  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
+  ul.plain,ol.plain{gap:3px;font-size:9pt}
+  .timeline li{grid-template-columns:110px minmax(0,1fr);padding:0 0 5px 16px}
+  .timeline li::before{width:10px;height:10px;left:-6px}
+  .timeline .when{font-size:8.2pt} .timeline .what{font-size:9pt}
+  .cond{gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.5pt}
+  tr.sub td{font-size:8.6pt}
+  .plans{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .plan{padding:8px 10px;gap:3px;border-radius:6px;box-shadow:none;background:#fff!important;border-color:var(--line)!important}
+  .plan input{display:none}
+  .plan-n{font-size:9.8pt;padding:0} .plan-tag{font-size:6.6pt} .plan-total{font-size:13pt;margin:0}
+  .plan-pagos{font-size:8pt;gap:2px;padding-top:5px;margin-top:2px} .pp .num{font-size:8pt}
+  .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card .muted,.card p:not(.big):not(.kicker){font-size:8.8pt!important}
+  .card ul.plain{font-size:8.8pt}
+  tr,.lt,.card,.cond div,.timeline li,.checklist li{break-inside:avoid}
+  .sec-head,h2,h3,.group-t{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brandline"><span class="client">SEAL<i>&amp;</i>CÍA</span><span class="kind">Presupuesto · Sistema de gestión</span></div>
+    <span class="author">Gonzalo Di Dio Leal</span>
+  </div>
+
+  <div class="layout">
+    <main id="main">
+
+      <section class="cover" aria-labelledby="t-cover">
+        <div class="cover-main">
+          <p class="eyebrow">Presupuesto</p>
+          <h1 id="t-cover">Un solo sistema para despachos, depósito, transporte, facturación y personal</h1>
+          <p class="lede">Todo lo que hoy vive en las planillas, en un solo lugar y conectado a IntegraComex: <b>el circuito de cada despacho, la coordinación del día, el depósito de Barracas, los camiones, la facturación para Tango, las cobranzas, los pagos y el personal</b>. Con lo que pidieron en las reuniones y lo que nos pasaron Sofi y Wenchy. Ya está funcionando con sus datos reales.</p>
+        </div>
+        <dl class="ficha">
+          <div><dt>Cliente</dt><dd>SEAL &amp; Cía S.A. · Santiago Ortelli</dd></div>
+          <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal</dd></div>
+          <div><dt>Fecha</dt><dd>23 de octubre de 2026</dd></div>
+          <div><dt>Validez</dt><dd>Hasta el 22 de noviembre de 2026</dd></div>
+          <div><dt>Todo el equipo usándolo</dt><dd>Martes 1 de diciembre de 2026</dd></div>
+        </dl>
+      </section>
+
+      <section id="resumen" aria-labelledby="t-resumen">
+        <div class="sec-head">
+          <p class="eyebrow">01 · Resumen</p>
+          <h2 id="t-resumen">La inversión</h2>
+        </div>
+        <div class="tbl">
+          <table class="resumen">
+            <thead><tr><th>Concepto</th><th class="r">Monto</th></tr></thead>
+            <tbody id="resumenBody"></tbody>
+          </table>
+        </div>
+        <p class="muted">El sistema se cotiza en dólares estadounidenses; se puede pagar en pesos al tipo de cambio que acordemos. Se paga en un solo pago o en 3, 6 o 9 cuotas, como prefieran. El mantenimiento mensual incluye el servidor y empieza cuando terminan los 30 días de garantía.</p>
+      </section>
+
+      <section id="incluido" aria-labelledby="t-incluido">
+        <div class="base">
+          <div class="base-head">
+            <div class="sec-head">
+              <p class="eyebrow">02 · Incluido siempre</p>
+              <h2 id="t-incluido">La base del sistema, para todo el equipo</h2>
+            </div>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Usuarios sin límite,</b> cada uno con su mail y contraseña, y permisos por sección y por persona: cada uno ve, carga o aprueba lo que le corresponde.</span></li>
+            <li><span><b>Alta por link:</b> la persona recibe el link por WhatsApp o por mail y elige su contraseña.</span></li>
+            <li><span><b>En la compu y en el celular,</b> instalado como una aplicación, con avisos al celular de lo que le toca a cada uno.</span></li>
+            <li><span><b>Buscador general:</b> despacho, carpeta, cliente, CUIT, remito o destino desde cualquier pantalla.</span></li>
+            <li><span><b>Historial de cambios:</b> quién tocó qué y cuándo, con nombre y apellido.</span></li>
+            <li><span><b>Ayuda por puesto dentro del sistema,</b> paso a paso, para el operador, coordinación, facturación, depósito, choferes y dirección.</span></li>
+            <li><span><b>Importación de sus planillas:</b> despachos, coordinación, cajas, camiones, depósito, cheques, transferencias, vacaciones, recibos y libro de honorarios.</span></li>
+            <li><span><b>Carga inicial de datos:</b> clientes con sus códigos de Tango, artículos, empleados y honorarios.</span></li>
+            <li><span><b>Copias de seguridad todas las noches,</b> certificado de seguridad y los datos siempre a nombre de SEAL.</span></li>
+            <li><span><b>Un mes en paralelo con las planillas</b> para comparar antes de dejarlas.</span></li>
+            <li><span><b>Capacitación por área y acompañamiento,</b> con la gente de todas las edades, de a poco.</span></li>
+            <li><span><b>Presentación al equipo</b> el 4 de diciembre, con una guía corta por puesto, y 30 días de garantía de corrección sin cargo.</span></li>
+          </ul>
+          <div class="demo only-screen">
+            <p><b>Ya lo pueden usar.</b> El sistema está funcionando con sus datos reales y conectado a IntegraComex. Cada uno entra con su usuario; lo que prueben no cambia las planillas ni Tango.</p>
+            <div class="btns">
+              <a class="btn primary" href="https://seal-app.up.railway.app" target="_blank" rel="noopener">Entrar al sistema</a>
+              <a class="btn" href="https://seal.up.railway.app/propuestas/" target="_blank" rel="noopener">Ver las propuestas de la web</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="seleccion" aria-labelledby="t-seleccion">
+        <div class="sec-head">
+          <p class="eyebrow">03 · Lo que tiene el sistema</p>
+          <h2 id="t-seleccion">Los módulos, área por área</h2>
+          <p class="muted">Todos entran en este presupuesto. Los marcados como nuevos se terminan en noviembre, con la información que nos pasen.</p>
+        </div>
+        <div class="tbl" id="itemsWrap"></div>
+      </section>
+
+      <section id="despues" aria-labelledby="t-despues">
+        <div class="sec-head">
+          <p class="eyebrow">04 · Para sumar después</p>
+          <h2 id="t-despues">Lo que charlamos para más adelante</h2>
+          <p class="muted">No están en este presupuesto porque dependen de otras empresas. Se suman cuando estén las condiciones y se cotizan en ese momento. Los marcados son los que salieron en las reuniones.</p>
+        </div>
+        <div class="later" id="later"></div>
+      </section>
+
+      <section id="mantenimiento" aria-labelledby="t-mant">
+        <div class="sec-head">
+          <p class="eyebrow">05 · Después del arranque</p>
+          <h2 id="t-mant">Mantenimiento, con el servidor incluido</h2>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <p class="kicker">Mantenimiento mensual</p>
+            <p class="big"><span id="mantBig"></span> <small>por mes</small></p>
+            <ul class="plain">
+              <li><b>Servidor, base de datos y copias de seguridad incluidos.</b> No pagan nada aparte por el hosting.</li>
+              <li>Tickets con respuesta en el día.</li>
+              <li>Monitoreo del sistema y copias de seguridad verificadas.</li>
+              <li>Actualizaciones de seguridad y corrección de errores.</li>
+              <li>Los cambios que haga IntegraComex en su API, siempre al día.</li>
+              <li>Hasta 6 horas por mes de cambios o mejoras.</li>
+            </ul>
+            <p class="muted" style="font-size:14px">Empieza cuando terminan los 30 días de garantía posteriores a la presentación. Hasta entonces, el servidor corre por nuestra cuenta.</p>
+          </div>
+          <div class="card">
+            <p class="kicker">Lo que dejan de hacer</p>
+            <h3>Menos planillas, menos cruces, menos llamados</h3>
+            <ul class="plain">
+              <li>Copiar las planillas cada mes y cada semana.</li>
+              <li>Cargar el mismo gasto dos veces, en la caja y en la facturación.</li>
+              <li>Cruzar varios archivos para saber cuánto falta cobrarle a un cliente.</li>
+              <li>Calcular a mano el almacenaje de cada cliente del depósito.</li>
+              <li>Entrar a IntegraComex a mirar el canal de cada despacho.</li>
+              <li>Escribir a mano la coordinación de cada día para el grupo.</li>
+              <li>Buscar en el Drive el papel del camión o del chofer que vence.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="pago" aria-labelledby="t-pago">
+        <div class="sec-head">
+          <p class="eyebrow">06 · Forma de pago</p>
+          <h2 id="t-pago">Pago único o en 3, 6 o 9 cuotas</h2>
+          <p class="muted" id="planCap"></p>
+        </div>
+        <div class="plans" id="plans" role="radiogroup" aria-label="Forma de pago"></div>
+        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. Eligen la forma de pago que les quede mejor; el mantenimiento empieza cuando terminan los 30 días de garantía, con cualquiera de ellas.</p>
+      </section>
+
+      <section id="calendario" aria-labelledby="t-cal">
+        <div class="sec-head">
+          <p class="eyebrow">07 · Calendario</p>
+          <h2 id="t-cal">Todo el equipo en el sistema para fin de año</h2>
+          <p class="muted">Si el presupuesto se aprueba hasta el viernes 6 de noviembre. Las planillas siguen andando en paralelo hasta que estén seguros.</p>
+        </div>
+        <ol class="timeline">
+          <li><span class="when">Hasta el 6 nov</span><span class="what"><b>Aprobación y primer pago.</b> Alta de todos los usuarios y las respuestas pendientes de Sofi y Wenchy.</span></li>
+          <li><span class="when">9 al 27 nov</span><span class="what"><b>Uso en paralelo con las planillas:</b> primero facturación y cobranzas con Sofi y coordinación con Wenchy, después el resto. Terminamos los módulos nuevos y aprobamos el libro de honorarios cliente por cliente.</span></li>
+          <li><span class="when">Fin de noviembre</span><span class="what"><b>Fecha de arranque:</b> lo anterior queda como facturado y desde ahí factura el sistema.</span></li>
+          <li class="key"><span class="when">Mar 1 dic</span><span class="what"><b>Todo el equipo usando el sistema,</b> cada uno con su usuario.</span></li>
+          <li class="key"><span class="when">Vie 4 dic</span><span class="what"><b>Presentación a todos en la cena de fin de año,</b> con la guía corta de cada puesto. Sale la web nueva en sealcia.com.</span></li>
+          <li><span class="when">Desde enero 2027</span><span class="what"><b>Terminan los 30 días de garantía</b> y empieza el mantenimiento mensual.</span></li>
+        </ol>
+      </section>
+
+      <section id="fuera" aria-labelledby="t-fuera">
+        <div class="sec-head">
+          <p class="eyebrow">08 · Fuera del presupuesto</p>
+          <h2 id="t-fuera">Lo que se paga aparte</h2>
+          <p class="muted">Servicios que SEAL paga directo a cada proveedor. El servidor no está en esta lista: va incluido en el mantenimiento.</p>
+        </div>
+        <ul class="plain">
+          <li><b>Consumo de inteligencia artificial:</b> se paga a Anthropic por uso, con la cuenta y la tarjeta de SEAL. Medido: US$ 0,03 por papel leído y entre US$ 0,01 y 0,09 por pregunta al asistente. Con su volumen, entre US$ 60 y 150 por mes según cuánto usen el asistente, con límite de gasto mensual.</li>
+          <li><b>IntegraComex y Tango:</b> lo que ya pagan hoy.</li>
+          <li><b>Envío de mails desde el sistema</b> (facturas, estados de cuenta, invitaciones): el servicio de envío, gratis o de muy bajo costo con su volumen, desde una dirección de sealcia.com.</li>
+          <li><b>Dominio y correo:</b> sealcia.com y sus mails, como hoy.</li>
+          <li><b>Strix y WhatsApp Business oficial,</b> si más adelante los suman: lo que cobre cada uno.</li>
+        </ul>
+      </section>
+
+      <section id="condiciones" aria-labelledby="t-cond">
+        <div class="sec-head">
+          <p class="eyebrow">09 · Condiciones</p>
+          <h2 id="t-cond">Lo que conviene tener claro</h2>
+        </div>
+        <dl class="cond">
+          <div><dt>Validez</dt><dd>Este presupuesto vale hasta el 22 de noviembre de 2026.</dd></div>
+          <div><dt>Garantía</dt><dd>30 días de corrección de errores sin cargo desde la presentación del 4 de diciembre.</dd></div>
+          <div><dt>Es de ustedes</dt><dd>Los datos de SEAL, de sus clientes y de su personal son de SEAL. Se pueden bajar cuando quieran, con las copias de cada noche.</dd></div>
+          <div><dt>Forma de trabajo</dt><dd>Revisiones cortas con cada área, tickets con respuesta en el día y lo nuevo primero en prueba. Si las respuestas llegan en el día, los tiempos se cumplen.</dd></div>
+        </dl>
+        <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, +54 9 11 3193-0330, indicando la forma de pago que elegís.</p>
+      </section>
+
+      <footer>
+        <span>Gonzalo Di Dio Leal · WhatsApp <span class="mono">+54 9 11 3193-0330</span> · gonzalodidioleal@gmail.com</span>
+        <span>Presupuesto para SEAL &amp; Cía S.A. · 23 de octubre de 2026</span>
+      </footer>
+    </main>
+
+    <aside class="sum" id="sum" aria-label="Total del presupuesto">
+      <div class="sum-bar">
+        <div><small>Total</small><strong id="barTotal"></strong></div>
+        <button class="btn" type="button" id="toggleSum" aria-expanded="false" aria-controls="sumCard">Ver detalle</button>
+      </div>
+      <div class="sum-card" id="sumCard">
+        <h2>Su presupuesto</h2>
+        <div class="lines">
+          <div class="line"><span>Base del sistema</span><span>Incluida</span></div>
+          <div class="line"><span id="sMods"></span><span>Incluidos</span></div>
+        </div>
+        <div class="totalbox">
+          <span class="lbl">Inversión total</span>
+          <span class="big" id="sTotal"></span>
+        </div>
+        <div class="split">
+          <div class="line"><span>Forma de pago</span><span id="sPlan" style="text-align:right"></span></div>
+          <div class="line" id="sPlanTotRow" hidden><span>Total con esta forma de pago</span><span class="num" id="sPlanTot"></span></div>
+          <div class="line"><span>Primer pago, al aprobar</span><span class="num" id="sAdv"></span></div>
+        </div>
+        <div class="monthly line"><span>Mantenimiento con servidor</span><span class="num" id="sMant"></span></div>
+        <div class="actions">
+          <a class="btn wa" id="waAccept" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Aceptar el presupuesto por WhatsApp</a>
+          <a class="btn" id="waAsk" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Tengo una consulta</a>
+          <button class="btn" type="button" id="copyBtn">Copiar el resumen</button>
+        </div>
+        <p class="wa-note">Se abre WhatsApp con el resumen ya escrito para Gonzalo, <span class="mono">+54 9 11 3193-0330</span>. Revisalo y tocá enviar.</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <textarea class="fallback" id="fallback" hidden readonly aria-label="Resumen para copiar"></textarea>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const WHATSAPP = "5491131930330";
+/* total y mantenimiento en USD, con el servidor incluido en el mantenimiento */
+const CONFIG = { total: 5400, paso: 10, mantenimientoUsd: 300, contadoPct: 5 };
+
+const GROUPS = {O:"Operaciones y circuito", A:"Agenda y coordinación", G:"Cajas y gastos de la calle", T:"Transporte", D:"Depósito Barracas", F:"Facturación y cobranzas", P:"Pagos y cheques", R:"Personal", C:"Clientes y dirección", W:"Sitio web"};
+
+/* Todos los módulos del sistema */
+const SEL = [
+  {c:"O1",g:"O",n:"Operaciones conectadas a IntegraComex",d:"Cada despacho entra solo con estado, canal, oficialización, FOB, bultos, peso y el PDF del despacho, y se actualiza cada media hora.",w:"Nadie entra a IntegraComex a mirar el canal: el rojo avisa solo."},
+  {c:"O2",g:"O",n:"Legajo digital con lectura por IA",d:"Se suben los papeles de la carpeta, la IA dice qué es cada uno, completa los datos de la operación y propone los gastos.",w:"La carpeta completa en un lugar, sin tipear lo que ya está en el papel."},
+  {c:"O3",g:"O",n:"Circuito con responsables y revisión",d:"Despacho provisorio, revisión antes de oficializar, coordinación y facturación: quién tiene cada operación, avisos al pasarla y filtro de las trabadas.",w:"El circuito real de SEAL, con el OK de quien revisa registrado."},
+  {c:"O4",g:"O",n:"Gastos de la carpeta y pre-liquidación",d:"Todo lo que se cobra por operación, con lo que no se factura aparte y los dólares pasados a pesos.",w:"Nada pagado queda sin cobrarse."},
+  {c:"O5",g:"O",n:"Cotizador",d:"Cotización con las mismas reglas de honorarios y gastos, en PDF con el membrete.",w:"Lo que se cotiza es lo que después se factura."},
+  {c:"A1",g:"A",n:"Agenda semanal con avisos",d:"Como la planilla de coordinación, con horarios y quién va a cada tarea. La tarea llega al celular y a las 7:30 el resumen del día.",w:"Cada gestor y chofer sabe qué tiene sin preguntar."},
+  {c:"A2",g:"A",n:"Coordinación de mañana por WhatsApp",nuevo:true,d:"Sale sola de la agenda con el formato del grupo: chofer, camión, cargas y entregas. Se corrige y se manda al grupo o a cada chofer lo suyo.",w:"Lo que Wenchy escribe a mano cada tarde, en un toque."},
+  {c:"A3",g:"A",n:"Constancia de entrega con firma",d:"Firma, fotos, hora y ubicación desde el celular del chofer, en PDF al legajo.",w:"La prueba de entrega, sin papeles que se pierden."},
+  {c:"A4",g:"A",n:"Novedades de COMEX y dólar del CDA",nuevo:true,d:"Noticias de puerto, terminales, paros y normativa del Centro de Despachantes en el inicio, con el dólar del día y aviso opcional.",w:"Logística se entera del paro antes de mandar el camión."},
+  {c:"G1",g:"G",n:"Cajas por persona",d:"Adelantos, gastos y saldos de cada gestor, y si cada gasto se cobra o no, como sus planillas.",w:"Lucía, Jorge y Augusto cargan en el momento, desde el celular."},
+  {c:"G2",g:"G",n:"Gasto con la foto del ticket",d:"La IA completa importe, fecha y concepto, y el despacho se elige buscando por carpeta, cliente o últimos números.",w:"Se terminan los números de despacho mal escritos."},
+  {c:"G3",g:"G",n:"Combustible desde el Excel de Shell Flota",nuevo:true,d:"Se sube el Excel del mes y se carga solo por camión.",w:"El costo real de cada camión, sin pasarlo a mano."},
+  {c:"T1",g:"T",n:"Viajes, tarifario y rentabilidad",d:"Por camión y por fletero, con gastos fijos y variables y el resultado de cada uno.",w:"Saber qué camión y qué viaje deja plata."},
+  {c:"T2",g:"T",n:"Fletes tercerizados por proveedor",d:"Lo cobrado y lo pagado de cada flete, la diferencia y las facturas pendientes de cada proveedor.",w:"El margen de cada fletero a la vista."},
+  {c:"T3",g:"T",n:"Entregas y acarreos",nuevo:true,d:"Su propia sección, aparte de los despachos, con el artículo de Tango según el recorrido y la factura semanal por cliente.",w:"Los acarreos de Yokogawa y otros, facturados por semana."},
+  {c:"T4",g:"T",n:"Lectura del remito del chofer con IA",nuevo:true,d:"De la foto del remito salen el número, los kilos y los bultos.",w:"El viaje queda cargado con la foto que ya sacan."},
+  {c:"T5",g:"T",n:"Documentación de camiones y choferes",nuevo:true,d:"VTV, seguro, cédulas, RUTA, licencia, LiNTI, ART: cada papel con su archivo e historial, los mensuales con un clic, todo en un ZIP y aviso antes de que venza, también al chofer.",w:"Se terminan las carpetas del Drive y los papeles vencidos sin aviso."},
+  {c:"D1",g:"D",n:"Stock por cliente y partida",d:"Día por día, con el almacenaje calculado y los cargos de cada movimiento con el precio del tarifario.",w:"El almacenaje sale solo, sin calcularlo a mano."},
+  {c:"D2",g:"D",n:"Prefacturas del mes automáticas",d:"El día 1 se arman solas las prefacturas de cada cliente del depósito.",w:"Cero cargas dobles entre la caja y Barracas."},
+  {c:"D3",g:"D",n:"Pedidos de entrega desde el portal",d:"El cliente pide desde su portal, depósito programa y se crea la tarea en la agenda.",w:"Los pedidos llegan ordenados, no por mensaje."},
+  {c:"D4",g:"D",n:"Ingresos sin packing list",nuevo:true,d:"Cargar lo que llega sin información y ajustarlo después, sin perder el stock.",w:"Lo que hoy se resuelve con notas al margen."},
+  {c:"F1",g:"F",n:"Facturación para Tango",d:"Lo pendiente de cada cliente (honorarios, depósito, viajes y gastos) armado en factura de servicios y factura de terceros, con el 1 % de Imp. Cta. Cte., los códigos de Tango y el Excel para importar.",w:"La prefactura de Sofi, armada sola y lista para Tango."},
+  {c:"F2",g:"F",n:"Honorarios por cliente",d:"El libro de honorarios cargado regla por regla: fijos o % del FOB o del CIF en dólares, escalones, mínimos, adicionales, con la cotización del despacho o el dólar del CDA.",w:"Cada cliente cobrado como corresponde, sin buscar en el libro."},
+  {c:"F3",g:"F",n:"Facturación semanal y proformas",d:"Todos los despachos de la semana en una factura, con la numeración proforma de cada cliente (Toyota CI, GPD, MAQ) y el aviso de factura de crédito electrónica.",w:"Las planillas semanales de Toyota, sin armarlas a mano."},
+  {c:"F4",g:"F",n:"PDF para el cliente y envío por mail",d:"Las dos facturas y los comprobantes de lo pagado en un solo PDF, o por separado, impresos como su planilla, y «Mandar al cliente».",w:"Al cliente le llega todo junto y ordenado."},
+  {c:"F5",g:"F",n:"Cobranzas y cuenta corriente",d:"Recibos con el número de Tango y las retenciones, cuenta corriente y estado de cuenta de cada cliente en PDF o Excel, deudores y e-cheqs por depositar.",w:"Saber en un vistazo quién debe y desde cuándo."},
+  {c:"P1",g:"P",n:"Pedidos de pago con aviso",d:"El operador carga el pedido (OP u OPF), Sofi recibe el aviso, paga, sube el comprobante y queda en la operación, con número para Tango.",w:"Ningún pago se pierde entre mensajes."},
+  {c:"P2",g:"P",n:"Cheques y transferencias por banco",d:"Qué cheque se usó, de qué chequera, para qué, y lo que falta debitarse en cada cuenta; las transferencias a terceros con su carpeta.",w:"El saldo real de cada cuenta, sin la planilla de cheques."},
+  {c:"P3",g:"P",n:"Excel del mes de lo pagado por cliente",d:"Todo lo que se pagó en el mes por cliente, para controlar y facturar.",w:"El control de fin de mes en un clic."},
+  {c:"R1",g:"R",n:"Ficha y legajo digital del empleado",d:"Fecha de ingreso, de nacimiento, CUIL y todos sus papeles en un lugar.",w:"El legajo de cada uno, sin carpetas."},
+  {c:"R2",g:"R",n:"Vacaciones con pedido y aprobación",d:"Saldo en días hábiles por antigüedad según la ley, proporcional el primer año, con los feriados, aviso si se superponen y aprobación de Sofi.",w:"Se terminan las cuentas de días a mano."},
+  {c:"R3",g:"R",n:"Licencias con certificado",d:"Estudio, enfermedad, casamiento y nacimiento, con la foto del certificado al legajo.",w:"Cada licencia con su papel, a la vista."},
+  {c:"R4",g:"R",n:"Recibos de sueldo con firma electrónica",d:"Se separa el PDF del contador por CUIL, cada uno firma desde el celular y Sofi recibe el aviso.",w:"Sin imprimir ni perseguir firmas."},
+  {c:"R5",g:"R",n:"Novedades para el contador, cumpleaños y cartelera",d:"Vacaciones, estudio y enfermedad del mes en Excel, los cumpleaños en el inicio y avisos internos para todos con notificación.",w:"El mail al contador sale solo cada mes."},
+  {c:"C1",g:"C",n:"Portal de clientes",d:"Cada cliente ve lo suyo (operaciones, stock, facturas, estado de cuenta) y pide entregas. Se elige qué ve cada uno.",w:"Menos llamados preguntando en qué está la carga."},
+  {c:"C2",g:"C",n:"Tablero de dirección",d:"Despachos por mes, resultado del depósito y de cada camión, margen de los fleteros y facturación, en una pantalla y desde el celular.",w:"Los números de SEAL sin pedirle un Excel a nadie."},
+  {c:"C3",g:"C",n:"Asistente con IA",d:"Consulta y carga cosas con sólo pedírselo, siempre con confirmación: «¿qué despachos de Toyota están en rojo?», «cargá un gasto de 20.000 a la carpeta…».",w:"Preguntarle al sistema como a un compañero."},
+  {c:"W1",g:"W",n:"Sitio web nuevo de SEAL",nuevo:true,d:"La web de sealcia.com renovada, con el diseño que elijan entre las cinco propuestas, botón de WhatsApp, clientes que confían en SEAL y «Acceso clientes» al sistema.",w:"Una web a la altura de los 78 años de SEAL."},
+];
+
+/* Para más adelante: t = salió en las reuniones */
+const LATER = [
+  {c:"X1",t:1,n:"GPS de los camiones con Strix",d:"Recorridos y kilómetros reales de cada camión en el sistema, junto a sus viajes.",nota:"Depende de que Strix dé acceso a su API y de lo que cobre."},
+  {c:"X2",t:1,n:"Cargar gastos por WhatsApp",d:"Un mensaje con la foto del ticket a un número de SEAL y el gasto se carga solo en la caja.",nota:"Necesita WhatsApp Business oficial: Meta cobra por mensaje."},
+  {c:"X3",t:1,n:"Conexión directa con Tango",d:"Las facturas pasan a Tango sin el Excel intermedio.",nota:"Depende de la versión de Tango y del acceso al servidor donde corre."},
+  {c:"X4",n:"IntegraComex ampliado",d:"Avisos en el momento del canal, arribos, garantías y liquidaciones, en lugar de cada media hora.",nota:"IntegraComex ofreció sumar estos datos a su API. Ya tenemos el pedido redactado."},
+];
+
+const $ = id => document.getElementById(id);
+const NF = new Intl.NumberFormat("es-AR");
+const usd = n => "USD " + NF.format(n);
+const step = n => Math.round(n / CONFIG.paso) * CONFIG.paso;
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+
+/* Formas de pago. Cada una devuelve el total con esa forma, el primer pago y el detalle. */
+const FECHAS = ["Al aprobar el presupuesto", "10 de diciembre de 2026", "10 de enero de 2027", "10 de febrero de 2027", "10 de marzo de 2027", "10 de abril de 2027", "10 de mayo de 2027", "10 de junio de 2027", "10 de julio de 2027"];
+const cuotas = (T, n) => {
+  const c = step(T / n), pagos = FECHAS.slice(0, n).map((f, i) => [f, usd(i < n - 1 ? c : T - c * (n - 1))]);
+  return { total: T, ajuste: 0, primero: c, pagos };
+};
+const PLANES = [
+  { id:"unico", n:"Pago único", tag: CONFIG.contadoPct + "% de descuento", calc: T => {
+      const d = step(T * CONFIG.contadoPct / 100);
+      return { total: T - d, ajuste: -d, primero: T - d, pagos: [["Al aprobar el presupuesto", usd(T - d)]] }; } },
+  { id:"tres", n:"3 cuotas", tag:"Sin interés", calc: T => cuotas(T, 3) },
+  { id:"seis", n:"6 cuotas", tag:"Sin interés", calc: T => cuotas(T, 6) },
+  { id:"nueve", n:"9 cuotas", tag:"Sin interés", calc: T => cuotas(T, 9) },
+];
+const PLAN_DEF = "seis";
+const planDe = (id, T) => { const pl = PLANES.find(x => x.id === id) || PLANES.find(x => x.id === PLAN_DEF); return Object.assign({ id: pl.id, n: pl.n, tag: pl.tag }, pl.calc(T)); };
+
+/* ===== render estático ===== */
+function renderItems(){
+  const groups = {};
+  SEL.forEach(m => (groups[m.g] = groups[m.g] || []).push(m));
+  let html = "";
+  Object.keys(groups).forEach(g => {
+    html += "<p class=\"group-t\"><span class=\"letter\">" + g + "</span>" + esc(GROUPS[g]) + "</p>";
+    html += "<table class=\"items\"><tbody>" + groups[g].map(m =>
+      "<tr><td class=\"code\">" + m.c + "</td><td class=\"name\"><b>" + esc(m.n) + (m.nuevo ? "<span class=\"new\">Nuevo</span>" : "") + "</b><span>" + esc(m.d) + "</span></td>" +
+      "<td class=\"why\"><b>Para SEAL</b>" + esc(m.w) + "</td></tr>").join("") + "</tbody></table>";
+  });
+  $("itemsWrap").innerHTML = html;
+  $("t-seleccion").textContent = "Los " + SEL.length + " módulos, área por área";
+  $("sMods").textContent = SEL.length + " módulos";
+}
+function renderLater(){
+  $("later").innerHTML = LATER.map(o =>
+    "<div class=\"lt" + (o.t ? " talked" : "") + "\"><span class=\"code\">" + o.c + "</span><span class=\"body\">" +
+    (o.t ? "<span class=\"talk-badge\">Lo hablamos</span>" : "") +
+    "<span class=\"name\">" + esc(o.n) + "</span><span class=\"desc\">" + esc(o.d) + "</span>" +
+    (o.nota ? "<span class=\"note\">" + esc(o.nota) + "</span>" : "") + "</span></div>").join("");
+}
+function renderTables(){
+  const row = (lbl, x, cls) => "<tr" + (cls ? " class=\"" + cls + "\"" : "") + "><td>" + lbl + "</td><td class=\"money\">" + x + "</td></tr>";
+  $("resumenBody").innerHTML =
+    row("Sistema de gestión completo<small>La base para todo el equipo y los " + SEL.length + " módulos, con la puesta en marcha, la capacitación y la web nueva</small>", usd(CONFIG.total)) +
+    row("Inversión total", usd(CONFIG.total), "total") +
+    row("Mantenimiento mensual, con servidor incluido", usd(CONFIG.mantenimientoUsd), "sub");
+  $("mantBig").textContent = usd(CONFIG.mantenimientoUsd);
+  $("sMant").textContent = usd(CONFIG.mantenimientoUsd) + " / mes";
+}
+
+/* ===== estado ===== */
+const KEY = "seal-presupuesto-v1";
+let plan = PLAN_DEF;
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && PLANES.some(x => x.id === s.plan)) plan = s.plan; } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({plan})); } catch(e) {} }
+
+function texto(){
+  const pl = planDe(plan, CONFIG.total);
+  const L = [];
+  L.push("*Presupuesto SEAL & Cía: acepto*");
+  L.push("Sistema de gestión completo: la base para todo el equipo y los " + SEL.length + " módulos (" + SEL.map(m => m.c).join(", ") + ").");
+  L.push("Inversión total: " + usd(CONFIG.total) + ", todo el equipo usándolo el 1 de diciembre");
+  L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
+  pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
+  if(pl.total !== CONFIG.total) L.push("Total con esta forma de pago: " + usd(pl.total));
+  L.push("Mantenimiento con servidor incluido: " + usd(CONFIG.mantenimientoUsd) + " por mes, desde el fin de la garantía");
+  return L.join("\n");
+}
+function update(){
+  const pl = planDe(plan, CONFIG.total);
+  $("sTotal").textContent = usd(CONFIG.total);
+  $("barTotal").textContent = usd(CONFIG.total);
+  $("sPlan").textContent = pl.n;
+  $("sPlanTotRow").hidden = pl.total === CONFIG.total;
+  $("sPlanTot").textContent = usd(pl.total);
+  $("sAdv").textContent = usd(pl.primero);
+  renderPlans(CONFIG.total);
+  $("waAccept").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto());
+  $("waAsk").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Gonzalo, tengo una consulta sobre el presupuesto de SEAL: ");
+  $("fallback").hidden = true;
+  save();
+}
+const say = m => { $("status").textContent = m; };
+function renderPlans(T){
+  const enfocado = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.plan : null;
+  $("planCap").textContent = "Calculado sobre " + usd(T) + ". Eligen la que prefieran.";
+  $("plans").innerHTML = PLANES.map(x => {
+    const pl = planDe(x.id, T);
+    return "<label class=\"plan\" for=\"pl-" + pl.id + "\"><input type=\"radio\" name=\"plan\" id=\"pl-" + pl.id + "\" value=\"" + pl.id + "\" data-plan=\"" + pl.id + "\"" + (pl.id === plan ? " checked" : "") + ">" +
+      "<span class=\"plan-n\">" + esc(pl.n) + "</span><span class=\"plan-tag\">" + esc(pl.tag) + "</span>" +
+      "<span class=\"plan-total\">" + usd(pl.total) + "</span>" +
+      "<span class=\"plan-pagos\">" + pl.pagos.map(pg => "<span class=\"pp\"><span>" + esc(pg[0]) + "</span><span class=\"num\">" + esc(pg[1]) + "</span></span>").join("") + "</span></label>";
+  }).join("");
+  if(enfocado) { const el = document.getElementById("pl-" + enfocado); if(el) el.focus(); }
+}
+
+/* registro en el panel de Margon (solo en margonsoftware.com) */
+function registroActivo(){ const h = location.hostname; return h === "localhost" || h === "127.0.0.1" || h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app"); }
+const REG_KEY = "seal-presupuesto-aceptado";
+function registrar(){
+  if(!registroActivo()) return;
+  const t = texto();
+  let ultimo = null; try { ultimo = localStorage.getItem(REG_KEY); } catch(e) {}
+  if(ultimo === t) return;
+  const pl = planDe(plan, CONFIG.total);
+  fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
+    body: JSON.stringify({ nombre:"SEAL & Cía S.A. · Santiago Ortelli", email:"", telefono:"",
+      origen:"presupuesto-seal-aceptado", total:pl.total, moneda:"USD", mensaje:t,
+      modulos:[{id:"SISTEMA",name:"Sistema de gestión completo: base y " + SEL.length + " módulos",price:CONFIG.total}].concat(SEL.map(m => ({id:m.c, name:m.c + " " + m.n, price:0})), pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []) }) })
+    .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Su aceptación también quedó registrada para Gonzalo."); } })
+    .catch(() => {});
+}
+
+/* eventos */
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.matches("[data-plan]")){ plan = t.value; update(); say(""); }
+});
+$("waAccept").addEventListener("click", registrar);
+$("copyBtn").addEventListener("click", () => {
+  const t = texto(), fb = $("fallback");
+  const show = () => { fb.value = t; fb.hidden = false; fb.focus(); fb.select(); say("Seleccioná el texto y copialo."); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => say("Copiado."), show); else show();
+});
+$("toggleSum").addEventListener("click", () => {
+  const s = $("sum"), open = !s.classList.contains("open");
+  s.classList.toggle("open", open);
+  $("toggleSum").setAttribute("aria-expanded", String(open));
+  $("toggleSum").textContent = open ? "Ocultar" : "Ver detalle";
+});
+
+renderItems(); renderLater(); renderTables(); update();
+window.__p = { texto, planDe };
+})();
+</script>
+</body>
+</html>
