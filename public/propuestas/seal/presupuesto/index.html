@@ -291,7 +291,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
             <tbody id="resumenBody"></tbody>
           </table>
         </div>
-        <p class="muted">El sistema se cotiza en dólares estadounidenses; se puede pagar en pesos al tipo de cambio que acordemos. Es un precio especial, con todo lo del presupuesto, aprobándolo hasta el 6 de noviembre. Se paga en 3, 6 o 9 cuotas sin interés, como prefieran. El mantenimiento mensual incluye el servidor y empieza recién en marzo de 2027.</p>
+        <p class="muted">El sistema se cotiza en dólares estadounidenses; se puede pagar en pesos al tipo de cambio que acordemos. Es un precio especial, con todo lo del presupuesto, aprobándolo hasta el 6 de noviembre. Se paga en 3, 6 o 9 cuotas sin interés, como prefieran. El mantenimiento mensual incluye el servidor y empieza cuando terminan los 30 días de garantía.</p>
       </section>
 
       <section id="incluido" aria-labelledby="t-incluido">
@@ -361,7 +361,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
               <li>Los cambios que haga IntegraComex en su API, siempre al día.</li>
               <li>Hasta 3 horas por mes de cambios o mejoras.</li>
             </ul>
-            <p class="muted" style="font-size:14px">Empieza recién en marzo de 2027: este año no suman ningún gasto fijo. Hasta entonces, el servidor corre por nuestra cuenta. Es lo mínimo posible: solo el servidor, con la base de datos y las copias, cuesta entre USD 30 y 40 por mes.</p>
+            <p class="muted" style="font-size:14px">Empieza cuando terminan los 30 días de garantía posteriores a la presentación. Hasta entonces, el servidor corre por nuestra cuenta. Es lo mínimo posible: solo el servidor, con la base de datos y las copias, cuesta entre USD 30 y 40 por mes.</p>
           </div>
           <div class="card">
             <p class="kicker">Lo que dejan de hacer</p>
@@ -386,7 +386,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <p class="muted" id="planCap"></p>
         </div>
         <div class="plans" id="plans" role="radiogroup" aria-label="Forma de pago"></div>
-        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. Eligen la forma de pago que les quede mejor; el mantenimiento empieza en marzo de 2027, con cualquiera de ellas.</p>
+        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. Eligen la forma de pago que les quede mejor; el mantenimiento empieza cuando terminan los 30 días de garantía, con cualquiera de ellas.</p>
       </section>
 
       <section id="calendario" aria-labelledby="t-cal">
@@ -401,8 +401,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <li><span class="when">Fin de noviembre</span><span class="what"><b>Fecha de arranque:</b> lo anterior queda como facturado y desde ahí factura el sistema.</span></li>
           <li class="key"><span class="when">Mar 1 dic</span><span class="what"><b>Todo el equipo usando el sistema,</b> cada uno con su usuario.</span></li>
           <li class="key"><span class="when">Vie 4 dic</span><span class="what"><b>Presentación a todos en la cena de fin de año,</b> con la guía corta de cada puesto. Sale la web nueva en sealcia.com.</span></li>
-          <li><span class="when">Enero 2027</span><span class="what"><b>Terminan los 30 días de garantía</b> de corrección sin cargo.</span></li>
-          <li><span class="when">Desde marzo 2027</span><span class="what"><b>Empieza el mantenimiento mensual,</b> con el servidor incluido.</span></li>
+          <li><span class="when">Desde enero 2027</span><span class="what"><b>Terminan los 30 días de garantía</b> y empieza el mantenimiento mensual, con el servidor incluido.</span></li>
         </ol>
       </section>
 
@@ -583,7 +582,7 @@ function renderTables(){
     row("Sistema de gestión completo<small>La base para todo el equipo y los " + SEL.length + " módulos, con la puesta en marcha, la capacitación y la web nueva</small>", usd(CONFIG.antes)) +
     row("Precio especial<small>Aprobando hasta el 6 de noviembre de 2026</small>", "− " + usd(CONFIG.antes - CONFIG.total), "sub") +
     row("Inversión total", usd(CONFIG.total), "total") +
-    row("Mantenimiento mensual, con servidor incluido, desde marzo de 2027", usd(CONFIG.mantenimientoUsd), "sub");
+    row("Mantenimiento mensual, con servidor incluido", usd(CONFIG.mantenimientoUsd), "sub");
   $("sAntes").textContent = usd(CONFIG.antes);
   $("mantBig").textContent = usd(CONFIG.mantenimientoUsd);
   $("sMant").textContent = usd(CONFIG.mantenimientoUsd) + " / mes";
@@ -604,7 +603,7 @@ function texto(){
   L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
   pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
   if(pl.total !== CONFIG.total) L.push("Total con esta forma de pago: " + usd(pl.total));
-  L.push("Mantenimiento con servidor incluido: " + usd(CONFIG.mantenimientoUsd) + " por mes, desde marzo de 2027");
+  L.push("Mantenimiento con servidor incluido: " + usd(CONFIG.mantenimientoUsd) + " por mes, desde el fin de la garantía");
   return L.join("\n");
 }
 function update(){
