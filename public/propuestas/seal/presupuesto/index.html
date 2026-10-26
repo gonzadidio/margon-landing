@@ -99,7 +99,9 @@ tr.sub td{color:var(--ink-2);font-size:14.5px}
 .talk-badge{justify-self:start;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:#fff;color:var(--accent-deep);border:1px solid var(--accent-line)}
 
 /* formas de pago */
-.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.antes{display:block;font-size:15px;color:var(--ink-3);text-decoration:line-through;margin-bottom:2px}
+.especial{font:600 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
 .plan{position:relative;display:grid;gap:8px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow);cursor:pointer;min-width:0;transition:border-color .15s,background .15s}
 .plan:has(input:checked){border-color:var(--accent);background:var(--accent-tint);box-shadow:inset 0 0 0 1px var(--accent),var(--shadow)}
 .plan:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
@@ -239,7 +241,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
   .cond{gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
   footer{padding-top:10px;font-size:8.5pt}
   tr.sub td{font-size:8.6pt}
-  .plans{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .plans{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .plan{padding:8px 10px;gap:3px;border-radius:6px;box-shadow:none;background:#fff!important;border-color:var(--line)!important}
   .plan input{display:none}
   .plan-n{font-size:9.8pt;padding:0} .plan-tag{font-size:6.6pt} .plan-total{font-size:13pt;margin:0}
@@ -272,8 +274,8 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
         <dl class="ficha">
           <div><dt>Cliente</dt><dd>SEAL &amp; Cía S.A. · Santiago Ortelli</dd></div>
           <div><dt>Preparado por</dt><dd>Gonzalo Di Dio Leal</dd></div>
-          <div><dt>Fecha</dt><dd>23 de octubre de 2026</dd></div>
-          <div><dt>Validez</dt><dd>Hasta el 22 de noviembre de 2026</dd></div>
+          <div><dt>Fecha</dt><dd>26 de octubre de 2026</dd></div>
+          <div><dt>Precio especial</dt><dd>Aprobando hasta el 6 de noviembre de 2026</dd></div>
           <div><dt>Todo el equipo usándolo</dt><dd>Martes 1 de diciembre de 2026</dd></div>
         </dl>
       </section>
@@ -289,7 +291,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
             <tbody id="resumenBody"></tbody>
           </table>
         </div>
-        <p class="muted">El sistema se cotiza en dólares estadounidenses; se puede pagar en pesos al tipo de cambio que acordemos. Se paga en un solo pago o en 3, 6 o 9 cuotas, como prefieran. El mantenimiento mensual incluye el servidor y empieza cuando terminan los 30 días de garantía.</p>
+        <p class="muted">El sistema se cotiza en dólares estadounidenses; se puede pagar en pesos al tipo de cambio que acordemos. Es un precio especial, con todo lo del presupuesto, aprobándolo hasta el 6 de noviembre. Se paga en 3, 6 o 9 cuotas sin interés, como prefieran. El mantenimiento mensual incluye el servidor y empieza recién en marzo de 2027.</p>
       </section>
 
       <section id="incluido" aria-labelledby="t-incluido">
@@ -357,9 +359,9 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
               <li>Monitoreo del sistema y copias de seguridad verificadas.</li>
               <li>Actualizaciones de seguridad y corrección de errores.</li>
               <li>Los cambios que haga IntegraComex en su API, siempre al día.</li>
-              <li>Hasta 6 horas por mes de cambios o mejoras.</li>
+              <li>Hasta 3 horas por mes de cambios o mejoras.</li>
             </ul>
-            <p class="muted" style="font-size:14px">Empieza cuando terminan los 30 días de garantía posteriores a la presentación. Hasta entonces, el servidor corre por nuestra cuenta.</p>
+            <p class="muted" style="font-size:14px">Empieza recién en marzo de 2027: este año no suman ningún gasto fijo. Hasta entonces, el servidor corre por nuestra cuenta. Es lo mínimo posible: solo el servidor, con la base de datos y las copias, cuesta entre USD 30 y 40 por mes.</p>
           </div>
           <div class="card">
             <p class="kicker">Lo que dejan de hacer</p>
@@ -380,11 +382,11 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
       <section id="pago" aria-labelledby="t-pago">
         <div class="sec-head">
           <p class="eyebrow">06 · Forma de pago</p>
-          <h2 id="t-pago">Pago único o en 3, 6 o 9 cuotas</h2>
+          <h2 id="t-pago">En 3, 6 o 9 cuotas sin interés</h2>
           <p class="muted" id="planCap"></p>
         </div>
         <div class="plans" id="plans" role="radiogroup" aria-label="Forma de pago"></div>
-        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. Eligen la forma de pago que les quede mejor; el mantenimiento empieza cuando terminan los 30 días de garantía, con cualquiera de ellas.</p>
+        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. Eligen la forma de pago que les quede mejor; el mantenimiento empieza en marzo de 2027, con cualquiera de ellas.</p>
       </section>
 
       <section id="calendario" aria-labelledby="t-cal">
@@ -399,7 +401,8 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <li><span class="when">Fin de noviembre</span><span class="what"><b>Fecha de arranque:</b> lo anterior queda como facturado y desde ahí factura el sistema.</span></li>
           <li class="key"><span class="when">Mar 1 dic</span><span class="what"><b>Todo el equipo usando el sistema,</b> cada uno con su usuario.</span></li>
           <li class="key"><span class="when">Vie 4 dic</span><span class="what"><b>Presentación a todos en la cena de fin de año,</b> con la guía corta de cada puesto. Sale la web nueva en sealcia.com.</span></li>
-          <li><span class="when">Desde enero 2027</span><span class="what"><b>Terminan los 30 días de garantía</b> y empieza el mantenimiento mensual.</span></li>
+          <li><span class="when">Enero 2027</span><span class="what"><b>Terminan los 30 días de garantía</b> de corrección sin cargo.</span></li>
+          <li><span class="when">Desde marzo 2027</span><span class="what"><b>Empieza el mantenimiento mensual,</b> con el servidor incluido.</span></li>
         </ol>
       </section>
 
@@ -424,9 +427,9 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <h2 id="t-cond">Lo que conviene tener claro</h2>
         </div>
         <dl class="cond">
-          <div><dt>Validez</dt><dd>Este presupuesto vale hasta el 22 de noviembre de 2026.</dd></div>
+          <div><dt>Precio especial</dt><dd>USD 3.900 en lugar de USD 5.400, aprobando el presupuesto hasta el 6 de noviembre de 2026.</dd></div>
           <div><dt>Garantía</dt><dd>30 días de corrección de errores sin cargo desde la presentación del 4 de diciembre.</dd></div>
-          <div><dt>Es de ustedes</dt><dd>Los datos de SEAL, de sus clientes y de su personal son de SEAL. Se pueden bajar cuando quieran, con las copias de cada noche.</dd></div>
+          <div><dt>Es de ustedes</dt><dd>El dominio sealcia.com es de SEAL y sigue siéndolo. El sistema y todos sus datos también: se pueden bajar cuando quieran, con las copias de cada noche. El servidor lo administramos nosotros, con su costo incluido en el mantenimiento; si algún día deciden no seguir con nosotros, se lo pasamos a una cuenta a nombre de SEAL con todo adentro.</dd></div>
           <div><dt>Forma de trabajo</dt><dd>Revisiones cortas con cada área, tickets con respuesta en el día y lo nuevo primero en prueba. Si las respuestas llegan en el día, los tiempos se cumplen.</dd></div>
         </dl>
         <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, +54 9 11 3193-0330, indicando la forma de pago que elegís.</p>
@@ -434,7 +437,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 
       <footer>
         <span>Gonzalo Di Dio Leal · WhatsApp <span class="mono">+54 9 11 3193-0330</span> · gonzalodidioleal@gmail.com</span>
-        <span>Presupuesto para SEAL &amp; Cía S.A. · 23 de octubre de 2026</span>
+        <span>Presupuesto para SEAL &amp; Cía S.A. · 26 de octubre de 2026</span>
       </footer>
     </main>
 
@@ -450,8 +453,8 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <div class="line"><span id="sMods"></span><span>Incluidos</span></div>
         </div>
         <div class="totalbox">
-          <span class="lbl">Inversión total</span>
-          <span class="big" id="sTotal"></span>
+          <span class="lbl">Inversión total · precio especial</span>
+          <span class="big"><span class="antes" id="sAntes"></span><span id="sTotal"></span></span>
         </div>
         <div class="split">
           <div class="line"><span>Forma de pago</span><span id="sPlan" style="text-align:right"></span></div>
@@ -478,7 +481,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 
 const WHATSAPP = "5491131930330";
 /* total y mantenimiento en USD, con el servidor incluido en el mantenimiento */
-const CONFIG = { total: 5400, paso: 10, mantenimientoUsd: 300, contadoPct: 5 };
+const CONFIG = { total: 3900, antes: 5400, paso: 10, mantenimientoUsd: 200 };
 
 const GROUPS = {O:"Operaciones y circuito", A:"Agenda y coordinación", G:"Cajas y gastos de la calle", T:"Transporte", D:"Depósito Barracas", F:"Facturación y cobranzas", P:"Pagos y cheques", R:"Personal", C:"Clientes y dirección", W:"Sitio web"};
 
@@ -545,9 +548,6 @@ const cuotas = (T, n) => {
   return { total: T, ajuste: 0, primero: c, pagos };
 };
 const PLANES = [
-  { id:"unico", n:"Pago único", tag: CONFIG.contadoPct + "% de descuento", calc: T => {
-      const d = step(T * CONFIG.contadoPct / 100);
-      return { total: T - d, ajuste: -d, primero: T - d, pagos: [["Al aprobar el presupuesto", usd(T - d)]] }; } },
   { id:"tres", n:"3 cuotas", tag:"Sin interés", calc: T => cuotas(T, 3) },
   { id:"seis", n:"6 cuotas", tag:"Sin interés", calc: T => cuotas(T, 6) },
   { id:"nueve", n:"9 cuotas", tag:"Sin interés", calc: T => cuotas(T, 9) },
@@ -580,15 +580,17 @@ function renderLater(){
 function renderTables(){
   const row = (lbl, x, cls) => "<tr" + (cls ? " class=\"" + cls + "\"" : "") + "><td>" + lbl + "</td><td class=\"money\">" + x + "</td></tr>";
   $("resumenBody").innerHTML =
-    row("Sistema de gestión completo<small>La base para todo el equipo y los " + SEL.length + " módulos, con la puesta en marcha, la capacitación y la web nueva</small>", usd(CONFIG.total)) +
+    row("Sistema de gestión completo<small>La base para todo el equipo y los " + SEL.length + " módulos, con la puesta en marcha, la capacitación y la web nueva</small>", usd(CONFIG.antes)) +
+    row("Precio especial<small>Aprobando hasta el 6 de noviembre de 2026</small>", "− " + usd(CONFIG.antes - CONFIG.total), "sub") +
     row("Inversión total", usd(CONFIG.total), "total") +
-    row("Mantenimiento mensual, con servidor incluido", usd(CONFIG.mantenimientoUsd), "sub");
+    row("Mantenimiento mensual, con servidor incluido, desde marzo de 2027", usd(CONFIG.mantenimientoUsd), "sub");
+  $("sAntes").textContent = usd(CONFIG.antes);
   $("mantBig").textContent = usd(CONFIG.mantenimientoUsd);
   $("sMant").textContent = usd(CONFIG.mantenimientoUsd) + " / mes";
 }
 
 /* ===== estado ===== */
-const KEY = "seal-presupuesto-v1";
+const KEY = "seal-presupuesto-v2";
 let plan = PLAN_DEF;
 try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && PLANES.some(x => x.id === s.plan)) plan = s.plan; } catch(e) {}
 function save(){ try { localStorage.setItem(KEY, JSON.stringify({plan})); } catch(e) {} }
@@ -598,11 +600,11 @@ function texto(){
   const L = [];
   L.push("*Presupuesto SEAL & Cía: acepto*");
   L.push("Sistema de gestión completo: la base para todo el equipo y los " + SEL.length + " módulos (" + SEL.map(m => m.c).join(", ") + ").");
-  L.push("Inversión total: " + usd(CONFIG.total) + ", todo el equipo usándolo el 1 de diciembre");
+  L.push("Inversión total: " + usd(CONFIG.total) + " (precio especial, antes " + usd(CONFIG.antes) + "), todo el equipo usándolo el 1 de diciembre");
   L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
   pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
   if(pl.total !== CONFIG.total) L.push("Total con esta forma de pago: " + usd(pl.total));
-  L.push("Mantenimiento con servidor incluido: " + usd(CONFIG.mantenimientoUsd) + " por mes, desde el fin de la garantía");
+  L.push("Mantenimiento con servidor incluido: " + usd(CONFIG.mantenimientoUsd) + " por mes, desde marzo de 2027");
   return L.join("\n");
 }
 function update(){
@@ -635,7 +637,7 @@ function renderPlans(T){
 
 /* registro en el panel de Margon (solo en margonsoftware.com) */
 function registroActivo(){ const h = location.hostname; return h === "localhost" || h === "127.0.0.1" || h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app"); }
-const REG_KEY = "seal-presupuesto-aceptado";
+const REG_KEY = "seal-presupuesto-aceptado-v2";
 function registrar(){
   if(!registroActivo()) return;
   const t = texto();
