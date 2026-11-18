@@ -277,7 +277,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
 <div class="wrap">
   <div class="topbar">
     <div class="brandline"><span class="client">UNIÓN DESARROLLOS<i>.</i></span><span class="kind">Presupuesto · Sistema comercial y administrativo</span></div>
-    <span class="author" style="display:inline-flex;align-items:center;gap:8px"><img src="/favicon.svg" alt="" width="22" height="22"><b style="color:var(--ink)">Margon Software</b></span>
+    <span class="author" style="display:inline-flex;align-items:center;gap:8px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><defs><linearGradient id="mg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#a3e635"/><stop offset="50%" stop-color="#34d399"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="#0a0f0d"/><text x="16" y="23" font-family="Arial,sans-serif" font-weight="900" font-size="20" fill="url(#mg)" text-anchor="middle">M</text></svg><b style="color:var(--ink)">Margon Software</b></span>
   </div>
 
   <div class="layout">
@@ -341,10 +341,10 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
         <div class="sec-head">
           <p class="eyebrow">03 · El detalle</p>
           <h2 id="t-seleccion">Los <span id="nMods"></span> módulos del sistema completo</h2>
-          <p class="muted">Cada módulo con su precio de lista. En la opción A se paga el desarrollo, con una bonificación por contratar el sistema completo. En la opción B no se paga el desarrollo: se paga la puesta en marcha y el uso.</p>
+          <p class="muted">Todo lo que incluye el sistema, módulo por módulo. En la opción A se paga el desarrollo, con una bonificación por contratar el sistema completo. En la opción B no se paga el desarrollo: se paga la puesta en marcha y el uso.</p>
         </div>
         <div class="tbl" id="itemsWrap"></div>
-        <div class="tbl">
+        <div class="tbl" id="resumenWrap">
           <table class="resumen">
             <thead><tr><th>Cómo se llega al precio de la opción A</th><th class="r">Monto</th></tr></thead>
             <tbody id="resumenBody"></tbody>
@@ -390,7 +390,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
               <li>Conexiones con Meta, WhatsApp y el correo funcionando.</li>
               <li>Soporte a todo el equipo desde el sistema, con respuesta en el día.</li>
               <li>Corrección de errores y actualizaciones de seguridad.</li>
-              <li>Ajustes chicos que pida el equipo.</li>
+              <li>Mejoras y ajustes sobre todo lo cotizado en este presupuesto.</li>
               <li><b>La página web de Unión:</b> alojamiento, soporte y cambios de contenido.</li>
             </ul>
             <p class="muted" style="font-size:14px" id="mensualNota"></p>
@@ -460,7 +460,7 @@ footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font
           <div><dt>Baja en la opción B</dt><dd>Si se deja de pagar el mensual, el sistema se da de baja y Unión recibe todos sus datos y las copias de seguridad.</dd></div>
           <div><dt>Datos</dt><dd>En las dos opciones los datos son de Unión: instalación separada, sin compartir nada con otras empresas.</dd></div>
           <div><dt>Garantía</dt><dd>30 días de corrección de errores sin cargo desde la salida.</dd></div>
-          <div><dt>Cambios de alcance</dt><dd>Lo que se sume después de aprobado se presupuesta aparte, con la misma tabla de precios.</dd></div>
+          <div><dt>Mejoras y módulos nuevos</dt><dd>El mensual incluye todas las mejoras y ajustes sobre lo ya cotizado. Los módulos nuevos se cotizan aparte.</dd></div>
         </dl>
         <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, de Margon Software, +54 9 11 3193-0330, indicando la opción y la forma de pago que elegís.</p>
       </section>
@@ -619,12 +619,8 @@ function renderItems(){
     html += "<p class=\"group-t\"><span class=\"letter\">" + g + "</span>" + esc(GROUPS[g]) + "</p>";
     html += "<table class=\"items\"><tbody>" + groups[g].map(m =>
       "<tr><td class=\"code\">" + m.c + "</td><td class=\"name\"><b>" + esc(m.n) + "</b><span>" + esc(m.d) + "</span></td>" +
-      "<td class=\"money\">" + usd(m.p) + "</td></tr>").join("") + "</tbody></table>";
+      "</tr>").join("") + "</tbody></table>";
   });
-  const r = calc();
-  html += "<table class=\"items\"><tfoot>" +
-    "<tr class=\"sub\"><td colspan=\"2\">Subtotal de los " + SEL.length + " módulos, a precio de lista</td><td class=\"money\">" + usd(r.selSum) + "</td></tr>" +
-    "</tfoot></table>";
   $("itemsWrap").innerHTML = html;
   $("nMods").textContent = SEL.length;
 }
@@ -695,6 +691,7 @@ function texto(){
 function update(){
   const o = OPS[op], T = o.inicial(), pl = planDe(op, planes[op], T);
   renderOps();
+  $("resumenWrap").hidden = op !== "compra";
   $("sOp").textContent = o.letra + " · " + o.n;
   $("sCod").textContent = o.codigo;
   $("sWeb").textContent = o.web;
