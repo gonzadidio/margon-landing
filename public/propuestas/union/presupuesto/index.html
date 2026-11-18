@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Presupuesto del sistema comercial y administrativo de Unión Desarrollos.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Presupuesto Unión Desarrollos">
+<meta property="og:description" content="Presupuesto del sistema completo, con el detalle de cada módulo.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Presupuesto Unión Desarrollos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Presupuesto formal en papel claro: el detalle a la izquierda y un resumen fijo a la derecha con el total y la aceptación. */
+:root{
+  --page:#F5F6F8; --paper:#FFFFFF; --tint:#F0F2F5; --ink:#131720; --ink-2:#465061; --ink-3:#687182;
+  --line:#E2E5EA; --line-2:#C9CFD8; --accent:#1A5A94; --accent-deep:#134877; --btn:#134877;
+  --accent-tint:#EEF4FA; --accent-line:#B5CDE3; --ok:#15703F; --ok-tint:#EAF6EF; --wa:#128C4B;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow:0 1px 2px rgba(19,23,32,.04),0 8px 28px rgba(19,23,32,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--page);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(32px,4.4vw,48px);font-weight:700;letter-spacing:-.022em}
+h2{font-size:clamp(23px,2.5vw,29px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:18.5px;font-weight:600}
+p{margin:0}
+a{color:var(--accent-deep)}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num{white-space:nowrap}
+.muted{color:var(--ink-2)}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.only-print{display:none}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:24px;padding-block:0 140px}
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding-block:18px;border-bottom:1px solid var(--line);margin-bottom:40px}
+.brandline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.client{font:700 17px/1 var(--sans);letter-spacing:.2em}
+.client i{font-style:normal;color:#4A9C3C}
+.brandline .kind{font-size:14px;color:var(--ink-3);padding-left:14px;border-left:1px solid var(--line-2)}
+.author{font-size:14px;color:var(--ink-2)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:48px;align-items:start}
+main{min-width:0;display:grid;gap:64px}
+section{display:grid;gap:22px;min-width:0}
+.sec-head{display:grid;gap:10px;max-width:72ch}
+
+/* portada */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px 40px;align-items:start}
+.cover-main{display:grid;gap:16px;min-width:0}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.ficha{margin:0;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:grid}
+.ficha div{display:grid;gap:2px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line)}
+.ficha div:last-child{border-bottom:0;margin-bottom:0}
+.ficha dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.ficha dd{margin:0;font-weight:500;font-size:15.5px}
+
+/* tablas */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;vertical-align:top;padding:13px 18px;border-bottom:1px solid var(--line)}
+tbody tr:last-child td,tfoot tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+td.r,th.r{text-align:right}
+td.money{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+tr.disc td{color:var(--ok)}
+tr.total td{font-weight:700;font-size:17px;background:var(--accent-tint)}
+tr.total td.money{font-size:18px}
+tr.sub td{color:var(--ink-2);font-size:14.5px}
+.resumen{min-width:520px}
+
+/* módulos elegidos */
+.group-t{display:flex;align-items:baseline;gap:10px;margin:0;padding:12px 18px;background:var(--tint);font-weight:600;border-bottom:1px solid var(--line)}
+.group-t .letter{font:600 12px/1 var(--mono);background:var(--ink);color:#fff;padding:5px 7px;border-radius:5px}
+.items{min-width:600px}
+.items td.code{width:58px;font:600 12.5px/1.6 var(--mono);color:var(--ink-2)}
+.items td.name b{display:block;font-weight:600}
+.items td.name span{font-size:14.5px;color:var(--ink-2)}
+.items td.phase{width:130px;white-space:nowrap}
+.items td.money{width:110px}
+.tag{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--tint);color:var(--ink-2)}
+.tag.l{background:var(--accent-tint);color:var(--accent-deep)}
+
+/* opcionales */
+.opts{display:grid;gap:12px}
+.opt{display:grid;grid-template-columns:20px 46px minmax(0,1fr) auto;gap:6px 16px;align-items:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;box-shadow:var(--shadow);transition:border-color .15s,background .15s}
+.opt:has(input:checked){border-color:var(--accent-line);background:var(--accent-tint)}
+.opt:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.opt input{width:19px;height:19px;margin:3px 0 0;accent-color:var(--btn);cursor:pointer}
+.opt .code{font:600 12.5px/1 var(--mono);text-align:center;padding:6px 0;border-radius:6px;background:var(--tint);color:var(--ink-2)}
+.opt .body{display:grid;gap:7px;min-width:0}
+.opt .name{font-weight:600;font-size:17px}
+.opt .desc{color:var(--ink-2);font-size:15px}
+.opt .ej{font-size:14.5px;padding-left:12px;border-left:2px solid var(--accent-line)}
+.opt .ej b{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.opt .note{font-size:13.5px;color:var(--ink-3)}
+.opt .price{font:600 16.5px/1.35 var(--mono);white-space:nowrap;text-align:right}
+.opt .price .was{color:var(--ink-3);font-weight:500;margin-right:6px}
+.opt.gift{grid-template-columns:46px minmax(0,1fr) auto;cursor:default;border-color:var(--accent-line);background:var(--accent-tint)}
+.opt.gift .price{color:var(--ok)}
+.gift-badge{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:var(--ok-tint);color:var(--ok)}
+
+/* formas de pago */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.plan{position:relative;display:grid;gap:8px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);box-shadow:var(--shadow);cursor:pointer;min-width:0;transition:border-color .15s,background .15s}
+.plan:has(input:checked){border-color:var(--accent);background:var(--accent-tint);box-shadow:inset 0 0 0 1px var(--accent),var(--shadow)}
+.plan:has(input:focus-visible){outline:3px solid var(--accent-line);outline-offset:2px}
+.plan input{position:absolute;top:20px;right:20px;width:19px;height:19px;margin:0;accent-color:var(--btn);cursor:pointer}
+.plan-n{font-weight:600;font-size:17px;padding-right:30px}
+.plan-tag{font:600 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+.plan-tag.warn{color:var(--ink-3)}
+.plan-total{font:600 25px/1.15 var(--mono);letter-spacing:-.02em;margin-top:4px}
+.plan-pagos{display:grid;gap:7px;padding-top:12px;margin-top:4px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.pp{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.pp .num{color:var(--ink);font-size:13.5px}
+
+/* tarjetas */
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);display:grid;gap:12px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.card .kicker{font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.card .big{font:600 28px/1.1 var(--mono);letter-spacing:-.02em}
+.card .big small{font:500 14px var(--sans);color:var(--ink-3);letter-spacing:0}
+ul.plain,ol.plain{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink-2)}
+ul.plain b,ol.plain b{color:var(--ink)}
+.checklist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px}
+.checklist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;color:var(--ink-2);font-size:15px}
+.checklist li::before{content:"";width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--ok-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.3' fill='none' stroke='%2315703F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.checklist b{color:var(--ink)}
+.base{display:grid;gap:20px;padding:28px;border-radius:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.base-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.base-head .num{font-size:26px;font-weight:600}
+.timeline{list-style:none;margin:0;padding:6px 0 0;display:grid;border-left:2px solid var(--line);margin-left:8px}
+.timeline li{position:relative;display:grid;grid-template-columns:180px minmax(0,1fr);gap:4px 22px;padding:0 0 22px 26px}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2)}
+.timeline li.key::before{background:var(--accent);border-color:var(--accent)}
+.timeline .when{font:600 13.5px/1.5 var(--mono);color:var(--accent-deep)}
+.timeline .what{color:var(--ink-2)}
+.timeline .what b{color:var(--ink)}
+.cond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.cond div{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:grid;gap:4px}
+.cond dt{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.cond dd{margin:0;color:var(--ink-2);font-size:15px}
+footer{padding-top:28px;border-top:1px solid var(--line);color:var(--ink-3);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* resumen fijo */
+.sum{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);min-width:0}
+.sum-card{display:grid;gap:14px;padding:24px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.sum-card h2{font-size:22px}
+.lines{display:grid;gap:8px;font-size:14.5px}
+.line{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.line .num{font-size:14.5px}
+.line.disc{color:var(--ok)}
+.totalbox{display:grid;gap:4px;padding:16px;border-radius:12px;background:var(--accent-tint);border:1px solid var(--accent-line)}
+.totalbox .lbl{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.totalbox .big{font:600 32px/1.1 var(--mono);letter-spacing:-.02em}
+.split{display:grid;gap:6px;font-size:14px;color:var(--ink-2)}
+.monthly{padding-top:12px;border-top:1px solid var(--line);font-size:14.5px}
+.btn{appearance:none;font:600 15px/1.2 var(--sans);padding:12px 18px;border-radius:9px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;text-align:center}
+.btn:hover{background:var(--tint)}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#0E7640}
+.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:2px}
+.actions{display:grid;gap:8px}
+.wa-note{font-size:13px;color:var(--ink-3);line-height:1.45}
+.status{min-height:1.4em;font-size:13.5px;color:var(--ok)}
+.fallback{width:100%;min-height:130px;font:13px/1.45 var(--mono);padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--page);color:var(--ink)}
+.fallback[hidden]{display:none}
+.sum-bar{display:none}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .sum{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;max-height:84vh;overflow:auto;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(19,23,32,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+  .sum-card{border:0;box-shadow:none;padding:8px 0 4px}
+  .sum-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .sum-bar strong{display:block;font:600 20px/1.2 var(--mono)}
+  .sum-bar small{display:block;font:600 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .sum:not(.open) .sum-card{display:none}
+}
+@media (max-width:900px){ .cover,.plans{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:720px){
+  .cols2,.cond,.checklist{grid-template-columns:minmax(0,1fr)}
+  .timeline li{grid-template-columns:minmax(0,1fr)}
+  main{gap:52px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .opt{grid-template-columns:20px minmax(0,1fr) auto;grid-template-areas:"chk code price" "chk body body";padding:16px}
+  .opt input{grid-area:chk} .opt .code{grid-area:code;justify-self:start;padding:6px 8px} .opt .body{grid-area:body} .opt .price{grid-area:price}
+  .opt.gift{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"code price" "body body"} .opt.gift .price{justify-self:end}
+  .base{padding:20px}
+  .brandline .kind{border-left:0;padding-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@page{size:A4;margin:14mm 13mm}
+@media print{
+  html,body{background:#fff}
+  body{font-size:9.6pt;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .topbar{margin-bottom:14px;padding-block:0 8px}
+  .layout{display:block}
+  main{gap:18px}
+  section{gap:8px}
+  h1{font-size:22pt} h2{font-size:14.5pt} h3{font-size:11.5pt}
+  .eyebrow{font-size:7.2pt}
+  .lede{font-size:10.5pt}
+  .sum,.only-screen{display:none!important}
+  .only-print{display:block}
+  .cover{grid-template-columns:minmax(0,1fr) 190px;gap:16px}
+  .ficha{padding:10px 12px 2px;box-shadow:none}
+  .ficha div{padding-bottom:6px;margin-bottom:6px}
+  .ficha dt{font-size:6.8pt} .ficha dd{font-size:9pt}
+  .tbl,.card,.base,.opt{box-shadow:none}
+  .tbl{overflow:visible;border-radius:6px}
+  .resumen,.items{min-width:0}
+  th,td{padding:4px 8px;font-size:8.6pt}
+  th{font-size:6.8pt}
+  tr.total td{font-size:10pt} tr.total td.money{font-size:10.5pt}
+  .items td.name span{font-size:8.2pt}
+  .items td.code{width:36px} .items td.phase{width:84px} .items td.money{width:70px}
+  .group-t{padding:5px 8px;font-size:9pt}
+  .tag{font-size:6.2pt;padding:2px 5px}
+  .opt{padding:8px 10px;gap:2px 9px;grid-template-columns:11px 28px minmax(0,1fr) auto;border-radius:6px;background:#fff!important}
+  .opt input{appearance:none;-webkit-appearance:none;width:10px;height:10px;border:1.2px solid #687182;border-radius:2px;background:#fff}
+  .opt .name{font-size:9.8pt} .opt .desc,.opt .ej{font-size:8.6pt} .opt .ej b{display:inline;font-size:6.6pt;margin-right:5px} .opt .note{font-size:7.8pt} .opt .price{font-size:9.5pt}
+  .opt .code{font-size:7.8pt;padding:3px 0}
+  .opt.gift{grid-template-columns:28px minmax(0,1fr) auto} .gift-badge{font-size:6.2pt;padding:2px 5px}
+  .card{padding:10px 12px;gap:5px;border-radius:8px}
+  .card .big{font-size:15pt}
+  .base{padding:10px 12px;gap:8px;border-radius:8px}
+  .base-head{padding-bottom:6px} .base-head .num{font-size:14pt}
+  .checklist{gap:3px 18px} .checklist li{font-size:8.6pt;grid-template-columns:12px minmax(0,1fr);gap:6px}
+  .checklist li::before{width:11px;height:11px;margin-top:2px;background-size:9px}
+  ul.plain,ol.plain{gap:3px;font-size:9pt}
+  .timeline li{grid-template-columns:110px minmax(0,1fr);padding:0 0 5px 16px}
+  .timeline li::before{width:10px;height:10px;left:-6px}
+  .timeline .when{font-size:8.2pt} .timeline .what{font-size:9pt}
+  .cond{gap:8px} .cond div{padding:8px 11px;border-radius:6px} .cond dt{font-size:6.8pt} .cond dd{font-size:8.8pt}
+  footer{padding-top:10px;font-size:8.5pt}
+  tr.sub td{font-size:8.6pt}
+  .plans{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .plan{padding:8px 10px;gap:3px;border-radius:6px;box-shadow:none;background:#fff!important;border-color:var(--line)!important}
+  .plan input{display:none}
+  .plan-n{font-size:9.8pt;padding:0} .plan-tag{font-size:6.6pt} .plan-total{font-size:13pt;margin:0}
+  .plan-pagos{font-size:8pt;gap:2px;padding-top:5px;margin-top:2px} .pp .num{font-size:8pt}
+  .cols2{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .cond{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card .muted,.card p:not(.big):not(.kicker){font-size:8.8pt!important}
+  .card ul.plain{font-size:8.8pt}
+  .checklist{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .timeline li{grid-template-columns:110px minmax(0,1fr)}
+  tr,.opt,.card,.cond div,.timeline li,.checklist li{break-inside:avoid}
+  .sec-head,h2,h3,.group-t{break-after:avoid}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+<style>
+.opts2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.plan ul{margin:6px 0 0;padding:12px 0 0 18px;border-top:1px solid var(--line);font-size:14.5px;color:var(--ink-2);display:grid;gap:6px}
+.plan ul b{color:var(--ink)}
+.plan .mes{font:600 15px/1.3 var(--mono);color:var(--ink)}
+.plan .letra{font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.comp{min-width:560px}
+.comp td:first-child{color:var(--ink-2);width:30%}
+.comp td{font-size:15px}
+@media (max-width:900px){.opts2{grid-template-columns:minmax(0,1fr)}}
+@media print{.opts2{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.plan ul{font-size:8.4pt;gap:2px;padding-top:5px}.plan .mes{font-size:9pt}.comp{min-width:0}.comp td{font-size:8.6pt}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brandline"><span class="client">UNIÓN DESARROLLOS<i>.</i></span><span class="kind">Presupuesto · Sistema comercial y administrativo</span></div>
+    <span class="author" style="display:inline-flex;align-items:center;gap:8px"><img src="/favicon.svg" alt="" width="22" height="22"><b style="color:var(--ink)">Margon Software</b></span>
+  </div>
+
+  <div class="layout">
+    <main id="main">
+
+      <section class="cover" aria-labelledby="t-cover">
+        <div class="cover-main">
+          <p class="eyebrow">Presupuesto</p>
+          <h1 id="t-cover">El sistema completo para Unión Desarrollos</h1>
+          <p class="lede">Todo lo que viste en la reunión del 17 de noviembre, instalado para Unión con su marca: <b>de la consulta que entra por un anuncio hasta la firma y la cobranza</b>, para Terranova y para Olimpo. Con dos formas de contratarlo y en línea en diciembre.</p>
+        </div>
+        <dl class="ficha">
+          <div><dt>Cliente</dt><dd>Unión Desarrollos · Leandro Leyba</dd></div>
+          <div><dt>Preparado por</dt><dd>Margon Software · Gonzalo Di Dio Leal</dd></div>
+          <div><dt>Fecha</dt><dd>18 de noviembre de 2026</dd></div>
+        </dl>
+      </section>
+
+      <section id="opciones" aria-labelledby="t-opciones">
+        <div class="sec-head">
+          <p class="eyebrow">01 · Cómo contratarlo</p>
+          <h2 id="t-opciones">Dos opciones, el mismo sistema completo</h2>
+          <p class="muted">Las dos incluyen los mismos módulos, la misma instalación y el mismo soporte. Cambia quién es dueño del código y cómo se reparte el pago. Elegí una y el resumen se actualiza.</p>
+        </div>
+        <div class="opts2" id="ops" role="radiogroup" aria-label="Forma de contratación"></div>
+        <div class="tbl">
+          <table class="comp">
+            <thead><tr><th></th><th>A · Sistema propio</th><th>B · Sistema como servicio</th></tr></thead>
+            <tbody id="compBody"></tbody>
+          </table>
+        </div>
+        <p class="muted">Valores en dólares estadounidenses. El mensual se paga a mes vencido en las dos opciones: el mes de diciembre se paga en enero.</p>
+      </section>
+
+      <section id="incluido" aria-labelledby="t-incluido">
+        <div class="base">
+          <div class="base-head">
+            <div class="sec-head">
+              <p class="eyebrow">02 · Incluido en las dos opciones</p>
+              <h2 id="t-incluido">La instalación de Unión, lista para usar</h2>
+            </div>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Instalación propia de Unión:</b> con su logo, sus colores y su dirección web. Los datos son de Unión y no se comparten con nadie.</span></li>
+            <li><span><b>Usuarios y roles:</b> gerencia, supervisores, asesores, administración y recursos humanos. Cada uno ve solo lo que le toca.</span></li>
+            <li><span><b>En la computadora y en el celular:</b> se instala como una app y avisa con notificaciones.</span></li>
+            <li><span><b>Tema claro y oscuro,</b> a elección de cada persona.</span></li>
+            <li><span><b>Inicio por rol:</b> lo primero que ve cada uno es lo que tiene que hacer hoy.</span></li>
+            <li><span><b>Empresa:</b> novedades con aviso al celular, cumpleaños, capacitación con videos y archivos, y documentación.</span></li>
+            <li><span><b>Configuración en manos de Unión:</b> equipos, horarios, feriados, etapas del embudo, textos de los mails y comisiones se cambian sin depender de nosotros.</span></li>
+            <li><span><b>Ayuda dentro del sistema:</b> el manual completo, según el rol de cada uno.</span></li>
+            <li><span><b>Sugerencias y problemas:</b> cualquiera del equipo le escribe a Margon Software desde el sistema y le llega la respuesta al celular.</span></li>
+            <li><span><b>Carga inicial:</b> equipos, asesores, barrios de Terranova y de Olimpo, listas de precios y planos.</span></li>
+            <li><span><b>Capacitación presencial</b> en la oficina de Haedo, por rol, y una sesión aparte con Agustina para lo administrativo.</span></li>
+            <li><span><b>Copias de seguridad diarias</b> y 30 días de garantía de corrección sin cargo.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="seleccion" aria-labelledby="t-seleccion">
+        <div class="sec-head">
+          <p class="eyebrow">03 · El detalle</p>
+          <h2 id="t-seleccion">Los <span id="nMods"></span> módulos del sistema completo</h2>
+          <p class="muted">Cada módulo con su precio de lista. En la opción A se paga el desarrollo, con una bonificación por contratar el sistema completo. En la opción B no se paga el desarrollo: se paga la puesta en marcha y el uso.</p>
+        </div>
+        <div class="tbl" id="itemsWrap"></div>
+        <div class="tbl">
+          <table class="resumen">
+            <thead><tr><th>Cómo se llega al precio de la opción A</th><th class="r">Monto</th></tr></thead>
+            <tbody id="resumenBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="medida" aria-labelledby="t-medida">
+        <div class="base">
+          <div class="base-head">
+            <div class="sec-head">
+              <p class="eyebrow">04 · A la medida de Unión</p>
+              <h2 id="t-medida">Lo que pediste en la reunión, ya contemplado</h2>
+            </div>
+            <span class="num" style="color:var(--ok);font-size:18px">Sin costo extra</span>
+          </div>
+          <ul class="checklist">
+            <li><span><b>Foco en lo comercial:</b> cada rol arranca con las pantallas que usa. El resto se enciende cuando lo pidan, sin costo.</span></li>
+            <li><span><b>Acceso por mérito:</b> entran los asesores consolidados (2 firmas por mes). Sumar o quitar un usuario lleva un minuto.</span></li>
+            <li><span><b>Jornada de lunes a sábado.</b> El domingo las consultas esperan y se reparten el lunes a primera hora.</span></li>
+            <li><span><b>Feriados propios:</b> se trabajan los feriados que ustedes decidan; quedan cargados el primer lunes de cada mes y el cierre de las fiestas.</span></li>
+            <li><span><b>Descartados que vuelven a repartirse el jueves a la mañana.</b></span></li>
+            <li><span><b>Campañas dirigidas:</b> una pauta puede repartirse solo entre los asesores que elijas, y los que pautan por su cuenta reciben lo suyo.</span></li>
+            <li><span><b>Finanzas solo para tu usuario.</b> Nadie más ve esos números.</span></li>
+            <li><span><b>Liquidación en 24 horas:</b> la comisión de cada firma queda calculada en el momento, con las escalas de cada nivel.</span></li>
+            <li><span><b>Verificación de asesores</b> con o sin el teléfono de cada uno a la vista: lo definís vos.</span></li>
+            <li><span><b>Podio en la tele de la oficina,</b> actualizado solo. Se termina el pendrive.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="mantenimiento" aria-labelledby="t-mant">
+        <div class="sec-head">
+          <p class="eyebrow">05 · El mensual y lo que se suma</p>
+          <h2 id="t-mant">Qué cubre el mensual, la web y los masterplan</h2>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <p class="kicker">El mensual, en las dos opciones</p>
+            <p class="big"><span id="mensualBig"></span> <small>por mes</small></p>
+            <ul class="plain">
+              <li>Servidor, base de datos y copias de seguridad.</li>
+              <li>Conexiones con Meta, WhatsApp y el correo funcionando.</li>
+              <li>Soporte a todo el equipo desde el sistema, con respuesta en el día.</li>
+              <li>Corrección de errores y actualizaciones de seguridad.</li>
+              <li>Ajustes chicos que pida el equipo.</li>
+              <li><b>La página web de Unión:</b> alojamiento, soporte y cambios de contenido.</li>
+            </ul>
+            <p class="muted" style="font-size:14px" id="mensualNota"></p>
+          </div>
+          <div class="card">
+            <p class="kicker">Se suma si querés</p>
+            <h3>Página web de cortesía y masterplan por barrio</h3>
+            <ul class="plain">
+              <li><b>Página web de Unión:</b> <span id="webTxt"></span></li>
+              <li><b>Masterplan y showroom por barrio:</b> el plano con disponibilidad, la cuota y el recorrido que viste al final de la reunión. Se cotiza por barrio, cuando lo pidas.</li>
+              <li><b>Conexión con el sistema nuevo de Terranova:</b> disponibilidad y reservas en vivo, cuando Terranova lo habilite.</li>
+            </ul>
+            <p class="muted">Todo se conecta con este sistema: usa los mismos lotes, precios y asesores.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="pago" aria-labelledby="t-pago">
+        <div class="sec-head">
+          <p class="eyebrow">06 · Forma de pago</p>
+          <h2 id="t-pago">El pago inicial, de una vez o en cuotas de USD 1.000</h2>
+          <p class="muted" id="planCap"></p>
+        </div>
+        <div class="plans" id="plans" role="radiogroup" aria-label="Forma de pago"></div>
+        <p class="muted">En dólares o en pesos al tipo de cambio que acordemos. El mensual es el mismo con cualquier forma de pago.</p>
+      </section>
+
+      <section id="calendario" aria-labelledby="t-cal">
+        <div class="sec-head">
+          <p class="eyebrow">07 · Calendario</p>
+          <h2 id="t-cal">En línea en diciembre</h2>
+          <p class="muted">Fecha estimada. Depende de la aprobación y de recibir logos e imágenes.</p>
+        </div>
+        <ol class="timeline">
+          <li><span class="when">Paso 1</span><span class="what"><b>Aprobación y primer pago.</b> Nos pasan logos, imágenes, equipos y asesores.</span></li>
+          <li><span class="when">Paso 2</span><span class="what"><b>Instalación con la marca de Unión</b> y conexión de la pauta de Meta y del WhatsApp. Reunión con Agustina para relevar Terranova y Olimpo.</span></li>
+          <li><span class="when">Paso 3</span><span class="what"><b>Pruebas con datos reales</b> y capacitación presencial en Haedo, por rol.</span></li>
+          <li class="key"><span class="when">Diciembre</span><span class="what"><b>Sistema completo en línea,</b> con ventas, administración y Olimpo.</span></li>
+          <li><span class="when">Después</span><span class="what"><b>Acompañamiento de las primeras semanas</b> y ajustes.</span></li>
+        </ol>
+      </section>
+
+      <section id="fuera" aria-labelledby="t-fuera">
+        <div class="sec-head">
+          <p class="eyebrow">08 · Fuera del presupuesto</p>
+          <h2 id="t-fuera">Lo que se paga aparte</h2>
+          <p class="muted">Costos de terceros que dependen del uso, o trabajos que se cotizan por separado.</p>
+        </div>
+        <ul class="plain">
+          <li><b>Consumo de inteligencia artificial:</b> la lectura de las listas de precios y el asistente por WhatsApp se cobran según el uso. Con un uso normal es un monto bajo, y se informa cada mes.</li>
+          <li><b>Mensajes de WhatsApp:</b> lo que Meta cobra por los mensajes que inicia la empresa. Responder a quien escribe no tiene costo.</li>
+          <li><b>Pauta publicitaria:</b> la inversión en anuncios sigue siendo de Unión.</li>
+          <li><b>Dominio y casilla de correo de Unión,</b> si todavía no los tienen.</li>
+          <li><b>Masterplan y showroom por barrio,</b> que se cotizan cuando los pidan.</li>
+        </ul>
+      </section>
+
+      <section id="condiciones" aria-labelledby="t-cond">
+        <div class="sec-head">
+          <p class="eyebrow">09 · Condiciones</p>
+          <h2 id="t-cond">Lo que conviene tener claro</h2>
+        </div>
+        <dl class="cond">
+          <div><dt>Código fuente</dt><dd>En la opción A el código de la instalación es de Unión, para su uso propio: no se puede vender, ceder ni entregar a terceros. En la opción B el código es de Margon Software y Unión paga por usarlo.</dd></div>
+          <div><dt>Mensual a mes vencido</dt><dd>El mensual se paga siempre a mes vencido: si arrancamos en diciembre, el mes de diciembre se paga en enero.</dd></div>
+          <div><dt>Permanencia</dt><dd>Las dos opciones llevan un mínimo de 12 meses de mensual.</dd></div>
+          <div><dt>Baja en la opción B</dt><dd>Si se deja de pagar el mensual, el sistema se da de baja y Unión recibe todos sus datos y las copias de seguridad.</dd></div>
+          <div><dt>Datos</dt><dd>En las dos opciones los datos son de Unión: instalación separada, sin compartir nada con otras empresas.</dd></div>
+          <div><dt>Garantía</dt><dd>30 días de corrección de errores sin cargo desde la salida.</dd></div>
+          <div><dt>Cambios de alcance</dt><dd>Lo que se sume después de aprobado se presupuesta aparte, con la misma tabla de precios.</dd></div>
+        </dl>
+        <p class="only-print muted">Para aceptar, respondé por WhatsApp a Gonzalo, de Margon Software, +54 9 11 3193-0330, indicando la opción y la forma de pago que elegís.</p>
+      </section>
+
+      <footer>
+        <span><b>Margon Software</b> · Gonzalo Di Dio Leal · WhatsApp <span class="mono">+54 9 11 3193-0330</span> · margonsoftware.com</span>
+        <span>Presupuesto para Unión Desarrollos · 18 de noviembre de 2026</span>
+      </footer>
+    </main>
+
+    <aside class="sum" id="sum" aria-label="Total del presupuesto">
+      <div class="sum-bar">
+        <div><small id="barLbl">Pago inicial</small><strong id="barTotal"></strong></div>
+        <button class="btn" type="button" id="toggleSum" aria-expanded="false" aria-controls="sumCard">Ver detalle</button>
+      </div>
+      <div class="sum-card" id="sumCard">
+        <h2>Tu presupuesto</h2>
+        <div class="lines">
+          <div class="line"><span>Opción</span><span id="sOp" style="text-align:right;font-weight:600"></span></div>
+          <div class="line"><span>Código fuente</span><span id="sCod" style="text-align:right"></span></div>
+          <div class="line"><span>Página web</span><span id="sWeb" style="text-align:right"></span></div>
+        </div>
+        <div class="totalbox">
+          <span class="lbl" id="sTotalLbl"></span>
+          <span class="big" id="sTotal"></span>
+        </div>
+        <div class="split">
+          <div class="line"><span>Forma de pago</span><span id="sPlan" style="text-align:right"></span></div>
+          <div class="line" id="sPlanTotRow" hidden><span>Total con esta forma de pago</span><span class="num" id="sPlanTot"></span></div>
+          <div class="line"><span>Primer pago, al aprobar</span><span class="num" id="sAdv"></span></div>
+        </div>
+        <div class="monthly line"><span id="sMensLbl"></span><span class="num" id="sMens"></span></div>
+        <div class="actions">
+          <a class="btn wa" id="waAccept" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Aceptar el presupuesto por WhatsApp</a>
+          <a class="btn" id="waAsk" href="https://wa.me/5491131930330" target="_blank" rel="noopener">Tengo una consulta</a>
+          <button class="btn" type="button" id="copyBtn">Copiar el resumen</button>
+        </div>
+        <p class="wa-note">Se abre WhatsApp con el resumen ya escrito para Gonzalo, de Margon Software, <span class="mono">+54 9 11 3193-0330</span>. Revisalo y tocá enviar.</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <textarea class="fallback" id="fallback" hidden readonly aria-label="Resumen para copiar"></textarea>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const WHATSAPP = "5491131930330";
+/* Los números se cambian acá.
+   compra: se paga el desarrollo (lista menos bonificación), el código es de Unión, mantenimiento con mínimo de meses.
+   servicio: puesta en marcha más baja y mensual más alto, el código es de Margon Software. */
+const CONFIG = {
+  base: 2500, paso: 100, contadoPct: 10,
+  compra:   { total: 9000, mensual: 400, minMeses: 12 },
+  servicio: { setup: 3000, mensual: 800, minMeses: 12 },
+};
+
+const GROUPS = {V:"Ventas", A:"Administración", G:"Gerencia", O:"Olimpo"};
+
+const SEL = [
+  {c:"V1",g:"V",n:"Consultas de Meta directo al sistema",p:900,d:"Cada consulta de Facebook e Instagram entra sola, con la campaña, el barrio y el anuncio que la trajo."},
+  {c:"V2",g:"V",n:"Reparto automático con reloj",p:800,d:"Reparte entre los asesores por turno. Si uno no la atiende en el tiempo que definan, pasa al siguiente. Fuera de horario espera y se reparte al abrir."},
+  {c:"V3",g:"V",n:"Reparto por campaña",p:300,d:"Una pauta puntual se reparte solo entre los asesores que elijas."},
+  {c:"V4",g:"V",n:"Embudo y ficha de cada consulta",p:900,d:"Etapas a medida, historial completo, registro del llamado en un toque y recordatorio al celular para volver a llamar."},
+  {c:"V5",g:"V",n:"Seguimiento y descartes",p:500,d:"Semáforo de consultas sin gestión a los 3 y 7 días, descartes que revisa el supervisor y vuelta al reparto el jueves."},
+  {c:"V6",g:"V",n:"Cumplimiento y actividad en vivo",p:400,d:"Qué está haciendo cada asesor ahora, cuánto tarda en el primer contacto y cuántas consultas perdió por no atender."},
+  {c:"V7",g:"V",n:"Calculadora y presupuesto en PDF",p:700,d:"Barrio, manzana y lote con el precio de la lista, anticipo, cuotas y refuerzos. Sale un PDF igual para todos, con la marca de Unión."},
+  {c:"V8",g:"V",n:"Planos de los barrios",p:300,d:"Cada asesor marca disponibles, reservados y vendidos sobre el plano y lo descarga para mandar o imprimir."},
+  {c:"V9",g:"V",n:"Calendario de visitas y firmas",p:300,d:"Las visitas y las firmas de cada asesor y de cada equipo en un solo lugar."},
+  {c:"V10",g:"V",n:"Podio, objetivos y pantalla de oficina",p:400,d:"Ranking del mes, objetivos por equipo y un link para dejar el podio en la tele."},
+  {c:"V11",g:"V",n:"Comisiones por nivel",p:400,d:"Escalas distintas para asesor, líder, supervisor y gerentes, con comisión especial por barrio. Calcula sola cuánto cobra cada uno."},
+  {c:"V12",g:"V",n:"WhatsApp de la empresa",p:500,d:"Respuesta automática al instante y un link para que el cliente verifique que habla con un asesor oficial."},
+  {c:"A1",g:"A",n:"Reservas con doble aprobación",p:1500,d:"El asesor carga los datos y la documentación, el supervisor revisa y administración vuelve a controlar. Todo queda registrado con nombre y hora."},
+  {c:"A2",g:"A",n:"Documentos automáticos",p:800,d:"Recibo, reserva de compra y minuta de venta completos con lo que cargó el asesor, sin tipear nada."},
+  {c:"A3",g:"A",n:"Mails automáticos",p:600,d:"El mail a la desarrolladora con el asunto, los códigos y los adjuntos que piden, y la bienvenida al cliente. Se terminan las cadenas armadas a mano."},
+  {c:"A4",g:"A",n:"Turnos de firma",p:400,d:"El asesor pide día y hora, administración lo gestiona y la firma queda en el calendario de todos."},
+  {c:"A5",g:"A",n:"Inventario de lotes con lectura de listas",p:800,d:"Se sube el PDF de la lista de precios y el sistema carga cada lote con su valor en pesos y en dólares."},
+  {c:"A6",g:"A",n:"Clientes",p:300,d:"La base de compradores, reservas y bajas, con la operación de cada uno."},
+  {c:"A7",g:"A",n:"Cobranza de cuotas",p:600,d:"Las cuotas a controlar de cada cliente, con el valor de la bolsa de cemento, el comprobante y el aviso de las vencidas."},
+  {c:"A8",g:"A",n:"Finanzas",p:700,d:"Ingresos, compras, gastos fijos, proveedores y devoluciones. Visible solo para quien vos definas."},
+  {c:"G1",g:"G",n:"Tablero de gerencia",p:400,d:"Consultas por etapa, rendimiento por equipo, reservas y firmas del mes y la comparación con el mes anterior."},
+  {c:"G2",g:"G",n:"Asistente por WhatsApp para el dueño",p:700,d:"Le preguntás desde tu teléfono cuántas firmas hay hoy, quién trabajó cada consulta o a qué hora es la próxima firma, y responde con los datos del sistema."},
+  {c:"O1",g:"O",n:"Olimpo como segunda desarrolladora",p:900,d:"Sus tres barrios con su lista y su disponibilidad, el anticipo único, el mail de reserva sin cadena y el turno en la escribanía con aviso al apoderado."},
+];
+
+const $ = id => document.getElementById(id);
+const NF = new Intl.NumberFormat("es-AR");
+const usd = n => "USD " + NF.format(n);
+const step = n => Math.round(n / CONFIG.paso) * CONFIG.paso;
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+
+function calc(){
+  let selSum = 0;
+  SEL.forEach(m => selSum += m.p);
+  const lista = CONFIG.base + selSum, total = CONFIG.compra.total;
+  return { base: CONFIG.base, selSum, disc: lista - total, lista, total };
+}
+
+/* Las dos opciones */
+const OPS = {
+  compra: { letra:"A", n:"Sistema propio", inicialLbl:"Desarrollo, pago único o en cuotas",
+    inicial: () => calc().total, mensual: () => CONFIG.compra.mensual,
+    codigo:"De Unión", web:"De cortesía",
+    puntos: () => [
+      "<b>El código fuente es de Unión,</b> para su uso propio.",
+      "Mantenimiento mensual con un mínimo de " + CONFIG.compra.minMeses + " meses.",
+      "<b>Página web de Unión de cortesía.</b>",
+      "Pago único con " + CONFIG.contadoPct + "% de descuento o hasta 9 cuotas sin interés de " + usd(1000) + "." ] },
+  servicio: { letra:"B", n:"Sistema como servicio", inicialLbl:"Puesta en marcha",
+    inicial: () => CONFIG.servicio.setup, mensual: () => CONFIG.servicio.mensual,
+    codigo:"De Margon Software", web:"De cortesía",
+    puntos: () => [
+      "<b>Entrada más baja</b> y un mensual más alto, con un mínimo de " + CONFIG.servicio.minMeses + " meses.", "Pago único con " + CONFIG.contadoPct + "% de descuento o hasta 3 cuotas sin interés de " + usd(1000) + ".",
+      "El código fuente es de Margon Software: Unión paga por usar el sistema.",
+      "Si se deja de pagar, el sistema se da de baja y <b>Unión se lleva todos sus datos y copias.</b>",
+      "<b>Página web de Unión de cortesía.</b>" ] },
+};
+const OP_DEF = "compra";
+
+const cuotas = (T, fechas) => {
+  const n = fechas.length, c = step(T / n), pagos = fechas.map((f, i) => [f, usd(i < n - 1 ? c : T - c * (n - 1))]);
+  return { total: T, ajuste: 0, primero: c, pagos };
+};
+const MESES = ["Al aprobar el presupuesto", "Diciembre", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"];
+const enCuotas = n => ({ id:"c" + n, n: n + " cuotas", tag:"Sin interés", calc: T => cuotas(T, MESES.slice(0, n)) });
+const PAGO_UNICO = { id:"unico", n:"Pago único", tag: CONFIG.contadoPct + "% de descuento", calc: T => {
+  const d = Math.round(T * CONFIG.contadoPct / 100);
+  return { total: T - d, ajuste: -d, primero: T - d, pagos: [["Al aprobar el presupuesto", usd(T - d)]] }; } };
+const PLANES = {
+  compra: [
+    PAGO_UNICO,
+    enCuotas(3), enCuotas(6), enCuotas(9),
+  ],
+  servicio: [
+    PAGO_UNICO,
+    enCuotas(2), enCuotas(3),
+  ],
+};
+const PLAN_DEF = { compra:"c9", servicio:"c3" };
+const planDe = (op, id, T) => { const L = PLANES[op]; const pl = L.find(x => x.id === id) || L.find(x => x.id === PLAN_DEF[op]); return Object.assign({ id: pl.id, n: pl.n, tag: pl.tag }, pl.calc(T)); };
+
+/* ===== estado ===== */
+const KEY = "union-presupuesto-v4";
+let op = OP_DEF, planes = Object.assign({}, PLAN_DEF);
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && OPS[s.op]) { op = s.op; Object.keys(PLANES).forEach(k => { if (s.planes && PLANES[k].some(x => x.id === s.planes[k])) planes[k] = s.planes[k]; }); } } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({op, planes})); } catch(e) {} }
+
+/* ===== render ===== */
+function renderItems(){
+  const groups = {};
+  SEL.forEach(m => (groups[m.g] = groups[m.g] || []).push(m));
+  let html = "";
+  Object.keys(groups).forEach(g => {
+    html += "<p class=\"group-t\"><span class=\"letter\">" + g + "</span>" + esc(GROUPS[g]) + "</p>";
+    html += "<table class=\"items\"><tbody>" + groups[g].map(m =>
+      "<tr><td class=\"code\">" + m.c + "</td><td class=\"name\"><b>" + esc(m.n) + "</b><span>" + esc(m.d) + "</span></td>" +
+      "<td class=\"money\">" + usd(m.p) + "</td></tr>").join("") + "</tbody></table>";
+  });
+  const r = calc();
+  html += "<table class=\"items\"><tfoot>" +
+    "<tr class=\"sub\"><td colspan=\"2\">Subtotal de los " + SEL.length + " módulos, a precio de lista</td><td class=\"money\">" + usd(r.selSum) + "</td></tr>" +
+    "</tfoot></table>";
+  $("itemsWrap").innerHTML = html;
+  $("nMods").textContent = SEL.length;
+}
+function renderTables(){
+  const r = calc();
+  const row = (lbl, x, cls) => "<tr" + (cls ? " class=\"" + cls + "\"" : "") + "><td>" + lbl + "</td><td class=\"money\">" + x + "</td></tr>";
+  $("resumenBody").innerHTML =
+    row("Instalación y puesta en marcha", usd(r.base)) +
+    row("Módulos del sistema completo (" + SEL.length + ")", usd(r.selSum)) +
+    row("Adaptación a la forma de trabajo de Unión", "USD 0", "disc") +
+    row("Página web de Unión, en las dos opciones", "De cortesía", "disc") +
+    row("Bonificación por contratar el sistema completo", "−" + usd(r.disc), "disc") +
+    row("Opción A · Sistema propio", usd(r.total), "total");
+  const A = OPS.compra, B = OPS.servicio, mA = A.mensual(), mB = B.mensual(), iA = A.inicial(), iB = B.inicial();
+  const fila = (lbl, a, b) => "<tr><td>" + lbl + "</td><td>" + a + "</td><td>" + b + "</td></tr>";
+  const n = x => "<span class=\"num\">" + usd(x) + "</span>";
+  $("compBody").innerHTML =
+    fila("Pago inicial", n(iA) + " en un pago o en cuotas", n(iB)) +
+    fila("Mensual", n(mA), n(mB)) +
+    fila("Permanencia", "Mínimo " + CONFIG.compra.minMeses + " meses", "Mínimo " + CONFIG.servicio.minMeses + " meses") +
+    fila("Código fuente", "De Unión, para uso propio", "De Margon Software") +
+    fila("Si se deja de pagar el mensual", "El sistema sigue siendo de Unión", "El sistema se da de baja. Unión recibe sus datos y copias") +
+    fila("Datos de Unión", "De Unión, siempre", "De Unión, siempre") +
+    fila("Página web", "De cortesía", "De cortesía");
+}
+function renderOps(){
+  const enfocado = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.op : null;
+  $("ops").innerHTML = Object.keys(OPS).map(k => {
+    const o = OPS[k];
+    return "<label class=\"plan\" for=\"op-" + k + "\"><input type=\"radio\" name=\"opcion\" id=\"op-" + k + "\" value=\"" + k + "\" data-op=\"" + k + "\"" + (k === op ? " checked" : "") + ">" +
+      "<span class=\"letra\">Opción " + o.letra + "</span><span class=\"plan-n\">" + esc(o.n) + "</span>" +
+      "<span class=\"plan-total\">" + usd(o.inicial()) + "</span><span class=\"plan-tag warn\">" + esc(o.inicialLbl) + "</span>" +
+      "<span class=\"mes\">+ " + usd(o.mensual()) + " por mes</span>" +
+      "<ul>" + o.puntos().map(p => "<li>" + p + "</li>").join("") + "</ul></label>";
+  }).join("");
+  if(enfocado) { const el = document.getElementById("op-" + enfocado); if(el) el.focus(); }
+}
+function renderPlans(T){
+  const enfocado = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.plan : null;
+  const o = OPS[op];
+  $("planCap").textContent = "Opción " + o.letra + " · " + o.n + ": pago inicial de " + usd(T) + ". Elegí cómo pagarlo.";
+  $("plans").style.gridTemplateColumns = PLANES[op].length === 4 && window.matchMedia("(min-width:901px)").matches ? "repeat(2,minmax(0,1fr))" : "";
+  $("plans").innerHTML = PLANES[op].map(x => {
+    const pl = planDe(op, x.id, T);
+    return "<label class=\"plan\" for=\"pl-" + pl.id + "\"><input type=\"radio\" name=\"plan\" id=\"pl-" + pl.id + "\" value=\"" + pl.id + "\" data-plan=\"" + pl.id + "\"" + (pl.id === planes[op] ? " checked" : "") + ">" +
+      "<span class=\"plan-n\">" + esc(pl.n) + "</span><span class=\"plan-tag\">" + esc(pl.tag) + "</span>" +
+      "<span class=\"plan-total\">" + usd(pl.total) + "</span>" +
+      "<span class=\"plan-pagos\">" + pl.pagos.map(pg => "<span class=\"pp\"><span>" + esc(pg[0]) + "</span><span class=\"num\">" + esc(pg[1]) + "</span></span>").join("") + "</span></label>";
+  }).join("");
+  if(enfocado) { const el = document.getElementById("pl-" + enfocado); if(el) el.focus(); }
+}
+
+function texto(){
+  const o = OPS[op], T = o.inicial(), pl = planDe(op, planes[op], T);
+  const L = [];
+  L.push("*Presupuesto Unión Desarrollos: acepto*");
+  L.push("Opción " + o.letra + ": " + o.n + ".");
+  L.push("Sistema completo: " + SEL.length + " módulos, con Terranova y Olimpo.");
+  L.push("Código fuente: " + o.codigo + ". Página web: " + o.web.toLowerCase() + ".");
+  L.push("Pago inicial: " + usd(T));
+  L.push("Forma de pago: " + pl.n + " (" + pl.tag.toLowerCase() + ")");
+  pl.pagos.forEach(pg => L.push("• " + pg[0] + ": " + pg[1]));
+  if(pl.total !== T) L.push("Total con esta forma de pago: " + usd(pl.total));
+  L.push("Mensual: " + usd(o.mensual()) + ", a mes vencido (diciembre se paga en enero)" + ", con un mínimo de " + CONFIG[op].minMeses + " meses");
+  L.push("Salida estimada: diciembre.");
+  return L.join("\n");
+}
+function update(){
+  const o = OPS[op], T = o.inicial(), pl = planDe(op, planes[op], T);
+  renderOps();
+  $("sOp").textContent = o.letra + " · " + o.n;
+  $("sCod").textContent = o.codigo;
+  $("sWeb").textContent = o.web;
+  $("sTotalLbl").textContent = op === "compra" ? "Desarrollo" : "Puesta en marcha";
+  $("sTotal").textContent = usd(T);
+  $("barTotal").textContent = usd(T);
+  $("sPlan").textContent = pl.n;
+  $("sPlanTotRow").hidden = pl.total === T;
+  $("sPlanTot").textContent = usd(pl.total);
+  $("sAdv").textContent = usd(pl.primero);
+  $("sMensLbl").textContent = (op === "compra" ? "Mantenimiento" : "Mensual") + ", mínimo " + CONFIG[op].minMeses + " meses";
+  $("sMens").textContent = usd(o.mensual()) + " / mes";
+  $("mensualBig").textContent = usd(o.mensual());
+  $("mensualNota").textContent = op === "compra"
+    ? "Opción A: se paga a mes vencido (diciembre se paga en enero), con un mínimo de " + CONFIG.compra.minMeses + " meses. En la opción B el mensual es de " + usd(CONFIG.servicio.mensual) + " e incluye además el uso del sistema."
+    : "Opción B: se paga a mes vencido (diciembre se paga en enero), con un mínimo de " + CONFIG.servicio.minMeses + " meses, e incluye además el uso del sistema. En la opción A el mantenimiento es de " + usd(CONFIG.compra.mensual) + " por mes.";
+  $("webTxt").textContent = "de cortesía en las dos opciones. Las propuestas de diseño ya están armadas para que elijan.";
+  renderPlans(T);
+  $("waAccept").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto());
+  $("waAsk").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Gonzalo, tengo una consulta sobre el presupuesto de Unión Desarrollos: ");
+  $("fallback").hidden = true;
+  save();
+}
+const say = m => { $("status").textContent = m; };
+
+/* registro en el panel de Margon (solo en margonsoftware.com) */
+function registroActivo(){ const h = location.hostname; return h === "margonsoftware.com" || h.endsWith(".margonsoftware.com") || h.endsWith(".up.railway.app"); }
+const REG_KEY = "union-presupuesto-aceptado";
+function registrar(){
+  if(!registroActivo()) return;
+  const t = texto();
+  let ultimo = null; try { ultimo = localStorage.getItem(REG_KEY); } catch(e) {}
+  if(ultimo === t) return;
+  const o = OPS[op], T = o.inicial(), pl = planDe(op, planes[op], T);
+  fetch("/api/presupuesto", { method:"POST", headers:{"Content-Type":"application/json"}, keepalive:true,
+    body: JSON.stringify({ nombre:"Unión Desarrollos · Leandro Leyba",
+      origen:"presupuesto-union-aceptado", total:pl.total, moneda:"USD", mensaje:t,
+      modulos:[{id:"OPCION",name:"Opción " + o.letra + ": " + o.n,price:T},{id:"MENSUAL",name:"Mensual",price:o.mensual()}].concat(pl.ajuste ? [{id:"PAGO",name:"Forma de pago: " + pl.n + " (" + pl.tag + ")",price:pl.ajuste}] : []) }) })
+    .then(res => { if(res.ok){ try { localStorage.setItem(REG_KEY, t); } catch(e) {} say("Tu aceptación también quedó registrada para Gonzalo."); } })
+    .catch(() => {});
+}
+
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.matches("[data-op]")){ op = t.value; update(); say(""); }
+  else if(t.matches("[data-plan]")){ planes[op] = t.value; update(); say(""); }
+});
+$("waAccept").addEventListener("click", registrar);
+$("copyBtn").addEventListener("click", () => {
+  const t = texto(), fb = $("fallback");
+  const show = () => { fb.value = t; fb.hidden = false; fb.focus(); fb.select(); say("Seleccioná el texto y copialo."); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => say("Copiado."), show); else show();
+});
+$("toggleSum").addEventListener("click", () => {
+  const s = $("sum"), open = !s.classList.contains("open");
+  s.classList.toggle("open", open);
+  $("toggleSum").setAttribute("aria-expanded", String(open));
+  $("toggleSum").textContent = open ? "Ocultar" : "Ver detalle";
+});
+
+renderItems(); renderTables(); update();
+window.__p = { calc, texto, set: (o, p) => { op = o; if (p) planes[o] = p; update(); } };
+})();
+</script>
+</body>
+</html>
